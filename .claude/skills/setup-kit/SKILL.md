@@ -9,7 +9,7 @@ description: Use when the user wants to bootstrap their dev environment for this
 
 Take a brand-new user from **« Claude Code just installed, repo just cloned »** to **« `pnpm dev` boots green, `pnpm smoke:auth` passes »** in 5-10 minutes, with maximum hand-holding and minimum hidden assumptions.
 
-The kit is **cloud-only by design**. No Docker. No local Postgres. No MinIO. No Mailpit. The only mandatory dependency is a Postgres database — **Neon is the default provider** and the kit is **tuned for Neon's serverless behavior**: the webhook handler offloads side-effects to the outbox to fit Neon's 2s transaction ceiling, `/forgot-password` calibrates its timing-attack floor at 350ms based on Neon-pooler latency, and the `env-shape.test.ts` tripwire locks `.env.example` to the Neon `-pooler` hostname format. Alternatives (Supabase / Railway / Render / RDS / self-hosted) work — the SQL is standard — but **require user-side tuning** (timing floor, connection params); only propose them if the user explicitly insists. The 5 optional providers (Resend / Cloudinary / Bictorys / Google OAuth / Sentry / Upstash) are env-gated and inert when absent.
+The kit is **cloud-only by design**. No Docker. No local Postgres. No MinIO. No Mailpit. The only mandatory dependency is a Postgres database — **Neon is the default provider** and the kit is **tuned for Neon's serverless behavior**: the webhook handler offloads side-effects to the outbox to fit Neon's 2s transaction ceiling, `/forgot-password` calibrates its timing-attack floor at 350ms based on Neon-pooler latency, and the `env-shape.test.ts` tripwire locks `.env.example` to the Neon `-pooler` hostname format. Alternatives (Supabase / Railway / Render / RDS / self-hosted) work — the SQL is standard — but **require user-side tuning** (timing floor, connection params); only propose them if the user explicitly insists. The 5 optional providers (Brevo / Cloudinary / Bictorys / Google OAuth / Sentry / Upstash) are env-gated and inert when absent.
 
 This skill exists because [WORKFLOW.md](../../../WORKFLOW.md) lists ~8 pre-requisites (Claude Code itself, Node, pnpm, gh CLI, 4 Claude Code skills, Neon account, Banani account, .mcp.json edit, .env.local creation, secret generation) and a beginner cannot reliably execute that list without guidance. Deploys go through GitHub push (Vercel imports the repo), so no Vercel CLI install is required locally.
 
@@ -212,7 +212,7 @@ Pour chaque, demande : « Tu veux activer [feature] dès maintenant ? oui / non 
 | Feature | Provider | URL | Clés à coller |
 |---|---|---|---|
 | Cache / rate-limit | Upstash Redis | https://upstash.com | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` |
-| Emails transactionnels | Resend | https://resend.com | `RESEND_API_KEY` + `EMAIL_FROM` |
+| Emails transactionnels | Brevo | https://app.brevo.com/settings/keys/api | `BREVO_API_KEY` + `EMAIL_FROM` |
 | Upload de fichiers / média | Cloudinary | https://cloudinary.com | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` |
 | Sign in with Google | Google Cloud Console | https://console.cloud.google.com | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` |
 | Paiements mobile money | Bictorys | https://bictorys.com | `BICTORYS_API_KEY` + `BICTORYS_PRIVATE_KEY` (deux clés DISTINCTES — voir CLAUDE.md invariants) |

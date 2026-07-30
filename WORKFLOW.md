@@ -38,7 +38,7 @@ Quand `pnpm dev` te plaît :
 
 Claude pousse sur GitHub, importe le repo dans Vercel via leur UI, te demande de coller chaque env var (jamais via terminal pour les secrets), vérifie que `DATABASE_URL` est sur `-pooler` Neon, vérifie les 5 crons dans `vercel.json`, et te donne l'URL de prod.
 
-**Variables non-négociables en prod** : `DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`, `APP_URL`. Tout le reste (Resend, Cloudinary, Bictorys, Google OAuth, Sentry, Upstash) est optionnel et inerte quand absent.
+**Variables non-négociables en prod** : `DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`, `APP_URL`. Tout le reste (Brevo, Cloudinary, Bictorys, Google OAuth, Sentry, Upstash) est optionnel et inerte quand absent.
 
 ---
 
@@ -49,7 +49,7 @@ Claude pousse sur GitHub, importe le repo dans Vercel via leur UI, te demande de
 | Paiements (Bictorys) | Remplir `BICTORYS_*` | `/api/orders` 404 |
 | OAuth Google | Remplir `GOOGLE_*` | `/api/auth/oauth/google/*` 404 |
 | Uploads (Cloudinary) | Remplir `CLOUDINARY_*` | `/api/upload` 503 |
-| Email Resend | Remplir `RESEND_API_KEY` | jobs s'accumulent dans la queue |
+| Email Brevo | Remplir `BREVO_API_KEY` | jobs s'accumulent dans la queue |
 | Sentry | Remplir `SENTRY_DSN` | no-op |
 | Upstash Redis | Remplir `UPSTASH_*` | fallback in-memory |
 
