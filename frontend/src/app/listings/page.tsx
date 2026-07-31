@@ -1,18 +1,30 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Plus, MapPin, Eye, Pencil, Loader2 } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Search, SlidersHorizontal, Plus, MapPin, Eye, Pencil, Loader2, X } from 'lucide-react';
 import { useUser } from '@/contexts/AuthContext';
 import { useApi } from '@/lib/useApi';
 import { api } from '@/lib/api';
 import { DashboardShell } from '@/components/dashboard/DashboardShell';
-import { PROPERTY_TYPE_LABEL, STATUS_STYLE, formatListingPrice, type Listing } from '@/lib/listings';
+import {
+  PROPERTY_TYPE_LABEL,
+  STATUS_STYLE,
+  STATUS_LABEL,
+  formatListingPrice,
+  type Listing,
+} from '@/lib/listings';
 import { cn } from '@/lib/utils';
 
 interface ListingsPageResult {
   items: Listing[];
   nextCursor: string | null;
 }
+
+const STATUS_OPTIONS = Object.entries(STATUS_LABEL).map(([value, label]) => ({ value, label }));
+const TYPE_OPTIONS = Object.entries(PROPERTY_TYPE_LABEL).map(([value, label]) => ({
+  value,
+  label,
+}));
 
 export default function ListingsPage() {
   const user = useUser();
@@ -21,6 +33,21 @@ export default function ListingsPage() {
   const [extraPages, setExtraPages] = useState<Listing[][]>([]);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
+  const [filterOpen, setFilterOpen] = useState(false);
+  const filterPanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (filterPanelRef.current && !filterPanelRef.current.contains(e.target as Node)) {
+        setFilterOpen(false);
+      }
+    }
+    if (filterOpen) document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, [filterOpen]);
 
   // Resets accumulated extra pages whenever the first page is (re)fetched —
   // e.g. on mount, or on useApi's background stale-while-revalidate refresh.
@@ -48,6 +75,33 @@ export default function ListingsPage() {
     }
   }
 
+  const activeFilterCount = (statusFilter ? 1 : 0) + (typeFilter ? 1 : 0);
+
+  const filteredListings = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return listings.filter((l) => {
+      if (statusFilter && l.status !== statusFilter) return false;
+      if (typeFilter && l.propertyType !== typeFilter) return false;
+      if (
+        q &&
+        !(
+          l.title.toLowerCase().includes(q) ||
+          l.city.toLowerCase().includes(q) ||
+          l.country.toLowerCase().includes(q)
+        )
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }, [listings, search, statusFilter, typeFilter]);
+
+  function resetFilters() {
+    setSearch('');
+    setStatusFilter('');
+    setTypeFilter('');
+  }
+
   if (!user) return null;
 
   return (
@@ -57,8 +111,83 @@ export default function ListingsPage() {
           <div className="w-full lg:mr-auto lg:w-auto">
             <h1 className="font-sora text-[15px] font-semibold text-neutral-900">Mes annonces</h1>
             <p className="text-xs text-gray-400">
-              {listings.length} annonce{listings.length === 1 ? '' : 's'}
+              {filteredListings.length} annonce{filteredListings.length === 1 ? '' : 's'}
             </p>
+          </div>
+          <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-black/[0.08] bg-gray-50 px-3 py-1.5 lg:min-w-[200px] lg:flex-none">
+            <Search className="h-[14px] w-[14px] flex-shrink-0 text-gray-400" aria-hidden />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Rechercher une annonce…"
+              className="w-full truncate bg-transparent text-[13px] text-neutral-900 placeholder:text-gray-400 focus:outline-none"
+            />
+          </div>
+          <div className="relative flex-shrink-0" ref={filterPanelRef}>
+            <button
+              type="button"
+              onClick={() => setFilterOpen((v) => !v)}
+              className="flex items-center gap-1.5 rounded-lg border border-black/[0.08] px-3 py-1.5 text-[13px] font-medium text-neutral-700 hover:bg-gray-50 lg:px-3.5"
+            >
+              <SlidersHorizontal className="h-[14px] w-[14px]" aria-hidden />
+              <span className="hidden lg:inline">Filtrer</span>
+              {activeFilterCount > 0 && (
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-brand text-[10px] font-semibold text-white">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+            {filterOpen && (
+              <div className="absolute right-0 z-30 mt-2 w-64 rounded-xl border border-black/[0.06] bg-white p-4 shadow-lg">
+                <div className="flex flex-col gap-3">
+                  <label className="flex flex-col gap-1">
+                    <span className="text-[11px] font-semibold text-gray-400 uppercase">
+                      Statut
+                    </span>
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                      className="rounded-lg border border-black/[0.08] px-2.5 py-1.5 text-[13px] text-neutral-900"
+                    >
+                      <option value="">Tous</option>
+                      {STATUS_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="flex flex-col gap-1">
+                    <span className="text-[11px] font-semibold text-gray-400 uppercase">
+                      Type
+                    </span>
+                    <select
+                      value={typeFilter}
+                      onChange={(e) => setTypeFilter(e.target.value)}
+                      className="rounded-lg border border-black/[0.08] px-2.5 py-1.5 text-[13px] text-neutral-900"
+                    >
+                      <option value="">Tous</option>
+                      {TYPE_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  {activeFilterCount > 0 && (
+                    <button
+                      type="button"
+                      onClick={resetFilters}
+                      className="flex items-center gap-1 self-start text-[12px] font-medium text-brand hover:underline"
+                    >
+                      <X className="h-3 w-3" aria-hidden />
+                      Réinitialiser
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
           <button
             type="button"
@@ -83,6 +212,17 @@ export default function ListingsPage() {
               L&apos;écran de publication n&apos;est pas encore construit — cette table
               s&apos;affichera dès qu&apos;une annonce existera pour votre compte.
             </p>
+          </div>
+        ) : filteredListings.length === 0 ? (
+          <div className="flex flex-col items-center gap-1.5 py-10 text-center">
+            <p className="text-sm font-medium text-neutral-700">Aucun résultat pour ces critères</p>
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="text-xs font-medium text-brand hover:underline"
+            >
+              Réinitialiser les filtres
+            </button>
           </div>
         ) : (
           <>
@@ -112,7 +252,7 @@ export default function ListingsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {listings.map((l) => {
+                  {filteredListings.map((l) => {
                     const st = STATUS_STYLE[l.status] ?? STATUS_STYLE.PENDING!;
                     return (
                       <tr key={l.id} className="border-b border-black/[0.06] last:border-0">
@@ -172,6 +312,13 @@ export default function ListingsPage() {
                 </tbody>
               </table>
             </div>
+
+            {(search || activeFilterCount > 0) && nextCursor && (
+              <p className="px-1 text-center text-[11px] text-gray-400">
+                Résultats filtrés parmi les annonces chargées — cliquez sur Charger plus pour
+                élargir la recherche.
+              </p>
+            )}
 
             {nextCursor && (
               <div className="flex justify-center pt-1">
