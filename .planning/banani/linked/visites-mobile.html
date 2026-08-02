@@ -1,0 +1,1099 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Visites Programmées Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+    }
+  </style>
+
+  <style id="stats-styles">
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-icon-wrap {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-trend {
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .stat-trend.up {
+      color: #059669;
+    }
+    .stat-trend.neutral {
+      color: var(--muted-foreground);
+    }
+    .stat-value {
+      font-family: 'Sora', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+  </style>
+
+  <style id="tabs-styles">
+    .view-tabs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 4px;
+      border: 1px solid var(--border);
+    }
+    .view-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .view-tab.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="calendar-styles">
+    .calendar-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cal-nav-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--input);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .cal-month-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .calendar-grid-wrapper {
+      padding: 12px 14px;
+    }
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+    }
+    .cal-weekday {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-align: center;
+      padding: 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .cal-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .cal-day {
+      min-height: 46px;
+      border-radius: var(--radius-md);
+      padding: 4px 3px 3px 4px;
+      cursor: pointer;
+      position: relative;
+    }
+    .cal-day.other-month {
+      opacity: 0.3;
+    }
+    .cal-day.today {
+      background: #eef3ff;
+    }
+    .cal-day-num {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+      line-height: 1;
+    }
+    .cal-day.today .cal-day-num {
+      width: 20px;
+      height: 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .cal-dot-row {
+      display: flex;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+    .cal-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cal-dot.confirmed {
+      background: #059669;
+    }
+    .cal-dot.pending {
+      background: #d97706;
+    }
+    .cal-dot.cancelled {
+      background: #dc2626;
+    }
+  </style>
+
+  <style id="section-styles">
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+    }
+    .section-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: none;
+    }
+  </style>
+
+  <style id="visit-card-styles">
+    .visit-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .visit-date-block {
+      min-width: 44px;
+      height: 50px;
+      background: var(--sidebar-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .visit-date-day {
+      font-family: 'Sora', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .visit-date-month {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .visit-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .visit-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .visit-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 6px;
+    }
+    .visit-footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-success {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-warning {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-destructive {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+    .badge-blue {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .badge-purple {
+      background: #f3e8ff;
+      color: #7c3aed;
+    }
+    .visit-action-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .icon-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-md);
+      background: var(--input);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="filter-styles">
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .filter-row::-webkit-scrollbar {
+      display: none;
+    }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .filter-chip.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .filter-chip.inactive {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Visites programmées</span>
+      <div class="topbar-action" data-media-type="banani-button">
+        <iconify-icon icon="lucide:plus" style="font-size: 13px; color: #fff"></iconify-icon>
+        Planifier
+      </div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- STATS GRID -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap" style="background: #eef3ff">
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <span class="stat-trend up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon>
+              +12%
+            </span>
+          </div>
+          <div class="stat-value">24</div>
+          <div class="stat-label">Visites ce mois</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap" style="background: #d1fae5">
+              <iconify-icon
+                icon="lucide:check-circle"
+                style="font-size: 17px; color: #059669"
+              ></iconify-icon>
+            </div>
+            <span class="stat-trend up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon>
+              +5%
+            </span>
+          </div>
+          <div class="stat-value">17</div>
+          <div class="stat-label">Confirmées</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap" style="background: #fef3c7">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 17px; color: #d97706"
+              ></iconify-icon>
+            </div>
+            <span class="stat-trend neutral">–</span>
+          </div>
+          <div class="stat-value">5</div>
+          <div class="stat-label">En attente</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap" style="background: #fee2e2">
+              <iconify-icon
+                icon="lucide:x-circle"
+                style="font-size: 17px; color: #dc2626"
+              ></iconify-icon>
+            </div>
+            <span class="stat-trend neutral">–</span>
+          </div>
+          <div class="stat-value">2</div>
+          <div class="stat-label">Annulées</div>
+        </div>
+      </div>
+
+      <!-- VIEW TABS -->
+      <div class="view-tabs">
+        <div class="view-tab" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:table-2"
+            style="font-size: 14px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          Liste
+        </div>
+        <div class="view-tab active" data-media-type="banani-button">
+          <iconify-icon icon="lucide:calendar-days" style="font-size: 14px"></iconify-icon>
+          Calendrier
+        </div>
+      </div>
+
+      <!-- CALENDAR CARD -->
+      <div class="calendar-card" id="calendar-card">
+        <div class="calendar-header">
+          <div class="cal-nav-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:chevron-left"
+              style="font-size: 14px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="cal-month-title">Juillet 2025</div>
+          <div class="cal-nav-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 14px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div class="calendar-grid-wrapper">
+          <div class="cal-weekdays">
+            <div class="cal-weekday">Lun</div>
+            <div class="cal-weekday">Mar</div>
+            <div class="cal-weekday">Mer</div>
+            <div class="cal-weekday">Jeu</div>
+            <div class="cal-weekday">Ven</div>
+            <div class="cal-weekday">Sam</div>
+            <div class="cal-weekday">Dim</div>
+          </div>
+          <div class="cal-days">
+            <!-- Week 1 -->
+            <div class="cal-day other-month"><div class="cal-day-num">30</div></div>
+            <div class="cal-day"><div class="cal-day-num">1</div></div>
+            <div class="cal-day"><div class="cal-day-num">2</div></div>
+            <div class="cal-day"><div class="cal-day-num">3</div></div>
+            <div class="cal-day">
+              <div class="cal-day-num">4</div>
+              <div class="cal-dot-row"><div class="cal-dot confirmed"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">5</div></div>
+            <div class="cal-day"><div class="cal-day-num">6</div></div>
+            <!-- Week 2 -->
+            <div class="cal-day">
+              <div class="cal-day-num">7</div>
+              <div class="cal-dot-row"><div class="cal-dot pending"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">8</div></div>
+            <div class="cal-day">
+              <div class="cal-day-num">9</div>
+              <div class="cal-dot-row"><div class="cal-dot confirmed"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">10</div></div>
+            <div class="cal-day">
+              <div class="cal-day-num">11</div>
+              <div class="cal-dot-row"><div class="cal-dot confirmed"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">12</div></div>
+            <div class="cal-day"><div class="cal-day-num">13</div></div>
+            <!-- Week 3 -->
+            <div class="cal-day"><div class="cal-day-num">14</div></div>
+            <div class="cal-day today">
+              <div class="cal-day-num">15</div>
+              <div class="cal-dot-row">
+                <div class="cal-dot confirmed"></div>
+                <div class="cal-dot pending"></div>
+              </div>
+            </div>
+            <div class="cal-day">
+              <div class="cal-day-num">16</div>
+              <div class="cal-dot-row"><div class="cal-dot confirmed"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">17</div></div>
+            <div class="cal-day">
+              <div class="cal-day-num">18</div>
+              <div class="cal-dot-row"><div class="cal-dot cancelled"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">19</div></div>
+            <div class="cal-day"><div class="cal-day-num">20</div></div>
+            <!-- Week 4 -->
+            <div class="cal-day">
+              <div class="cal-day-num">21</div>
+              <div class="cal-dot-row"><div class="cal-dot confirmed"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">22</div></div>
+            <div class="cal-day">
+              <div class="cal-day-num">23</div>
+              <div class="cal-dot-row">
+                <div class="cal-dot pending"></div>
+                <div class="cal-dot pending"></div>
+              </div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">24</div></div>
+            <div class="cal-day">
+              <div class="cal-day-num">25</div>
+              <div class="cal-dot-row"><div class="cal-dot confirmed"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">26</div></div>
+            <div class="cal-day"><div class="cal-day-num">27</div></div>
+            <!-- Week 5 -->
+            <div class="cal-day">
+              <div class="cal-day-num">28</div>
+              <div class="cal-dot-row"><div class="cal-dot confirmed"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">29</div></div>
+            <div class="cal-day">
+              <div class="cal-day-num">30</div>
+              <div class="cal-dot-row"><div class="cal-dot pending"></div></div>
+            </div>
+            <div class="cal-day"><div class="cal-day-num">31</div></div>
+            <div class="cal-day other-month"><div class="cal-day-num">1</div></div>
+            <div class="cal-day other-month"><div class="cal-day-num">2</div></div>
+            <div class="cal-day other-month"><div class="cal-day-num">3</div></div>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 16px 14px 16px;
+            flex-wrap: wrap;
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 5px">
+            <div class="cal-dot confirmed"></div>
+            <span style="font-size: 11px; color: var(--muted-foreground)">Confirmée</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px">
+            <div class="cal-dot pending"></div>
+            <span style="font-size: 11px; color: var(--muted-foreground)">En attente</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px">
+            <div class="cal-dot cancelled"></div>
+            <span style="font-size: 11px; color: var(--muted-foreground)">Annulée</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISITES DU JOUR -->
+      <div id="today-section">
+        <div class="section-header">
+          <div class="section-title">Visites du jour</div>
+          <a class="section-link" data-media-type="banani-button">Tout voir</a>
+        </div>
+
+        <!-- Filter chips -->
+        <div class="filter-row" style="margin-bottom: 10px">
+          <div class="filter-chip active" data-media-type="banani-button">Toutes</div>
+          <div class="filter-chip inactive" data-media-type="banani-button">Confirmées</div>
+          <div class="filter-chip inactive" data-media-type="banani-button">En attente</div>
+        </div>
+
+        <!-- Visit 1 -->
+        <div class="visit-card" style="margin-bottom: 8px" data-media-type="banani-button">
+          <div class="visit-date-block">
+            <div class="visit-date-day">15</div>
+            <div class="visit-date-month">Juil</div>
+          </div>
+          <div class="visit-info">
+            <div class="visit-title">Villa à Lomé, Tokoin</div>
+            <div class="visit-meta-row">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 11px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              09h30 · Ama Kodjovi
+            </div>
+            <div class="visit-footer-row">
+              <span class="badge badge-success">Confirmée</span>
+              <div class="visit-action-row">
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:eye"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 12px; color: #dc2626"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visit 2 -->
+        <div class="visit-card" data-media-type="banani-button">
+          <div class="visit-date-block" style="background: #fef9ee">
+            <div class="visit-date-day" style="color: #d97706">15</div>
+            <div class="visit-date-month" style="color: #d97706">Juil</div>
+          </div>
+          <div class="visit-info">
+            <div class="visit-title">Appartement, Dakar Plateau</div>
+            <div class="visit-meta-row">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 11px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              14h00 · Moussa Diallo
+            </div>
+            <div class="visit-footer-row">
+              <span class="badge badge-warning">En attente</span>
+              <div class="visit-action-row">
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:eye"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 12px; color: #dc2626"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROCHAINES VISITES -->
+      <div id="upcoming-section">
+        <div class="section-header">
+          <div class="section-title">Prochaines visites</div>
+          <a class="section-link" data-media-type="banani-button">Voir tout</a>
+        </div>
+
+        <!-- Visit 3 -->
+        <div class="visit-card" style="margin-bottom: 8px" data-media-type="banani-button">
+          <div class="visit-date-block" style="background: #f0fdf4">
+            <div class="visit-date-day" style="color: #059669">16</div>
+            <div class="visit-date-month" style="color: #059669">Juil</div>
+          </div>
+          <div class="visit-info">
+            <div class="visit-title">Terrain, Cotonou Cadjèhoun</div>
+            <div class="visit-meta-row">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 11px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              10h00 · Sika Addo
+            </div>
+            <div class="visit-footer-row">
+              <span class="badge badge-success">Confirmée</span>
+              <div class="visit-action-row">
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:eye"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 12px; color: #dc2626"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visit 4 -->
+        <div class="visit-card" style="margin-bottom: 8px" data-media-type="banani-button">
+          <div class="visit-date-block" style="background: #fef9ee">
+            <div class="visit-date-day" style="color: #d97706">23</div>
+            <div class="visit-date-month" style="color: #d97706">Juil</div>
+          </div>
+          <div class="visit-info">
+            <div class="visit-title">Villa, Abidjan Cocody</div>
+            <div class="visit-meta-row">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 11px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              11h30 · N'Golo Touré
+            </div>
+            <div class="visit-footer-row">
+              <span class="badge badge-warning">En attente</span>
+              <div class="visit-action-row">
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:eye"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 12px; color: #dc2626"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visit 5 -->
+        <div class="visit-card" style="margin-bottom: 8px" data-media-type="banani-button">
+          <div class="visit-date-block">
+            <div class="visit-date-day">25</div>
+            <div class="visit-date-month">Juil</div>
+          </div>
+          <div class="visit-info">
+            <div class="visit-title">Appartement, Lomé</div>
+            <div class="visit-meta-row">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 11px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              16h00 · Fatou Bâ
+            </div>
+            <div class="visit-footer-row">
+              <span class="badge badge-success">Confirmée</span>
+              <div class="visit-action-row">
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:eye"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 12px; color: #dc2626"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visit 6 -->
+        <div class="visit-card" data-media-type="banani-button">
+          <div class="visit-date-block" style="background: #fee2e2">
+            <div class="visit-date-day" style="color: #dc2626">18</div>
+            <div class="visit-date-month" style="color: #dc2626">Juil</div>
+          </div>
+          <div class="visit-info">
+            <div class="visit-title">Bureau Lomé Agoe</div>
+            <div class="visit-meta-row">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 11px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              08h00 · Fatou Bâ
+            </div>
+            <div class="visit-footer-row">
+              <span class="badge badge-destructive">Annulée</span>
+              <div class="visit-action-row">
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:eye"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 12px; color: #dc2626"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'dashboard-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div
+        class="bnav-item active"
+        data-media-type="banani-button"
+        onclick="location.href = 'visites-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:calendar-check"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Visites</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'messages-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'settings-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

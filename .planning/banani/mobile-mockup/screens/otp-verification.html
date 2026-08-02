@@ -1,0 +1,619 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABITAT-AFRIK — Code de vérification (Mobile)</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #ffffff;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+      width: 375px;
+    }
+    .screen {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 375px;
+      background: var(--background);
+      overflow: hidden;
+    }
+  </style>
+
+  <style id="hero-styles">
+    .hero-section {
+      position: relative;
+      width: 375px;
+      height: 200px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .hero-section .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8, 18, 35, 0.92) 0%,
+        rgba(8, 18, 35, 0.42) 55%,
+        rgba(8, 18, 35, 0.15) 100%
+      );
+      z-index: 1;
+    }
+    .hero-top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 20px 20px 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .back-btn-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+    .hero-bottom-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 0 20px 18px 20px;
+    }
+    .hero-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+    .hero-title .accent-word {
+      color: var(--accent);
+    }
+    .hero-subtitle {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.5;
+    }
+  </style>
+
+  <style id="form-container-styles">
+    .form-container {
+      flex: 1;
+      background: var(--background);
+      padding: 24px 20px 36px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .icon-circle {
+      width: 52px;
+      height: 52px;
+      background: #eef3ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .form-header {
+      margin-bottom: 20px;
+    }
+    .form-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .form-title .accent {
+      color: var(--accent);
+    }
+    .form-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+    .phone-highlight {
+      font-weight: 600;
+      color: #374151;
+    }
+  </style>
+
+  <style id="step-indicator-styles">
+    .step-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .step-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .step-circle.done {
+      background: #376bff;
+      color: #ffffff;
+    }
+    .step-circle.active {
+      background: #376bff;
+      color: #ffffff;
+    }
+    .step-circle.inactive {
+      background: #f3f4f6;
+      color: #9ca3af;
+    }
+    .step-label {
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .step-label.done {
+      color: #376bff;
+    }
+    .step-label.active {
+      color: #376bff;
+    }
+    .step-label.inactive {
+      color: #9ca3af;
+    }
+    .step-connector {
+      flex: 1;
+      height: 1.5px;
+      background: #e5e7eb;
+      margin: 0 6px;
+    }
+    .step-connector.done {
+      background: #376bff;
+    }
+  </style>
+
+  <style id="otp-styles">
+    .otp-label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .otp-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 16px;
+    }
+    .otp-box {
+      width: 46px;
+      height: 52px;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+      cursor: text;
+      flex-shrink: 0;
+    }
+    .otp-box.filled {
+      border-color: #376bff;
+      background: #ffffff;
+      color: #376bff;
+    }
+    .otp-box.active {
+      border-color: #376bff;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(55, 107, 255, 0.12);
+    }
+    .otp-separator {
+      font-size: 16px;
+      color: var(--muted-foreground);
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+    .otp-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 24px;
+      background: #376bff;
+      border-radius: 2px;
+    }
+  </style>
+
+  <style id="form-styles">
+    .form-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .resend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .resend-timer {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .timer-badge {
+      background: #f3f4f6;
+      border-radius: var(--radius-sm);
+      padding: 2px 7px;
+      font-weight: 600;
+      font-size: 12.5px;
+      color: #374151;
+    }
+    .resend-link {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: not-allowed;
+    }
+    .info-box {
+      background: #eef3ff;
+      border-radius: var(--radius-lg);
+      padding: 13px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .info-box-text {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: #374151;
+      line-height: 1.55;
+    }
+  </style>
+
+  <style id="cta-styles">
+    .btn-primary {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .signin-row {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      color: #6b7280;
+    }
+    .signin-row a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen" id="screen">
+    <!-- HERO SECTION -->
+    <div class="hero-section" id="hero">
+      <img
+        class="bg-image"
+        data-query="modern west african architecture building low angle shot, lagos abidjan contemporary glass concrete facade, blue sky, professional photography, cinematic, blue accent palette"
+        data-aspect-ratio="4:3"
+        alt="Architecture moderne ouest-africaine"
+        src="https://storage.googleapis.com/banani-generated-images/generated-images/385e57b5-71c9-4a7a-a387-b0adc3f5b574.jpg"
+      />
+      <div class="hero-overlay"></div>
+
+      <!-- Top bar: Logo + Retour -->
+      <div class="hero-top-bar">
+        <a href="#" class="logo" data-media-type="banani-button">
+          <div class="logo-mark">
+            <iconify-icon icon="lucide:home" style="font-size: 17px; color: #fff"></iconify-icon>
+          </div>
+          <span class="logo-text">HABITAT-AFRIK</span>
+        </a>
+        <a href="#" class="back-btn" data-media-type="banani-button">
+          <div
+            style="
+              width: 13px;
+              height: 13px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:arrow-left"
+              style="font-size: 13px; color: #fff"
+            ></iconify-icon>
+          </div>
+          <span class="back-btn-text">Retour</span>
+        </a>
+      </div>
+
+      <!-- Bottom: Hero text -->
+      <div class="hero-bottom-content">
+        <h1 class="hero-title">Code de <span class="accent-word">vérification</span></h1>
+        <p class="hero-subtitle">Saisissez le code reçu par SMS pour continuer.</p>
+      </div>
+    </div>
+
+    <!-- FORM SECTION -->
+    <div class="form-container" id="form-container">
+      <!-- Icon circle -->
+      <div class="icon-circle">
+        <iconify-icon
+          icon="lucide:message-square-dot"
+          style="font-size: 24px; color: #376bff"
+        ></iconify-icon>
+      </div>
+
+      <!-- Header -->
+      <div class="form-header">
+        <h2 class="form-title">Code de <span class="accent">vérification</span></h2>
+        <p class="form-subtitle">
+          Un code à 6 chiffres a été envoyé par SMS au numéro
+          <span class="phone-highlight">+229 67 00 00 00</span>. Saisissez-le ci-dessous pour
+          continuer.
+        </p>
+      </div>
+
+      <!-- Step indicator -->
+      <div class="step-row">
+        <div class="step-item">
+          <div class="step-circle done">
+            <div
+              style="
+                width: 13px;
+                height: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:check"
+                style="font-size: 13px; color: #ffffff"
+              ></iconify-icon>
+            </div>
+          </div>
+          <span class="step-label done">Téléphone</span>
+        </div>
+        <div class="step-connector done"></div>
+        <div class="step-item">
+          <div class="step-circle active">2</div>
+          <span class="step-label active">Vérification</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item">
+          <div class="step-circle inactive">3</div>
+          <span class="step-label inactive">Nouveau mdp</span>
+        </div>
+      </div>
+
+      <!-- Form body -->
+      <div class="form-body">
+        <!-- OTP input -->
+        <div>
+          <span class="otp-label">Entrez le code à 6 chiffres</span>
+          <div class="otp-row">
+            <div class="otp-box filled" data-media-type="banani-button">3</div>
+            <div class="otp-box filled" data-media-type="banani-button">7</div>
+            <div class="otp-box filled" data-media-type="banani-button">4</div>
+            <div class="otp-separator">—</div>
+            <div class="otp-box active" data-media-type="banani-button">
+              <span class="otp-cursor"></span>
+            </div>
+            <div class="otp-box" data-media-type="banani-button"></div>
+            <div class="otp-box" data-media-type="banani-button"></div>
+          </div>
+        </div>
+
+        <!-- Resend row -->
+        <div class="resend-row">
+          <div class="resend-timer">
+            <div
+              style="
+                width: 14px;
+                height: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:clock-3"
+                style="font-size: 14px; color: #6b7280"
+              ></iconify-icon>
+            </div>
+            Code expirant dans <span class="timer-badge">01:47</span>
+          </div>
+          <div class="resend-link">
+            <div
+              style="
+                width: 13px;
+                height: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:refresh-cw"
+                style="font-size: 13px; color: #9ca3af"
+              ></iconify-icon>
+            </div>
+            Renvoyer
+          </div>
+        </div>
+
+        <!-- Info box -->
+        <div class="info-box">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              margin-top: 1px;
+            "
+          >
+            <iconify-icon icon="lucide:info" style="font-size: 16px; color: #376bff"></iconify-icon>
+          </div>
+          <p class="info-box-text">
+            Vérifiez vos SMS. Si vous ne recevez pas le code dans 2 minutes, vous pourrez en
+            demander un nouveau.
+          </p>
+        </div>
+
+        <!-- CTA -->
+        <div
+          class="btn-primary"
+          data-media-type="banani-button"
+          onclick="location.href = 'new-password-mobile.html'"
+          style="cursor: pointer"
+        >
+          Vérifier le code
+          <div
+            style="
+              width: 17px;
+              height: 17px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:arrow-right"
+              style="font-size: 17px; color: #ffffff"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <!-- Back to sign in -->
+        <p class="signin-row">
+          Vous avez retrouvé votre mot de passe ?
+          <a href="login-mobile.html" data-media-type="banani-button">Se connecter</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>

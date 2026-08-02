@@ -1,0 +1,1738 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Publier une annonce</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="content-styles">
+    .page-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+      background: var(--background);
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .page-subtitle {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+  </style>
+
+  <style id="steps-styles">
+    .steps-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 28px;
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 20px 28px;
+    }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .step-circle.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .step-circle.done {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .step-circle.inactive {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+    .step-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .step-label.inactive {
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+    .step-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin: 0 12px;
+      max-width: 60px;
+    }
+    .step-connector.done {
+      background: var(--primary);
+    }
+  </style>
+
+  <style id="form-styles">
+    .form-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      align-items: start;
+    }
+    .form-main {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 24px 28px;
+    }
+    .form-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-card-title-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--sidebar-primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .form-label span {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+    .form-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-input.placeholder {
+      color: var(--muted-foreground);
+    }
+    .form-input-icon {
+      color: var(--muted-foreground);
+      flex-shrink: 0;
+    }
+    .form-textarea {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      min-height: 90px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .form-select {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .form-select.filled {
+      color: var(--foreground);
+    }
+    .type-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .type-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+    }
+    .type-option.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .transaction-options {
+      display: flex;
+      gap: 10px;
+    }
+    .transaction-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+    }
+    .transaction-option.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .amenities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .amenity-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+    }
+    .amenity-item.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--card);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .checkbox.checked {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+  </style>
+
+  <style id="upload-styles">
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-xl);
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      background: var(--input);
+    }
+    .upload-icon-wrap {
+      width: 48px;
+      height: 48px;
+      background: var(--sidebar-primary);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .upload-title {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      text-align: center;
+    }
+    .upload-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      text-align: center;
+    }
+    .upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    .uploaded-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .uploaded-img-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .uploaded-img-wrap img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      display: block;
+    }
+    .img-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .img-main-badge {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 99px;
+    }
+  </style>
+
+  <style id="sidebar-card-styles">
+    .sidebar-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .sidebar-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      margin-bottom: 14px;
+    }
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .doc-item:last-child {
+      margin-bottom: 0;
+    }
+    .doc-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .doc-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 1px;
+    }
+    .doc-status {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .doc-status.required {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .doc-status.optional {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+    .preview-box {
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .preview-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+    }
+    .preview-label {
+      color: var(--muted-foreground);
+    }
+    .preview-value {
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .progress-wrap {
+      margin-top: 4px;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 6px;
+    }
+    .progress-track {
+      height: 6px;
+      background: var(--muted);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 99px;
+    }
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+      line-height: 1.5;
+    }
+    .tip-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="#" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="#" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="notif-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div class="user-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content" id="page-content">
+        <!-- Page Header -->
+        <div class="page-header" id="page-header">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px">
+              <a
+                href="#"
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 13px;
+                  color: var(--muted-foreground);
+                  text-decoration: none;
+                "
+                data-media-type="banani-button"
+              >
+                <iconify-icon icon="lucide:chevron-left" style="font-size: 14px"></iconify-icon>
+                Mes annonces
+              </a>
+            </div>
+            <div class="page-title">Publier une annonce</div>
+            <div class="page-subtitle">
+              Renseignez les informations de votre bien pour le mettre en ligne.
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px">
+            <div class="btn-outline" data-media-type="banani-button">Enregistrer le brouillon</div>
+            <div class="btn-primary" data-media-type="banani-button">
+              <iconify-icon icon="lucide:send" style="font-size: 14px; color: #fff"></iconify-icon>
+              Publier l'annonce
+            </div>
+          </div>
+        </div>
+
+        <!-- Steps Bar -->
+        <div class="steps-bar" id="steps-bar">
+          <div class="step-item">
+            <div class="step-circle active">1</div>
+            <div class="step-label">Informations générales</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item">
+            <div class="step-circle inactive">2</div>
+            <div class="step-label inactive">Photos &amp; médias</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item">
+            <div class="step-circle inactive">3</div>
+            <div class="step-label inactive">Localisation</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item">
+            <div class="step-circle inactive">4</div>
+            <div class="step-label inactive">Documents</div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item">
+            <div class="step-circle inactive">5</div>
+            <div class="step-label inactive">Vérification &amp; publication</div>
+          </div>
+        </div>
+
+        <!-- Form Layout -->
+        <div class="form-layout" id="form-layout">
+          <!-- LEFT: Main Form -->
+          <div class="form-main" id="form-main">
+            <!-- Type de transaction -->
+            <div class="form-card">
+              <div class="form-card-title">
+                <div class="form-card-title-icon">
+                  <iconify-icon
+                    icon="lucide:tag"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Type de transaction
+              </div>
+              <div class="transaction-options">
+                <div class="transaction-option selected" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:handshake"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
+                  Vente
+                </div>
+                <div class="transaction-option" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:key"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Location
+                </div>
+                <div class="transaction-option" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:calendar"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Location courte durée
+                </div>
+              </div>
+            </div>
+
+            <!-- Type de bien -->
+            <div class="form-card">
+              <div class="form-card-title">
+                <div class="form-card-title-icon">
+                  <iconify-icon
+                    icon="lucide:building"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Type de bien
+              </div>
+              <div class="type-options">
+                <div class="type-option selected" data-media-type="banani-button">
+                  <iconify-icon icon="lucide:home" style="font-size: 15px"></iconify-icon>
+                  Villa
+                </div>
+                <div class="type-option" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:building-2"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Appartement
+                </div>
+                <div class="type-option" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:layers"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Duplex
+                </div>
+                <div class="type-option" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:store"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Bureau / Commerce
+                </div>
+                <div class="type-option" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:map"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Terrain
+                </div>
+                <div class="type-option" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:warehouse"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Entrepôt
+                </div>
+              </div>
+            </div>
+
+            <!-- Informations de base -->
+            <div class="form-card">
+              <div class="form-card-title">
+                <div class="form-card-title-icon">
+                  <iconify-icon
+                    icon="lucide:file-text"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Informations de base
+              </div>
+              <div class="form-grid">
+                <div class="form-group full">
+                  <div class="form-label">Titre de l'annonce <span>*</span></div>
+                  <div class="form-input">
+                    <span style="color: var(--foreground)"
+                      >Villa moderne avec piscine — Haie Vive, Cotonou</span
+                    >
+                  </div>
+                </div>
+                <div class="form-group full">
+                  <div class="form-label">Description <span>*</span></div>
+                  <div class="form-textarea">
+                    Décrivez votre bien en détail : état, équipements, environnement, points forts…
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Prix (FCFA) <span>*</span></div>
+                  <div class="form-input">
+                    <div
+                      style="
+                        width: 14px;
+                        height: 14px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                      class="form-input-icon"
+                    >
+                      <iconify-icon icon="lucide:banknote" style="font-size: 14px"></iconify-icon>
+                    </div>
+                    <span style="color: var(--foreground)">120 000 000</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Surface (m²) <span>*</span></div>
+                  <div class="form-input">
+                    <div
+                      style="
+                        width: 14px;
+                        height: 14px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                      class="form-input-icon"
+                    >
+                      <iconify-icon icon="lucide:square" style="font-size: 14px"></iconify-icon>
+                    </div>
+                    <span style="color: var(--foreground)">320</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Nombre de pièces</div>
+                  <div class="form-select filled" data-media-type="banani-button">
+                    <span>5 pièces</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Nombre de chambres</div>
+                  <div class="form-select filled" data-media-type="banani-button">
+                    <span>4 chambres</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Nombre de salles de bain</div>
+                  <div class="form-select filled" data-media-type="banani-button">
+                    <span>3 salles de bain</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Année de construction</div>
+                  <div class="form-input placeholder">
+                    <span>Ex : 2018</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Équipements & Commodités -->
+            <div class="form-card">
+              <div class="form-card-title">
+                <div class="form-card-title-icon">
+                  <iconify-icon
+                    icon="lucide:sparkles"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Équipements &amp; Commodités
+              </div>
+              <div class="amenities-grid">
+                <div class="amenity-item selected" data-media-type="banani-button">
+                  <div class="checkbox checked">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Piscine
+                </div>
+                <div class="amenity-item selected" data-media-type="banani-button">
+                  <div class="checkbox checked">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Parking / Garage
+                </div>
+                <div class="amenity-item selected" data-media-type="banani-button">
+                  <div class="checkbox checked">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Climatisation
+                </div>
+                <div class="amenity-item" data-media-type="banani-button">
+                  <div class="checkbox"></div>
+                  Groupe électrogène
+                </div>
+                <div class="amenity-item" data-media-type="banani-button">
+                  <div class="checkbox"></div>
+                  Eau courante
+                </div>
+                <div class="amenity-item selected" data-media-type="banani-button">
+                  <div class="checkbox checked">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Jardin / Cour
+                </div>
+                <div class="amenity-item" data-media-type="banani-button">
+                  <div class="checkbox"></div>
+                  Gardiennage
+                </div>
+                <div class="amenity-item" data-media-type="banani-button">
+                  <div class="checkbox"></div>
+                  Terrasse
+                </div>
+                <div class="amenity-item selected" data-media-type="banani-button">
+                  <div class="checkbox checked">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Fibre internet
+                </div>
+              </div>
+            </div>
+
+            <!-- Photos & Médias -->
+            <div class="form-card">
+              <div class="form-card-title">
+                <div class="form-card-title-icon">
+                  <iconify-icon
+                    icon="lucide:image"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Photos &amp; Médias
+              </div>
+              <div class="upload-zone" data-media-type="banani-button">
+                <div class="upload-icon-wrap">
+                  <iconify-icon
+                    icon="lucide:upload-cloud"
+                    style="font-size: 22px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <div class="upload-title">Glissez vos photos ici</div>
+                <div class="upload-sub">
+                  PNG, JPG ou WEBP — max. 10 Mo par fichier · jusqu'à 20 photos
+                </div>
+                <div class="upload-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:folder-open"
+                    style="font-size: 13px; color: #fff"
+                  ></iconify-icon>
+                  Parcourir les fichiers
+                </div>
+              </div>
+              <div class="uploaded-images">
+                <div class="uploaded-img-wrap">
+                  <img
+                    data-aspect-ratio="4:3"
+                    data-query="modern villa with pool exterior daytime, west african architecture, blue accent"
+                    alt="Photo 1"
+                    src="https://storage.googleapis.com/banani-generated-images/generated-images/67820ec3-0e97-4af1-ae13-12737f5cd55d.jpg"
+                  />
+                  <div class="img-main-badge">Principale</div>
+                  <div class="img-remove">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="uploaded-img-wrap">
+                  <img
+                    data-aspect-ratio="4:3"
+                    data-query="modern villa interior living room elegant african design"
+                    alt="Photo 2"
+                    src="https://storage.googleapis.com/banani-generated-images/generated-images/ad5adb96-eb2f-474e-9fe8-390bbac64825.jpg"
+                  />
+                  <div class="img-remove">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="uploaded-img-wrap">
+                  <img
+                    data-aspect-ratio="4:3"
+                    data-query="villa bedroom interior modern african home decor"
+                    alt="Photo 3"
+                    src="https://storage.googleapis.com/banani-generated-images/generated-images/13202489-245a-4611-bc4b-ebce6b49092f.jpg"
+                  />
+                  <div class="img-remove">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Sidebar Cards -->
+          <div id="form-sidebar">
+            <!-- Progression -->
+            <div class="sidebar-card">
+              <div class="sidebar-card-title">Progression du formulaire</div>
+              <div class="progress-wrap">
+                <div class="progress-label">
+                  <span>Étape 1 sur 5</span>
+                  <span style="font-weight: 600; color: var(--primary)">60%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 60%"></div>
+                </div>
+              </div>
+              <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px">
+                  <div
+                    style="
+                      width: 18px;
+                      height: 18px;
+                      background: var(--success);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: var(--success-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--foreground)">Type de transaction</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px">
+                  <div
+                    style="
+                      width: 18px;
+                      height: 18px;
+                      background: var(--success);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: var(--success-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--foreground)">Type de bien</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px">
+                  <div
+                    style="
+                      width: 18px;
+                      height: 18px;
+                      background: var(--success);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: var(--success-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--foreground)">Informations de base</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px">
+                  <div
+                    style="
+                      width: 18px;
+                      height: 18px;
+                      background: var(--warning);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:clock"
+                      style="font-size: 10px; color: var(--warning-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--secondary-foreground)">Photos &amp; médias</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px">
+                  <div
+                    style="
+                      width: 18px;
+                      height: 18px;
+                      background: var(--muted);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:circle"
+                      style="font-size: 10px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--muted-foreground)">Localisation</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Aperçu -->
+            <div class="sidebar-card">
+              <div class="sidebar-card-title">Aperçu de l'annonce</div>
+              <div class="preview-box">
+                <div class="preview-row">
+                  <span class="preview-label">Type</span>
+                  <span class="preview-value">Vente · Villa</span>
+                </div>
+                <div class="preview-row">
+                  <span class="preview-label">Prix</span>
+                  <span class="preview-value" style="color: var(--primary)">120 000 000 FCFA</span>
+                </div>
+                <div class="preview-row">
+                  <span class="preview-label">Surface</span>
+                  <span class="preview-value">320 m²</span>
+                </div>
+                <div class="preview-row">
+                  <span class="preview-label">Pièces</span>
+                  <span class="preview-value">5 · 4 ch. · 3 sdb</span>
+                </div>
+                <div class="preview-row">
+                  <span class="preview-label">Photos</span>
+                  <span class="preview-value">3 / 20</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Documents requis -->
+            <div class="sidebar-card">
+              <div class="sidebar-card-title">Documents à joindre</div>
+              <div class="doc-item" data-media-type="banani-button">
+                <div class="doc-icon" style="background: #eef3ff">
+                  <iconify-icon
+                    icon="lucide:file-check"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <div class="doc-info">
+                  <div class="doc-name">Titre foncier</div>
+                  <div class="doc-sub">PDF ou image scannée</div>
+                </div>
+                <span class="doc-status required">Requis</span>
+              </div>
+              <div class="doc-item" data-media-type="banani-button">
+                <div class="doc-icon" style="background: #eef3ff">
+                  <iconify-icon
+                    icon="lucide:file-text"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <div class="doc-info">
+                  <div class="doc-name">Mandat de vente</div>
+                  <div class="doc-sub">PDF signé</div>
+                </div>
+                <span class="doc-status required">Requis</span>
+              </div>
+              <div class="doc-item" data-media-type="banani-button">
+                <div class="doc-icon" style="background: var(--muted)">
+                  <iconify-icon
+                    icon="lucide:clipboard-list"
+                    style="font-size: 15px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="doc-info">
+                  <div class="doc-name">Plan cadastral</div>
+                  <div class="doc-sub">Format PDF</div>
+                </div>
+                <span class="doc-status optional">Optionnel</span>
+              </div>
+            </div>
+
+            <!-- Conseils -->
+            <div class="sidebar-card">
+              <div class="sidebar-card-title" style="display: flex; align-items: center; gap: 7px">
+                <iconify-icon
+                  icon="lucide:lightbulb"
+                  style="font-size: 14px; color: #f59e0b"
+                ></iconify-icon>
+                Conseils pour bien vendre
+              </div>
+              <div class="tip-item">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    margin-top: 1px;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:check-circle"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Ajoutez au moins 8 photos de haute qualité pour maximiser vos contacts.
+              </div>
+              <div class="tip-item">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    margin-top: 1px;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:check-circle"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Une description détaillée augmente la confiance des acheteurs.
+              </div>
+              <div class="tip-item">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    margin-top: 1px;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:check-circle"
+                    style="font-size: 14px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Un titre foncier validé accélère la vérification de votre annonce.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

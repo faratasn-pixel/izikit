@@ -1,0 +1,1661 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Contacts reçus</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="page-styles">
+    .page-content {
+      flex: 1;
+      padding: 32px 36px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+  </style>
+
+  <style id="stat-cards-styles">
+    .stat-cards-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stat-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-card-label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+    .stat-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: #eef3ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-card-value {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 26px;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .stat-card-change {
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .stat-card-change.up {
+      color: #059669;
+    }
+    .stat-card-change.down {
+      color: #dc2626;
+    }
+    .stat-card-change.neutral {
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="filters-styles">
+    .filters-bar {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .search-input-wrap {
+      flex: 1;
+      min-width: 200px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .search-input-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .filter-select {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 8px 14px;
+      font-size: 13px;
+      color: var(--secondary-foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="table-styles">
+    .table-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .table-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 16px 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+    .table-header-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+    }
+    .table-header-meta {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead tr {
+      background: var(--muted);
+    }
+    thead th {
+      text-align: left;
+      padding: 11px 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+    tbody td {
+      padding: 14px 20px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      vertical-align: middle;
+    }
+    .contact-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .contact-name {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .contact-email {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 1px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .badge-green {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-amber {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-blue {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .badge-red {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+    .badge-gray {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+
+    .annonce-ref {
+      font-size: 12.5px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    .action-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .table-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .pagination-info {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+    }
+    .pagination-btns {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .page-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--secondary-foreground);
+      background: var(--muted);
+    }
+    .page-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+  </style>
+
+  <style id="detail-panel-styles">
+    .contacts-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .contacts-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .detail-panel {
+      width: 300px;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .detail-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+    }
+    .detail-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      margin-bottom: 14px;
+    }
+    .detail-contact-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .detail-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .detail-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+    }
+    .detail-role {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .detail-info-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-info-row:last-child {
+      border-bottom: none;
+    }
+    .detail-info-label {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      min-width: 80px;
+    }
+    .detail-info-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .detail-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 9px 0;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .detail-btn.primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .detail-btn.outline {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+      margin-top: 8px;
+    }
+    .activity-item {
+      display: flex;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .activity-dot.gray {
+      background: var(--muted-foreground);
+    }
+    .activity-dot.green {
+      background: #10b981;
+    }
+    .activity-text {
+      font-size: 12.5px;
+      color: var(--foreground);
+      line-height: 1.4;
+    }
+    .activity-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="#" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="#" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="notif-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div class="user-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content" id="page-content">
+        <!-- Header -->
+        <div class="page-header">
+          <div>
+            <div class="page-title">Contacts reçus</div>
+            <div class="page-sub">
+              Gérez les prospects et acheteurs potentiels qui vous ont contacté.
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px">
+            <div class="btn-outline" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:download"
+                style="font-size: 14px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+              Exporter
+            </div>
+            <div class="btn-primary" data-media-type="banani-button">
+              <iconify-icon icon="lucide:plus" style="font-size: 14px; color: #fff"></iconify-icon>
+              Ajouter un contact
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-cards-row" id="stat-cards">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Total contacts</span>
+              <div class="stat-card-icon">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+            </div>
+            <div class="stat-card-value">148</div>
+            <div class="stat-card-change up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon>
+              +12% ce mois
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Nouveaux (7j)</span>
+              <div class="stat-card-icon">
+                <iconify-icon
+                  icon="lucide:user-plus"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+            </div>
+            <div class="stat-card-value">23</div>
+            <div class="stat-card-change up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon>
+              +5 vs semaine dernière
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">En attente de réponse</span>
+              <div class="stat-card-icon">
+                <iconify-icon
+                  icon="lucide:clock"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+            </div>
+            <div class="stat-card-value">9</div>
+            <div class="stat-card-change down">
+              <iconify-icon icon="lucide:alert-circle" style="font-size: 12px"></iconify-icon>
+              Nécessite attention
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Taux de conversion</span>
+              <div class="stat-card-icon">
+                <iconify-icon
+                  icon="lucide:percent"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+            </div>
+            <div class="stat-card-value">34%</div>
+            <div class="stat-card-change up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon>
+              +4% vs mois dernier
+            </div>
+          </div>
+        </div>
+
+        <!-- Main layout: table + detail panel -->
+        <div class="contacts-layout" id="contacts-layout">
+          <!-- Left: filters + table -->
+          <div class="contacts-main">
+            <!-- Filters bar -->
+            <div class="filters-bar" id="filters-bar">
+              <div class="search-input-wrap" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:search"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                <span class="search-input-text">Rechercher un contact, une annonce…</span>
+              </div>
+              <div class="filter-select" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:filter"
+                  style="font-size: 13px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Statut
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 13px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="filter-select" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:calendar"
+                  style="font-size: 13px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Cette semaine
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 13px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="filter-select" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:building-2"
+                  style="font-size: 13px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Annonce
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 13px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+
+            <!-- Contacts table -->
+            <div class="table-card" id="contacts-table-card">
+              <div class="table-header-row">
+                <div>
+                  <div class="table-header-title">Liste des contacts</div>
+                  <div class="table-header-meta">148 contacts au total</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px">
+                  <div
+                    class="btn-outline"
+                    data-media-type="banani-button"
+                    style="font-size: 12.5px; padding: 6px 12px"
+                  >
+                    <iconify-icon icon="lucide:list" style="font-size: 13px"></iconify-icon>
+                    Liste
+                  </div>
+                  <div
+                    class="btn-outline"
+                    data-media-type="banani-button"
+                    style="font-size: 12.5px; padding: 6px 12px"
+                  >
+                    <iconify-icon icon="lucide:layout-grid" style="font-size: 13px"></iconify-icon>
+                    Grille
+                  </div>
+                </div>
+              </div>
+
+              <table id="contacts-table">
+                <thead>
+                  <tr>
+                    <th>Contact</th>
+                    <th>Téléphone</th>
+                    <th>Annonce concernée</th>
+                    <th>Motif</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-media-type="banani-button">
+                    <td>
+                      <div class="contact-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F1"
+                          alt="Amavi Kodjovi"
+                          class="contact-avatar"
+                        />
+                        <div>
+                          <div class="contact-name">Amavi Kodjovi</div>
+                          <div class="contact-email">amavi.k@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-size: 13px; color: var(--secondary-foreground)">
+                      +228 90 34 12 78
+                    </td>
+                    <td><span class="annonce-ref">Villa F4 · Lomé-Bè</span></td>
+                    <td><span class="badge badge-blue">Achat</span></td>
+                    <td><span class="badge badge-amber">En attente</span></td>
+                    <td style="font-size: 12.5px; color: var(--muted-foreground)">12 juin 2025</td>
+                    <td>
+                      <div class="action-btns">
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:message-circle"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:calendar"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:more-horizontal"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-media-type="banani-button">
+                    <td>
+                      <div class="contact-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                          alt="Fatoumata Diallo"
+                          class="contact-avatar"
+                        />
+                        <div>
+                          <div class="contact-name">Fatoumata Diallo</div>
+                          <div class="contact-email">f.diallo@yahoo.fr</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-size: 13px; color: var(--secondary-foreground)">
+                      +221 77 56 89 03
+                    </td>
+                    <td><span class="annonce-ref">Appt T3 · Dakar Plateau</span></td>
+                    <td><span class="badge badge-blue">Location</span></td>
+                    <td><span class="badge badge-green">Répondu</span></td>
+                    <td style="font-size: 12.5px; color: var(--muted-foreground)">11 juin 2025</td>
+                    <td>
+                      <div class="action-btns">
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:message-circle"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:calendar"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:more-horizontal"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-media-type="banani-button">
+                    <td>
+                      <div class="contact-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F4"
+                          alt="Koffi Assiongbon"
+                          class="contact-avatar"
+                        />
+                        <div>
+                          <div class="contact-name">Koffi Assiongbon</div>
+                          <div class="contact-email">k.assiongbon@outlook.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-size: 13px; color: var(--secondary-foreground)">
+                      +229 96 44 71 22
+                    </td>
+                    <td><span class="annonce-ref">Bureau 80m² · Cotonou</span></td>
+                    <td><span class="badge badge-blue">Achat</span></td>
+                    <td><span class="badge badge-green">Visite planifiée</span></td>
+                    <td style="font-size: 12.5px; color: var(--muted-foreground)">10 juin 2025</td>
+                    <td>
+                      <div class="action-btns">
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:message-circle"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:calendar"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:more-horizontal"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-media-type="banani-button">
+                    <td>
+                      <div class="contact-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F0"
+                          alt="Ama Owusu"
+                          class="contact-avatar"
+                        />
+                        <div>
+                          <div class="contact-name">Ama Owusu</div>
+                          <div class="contact-email">ama.owusu@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-size: 13px; color: var(--secondary-foreground)">
+                      +233 24 78 99 14
+                    </td>
+                    <td><span class="annonce-ref">Villa duplex · Abidjan Cocody</span></td>
+                    <td><span class="badge badge-blue">Location</span></td>
+                    <td><span class="badge badge-amber">En attente</span></td>
+                    <td style="font-size: 12.5px; color: var(--muted-foreground)">9 juin 2025</td>
+                    <td>
+                      <div class="action-btns">
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:message-circle"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:calendar"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:more-horizontal"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-media-type="banani-button">
+                    <td>
+                      <div class="contact-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F18-25%2FAfrican%2F5"
+                          alt="Sékou Traoré"
+                          class="contact-avatar"
+                        />
+                        <div>
+                          <div class="contact-name">Sékou Traoré</div>
+                          <div class="contact-email">sekou.t@orange.sn</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-size: 13px; color: var(--secondary-foreground)">
+                      +221 70 12 34 56
+                    </td>
+                    <td><span class="annonce-ref">Studio meublé · Dakar Mermoz</span></td>
+                    <td><span class="badge badge-blue">Location</span></td>
+                    <td><span class="badge badge-red">Non qualifié</span></td>
+                    <td style="font-size: 12.5px; color: var(--muted-foreground)">8 juin 2025</td>
+                    <td>
+                      <div class="action-btns">
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:message-circle"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:calendar"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:more-horizontal"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr data-media-type="banani-button">
+                    <td>
+                      <div class="contact-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F6"
+                          alt="Emmanuel Gbénou"
+                          class="contact-avatar"
+                        />
+                        <div>
+                          <div class="contact-name">Emmanuel Gbénou</div>
+                          <div class="contact-email">e.gbenou@hotmail.fr</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="font-size: 13px; color: var(--secondary-foreground)">
+                      +229 95 67 43 10
+                    </td>
+                    <td><span class="annonce-ref">Terrain 500m² · Porto-Novo</span></td>
+                    <td><span class="badge badge-blue">Achat</span></td>
+                    <td><span class="badge badge-green">Répondu</span></td>
+                    <td style="font-size: 12.5px; color: var(--muted-foreground)">7 juin 2025</td>
+                    <td>
+                      <div class="action-btns">
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:message-circle"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:calendar"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="action-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:more-horizontal"
+                            style="font-size: 14px; color: var(--secondary-foreground)"
+                          ></iconify-icon>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="table-footer">
+                <span class="pagination-info">Affichage de 1 à 6 sur 148 contacts</span>
+                <div class="pagination-btns">
+                  <div class="page-btn" data-media-type="banani-button">
+                    <iconify-icon icon="lucide:chevron-left" style="font-size: 14px"></iconify-icon>
+                  </div>
+                  <div class="page-btn active" data-media-type="banani-button">1</div>
+                  <div class="page-btn" data-media-type="banani-button">2</div>
+                  <div class="page-btn" data-media-type="banani-button">3</div>
+                  <div class="page-btn" data-media-type="banani-button">…</div>
+                  <div class="page-btn" data-media-type="banani-button">25</div>
+                  <div class="page-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:chevron-right"
+                      style="font-size: 14px"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Detail panel -->
+          <div class="detail-panel" id="detail-panel">
+            <!-- Selected contact card -->
+            <div class="detail-card" id="selected-contact-card">
+              <div class="detail-card-title">Fiche contact</div>
+              <div class="detail-contact-header">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F1"
+                  alt="Amavi Kodjovi"
+                  class="detail-avatar"
+                />
+                <div class="detail-name">Amavi Kodjovi</div>
+                <span class="badge badge-amber">En attente</span>
+                <div class="detail-role">Acheteur potentiel · Lomé, Togo</div>
+              </div>
+              <div class="detail-info-row">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:mail"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="detail-info-label">Email</div>
+                <div class="detail-info-value" style="font-size: 12px">amavi.k@gmail.com</div>
+              </div>
+              <div class="detail-info-row">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:phone"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="detail-info-label">Tél.</div>
+                <div class="detail-info-value">+228 90 34 12 78</div>
+              </div>
+              <div class="detail-info-row">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:building-2"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="detail-info-label">Annonce</div>
+                <div class="detail-info-value" style="font-size: 12px; color: var(--primary)">
+                  Villa F4 · Lomé-Bè
+                </div>
+              </div>
+              <div class="detail-info-row">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:tag"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="detail-info-label">Budget</div>
+                <div class="detail-info-value">85 000 000 FCFA</div>
+              </div>
+              <div class="detail-info-row">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:calendar"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="detail-info-label">Contact le</div>
+                <div class="detail-info-value">12 juin 2025</div>
+              </div>
+              <div style="margin-top: 16px">
+                <div class="detail-btn primary" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:message-circle"
+                    style="font-size: 14px; color: #fff"
+                  ></iconify-icon>
+                  Envoyer un message
+                </div>
+                <div class="detail-btn outline" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:calendar-plus"
+                    style="font-size: 14px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Planifier une visite
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity feed -->
+            <div class="detail-card" id="activity-card">
+              <div class="detail-card-title">Activité récente</div>
+              <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div>
+                  <div class="activity-text">
+                    Demande de contact envoyée sur <strong>Villa F4 · Lomé-Bè</strong>
+                  </div>
+                  <div class="activity-time">Aujourd'hui à 09:14</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot gray"></div>
+                <div>
+                  <div class="activity-text">Consultation de la fiche annonce (3 fois)</div>
+                  <div class="activity-time">Hier à 18:42</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot green"></div>
+                <div>
+                  <div class="activity-text">Ajout aux favoris</div>
+                  <div class="activity-time">10 juin à 14:30</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot gray"></div>
+                <div>
+                  <div class="activity-text">Visite virtuelle 360° effectuée</div>
+                  <div class="activity-time">9 juin à 11:05</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes card -->
+            <div class="detail-card" id="notes-card">
+              <div class="detail-card-title">Notes internes</div>
+              <div
+                style="
+                  background: var(--input);
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-lg);
+                  padding: 12px 14px;
+                  font-size: 13px;
+                  color: var(--muted-foreground);
+                  min-height: 80px;
+                "
+              >
+                Ajouter une note sur ce contact…
+              </div>
+              <div style="display: flex; justify-content: flex-end; margin-top: 10px">
+                <div
+                  class="btn-primary"
+                  data-media-type="banani-button"
+                  style="padding: 7px 16px; font-size: 12.5px"
+                >
+                  Enregistrer
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

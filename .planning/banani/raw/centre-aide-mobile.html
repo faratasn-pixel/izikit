@@ -1,0 +1,1109 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Centre d'aide Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="hero-styles">
+    .help-hero {
+      background: var(--primary);
+      padding: 28px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+    .help-hero-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #fff;
+    }
+    .help-hero-sub {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.5;
+    }
+    .help-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      width: 100%;
+    }
+    .help-search-text {
+      flex: 1;
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .help-search-btn {
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-md);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .help-tags {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .help-tag-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+    .help-tag {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="section-styles">
+    .section-wrap {
+      padding: 20px 16px 0 16px;
+    }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .section-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 14px;
+    }
+  </style>
+
+  <style id="categories-styles">
+    .categories-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0 16px;
+    }
+    .category-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+    .category-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .category-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .category-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .category-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .category-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="faq-styles">
+    .faq-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin: 0 16px;
+    }
+    .faq-card-header {
+      padding: 16px 16px 4px 16px;
+    }
+    .faq-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .faq-card-sub {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 10px;
+    }
+    .faq-item {
+      padding: 13px 16px;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .faq-q-text {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      flex: 1;
+      line-height: 1.4;
+    }
+    .faq-answer {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .faq-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+    }
+  </style>
+
+  <style id="articles-styles">
+    .articles-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin: 0 16px;
+    }
+    .articles-card-header {
+      padding: 16px 16px 4px 16px;
+    }
+    .articles-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .articles-card-sub {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 10px;
+    }
+    .article-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .article-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .article-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .article-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .article-meta {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .article-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      border-radius: 99px;
+      padding: 3px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-new {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .badge-popular {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-updated {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .articles-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+    }
+  </style>
+
+  <style id="contact-styles">
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 16px;
+    }
+    .contact-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .contact-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .contact-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .contact-avail {
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 99px;
+      padding: 2px 8px;
+      display: inline-block;
+    }
+    .contact-avail.online {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .contact-avail.offline {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+    .contact-btn-wrap {
+      flex-shrink: 0;
+    }
+    .contact-action-btn {
+      padding: 8px 14px;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .contact-action-btn.primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .contact-action-btn.outline {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Centre d'aide</span>
+      <div class="topbar-btn" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:message-square"
+          style="font-size: 12px; color: #fff"
+        ></iconify-icon>
+        Support
+      </div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- HERO SEARCH -->
+      <div class="help-hero" id="help-hero">
+        <div class="help-hero-title">Comment pouvons-nous vous aider ?</div>
+        <div class="help-hero-sub">
+          Recherchez parmi des centaines d'articles, guides et tutoriels dédiés à la plateforme
+          HABITAT-AFRIK.
+        </div>
+        <div class="help-search-bar">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 16px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="help-search-text">Rechercher un article…</span>
+          <div class="help-search-btn" data-media-type="banani-button">Rechercher</div>
+        </div>
+        <div class="help-tags">
+          <span class="help-tag-label">Fréquents :</span>
+          <span class="help-tag" data-media-type="banani-button">Annonce</span>
+          <span class="help-tag" data-media-type="banani-button">Jetons VR</span>
+          <span class="help-tag" data-media-type="banani-button">Abonnement</span>
+          <span class="help-tag" data-media-type="banani-button">Mon compte</span>
+        </div>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div class="section-wrap">
+        <div class="section-title">Parcourir par catégorie</div>
+        <div class="section-sub">Accédez rapidement aux guides selon votre besoin.</div>
+      </div>
+      <div class="categories-list" id="categories-list">
+        <div class="category-card" data-media-type="banani-button">
+          <div class="category-icon" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 19px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="category-info">
+            <div class="category-name">Gestion des annonces</div>
+            <div class="category-desc">Publier, modifier, suspendre ou supprimer vos annonces.</div>
+          </div>
+          <span class="category-count">18 art.</span>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <div class="category-card" data-media-type="banani-button">
+          <div class="category-icon" style="background: #d1fae5">
+            <iconify-icon
+              icon="lucide:shield-check"
+              style="font-size: 19px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <div class="category-info">
+            <div class="category-name">Documents &amp; vérification</div>
+            <div class="category-desc">Titres fonciers, mandats et documents légaux.</div>
+          </div>
+          <span class="category-count">12 art.</span>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <div class="category-card" data-media-type="banani-button">
+          <div class="category-icon" style="background: #fef3c7">
+            <iconify-icon
+              icon="lucide:coins"
+              style="font-size: 19px; color: #d97706"
+            ></iconify-icon>
+          </div>
+          <div class="category-info">
+            <div class="category-name">Jetons &amp; visites VR</div>
+            <div class="category-desc">Acheter des jetons, activer les visites virtuelles.</div>
+          </div>
+          <span class="category-count">9 art.</span>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <div class="category-card" data-media-type="banani-button">
+          <div class="category-icon" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:credit-card"
+              style="font-size: 19px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="category-info">
+            <div class="category-name">Abonnement &amp; paiement</div>
+            <div class="category-desc">Gérer votre plan, paiements et factures.</div>
+          </div>
+          <span class="category-count">11 art.</span>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <div class="category-card" data-media-type="banani-button">
+          <div class="category-icon" style="background: #fee2e2">
+            <iconify-icon
+              icon="lucide:user-circle"
+              style="font-size: 19px; color: #991b1b"
+            ></iconify-icon>
+          </div>
+          <div class="category-info">
+            <div class="category-name">Compte &amp; sécurité</div>
+            <div class="category-desc">Profil, mot de passe, gestion des accès.</div>
+          </div>
+          <span class="category-count">14 art.</span>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <div class="category-card" data-media-type="banani-button">
+          <div class="category-icon" style="background: #f3f4f6">
+            <iconify-icon
+              icon="lucide:calendar-check"
+              style="font-size: 19px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="category-info">
+            <div class="category-name">Visites &amp; contacts</div>
+            <div class="category-desc">Programmer des visites, gérer les contacts.</div>
+          </div>
+          <span class="category-count">7 art.</span>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="section-wrap">
+        <div class="section-title">Questions fréquemment posées</div>
+        <div class="section-sub">Réponses aux questions les plus courantes des agents.</div>
+      </div>
+      <div class="faq-card" id="faq-card">
+        <div class="faq-item" data-media-type="banani-button">
+          <div class="faq-question">
+            <span class="faq-q-text">Comment publier ma première annonce ?</span>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+          <div class="faq-answer">
+            Rendez-vous dans "Mes annonces" puis cliquez sur "Publier une annonce". Remplissez les
+            informations requises (titre, type, localisation, prix en FCFA) et soumettez pour
+            vérification.
+          </div>
+        </div>
+
+        <div class="faq-item" data-media-type="banani-button">
+          <div class="faq-question">
+            <span class="faq-q-text">Combien de jetons pour activer une visite VR ?</span>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-right"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-media-type="banani-button">
+          <div class="faq-question">
+            <span class="faq-q-text">Quels documents pour vérifier mon annonce ?</span>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-right"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-media-type="banani-button">
+          <div class="faq-question">
+            <span class="faq-q-text">Comment changer mon plan d'abonnement ?</span>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-right"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-media-type="banani-button">
+          <div class="faq-question">
+            <span class="faq-q-text">Mon annonce est "En attente" depuis plusieurs jours ?</span>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-right"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-btn" data-media-type="banani-button">
+          Voir toutes les FAQ
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 4px;
+            "
+          >
+            <iconify-icon
+              icon="lucide:arrow-right"
+              style="font-size: 13px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTICLES POPULAIRES -->
+      <div class="section-wrap">
+        <div class="section-title">Articles populaires</div>
+        <div class="section-sub">Les guides les plus consultés cette semaine.</div>
+      </div>
+      <div class="articles-card" id="articles-card">
+        <div class="article-item" data-media-type="banani-button">
+          <div class="article-icon" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:file-text"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="article-info">
+            <div class="article-title">Guide complet : Publier une annonce efficace</div>
+            <div class="article-meta">Gestion des annonces · 5 min</div>
+          </div>
+          <span class="article-badge badge-popular">Populaire</span>
+        </div>
+
+        <div class="article-item" data-media-type="banani-button">
+          <div class="article-icon" style="background: #d1fae5">
+            <iconify-icon
+              icon="lucide:shield-check"
+              style="font-size: 16px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <div class="article-info">
+            <div class="article-title">Soumettre un titre foncier pour vérification</div>
+            <div class="article-meta">Documents &amp; vérification · 3 min</div>
+          </div>
+          <span class="article-badge badge-new">Nouveau</span>
+        </div>
+
+        <div class="article-item" data-media-type="banani-button">
+          <div class="article-icon" style="background: #fef3c7">
+            <iconify-icon icon="lucide:eye" style="font-size: 16px; color: #d97706"></iconify-icon>
+          </div>
+          <div class="article-info">
+            <div class="article-title">Activer et gérer les visites virtuelles (VR)</div>
+            <div class="article-meta">Jetons &amp; visites VR · 4 min</div>
+          </div>
+          <span class="article-badge badge-popular">Populaire</span>
+        </div>
+
+        <div class="article-item" data-media-type="banani-button">
+          <div class="article-icon" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:credit-card"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="article-info">
+            <div class="article-title">Payer via Mobile Money (Orange, MTN, Wave)</div>
+            <div class="article-meta">Abonnement &amp; paiement · 2 min</div>
+          </div>
+          <span class="article-badge badge-updated">Mis à jour</span>
+        </div>
+
+        <div class="article-item" data-media-type="banani-button">
+          <div class="article-icon" style="background: #f3f4f6">
+            <iconify-icon
+              icon="lucide:bar-chart-2"
+              style="font-size: 16px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="article-info">
+            <div class="article-title">Comprendre les statistiques de vos annonces</div>
+            <div class="article-meta">Statistiques · 6 min</div>
+          </div>
+          <span class="article-badge badge-new">Nouveau</span>
+        </div>
+
+        <div class="articles-btn" data-media-type="banani-button">
+          Voir tous les articles
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 4px;
+            "
+          >
+            <iconify-icon
+              icon="lucide:arrow-right"
+              style="font-size: 13px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT SUPPORT -->
+      <div class="section-wrap">
+        <div class="section-title">Besoin d'une aide personnalisée ?</div>
+        <div class="section-sub">Notre équipe est disponible pour toutes vos questions.</div>
+      </div>
+      <div class="contact-list" id="contact-list">
+        <div class="contact-card" data-media-type="banani-button">
+          <div class="contact-icon" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:message-circle"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">Chat en direct</div>
+            <div class="contact-desc">Discutez en temps réel avec notre support.</div>
+            <span class="contact-avail online">● En ligne</span>
+          </div>
+          <div class="contact-btn-wrap">
+            <div class="contact-action-btn primary" data-media-type="banani-button">Chat</div>
+          </div>
+        </div>
+
+        <div class="contact-card" data-media-type="banani-button">
+          <div class="contact-icon" style="background: #d1fae5">
+            <iconify-icon icon="lucide:mail" style="font-size: 20px; color: #065f46"></iconify-icon>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">Envoyer un e-mail</div>
+            <div class="contact-desc">Réponse garantie sous 24h ouvrées.</div>
+            <span class="contact-avail offline">Réponse sous 24h</span>
+          </div>
+          <div class="contact-btn-wrap">
+            <div class="contact-action-btn outline" data-media-type="banani-button">Écrire</div>
+          </div>
+        </div>
+
+        <div class="contact-card" data-media-type="banani-button">
+          <div class="contact-icon" style="background: #fef3c7">
+            <iconify-icon
+              icon="lucide:phone"
+              style="font-size: 20px; color: #d97706"
+            ></iconify-icon>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">Assistance téléphonique</div>
+            <div class="contact-desc">Hotline Lun–Ven, 8h–18h.</div>
+            <span class="contact-avail offline">Lun–Ven · 8h–18h</span>
+          </div>
+          <div class="contact-btn-wrap">
+            <div class="contact-action-btn outline" data-media-type="banani-button">Appeler</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 20px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div class="bnav-item active" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:life-buoy"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Aide</span>
+      </div>
+    </div>
+  </div>
+</body>

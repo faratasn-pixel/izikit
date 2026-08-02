@@ -1,0 +1,1743 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Abonnement &amp; Paiement</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="settings-layout">
+    .settings-shell {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: var(--background);
+    }
+    .settings-sidenav {
+      width: 232px;
+      min-width: 232px;
+      background: transparent;
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 14px;
+      gap: 14px;
+      overflow-y: auto;
+    }
+    .settings-sidenav-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 2px;
+    }
+    .settings-tabs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .settings-tabs-label {
+      font-family: 'Sora', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted-foreground);
+      padding: 0 2px;
+    }
+    .settings-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .settings-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      text-decoration: none;
+      white-space: nowrap;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+    .settings-nav-item iconify-icon {
+      color: var(--sidebar-foreground) !important;
+    }
+    .settings-nav-item.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    .settings-nav-item.active iconify-icon {
+      color: var(--primary-foreground) !important;
+    }
+    .settings-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+    }
+    .settings-page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .settings-page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 32px;
+    }
+  </style>
+
+  <style id="settings-cards">
+    .settings-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 28px 28px 24px 28px;
+      margin-bottom: 20px;
+    }
+    .settings-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .settings-card-desc {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-bottom: 24px;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-destructive {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .settings-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .status-badge-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+    }
+    .status-badge-amber {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--warning);
+      color: var(--warning-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+    }
+    .status-badge-blue {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+    }
+  </style>
+
+  <style id="subscription-styles">
+    /* Current plan banner */
+    .plan-banner {
+      background: linear-gradient(135deg, #376bff 0%, #5b8bff 100%);
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .plan-banner-left {
+    }
+    .plan-banner-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      margin-bottom: 10px;
+    }
+    .plan-banner-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .plan-banner-sub {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .plan-banner-right {
+      text-align: right;
+    }
+    .plan-price {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 32px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .plan-price-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 16px;
+    }
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      background: #fff;
+      color: var(--primary);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Plan comparison */
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .plan-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .plan-card.current {
+      border-color: var(--primary);
+    }
+    .plan-card-badge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 12px;
+      white-space: nowrap;
+    }
+    .plan-card-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .plan-card-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 16px;
+    }
+    .plan-card-price {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .plan-card-price span {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted-foreground);
+    }
+    .plan-card-period {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 20px;
+    }
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 20px;
+    }
+    .plan-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+    }
+    .plan-feature-item .check-icon {
+      width: 16px;
+      height: 16px;
+      background: #d1fae5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .plan-feature-item .cross-icon {
+      width: 16px;
+      height: 16px;
+      background: var(--muted);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .plan-card .btn-primary,
+    .plan-card .btn-outline {
+      width: 100%;
+      justify-content: center;
+    }
+    .plan-card .btn-outline-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 9px 20px;
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Jetons section */
+    .token-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .token-row:last-child {
+      border-bottom: none;
+    }
+    .token-icon-wrap {
+      width: 42px;
+      height: 42px;
+      background: #eef3ff;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .token-info {
+      flex: 1;
+    }
+    .token-label {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .token-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .token-count {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--primary);
+      text-align: right;
+      min-width: 60px;
+    }
+    .token-count-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      font-weight: 400;
+    }
+
+    /* Payment history table */
+    .payment-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .payment-table th {
+      font-family: 'Sora', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted-foreground);
+      text-align: left;
+      padding: 0 0 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .payment-table td {
+      font-size: 13px;
+      color: var(--foreground);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .payment-table tr:last-child td {
+      border-bottom: none;
+    }
+    .payment-table td:last-child {
+      text-align: right;
+    }
+    .payment-table th:last-child {
+      text-align: right;
+    }
+
+    /* Payment method card */
+    .payment-method-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 18px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .payment-method-card.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+    }
+    .pm-icon-wrap {
+      width: 44px;
+      height: 30px;
+      background: var(--card);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .pm-info {
+      flex: 1;
+    }
+    .pm-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+    .pm-detail {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .pm-radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pm-radio-inner {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    .pm-radio-empty {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="agent-dashboard.html" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="agent-dashboard.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="messages-inbox.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="settings-page.html" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon icon="lucide:settings" style="font-size: 17px"></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="mes-annonces.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="contacts-recus.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="visites-programmees.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="jetons-vr.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="statistiques-agent.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="centre-aide.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="login-screen.html" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div
+            class="notif-btn"
+            data-media-type="banani-button"
+            onclick="location.href = 'notifications-center.html'"
+            style="cursor: pointer"
+          >
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div
+            class="user-pill"
+            data-media-type="banani-button"
+            onclick="location.href = 'settings-page.html'"
+            style="cursor: pointer"
+          >
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS SHELL -->
+      <div class="settings-shell" id="settings-shell">
+        <!-- Settings side nav -->
+        <div class="settings-sidenav" id="settings-sidenav">
+          <div class="settings-sidenav-title">Paramètres</div>
+
+          <div class="settings-tabs-group">
+            <div class="settings-tabs-label">Compte</div>
+            <div class="settings-tabs">
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:user" style="font-size: 15px"></iconify-icon>
+                </div>
+                Profil
+              </a>
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:shield" style="font-size: 15px"></iconify-icon>
+                </div>
+                Sécurité
+              </a>
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:bell" style="font-size: 15px"></iconify-icon>
+                </div>
+                Notifications
+              </a>
+            </div>
+          </div>
+
+          <div class="settings-tabs-group">
+            <div class="settings-tabs-label">Agence</div>
+            <div class="settings-tabs">
+              <a href="mon-agence.html" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:building" style="font-size: 15px"></iconify-icon>
+                </div>
+                Mon agence
+              </a>
+              <a
+                href="documents-legaux.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:file-text" style="font-size: 15px"></iconify-icon>
+                </div>
+                Documents légaux
+              </a>
+              <a
+                href="abonnement-paiement.html"
+                class="settings-nav-item active"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:credit-card"
+                    style="font-size: 15px; color: #fff"
+                  ></iconify-icon>
+                </div>
+                Abonnement &amp; paiement
+              </a>
+            </div>
+          </div>
+
+          <div class="settings-tabs-group">
+            <div class="settings-tabs-label">Préférences</div>
+            <div class="settings-tabs">
+              <a
+                href="langue-region.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:globe" style="font-size: 15px"></iconify-icon>
+                </div>
+                Langue &amp; région
+              </a>
+              <a
+                href="apparence-settings.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:palette" style="font-size: 15px"></iconify-icon>
+                </div>
+                Apparence
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings content -->
+        <div class="settings-content" id="settings-content">
+          <div class="settings-page-title">Abonnement &amp; Paiement</div>
+          <div class="settings-page-sub">
+            Gérez votre plan, vos jetons de visite et vos méthodes de paiement.
+          </div>
+
+          <!-- Current plan banner -->
+          <div class="plan-banner" id="plan-banner">
+            <div class="plan-banner-left">
+              <div class="plan-banner-tag">
+                <iconify-icon icon="lucide:zap" style="font-size: 10px"></iconify-icon>
+                Plan actif
+              </div>
+              <div class="plan-banner-title">Plan Pro Agent</div>
+              <div class="plan-banner-sub">
+                Renouvellement automatique le <strong style="color: #fff">15 juillet 2025</strong> ·
+                Abonnement mensuel
+              </div>
+            </div>
+            <div class="plan-banner-right">
+              <div class="plan-price">
+                29 900 <span style="font-size: 16px; font-weight: 400">FCFA</span>
+              </div>
+              <div class="plan-price-sub">par mois, taxes comprises</div>
+              <div class="btn-white" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:refresh-cw"
+                  style="font-size: 13px; color: var(--primary)"
+                ></iconify-icon>
+                Changer de plan
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan comparison -->
+          <div class="plan-grid" id="plan-grid">
+            <!-- Gratuit -->
+            <div class="plan-card" id="plan-free">
+              <div class="plan-card-name">Gratuit</div>
+              <div class="plan-card-desc">Pour démarrer et tester la plateforme</div>
+              <div class="plan-card-price">0 <span>FCFA</span></div>
+              <div class="plan-card-period">À vie</div>
+              <ul class="plan-features">
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  3 annonces publiées
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Messagerie basique
+                </li>
+                <li class="plan-feature-item">
+                  <div class="cross-icon">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 9px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--muted-foreground)">Visites virtuelles</span>
+                </li>
+                <li class="plan-feature-item">
+                  <div class="cross-icon">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 9px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--muted-foreground)">Statistiques avancées</span>
+                </li>
+                <li class="plan-feature-item">
+                  <div class="cross-icon">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 9px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--muted-foreground)">Support prioritaire</span>
+                </li>
+              </ul>
+              <div class="btn-outline" data-media-type="banani-button">Rétrograder</div>
+            </div>
+
+            <!-- Pro (current) -->
+            <div class="plan-card current" id="plan-pro">
+              <div class="plan-card-badge">Plan actuel</div>
+              <div class="plan-card-name">Pro Agent</div>
+              <div class="plan-card-desc">Pour les agents actifs avec un portefeuille établi</div>
+              <div class="plan-card-price" style="color: var(--primary)">
+                29 900 <span>FCFA</span>
+              </div>
+              <div class="plan-card-period">par mois</div>
+              <ul class="plan-features">
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  30 annonces publiées
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Messagerie avancée
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  5 visites virtuelles/mois
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Statistiques complètes
+                </li>
+                <li class="plan-feature-item">
+                  <div class="cross-icon">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 9px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span style="color: var(--muted-foreground)">Support dédié 24/7</span>
+                </li>
+              </ul>
+              <div class="btn-outline-primary" data-media-type="banani-button">Plan actuel</div>
+            </div>
+
+            <!-- Agence -->
+            <div class="plan-card" id="plan-agency">
+              <div class="plan-card-name">Agence Premium</div>
+              <div class="plan-card-desc">Pour les agences à fort volume et multi-agents</div>
+              <div class="plan-card-price">89 900 <span>FCFA</span></div>
+              <div class="plan-card-period">par mois</div>
+              <ul class="plan-features">
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Annonces illimitées
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Jusqu'à 10 agents
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Visites VR illimitées
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Statistiques avancées
+                </li>
+                <li class="plan-feature-item">
+                  <div class="check-icon">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #065f46"
+                    ></iconify-icon>
+                  </div>
+                  Support dédié 24/7
+                </li>
+              </ul>
+              <div class="btn-primary" data-media-type="banani-button">Passer à Premium</div>
+            </div>
+          </div>
+
+          <!-- Jetons & Visites virtuelles -->
+          <div class="settings-card" id="tokens-card">
+            <div class="settings-card-title">Jetons &amp; Visites virtuelles</div>
+            <div class="settings-card-desc">
+              Solde actuel et utilisation de vos jetons pour les visites VR.
+            </div>
+
+            <div class="token-row">
+              <div class="token-icon-wrap">
+                <iconify-icon
+                  icon="lucide:coins"
+                  style="font-size: 20px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="token-info">
+                <div class="token-label">Jetons disponibles</div>
+                <div class="token-desc">
+                  Utilisables pour débloquer des visites virtuelles supplémentaires
+                </div>
+              </div>
+              <div style="text-align: right">
+                <div class="token-count">48</div>
+                <div class="token-count-label">jetons</div>
+              </div>
+              <div class="btn-primary" style="margin-left: 16px" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:plus"
+                  style="font-size: 13px; color: #fff"
+                ></iconify-icon>
+                Acheter des jetons
+              </div>
+            </div>
+
+            <div class="token-row">
+              <div class="token-icon-wrap">
+                <iconify-icon
+                  icon="lucide:video"
+                  style="font-size: 20px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="token-info">
+                <div class="token-label">Visites virtuelles ce mois</div>
+                <div class="token-desc">Incluses dans votre plan Pro Agent (5/mois)</div>
+              </div>
+              <div style="text-align: right">
+                <div class="token-count">
+                  3 <span style="font-size: 14px; color: var(--muted-foreground)">/ 5</span>
+                </div>
+                <div class="token-count-label">utilisées</div>
+              </div>
+              <div style="margin-left: 16px; width: 80px">
+                <div
+                  style="
+                    height: 6px;
+                    background: var(--muted);
+                    border-radius: 99px;
+                    overflow: hidden;
+                  "
+                >
+                  <div
+                    style="
+                      height: 100%;
+                      width: 60%;
+                      background: var(--primary);
+                      border-radius: 99px;
+                    "
+                  ></div>
+                </div>
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--muted-foreground);
+                    margin-top: 4px;
+                    text-align: right;
+                  "
+                >
+                  60%
+                </div>
+              </div>
+            </div>
+
+            <div class="token-row">
+              <div class="token-icon-wrap">
+                <iconify-icon
+                  icon="lucide:history"
+                  style="font-size: 20px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="token-info">
+                <div class="token-label">Jetons utilisés ce mois</div>
+                <div class="token-desc">
+                  Dernière utilisation : Villa ACI 2000 Bamako — 8 juin 2025
+                </div>
+              </div>
+              <div style="text-align: right">
+                <div class="token-count">12</div>
+                <div class="token-count-label">jetons dépensés</div>
+              </div>
+              <div class="btn-outline" style="margin-left: 16px" data-media-type="banani-button">
+                Voir l'historique
+              </div>
+            </div>
+          </div>
+
+          <!-- Méthodes de paiement -->
+          <div class="settings-card" id="payment-methods-card">
+            <div class="settings-card-title">Méthodes de paiement</div>
+            <div class="settings-card-desc">
+              Gérez vos moyens de paiement pour le renouvellement de l'abonnement.
+            </div>
+
+            <div class="payment-method-card selected" data-media-type="banani-button">
+              <div class="pm-icon-wrap">
+                <iconify-icon
+                  icon="lucide:smartphone"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="pm-info">
+                <div class="pm-name">Mobile Money — Orange Money</div>
+                <div class="pm-detail">+229 97 12 34 56 · Par défaut</div>
+              </div>
+              <span class="status-badge-green">
+                <iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                Par défaut
+              </span>
+              <div class="pm-radio">
+                <div class="pm-radio-inner"></div>
+              </div>
+            </div>
+
+            <div class="payment-method-card" data-media-type="banani-button">
+              <div class="pm-icon-wrap">
+                <iconify-icon
+                  icon="lucide:smartphone"
+                  style="font-size: 16px; color: #f97316"
+                ></iconify-icon>
+              </div>
+              <div class="pm-info">
+                <div class="pm-name">Mobile Money — MTN MoMo</div>
+                <div class="pm-detail">+229 91 44 78 23</div>
+              </div>
+              <div class="pm-radio-empty"></div>
+            </div>
+
+            <div class="payment-method-card" data-media-type="banani-button">
+              <div class="pm-icon-wrap">
+                <iconify-icon
+                  icon="lucide:credit-card"
+                  style="font-size: 16px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="pm-info">
+                <div class="pm-name">Carte bancaire Visa</div>
+                <div class="pm-detail">•••• •••• •••• 4821 · Expire 09/27</div>
+              </div>
+              <div class="pm-radio-empty"></div>
+            </div>
+
+            <div style="margin-top: 16px">
+              <div class="btn-outline" data-media-type="banani-button">
+                <iconify-icon icon="lucide:plus" style="font-size: 13px"></iconify-icon>
+                Ajouter un moyen de paiement
+              </div>
+            </div>
+          </div>
+
+          <!-- Historique des paiements -->
+          <div class="settings-card" id="payment-history-card">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 4px;
+              "
+            >
+              <div class="settings-card-title">Historique des paiements</div>
+              <div class="btn-outline" data-media-type="banani-button">
+                <iconify-icon icon="lucide:download" style="font-size: 13px"></iconify-icon>
+                Exporter
+              </div>
+            </div>
+            <div class="settings-card-desc">
+              Tous vos reçus et transactions des 6 derniers mois.
+            </div>
+
+            <table class="payment-table" id="payment-history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Méthode</th>
+                  <th>Statut</th>
+                  <th>Montant</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="color: var(--muted-foreground)">15 juin 2025</td>
+                  <td>
+                    <div style="font-weight: 500">Abonnement Pro Agent</div>
+                    <div style="font-size: 11.5px; color: var(--muted-foreground)">
+                      Renouvellement mensuel
+                    </div>
+                  </td>
+                  <td style="color: var(--muted-foreground)">Orange Money</td>
+                  <td>
+                    <span class="status-badge-green"
+                      ><iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                      Payé</span
+                    >
+                  </td>
+                  <td style="font-weight: 600">29 900 FCFA</td>
+                </tr>
+                <tr>
+                  <td style="color: var(--muted-foreground)">10 juin 2025</td>
+                  <td>
+                    <div style="font-weight: 500">Achat de 20 jetons VR</div>
+                    <div style="font-size: 11.5px; color: var(--muted-foreground)">
+                      Pack jetons standard
+                    </div>
+                  </td>
+                  <td style="color: var(--muted-foreground)">Orange Money</td>
+                  <td>
+                    <span class="status-badge-green"
+                      ><iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                      Payé</span
+                    >
+                  </td>
+                  <td style="font-weight: 600">9 500 FCFA</td>
+                </tr>
+                <tr>
+                  <td style="color: var(--muted-foreground)">15 mai 2025</td>
+                  <td>
+                    <div style="font-weight: 500">Abonnement Pro Agent</div>
+                    <div style="font-size: 11.5px; color: var(--muted-foreground)">
+                      Renouvellement mensuel
+                    </div>
+                  </td>
+                  <td style="color: var(--muted-foreground)">Orange Money</td>
+                  <td>
+                    <span class="status-badge-green"
+                      ><iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                      Payé</span
+                    >
+                  </td>
+                  <td style="font-weight: 600">29 900 FCFA</td>
+                </tr>
+                <tr>
+                  <td style="color: var(--muted-foreground)">15 avr. 2025</td>
+                  <td>
+                    <div style="font-weight: 500">Abonnement Pro Agent</div>
+                    <div style="font-size: 11.5px; color: var(--muted-foreground)">
+                      Renouvellement mensuel
+                    </div>
+                  </td>
+                  <td style="color: var(--muted-foreground)">Carte Visa ••4821</td>
+                  <td>
+                    <span class="status-badge-amber"
+                      ><iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                      Remboursé</span
+                    >
+                  </td>
+                  <td style="font-weight: 600">29 900 FCFA</td>
+                </tr>
+                <tr>
+                  <td style="color: var(--muted-foreground)">15 mars 2025</td>
+                  <td>
+                    <div style="font-weight: 500">Abonnement Pro Agent</div>
+                    <div style="font-size: 11.5px; color: var(--muted-foreground)">
+                      Renouvellement mensuel
+                    </div>
+                  </td>
+                  <td style="color: var(--muted-foreground)">MTN MoMo</td>
+                  <td>
+                    <span class="status-badge-green"
+                      ><iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                      Payé</span
+                    >
+                  </td>
+                  <td style="font-weight: 600">29 900 FCFA</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cancel subscription -->
+          <div
+            class="settings-card"
+            style="border: 1px solid #fecaca"
+            id="cancel-subscription-card"
+          >
+            <div class="settings-card-title" style="color: #991b1b">Résilier l'abonnement</div>
+            <div class="settings-card-desc">
+              La résiliation prend effet à la fin de la période en cours. Vos annonces resteront
+              visibles jusqu'au 15 juillet 2025.
+            </div>
+            <div class="btn-destructive" data-media-type="banani-button">
+              <iconify-icon icon="lucide:x-circle" style="font-size: 14px"></iconify-icon>
+              Résilier mon abonnement
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

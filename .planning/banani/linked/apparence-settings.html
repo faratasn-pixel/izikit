@@ -1,0 +1,1818 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Apparence</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="settings-layout">
+    .settings-shell {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: var(--background);
+    }
+    .settings-sidenav {
+      width: 232px;
+      min-width: 232px;
+      background: transparent;
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 14px;
+      gap: 14px;
+      overflow-y: auto;
+    }
+    .settings-sidenav-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 2px;
+    }
+    .settings-tabs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .settings-tabs-label {
+      font-family: 'Sora', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted-foreground);
+      padding: 0 2px;
+    }
+    .settings-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .settings-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      text-decoration: none;
+      white-space: nowrap;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+    .settings-nav-item iconify-icon {
+      color: var(--sidebar-foreground) !important;
+    }
+    .settings-nav-item.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    .settings-nav-item.active iconify-icon {
+      color: var(--primary-foreground) !important;
+    }
+    .settings-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+    }
+    .settings-page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .settings-page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 32px;
+    }
+  </style>
+
+  <style id="settings-cards">
+    .settings-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 28px 28px 24px 28px;
+      margin-bottom: 20px;
+    }
+    .settings-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .settings-card-desc {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-bottom: 24px;
+    }
+    .settings-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+    .toggle-info {
+      flex: 1;
+    }
+    .toggle-label {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .toggle-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .toggle-switch {
+      width: 40px;
+      height: 22px;
+      border-radius: 99px;
+      background: var(--primary);
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .toggle-switch.off {
+      background: var(--border);
+    }
+    .toggle-knob {
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    .toggle-switch.off .toggle-knob {
+      right: auto;
+      left: 3px;
+    }
+  </style>
+
+  <style id="appearance-styles">
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .theme-option {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .theme-option.selected {
+      border-color: var(--primary);
+    }
+    .theme-selected-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-preview {
+      width: 100%;
+      height: 110px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* Light theme preview */
+    .theme-preview.light-prev {
+      background: #f4f6fb;
+    }
+    .light-prev .tp-topbar {
+      background: #fff;
+      height: 22px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 6px;
+    }
+    .light-prev .tp-sidebar-bar {
+      width: 28px;
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+    }
+    .light-prev .tp-body {
+      display: flex;
+      flex: 1;
+    }
+    .light-prev .tp-sidebar {
+      width: 36px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      padding: 6px 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .light-prev .tp-nav-dot {
+      height: 5px;
+      background: #e5e7eb;
+      border-radius: 3px;
+    }
+    .light-prev .tp-nav-dot.active-dot {
+      background: #376bff;
+    }
+    .light-prev .tp-content {
+      flex: 1;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .light-prev .tp-card {
+      background: #fff;
+      border-radius: 4px;
+      height: 18px;
+    }
+    .light-prev .tp-cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    /* Dark theme preview */
+    .theme-preview.dark-prev {
+      background: #0f172a;
+    }
+    .dark-prev .tp-topbar {
+      background: #1e293b;
+      height: 22px;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 6px;
+    }
+    .dark-prev .tp-sidebar-bar {
+      width: 28px;
+      height: 6px;
+      background: #334155;
+      border-radius: 3px;
+    }
+    .dark-prev .tp-body {
+      display: flex;
+      flex: 1;
+    }
+    .dark-prev .tp-sidebar {
+      width: 36px;
+      background: #1e293b;
+      border-right: 1px solid #334155;
+      padding: 6px 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .dark-prev .tp-nav-dot {
+      height: 5px;
+      background: #334155;
+      border-radius: 3px;
+    }
+    .dark-prev .tp-nav-dot.active-dot {
+      background: #376bff;
+    }
+    .dark-prev .tp-content {
+      flex: 1;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .dark-prev .tp-card {
+      background: #1e293b;
+      border-radius: 4px;
+      height: 18px;
+    }
+    .dark-prev .tp-cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    /* System theme preview - split */
+    .theme-preview.system-prev {
+      background: linear-gradient(to right, #f4f6fb 50%, #0f172a 50%);
+    }
+    .system-prev .tp-topbar {
+      background: linear-gradient(to right, #fff 50%, #1e293b 50%);
+      height: 22px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 6px;
+    }
+    .system-prev .tp-sidebar-bar {
+      width: 28px;
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+    }
+    .system-prev .tp-body {
+      display: flex;
+      flex: 1;
+    }
+    .system-prev .tp-sidebar {
+      width: 36px;
+      background: linear-gradient(to right, #fff 50%, #1e293b 50%);
+      border-right: 1px solid #e5e7eb;
+      padding: 6px 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .system-prev .tp-nav-dot {
+      height: 5px;
+      background: #e5e7eb;
+      border-radius: 3px;
+    }
+    .system-prev .tp-nav-dot.active-dot {
+      background: #376bff;
+    }
+    .system-prev .tp-content {
+      flex: 1;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .system-prev .tp-card {
+      background: linear-gradient(to right, #fff 50%, #1e293b 50%);
+      border-radius: 4px;
+      height: 18px;
+    }
+    .system-prev .tp-cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    .theme-label-row {
+      padding: 10px 14px 12px 14px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+    .theme-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .theme-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+
+    /* Accent color section */
+    .accent-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .accent-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid transparent;
+    }
+    .accent-swatch.selected {
+      border-color: var(--foreground);
+    }
+
+    /* Font size section */
+    .font-scale-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .font-scale-label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      width: 80px;
+      flex-shrink: 0;
+    }
+    .font-scale-options {
+      display: flex;
+      gap: 8px;
+    }
+    .font-scale-btn {
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      background: var(--card);
+      white-space: nowrap;
+    }
+    .font-scale-btn.selected {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Sidebar style */
+    .sidebar-style-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .sidebar-style-option {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .sidebar-style-option.selected {
+      border-color: var(--primary);
+    }
+    .sidebar-style-preview {
+      height: 72px;
+      display: flex;
+      overflow: hidden;
+    }
+    .ss-sidebar-compact {
+      width: 28px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0;
+      gap: 5px;
+    }
+    .ss-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #e5e7eb;
+    }
+    .ss-dot.active {
+      background: #376bff;
+    }
+    .ss-sidebar-full {
+      width: 52px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      padding: 6px 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ss-bar {
+      height: 5px;
+      background: #e5e7eb;
+      border-radius: 3px;
+    }
+    .ss-bar.active {
+      background: #376bff;
+    }
+    .ss-main {
+      flex: 1;
+      background: #f4f6fb;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ss-card {
+      background: #fff;
+      border-radius: 3px;
+      height: 14px;
+    }
+    .sidebar-style-label-row {
+      padding: 8px 12px 10px 12px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-style-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .sidebar-style-desc {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 1px;
+    }
+
+    /* Density */
+    .density-row {
+      display: flex;
+      gap: 12px;
+    }
+    .density-option {
+      flex: 1;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .density-option.selected {
+      border-color: var(--primary);
+    }
+    .density-preview {
+      padding: 10px 12px;
+      background: var(--input);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .density-row-item {
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+    }
+    .density-label-row {
+      padding: 8px 12px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+    .density-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .density-desc {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="agent-dashboard.html" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="agent-dashboard.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="messages-inbox.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="settings-page.html" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="mes-annonces.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="contacts-recus.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="visites-programmees.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="jetons-vr.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="statistiques-agent.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="centre-aide.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="login-screen.html" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div
+            class="notif-btn"
+            data-media-type="banani-button"
+            onclick="location.href = 'notifications-center.html'"
+            style="cursor: pointer"
+          >
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div
+            class="user-pill"
+            data-media-type="banani-button"
+            onclick="location.href = 'settings-page.html'"
+            style="cursor: pointer"
+          >
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS SHELL -->
+      <div class="settings-shell" id="settings-shell">
+        <!-- Settings side nav -->
+        <div class="settings-sidenav" id="settings-sidenav">
+          <div class="settings-sidenav-title">Paramètres</div>
+
+          <div class="settings-tabs-group" id="settings-account-tabs">
+            <div class="settings-tabs-label">Compte</div>
+            <div class="settings-tabs">
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:user" style="font-size: 15px"></iconify-icon>
+                </div>
+                Profil
+              </a>
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:shield" style="font-size: 15px"></iconify-icon>
+                </div>
+                Sécurité
+              </a>
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:bell" style="font-size: 15px"></iconify-icon>
+                </div>
+                Notifications
+              </a>
+            </div>
+          </div>
+
+          <div class="settings-tabs-group" id="settings-agency-tabs">
+            <div class="settings-tabs-label">Agence</div>
+            <div class="settings-tabs">
+              <a href="mon-agence.html" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:building" style="font-size: 15px"></iconify-icon>
+                </div>
+                Mon agence
+              </a>
+              <a
+                href="documents-legaux.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:file-text" style="font-size: 15px"></iconify-icon>
+                </div>
+                Documents légaux
+              </a>
+              <a
+                href="abonnement-paiement.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:credit-card" style="font-size: 15px"></iconify-icon>
+                </div>
+                Abonnement &amp; paiement
+              </a>
+            </div>
+          </div>
+
+          <div class="settings-tabs-group" id="settings-preferences-tabs">
+            <div class="settings-tabs-label">Préférences</div>
+            <div class="settings-tabs">
+              <a
+                href="langue-region.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:globe" style="font-size: 15px"></iconify-icon>
+                </div>
+                Langue &amp; région
+              </a>
+              <a
+                href="apparence-settings.html"
+                class="settings-nav-item active"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:palette"
+                    style="font-size: 15px; color: var(--primary-foreground)"
+                  ></iconify-icon>
+                </div>
+                Apparence
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings content area -->
+        <div class="settings-content" id="settings-content">
+          <div class="settings-page-title">Apparence</div>
+          <div class="settings-page-sub">
+            Personnalisez l'interface selon vos préférences visuelles.
+          </div>
+
+          <!-- Theme card -->
+          <div class="settings-card" id="theme-card">
+            <div class="settings-card-title">Thème de l'interface</div>
+            <div class="settings-card-desc">
+              Choisissez le mode d'affichage qui vous convient le mieux.
+            </div>
+
+            <div class="theme-grid">
+              <!-- Light -->
+              <div class="theme-option selected" data-media-type="banani-button">
+                <div class="theme-selected-badge">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 12px; color: #fff"
+                  ></iconify-icon>
+                </div>
+                <div class="theme-preview light-prev">
+                  <div class="tp-topbar">
+                    <div class="tp-sidebar-bar"></div>
+                    <div
+                      style="width: 14px; height: 6px; background: #376bff; border-radius: 3px"
+                    ></div>
+                  </div>
+                  <div class="tp-body">
+                    <div class="tp-sidebar">
+                      <div
+                        class="tp-nav-dot active-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                    </div>
+                    <div class="tp-content">
+                      <div class="tp-cards-row">
+                        <div class="tp-card"></div>
+                        <div class="tp-card"></div>
+                        <div class="tp-card"></div>
+                      </div>
+                      <div class="tp-card" style="height: 28px"></div>
+                      <div class="tp-card" style="height: 14px"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="theme-label-row">
+                  <div class="theme-name">Clair</div>
+                  <div class="theme-desc">Interface lumineuse par défaut</div>
+                </div>
+              </div>
+
+              <!-- Dark -->
+              <div class="theme-option" data-media-type="banani-button">
+                <div class="theme-preview dark-prev">
+                  <div class="tp-topbar">
+                    <div class="tp-sidebar-bar"></div>
+                    <div
+                      style="width: 14px; height: 6px; background: #376bff; border-radius: 3px"
+                    ></div>
+                  </div>
+                  <div class="tp-body">
+                    <div class="tp-sidebar">
+                      <div
+                        class="tp-nav-dot active-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                    </div>
+                    <div class="tp-content">
+                      <div class="tp-cards-row">
+                        <div class="tp-card"></div>
+                        <div class="tp-card"></div>
+                        <div class="tp-card"></div>
+                      </div>
+                      <div class="tp-card" style="height: 28px"></div>
+                      <div class="tp-card" style="height: 14px"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="theme-label-row">
+                  <div class="theme-name">Sombre</div>
+                  <div class="theme-desc">Interface en mode nuit</div>
+                </div>
+              </div>
+
+              <!-- System -->
+              <div class="theme-option" data-media-type="banani-button">
+                <div class="theme-preview system-prev">
+                  <div class="tp-topbar">
+                    <div class="tp-sidebar-bar"></div>
+                    <div
+                      style="width: 14px; height: 6px; background: #376bff; border-radius: 3px"
+                    ></div>
+                  </div>
+                  <div class="tp-body">
+                    <div class="tp-sidebar">
+                      <div
+                        class="tp-nav-dot active-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                      <div
+                        class="tp-nav-dot"
+                        style="width: 100%; border-radius: 3px; height: 5px"
+                      ></div>
+                    </div>
+                    <div class="tp-content">
+                      <div class="tp-cards-row">
+                        <div class="tp-card"></div>
+                        <div class="tp-card"></div>
+                        <div class="tp-card"></div>
+                      </div>
+                      <div class="tp-card" style="height: 28px"></div>
+                      <div class="tp-card" style="height: 14px"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="theme-label-row">
+                  <div class="theme-name">Système</div>
+                  <div class="theme-desc">Suit les préférences de l'OS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accent color card -->
+          <div class="settings-card" id="accent-card">
+            <div class="settings-card-title">Couleur d'accentuation</div>
+            <div class="settings-card-desc">
+              Couleur utilisée pour les boutons, liens et éléments interactifs.
+            </div>
+
+            <div class="accent-grid">
+              <div
+                class="accent-swatch selected"
+                style="background: #376bff"
+                data-media-type="banani-button"
+              >
+                <iconify-icon
+                  icon="lucide:check"
+                  style="font-size: 16px; color: #fff"
+                ></iconify-icon>
+              </div>
+              <div
+                class="accent-swatch"
+                style="background: #6366f1"
+                data-media-type="banani-button"
+              ></div>
+              <div
+                class="accent-swatch"
+                style="background: #8b5cf6"
+                data-media-type="banani-button"
+              ></div>
+              <div
+                class="accent-swatch"
+                style="background: #ec4899"
+                data-media-type="banani-button"
+              ></div>
+              <div
+                class="accent-swatch"
+                style="background: #ef4444"
+                data-media-type="banani-button"
+              ></div>
+              <div
+                class="accent-swatch"
+                style="background: #f59e0b"
+                data-media-type="banani-button"
+              ></div>
+              <div
+                class="accent-swatch"
+                style="background: #10b981"
+                data-media-type="banani-button"
+              ></div>
+              <div
+                class="accent-swatch"
+                style="background: #14b8a6"
+                data-media-type="banani-button"
+              ></div>
+              <div
+                class="accent-swatch"
+                style="background: #111827"
+                data-media-type="banani-button"
+              ></div>
+            </div>
+
+            <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px">
+              <div style="font-size: 12.5px; font-weight: 500; color: var(--secondary-foreground)">
+                Couleur personnalisée
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  background: var(--input);
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-lg);
+                  padding: 7px 12px;
+                  flex: 1;
+                  max-width: 220px;
+                "
+              >
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 4px;
+                    background: #376bff;
+                    flex-shrink: 0;
+                  "
+                ></div>
+                <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+                  >#376BFF</span
+                >
+              </div>
+              <div class="btn-outline" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:pipette"
+                  style="font-size: 13px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+                Choisir
+              </div>
+            </div>
+          </div>
+
+          <!-- Typography card -->
+          <div class="settings-card" id="typography-card">
+            <div class="settings-card-title">Typographie</div>
+            <div class="settings-card-desc">
+              Ajustez la taille du texte pour une meilleure lisibilité.
+            </div>
+
+            <div class="font-scale-row">
+              <div class="font-scale-label">Taille du texte</div>
+              <div class="font-scale-options">
+                <div class="font-scale-btn" data-media-type="banani-button" style="font-size: 11px">
+                  Petit
+                </div>
+                <div class="font-scale-btn selected" data-media-type="banani-button">Normal</div>
+                <div class="font-scale-btn" data-media-type="banani-button" style="font-size: 15px">
+                  Grand
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: var(--input);
+                border-radius: var(--radius-lg);
+                padding: 16px 20px;
+                margin-top: 4px;
+              "
+            >
+              <div
+                style="
+                  font-family: 'Sora', sans-serif;
+                  font-size: 15px;
+                  font-weight: 600;
+                  color: var(--foreground);
+                  margin-bottom: 4px;
+                "
+              >
+                Aperçu — Titre de section
+              </div>
+              <div style="font-size: 13.5px; color: var(--secondary-foreground); line-height: 1.6">
+                Voici un exemple de texte courant tel qu'il apparaîtra dans votre tableau de bord.
+                La taille choisie s'applique à l'ensemble de l'interface.
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-top: 12px">
+                <div
+                  style="
+                    background: var(--primary);
+                    color: #fff;
+                    border-radius: var(--radius-lg);
+                    padding: 6px 16px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    display: inline-flex;
+                  "
+                >
+                  Bouton principal
+                </div>
+                <div
+                  style="
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    color: var(--secondary-foreground);
+                    border-radius: var(--radius-lg);
+                    padding: 6px 16px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    display: inline-flex;
+                  "
+                >
+                  Secondaire
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Layout density card -->
+          <div class="settings-card" id="density-card">
+            <div class="settings-card-title">Densité de l'interface</div>
+            <div class="settings-card-desc">
+              Définissez l'espacement et la compacité des éléments.
+            </div>
+
+            <div class="density-row">
+              <div class="density-option" data-media-type="banani-button">
+                <div class="density-preview" style="gap: 2px">
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                </div>
+                <div class="density-label-row">
+                  <div class="density-name">Compact</div>
+                  <div class="density-desc">Plus d'éléments visibles</div>
+                </div>
+              </div>
+              <div class="density-option selected" data-media-type="banani-button">
+                <div class="density-preview" style="gap: 6px">
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                </div>
+                <div class="density-label-row">
+                  <div class="density-name">Normal</div>
+                  <div class="density-desc">Équilibre confort / espace</div>
+                </div>
+              </div>
+              <div class="density-option" data-media-type="banani-button">
+                <div class="density-preview" style="gap: 12px">
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                  <div class="density-row-item"></div>
+                </div>
+                <div class="density-label-row">
+                  <div class="density-name">Aéré</div>
+                  <div class="density-desc">Idéal pour les grands écrans</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar style card -->
+          <div class="settings-card" id="sidebar-style-card">
+            <div class="settings-card-title">Style de la barre latérale</div>
+            <div class="settings-card-desc">
+              Choisissez comment la navigation latérale est affichée.
+            </div>
+
+            <div class="sidebar-style-grid">
+              <!-- Expanded -->
+              <div class="sidebar-style-option selected" data-media-type="banani-button">
+                <div class="sidebar-style-preview">
+                  <div class="ss-sidebar-full">
+                    <div class="ss-bar active"></div>
+                    <div class="ss-bar"></div>
+                    <div class="ss-bar"></div>
+                    <div class="ss-bar"></div>
+                    <div class="ss-bar"></div>
+                  </div>
+                  <div class="ss-main">
+                    <div class="ss-card"></div>
+                    <div class="ss-card"></div>
+                    <div class="ss-card"></div>
+                  </div>
+                </div>
+                <div class="sidebar-style-label-row">
+                  <div style="display: flex; align-items: center; justify-content: space-between">
+                    <div>
+                      <div class="sidebar-style-name">Développée</div>
+                      <div class="sidebar-style-desc">Texte et icônes visibles</div>
+                    </div>
+                    <div
+                      style="
+                        width: 18px;
+                        height: 18px;
+                        background: var(--primary);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:check"
+                        style="font-size: 10px; color: #fff"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Compact -->
+              <div class="sidebar-style-option" data-media-type="banani-button">
+                <div class="sidebar-style-preview">
+                  <div class="ss-sidebar-compact">
+                    <div class="ss-dot active"></div>
+                    <div class="ss-dot"></div>
+                    <div class="ss-dot"></div>
+                    <div class="ss-dot"></div>
+                  </div>
+                  <div class="ss-main">
+                    <div class="ss-card"></div>
+                    <div class="ss-card"></div>
+                    <div class="ss-card"></div>
+                  </div>
+                </div>
+                <div class="sidebar-style-label-row">
+                  <div class="sidebar-style-name">Compacte</div>
+                  <div class="sidebar-style-desc">Icônes uniquement</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Animations card -->
+          <div class="settings-card" id="animations-card">
+            <div class="settings-card-title">Animations &amp; transitions</div>
+            <div class="settings-card-desc">Contrôlez les effets visuels de l'interface.</div>
+
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <div class="toggle-label">Animations de l'interface</div>
+                <div class="toggle-desc">
+                  Transitions fluides lors de la navigation entre les pages
+                </div>
+              </div>
+              <div class="toggle-switch" data-media-type="banani-button">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <div class="toggle-label">Effets de survol</div>
+                <div class="toggle-desc">Mise en surbrillance des éléments interactifs</div>
+              </div>
+              <div class="toggle-switch" data-media-type="banani-button">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <div class="toggle-label">Réduire les animations</div>
+                <div class="toggle-desc">
+                  Pour les utilisateurs sensibles aux mouvements à l'écran
+                </div>
+              </div>
+              <div class="toggle-switch off" data-media-type="banani-button">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+
+            <div class="settings-card-footer">
+              <div class="btn-outline" data-media-type="banani-button">Réinitialiser</div>
+              <div class="btn-primary" data-media-type="banani-button">
+                Enregistrer les préférences
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

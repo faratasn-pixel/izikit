@@ -1,0 +1,821 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Documents Légaux Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+    }
+  </style>
+
+  <style id="stats-styles">
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .stat-chip {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .stat-chip-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-chip-val {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .stat-chip-label {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      line-height: 1.3;
+    }
+  </style>
+
+  <style id="card-styles">
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+    }
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 3px;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 14px;
+    }
+  </style>
+
+  <style id="info-banner-styles">
+    .info-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #eef3ff;
+      border-radius: var(--radius-lg);
+      padding: 12px 14px;
+    }
+    .info-banner-text {
+      font-size: 12px;
+      color: #1d4ed8;
+      line-height: 1.5;
+    }
+    .info-banner-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+      font-size: 12.5px;
+    }
+  </style>
+
+  <style id="doc-item-styles">
+    .doc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-item:last-child {
+      border-bottom: none;
+    }
+    .doc-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-icon-wrap.green {
+      background: var(--success);
+    }
+    .doc-icon-wrap.amber {
+      background: var(--warning);
+    }
+    .doc-icon-wrap.red {
+      background: var(--destructive);
+    }
+    .doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .doc-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .doc-meta {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .doc-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .status-badge-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .status-badge-amber {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--warning);
+      color: var(--warning-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .status-badge-red {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .doc-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .doc-action-btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+  </style>
+
+  <style id="upload-styles">
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-xl);
+      background: var(--input);
+      padding: 28px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .upload-zone-icon {
+      width: 44px;
+      height: 44px;
+      background: #eef3ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2px;
+    }
+    .upload-zone-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .upload-zone-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .upload-zone-link {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .field-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+  </style>
+
+  <style id="btn-styles">
+    .btn-footer {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-outline {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      background: var(--card);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      flex: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Documents légaux</span>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- INFO BANNER -->
+      <div class="info-banner" id="info-banner">
+        <div
+          style="
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+          "
+        >
+          <iconify-icon icon="lucide:info" style="font-size: 16px; color: #376bff"></iconify-icon>
+        </div>
+        <div class="info-banner-text">
+          <div class="info-banner-title">Pourquoi ces documents sont-ils nécessaires ?</div>
+          La vérification renforce la confiance des acheteurs et vous permet d'afficher le badge
+          <strong>Agent Vérifié</strong>.
+        </div>
+      </div>
+
+      <!-- STATS GRID -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-chip">
+          <div class="stat-chip-icon" style="background: var(--success)">
+            <iconify-icon
+              icon="lucide:check-circle"
+              style="font-size: 18px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <div>
+            <div class="stat-chip-val">3</div>
+            <div class="stat-chip-label">Documents validés</div>
+          </div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-chip-icon" style="background: var(--warning)">
+            <iconify-icon
+              icon="lucide:clock"
+              style="font-size: 18px; color: #92400e"
+            ></iconify-icon>
+          </div>
+          <div>
+            <div class="stat-chip-val">2</div>
+            <div class="stat-chip-label">En attente</div>
+          </div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-chip-icon" style="background: var(--destructive)">
+            <iconify-icon
+              icon="lucide:alert-circle"
+              style="font-size: 18px; color: #991b1b"
+            ></iconify-icon>
+          </div>
+          <div>
+            <div class="stat-chip-val">1</div>
+            <div class="stat-chip-label">Manquant</div>
+          </div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-chip-icon" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:file-stack"
+              style="font-size: 18px; color: #376bff"
+            ></iconify-icon>
+          </div>
+          <div>
+            <div class="stat-chip-val">6</div>
+            <div class="stat-chip-label">Total documents</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCUMENTS LIST CARD -->
+      <div class="card" id="docs-list-card">
+        <div class="card-title">Mes documents</div>
+        <div class="card-desc">Déposez et suivez le statut de chaque document requis.</div>
+
+        <!-- Doc 1 -->
+        <div class="doc-item">
+          <div class="doc-icon-wrap green">
+            <iconify-icon
+              icon="lucide:id-card"
+              style="font-size: 18px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Pièce d'identité nationale (CNIB / Passeport)</div>
+            <div class="doc-meta">10 juin 2025 · PDF · 1.2 Mo</div>
+            <div class="doc-footer">
+              <span class="status-badge-green">
+                <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+                Vérifié
+              </span>
+              <div class="doc-action-btn" data-media-type="banani-button">
+                <iconify-icon icon="lucide:download" style="font-size: 11px"></iconify-icon>
+                Télécharger
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doc 2 -->
+        <div class="doc-item">
+          <div class="doc-icon-wrap green">
+            <iconify-icon
+              icon="lucide:file-badge"
+              style="font-size: 18px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Carte professionnelle d'agent immobilier</div>
+            <div class="doc-meta">5 mai 2025 · PDF · 840 Ko · Exp. déc. 2026</div>
+            <div class="doc-footer">
+              <span class="status-badge-green">
+                <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+                Vérifié
+              </span>
+              <div class="doc-action-btn" data-media-type="banani-button">
+                <iconify-icon icon="lucide:download" style="font-size: 11px"></iconify-icon>
+                Télécharger
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doc 3 -->
+        <div class="doc-item">
+          <div class="doc-icon-wrap green">
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 18px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Registre de commerce de l'agence (RCCM)</div>
+            <div class="doc-meta">2 mai 2025 · PDF · 2.1 Mo</div>
+            <div class="doc-footer">
+              <span class="status-badge-green">
+                <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+                Vérifié
+              </span>
+              <div class="doc-action-btn" data-media-type="banani-button">
+                <iconify-icon icon="lucide:download" style="font-size: 11px"></iconify-icon>
+                Télécharger
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doc 4 -->
+        <div class="doc-item">
+          <div class="doc-icon-wrap amber">
+            <iconify-icon
+              icon="lucide:file-clock"
+              style="font-size: 18px; color: #92400e"
+            ></iconify-icon>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Attestation fiscale (IFU / NIF)</div>
+            <div class="doc-meta">18 juin 2025 · PDF · 560 Ko · En cours d'examen</div>
+            <div class="doc-footer">
+              <span class="status-badge-amber">
+                <iconify-icon icon="lucide:clock" style="font-size: 9px"></iconify-icon>
+                En attente
+              </span>
+              <div class="doc-action-btn" data-media-type="banani-button">
+                <iconify-icon icon="lucide:refresh-cw" style="font-size: 11px"></iconify-icon>
+                Remplacer
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doc 5 -->
+        <div class="doc-item">
+          <div class="doc-icon-wrap amber">
+            <iconify-icon
+              icon="lucide:file-check-2"
+              style="font-size: 18px; color: #92400e"
+            ></iconify-icon>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Mandat de gestion signé (modèle plateforme)</div>
+            <div class="doc-meta">20 juin 2025 · PDF · 720 Ko · En cours d'examen</div>
+            <div class="doc-footer">
+              <span class="status-badge-amber">
+                <iconify-icon icon="lucide:clock" style="font-size: 9px"></iconify-icon>
+                En attente
+              </span>
+              <div class="doc-action-btn" data-media-type="banani-button">
+                <iconify-icon icon="lucide:refresh-cw" style="font-size: 11px"></iconify-icon>
+                Remplacer
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doc 6 — Missing -->
+        <div class="doc-item">
+          <div class="doc-icon-wrap red">
+            <iconify-icon
+              icon="lucide:file-x-2"
+              style="font-size: 18px; color: #991b1b"
+            ></iconify-icon>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Assurance responsabilité civile professionnelle</div>
+            <div class="doc-meta">Document requis — Non encore déposé</div>
+            <div class="doc-footer">
+              <span class="status-badge-red">
+                <iconify-icon icon="lucide:alert-circle" style="font-size: 9px"></iconify-icon>
+                Manquant
+              </span>
+              <div class="doc-action-btn primary" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:upload"
+                  style="font-size: 11px; color: #fff"
+                ></iconify-icon>
+                Déposer
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPLOAD NEW DOCUMENT CARD -->
+      <div class="card" id="upload-card">
+        <div class="card-title">Ajouter un nouveau document</div>
+        <div class="card-desc">Formats acceptés : PDF, JPG, PNG. Max. 10 Mo par fichier.</div>
+
+        <div class="upload-zone" data-media-type="banani-button">
+          <div class="upload-zone-icon">
+            <iconify-icon
+              icon="lucide:cloud-upload"
+              style="font-size: 22px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="upload-zone-title">Glissez-déposez votre fichier ici</div>
+          <div class="upload-zone-sub">
+            ou <span class="upload-zone-link">parcourez vos fichiers</span>
+          </div>
+          <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px">
+            PDF, JPG, PNG — max. 10 Mo
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">Type de document</div>
+          <div class="field-input" data-media-type="banani-button">
+            <span>Sélectionner le type de document…</span>
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">Date d'expiration (optionnel)</div>
+          <div class="field-input" data-media-type="banani-button">
+            <span style="display: flex; align-items: center; gap: 8px">
+              <iconify-icon
+                icon="lucide:calendar"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              jj / mm / aaaa
+            </span>
+          </div>
+        </div>
+
+        <div class="btn-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:upload-cloud"
+              style="font-size: 14px; color: #fff"
+            ></iconify-icon>
+            Envoyer
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'dashboard-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'annonces-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'messages-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div
+        class="bnav-item active"
+        data-media-type="banani-button"
+        onclick="location.href = 'settings-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

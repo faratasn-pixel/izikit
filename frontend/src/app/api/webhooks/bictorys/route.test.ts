@@ -7,12 +7,14 @@ const update = vi.fn();
 const orderFindFirst = vi.fn();
 const orderUpdate = vi.fn();
 const outboxCreate = vi.fn();
+const subscriptionUpsert = vi.fn();
 
 const $transaction = vi.fn(async (fn: (tx: unknown) => Promise<unknown>, _opts?: unknown) =>
   fn({
     webhookLog: { findUnique, create, update },
     order: { findFirst: orderFindFirst, update: orderUpdate },
     outboxEvent: { create: outboxCreate },
+    subscription: { upsert: subscriptionUpsert },
   }),
 );
 
@@ -31,6 +33,7 @@ beforeEach(() => {
   orderFindFirst.mockReset();
   orderUpdate.mockReset();
   outboxCreate.mockReset();
+  subscriptionUpsert.mockReset();
 });
 
 afterEach(() => {
@@ -109,6 +112,44 @@ describe('POST /api/webhooks/bictorys', () => {
         (k) => k === 'notification.payment_received' || k === 'email.payment_confirmation',
       ),
     ).toBe(true);
+  });
+
+  it('onPaid activates a subscription when metadata.kind is subscription_plan_change', async () => {
+    findUnique.mockResolvedValueOnce(null);
+    orderFindFirst.mockResolvedValueOnce({
+      id: 'o1',
+      userId: 'u1',
+      customerEmail: 'a@b.com',
+      amount: 29_900,
+      currency: 'XOF',
+      metadata: { kind: 'subscription_plan_change', planKey: 'PRO_AGENT' },
+    });
+    subscriptionUpsert.mockResolvedValue({ id: 'sub1' });
+    const { POST } = await import('./route');
+    const { req } = bictorysFixtureRequest({ status: 'succeeded' });
+    await POST(req);
+    expect(subscriptionUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { userId: 'u1' },
+        update: expect.objectContaining({ planKey: 'PRO_AGENT', status: 'ACTIVE' }),
+      }),
+    );
+  });
+
+  it('onPaid ignores orders without subscription metadata', async () => {
+    findUnique.mockResolvedValueOnce(null);
+    orderFindFirst.mockResolvedValueOnce({
+      id: 'o2',
+      userId: 'u1',
+      customerEmail: 'a@b.com',
+      amount: 1000,
+      currency: 'XOF',
+      metadata: null,
+    });
+    const { POST } = await import('./route');
+    const { req } = bictorysFixtureRequest({ status: 'succeeded' });
+    await POST(req);
+    expect(subscriptionUpsert).not.toHaveBeenCalled();
   });
 
   it('exports runtime=nodejs and dynamic=force-dynamic (WH-01)', async () => {

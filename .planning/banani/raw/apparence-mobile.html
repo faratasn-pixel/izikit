@@ -1,0 +1,1205 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Apparence Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+  </style>
+
+  <style id="settings-nav-styles">
+    .settings-tabs-scroll {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      overflow-x: auto;
+      padding: 10px 16px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .settings-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .stab {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      background: var(--input);
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+    }
+    .stab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+    }
+  </style>
+
+  <style id="card-styles">
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 18px 16px;
+    }
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 3px;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+
+  <style id="button-styles">
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 18px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: var(--card);
+      color: var(--secondary-foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="theme-styles">
+    .theme-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      background: var(--input);
+    }
+    .theme-option.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+    }
+    .theme-mini-preview {
+      width: 52px;
+      height: 36px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .tmp-light {
+      background: #f4f6fb;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .tmp-light .tmp-bar {
+      background: #fff;
+      height: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .tmp-light .tmp-body {
+      display: flex;
+      flex: 1;
+    }
+    .tmp-light .tmp-side {
+      width: 14px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+    }
+    .tmp-light .tmp-content {
+      flex: 1;
+      padding: 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .tmp-light .tmp-card {
+      background: #fff;
+      border-radius: 2px;
+      flex: 1;
+    }
+    .tmp-dark {
+      background: #0f172a;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .tmp-dark .tmp-bar {
+      background: #1e293b;
+      height: 10px;
+      border-bottom: 1px solid #334155;
+    }
+    .tmp-dark .tmp-body {
+      display: flex;
+      flex: 1;
+    }
+    .tmp-dark .tmp-side {
+      width: 14px;
+      background: #1e293b;
+      border-right: 1px solid #334155;
+    }
+    .tmp-dark .tmp-content {
+      flex: 1;
+      padding: 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .tmp-dark .tmp-card {
+      background: #1e293b;
+      border-radius: 2px;
+      flex: 1;
+    }
+    .tmp-system {
+      background: linear-gradient(to right, #f4f6fb 50%, #0f172a 50%);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .tmp-system .tmp-bar {
+      background: linear-gradient(to right, #fff 50%, #1e293b 50%);
+      height: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .tmp-system .tmp-body {
+      display: flex;
+      flex: 1;
+    }
+    .tmp-system .tmp-side {
+      width: 14px;
+      background: linear-gradient(to bottom, #fff 50%, #1e293b 50%);
+      border-right: 1px solid #e5e7eb;
+    }
+    .tmp-system .tmp-content {
+      flex: 1;
+      padding: 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .tmp-system .tmp-card {
+      background: linear-gradient(to right, #fff 50%, #1e293b 50%);
+      border-radius: 2px;
+      flex: 1;
+    }
+
+    .theme-text-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .theme-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .theme-option.selected .theme-name {
+      color: var(--primary);
+    }
+    .theme-desc {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .theme-radio {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .theme-option.selected .theme-radio {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .theme-radio-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+    }
+  </style>
+
+  <style id="accent-styles">
+    .accent-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .accent-swatch {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid transparent;
+    }
+    .accent-swatch.selected {
+      border-color: var(--foreground);
+    }
+    .custom-color-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .custom-color-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+    .custom-color-input {
+      flex: 1;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 8px 10px;
+      font-size: 12.5px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .color-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: #376bff;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="typography-styles">
+    .font-scale-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .font-scale-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+    }
+    .font-scale-options {
+      display: flex;
+      gap: 6px;
+    }
+    .font-scale-btn {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      background: var(--card);
+      white-space: nowrap;
+    }
+    .font-scale-btn.selected {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    .preview-box {
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+    }
+    .preview-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 6px;
+    }
+    .preview-body {
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .preview-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+  </style>
+
+  <style id="density-styles">
+    .density-row {
+      display: flex;
+      gap: 10px;
+    }
+    .density-option {
+      flex: 1;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .density-option.selected {
+      border-color: var(--primary);
+    }
+    .density-preview {
+      padding: 8px 10px;
+      background: var(--input);
+      display: flex;
+      flex-direction: column;
+    }
+    .density-bar {
+      height: 5px;
+      background: #e5e7eb;
+      border-radius: 3px;
+    }
+    .density-label-row {
+      padding: 8px 10px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+    .density-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .density-desc {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      margin-top: 1px;
+    }
+  </style>
+
+  <style id="toggle-styles">
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+    .toggle-info {
+      flex: 1;
+      padding-right: 12px;
+    }
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .toggle-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+    }
+    .toggle-switch {
+      width: 38px;
+      height: 22px;
+      border-radius: 99px;
+      background: var(--primary);
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .toggle-switch.off {
+      background: var(--border);
+    }
+    .toggle-knob {
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    .toggle-switch.off .toggle-knob {
+      right: auto;
+      left: 3px;
+    }
+  </style>
+
+  <style id="sidebar-style-styles">
+    .sidebar-style-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .sso {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .sso.selected {
+      border-color: var(--primary);
+    }
+    .sso-preview {
+      height: 56px;
+      display: flex;
+      overflow: hidden;
+      background: var(--input);
+    }
+    .sso-side-full {
+      width: 40px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      padding: 5px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .sso-bar {
+      height: 4px;
+      background: #e5e7eb;
+      border-radius: 2px;
+    }
+    .sso-bar.active {
+      background: #376bff;
+    }
+    .sso-side-compact {
+      width: 20px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 5px 0;
+      gap: 4px;
+    }
+    .sso-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e5e7eb;
+    }
+    .sso-dot.active {
+      background: #376bff;
+    }
+    .sso-main {
+      flex: 1;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .sso-card {
+      background: #fff;
+      border-radius: 2px;
+      height: 10px;
+    }
+    .sso-label-row {
+      padding: 7px 10px 8px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+    .sso-label-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sso-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .sso-desc {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      margin-top: 1px;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Apparence</span>
+    </div>
+
+    <!-- SETTINGS TABS (scrollable horizontal) -->
+    <div class="settings-tabs-scroll" id="settings-tabs-scroll">
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:user" style="font-size: 13px"></iconify-icon>
+        Profil
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:shield" style="font-size: 13px"></iconify-icon>
+        Sécurité
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:bell" style="font-size: 13px"></iconify-icon>
+        Notifications
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:building" style="font-size: 13px"></iconify-icon>
+        Mon agence
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:file-text" style="font-size: 13px"></iconify-icon>
+        Documents
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:credit-card" style="font-size: 13px"></iconify-icon>
+        Abonnement
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:globe" style="font-size: 13px"></iconify-icon>
+        Langue
+      </div>
+      <div class="stab active" data-media-type="banani-button">
+        <iconify-icon icon="lucide:palette" style="font-size: 13px"></iconify-icon>
+        Apparence
+      </div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- THEME CARD -->
+      <div class="card" id="theme-card">
+        <div class="card-title">Thème de l'interface</div>
+        <div class="card-desc">Choisissez le mode d'affichage qui vous convient le mieux.</div>
+
+        <div class="theme-list">
+          <!-- Light -->
+          <div class="theme-option selected" data-media-type="banani-button">
+            <div class="theme-mini-preview">
+              <div class="tmp-light">
+                <div class="tmp-bar"></div>
+                <div class="tmp-body">
+                  <div class="tmp-side"></div>
+                  <div class="tmp-content">
+                    <div class="tmp-card"></div>
+                    <div class="tmp-card"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="theme-text-info">
+              <div class="theme-name">Clair</div>
+              <div class="theme-desc">Interface lumineuse par défaut</div>
+            </div>
+            <div class="theme-radio"><div class="theme-radio-dot"></div></div>
+          </div>
+
+          <!-- Dark -->
+          <div class="theme-option" data-media-type="banani-button">
+            <div class="theme-mini-preview">
+              <div class="tmp-dark">
+                <div class="tmp-bar"></div>
+                <div class="tmp-body">
+                  <div class="tmp-side"></div>
+                  <div class="tmp-content">
+                    <div class="tmp-card"></div>
+                    <div class="tmp-card"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="theme-text-info">
+              <div class="theme-name">Sombre</div>
+              <div class="theme-desc">Interface en mode nuit</div>
+            </div>
+            <div class="theme-radio"></div>
+          </div>
+
+          <!-- System -->
+          <div class="theme-option" data-media-type="banani-button">
+            <div class="theme-mini-preview">
+              <div class="tmp-system">
+                <div class="tmp-bar"></div>
+                <div class="tmp-body">
+                  <div class="tmp-side"></div>
+                  <div class="tmp-content">
+                    <div class="tmp-card"></div>
+                    <div class="tmp-card"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="theme-text-info">
+              <div class="theme-name">Système</div>
+              <div class="theme-desc">Suit les préférences de l'OS</div>
+            </div>
+            <div class="theme-radio"></div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- ACCENT COLOR CARD -->
+      <div class="card" id="accent-card">
+        <div class="card-title">Couleur d'accentuation</div>
+        <div class="card-desc">
+          Couleur utilisée pour les boutons, liens et éléments interactifs.
+        </div>
+
+        <div class="accent-grid">
+          <div
+            class="accent-swatch selected"
+            style="background: #376bff"
+            data-media-type="banani-button"
+          >
+            <iconify-icon icon="lucide:check" style="font-size: 15px; color: #fff"></iconify-icon>
+          </div>
+          <div
+            class="accent-swatch"
+            style="background: #6366f1"
+            data-media-type="banani-button"
+          ></div>
+          <div
+            class="accent-swatch"
+            style="background: #8b5cf6"
+            data-media-type="banani-button"
+          ></div>
+          <div
+            class="accent-swatch"
+            style="background: #ec4899"
+            data-media-type="banani-button"
+          ></div>
+          <div
+            class="accent-swatch"
+            style="background: #ef4444"
+            data-media-type="banani-button"
+          ></div>
+          <div
+            class="accent-swatch"
+            style="background: #f59e0b"
+            data-media-type="banani-button"
+          ></div>
+          <div
+            class="accent-swatch"
+            style="background: #10b981"
+            data-media-type="banani-button"
+          ></div>
+          <div
+            class="accent-swatch"
+            style="background: #14b8a6"
+            data-media-type="banani-button"
+          ></div>
+          <div
+            class="accent-swatch"
+            style="background: #111827"
+            data-media-type="banani-button"
+          ></div>
+        </div>
+
+        <div class="custom-color-row">
+          <span class="custom-color-label">Couleur perso.</span>
+          <div class="custom-color-input" data-media-type="banani-button">
+            <div class="color-dot"></div>
+            <span>#376BFF</span>
+          </div>
+          <div
+            class="btn-outline"
+            style="padding: 8px 12px; font-size: 12px"
+            data-media-type="banani-button"
+          >
+            <iconify-icon
+              icon="lucide:pipette"
+              style="font-size: 13px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            Choisir
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- TYPOGRAPHY CARD -->
+      <div class="card" id="typography-card">
+        <div class="card-title">Typographie</div>
+        <div class="card-desc">Ajustez la taille du texte pour une meilleure lisibilité.</div>
+
+        <div class="font-scale-row">
+          <span class="font-scale-label">Taille du texte</span>
+          <div class="font-scale-options">
+            <div class="font-scale-btn" data-media-type="banani-button" style="font-size: 11px">
+              Petit
+            </div>
+            <div class="font-scale-btn selected" data-media-type="banani-button">Normal</div>
+            <div class="font-scale-btn" data-media-type="banani-button" style="font-size: 15px">
+              Grand
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-title">Aperçu — Titre de section</div>
+          <div class="preview-body">
+            Voici un exemple de texte courant tel qu'il apparaîtra dans le tableau de bord.
+          </div>
+          <div class="preview-btns">
+            <div
+              style="
+                background: var(--primary);
+                color: #fff;
+                border-radius: var(--radius-lg);
+                padding: 6px 14px;
+                font-size: 12.5px;
+                font-weight: 600;
+                display: inline-flex;
+              "
+            >
+              Bouton principal
+            </div>
+            <div
+              style="
+                background: var(--card);
+                border: 1px solid var(--border);
+                color: var(--secondary-foreground);
+                border-radius: var(--radius-lg);
+                padding: 6px 14px;
+                font-size: 12.5px;
+                font-weight: 600;
+                display: inline-flex;
+              "
+            >
+              Secondaire
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- DENSITY CARD -->
+      <div class="card" id="density-card">
+        <div class="card-title">Densité de l'interface</div>
+        <div class="card-desc">Définissez l'espacement et la compacité des éléments.</div>
+
+        <div class="density-row">
+          <div class="density-option" data-media-type="banani-button">
+            <div class="density-preview" style="gap: 2px">
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+            </div>
+            <div class="density-label-row">
+              <div class="density-name">Compact</div>
+              <div class="density-desc">Plus d'éléments</div>
+            </div>
+          </div>
+          <div class="density-option selected" data-media-type="banani-button">
+            <div class="density-preview" style="gap: 5px">
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+            </div>
+            <div class="density-label-row">
+              <div class="density-name">Normal</div>
+              <div class="density-desc">Équilibré</div>
+            </div>
+          </div>
+          <div class="density-option" data-media-type="banani-button">
+            <div class="density-preview" style="gap: 10px">
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+              <div class="density-bar"></div>
+            </div>
+            <div class="density-label-row">
+              <div class="density-name">Aéré</div>
+              <div class="density-desc">Plus d'espace</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR STYLE CARD -->
+      <div class="card" id="sidebar-style-card">
+        <div class="card-title">Style de la barre latérale</div>
+        <div class="card-desc">Choisissez comment la navigation latérale est affichée.</div>
+
+        <div class="sidebar-style-grid">
+          <!-- Expanded -->
+          <div class="sso selected" data-media-type="banani-button">
+            <div class="sso-preview">
+              <div class="sso-side-full">
+                <div class="sso-bar active"></div>
+                <div class="sso-bar"></div>
+                <div class="sso-bar"></div>
+                <div class="sso-bar"></div>
+                <div class="sso-bar"></div>
+              </div>
+              <div class="sso-main">
+                <div class="sso-card"></div>
+                <div class="sso-card"></div>
+                <div class="sso-card"></div>
+              </div>
+            </div>
+            <div class="sso-label-row">
+              <div class="sso-label-header">
+                <div>
+                  <div class="sso-name">Développée</div>
+                  <div class="sso-desc">Texte et icônes</div>
+                </div>
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    background: var(--primary);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 9px; color: #fff"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Compact -->
+          <div class="sso" data-media-type="banani-button">
+            <div class="sso-preview">
+              <div class="sso-side-compact">
+                <div class="sso-dot active"></div>
+                <div class="sso-dot"></div>
+                <div class="sso-dot"></div>
+                <div class="sso-dot"></div>
+              </div>
+              <div class="sso-main">
+                <div class="sso-card"></div>
+                <div class="sso-card"></div>
+                <div class="sso-card"></div>
+              </div>
+            </div>
+            <div class="sso-label-row">
+              <div class="sso-name">Compacte</div>
+              <div class="sso-desc">Icônes uniquement</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- ANIMATIONS CARD -->
+      <div class="card" id="animations-card">
+        <div class="card-title">Animations &amp; transitions</div>
+        <div class="card-desc">Contrôlez les effets visuels de l'interface.</div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Animations de l'interface</div>
+            <div class="toggle-desc">Transitions fluides lors de la navigation entre pages</div>
+          </div>
+          <div class="toggle-switch" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Effets de survol</div>
+            <div class="toggle-desc">Mise en surbrillance des éléments interactifs</div>
+          </div>
+          <div class="toggle-switch" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Réduire les animations</div>
+            <div class="toggle-desc">Pour les utilisateurs sensibles aux mouvements</div>
+          </div>
+          <div class="toggle-switch off" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Réinitialiser</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer les préférences</div>
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div class="bnav-item active" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,860 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Langue &amp; Région Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+  </style>
+
+  <style id="settings-nav-styles">
+    .settings-tabs-scroll {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      overflow-x: auto;
+      padding: 10px 16px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .settings-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .stab {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      background: var(--input);
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+    }
+    .stab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+    }
+  </style>
+
+  <style id="card-styles">
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 18px 16px;
+    }
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 3px;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+
+  <style id="lang-styles">
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      background: var(--input);
+    }
+    .lang-option.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+    }
+    .lang-flag {
+      font-size: 20px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .lang-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .lang-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .lang-native {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .lang-radio {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lang-option.selected .lang-radio {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .lang-radio-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+    }
+  </style>
+
+  <style id="tz-styles">
+    .tz-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tz-row:last-child {
+      border-bottom: none;
+    }
+    .tz-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .tz-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .tz-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .tz-desc {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+    }
+    .select-fake {
+      margin-top: 8px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      width: 100%;
+    }
+    .select-fake-active {
+      margin-top: 8px;
+      background: var(--input);
+      border: 1.5px solid var(--primary);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      width: 100%;
+    }
+    .tz-row-inner {
+      flex: 1;
+      min-width: 0;
+    }
+  </style>
+
+  <style id="currency-styles">
+    .currency-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .currency-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px;
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      background: var(--input);
+    }
+    .currency-option.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+    }
+    .currency-symbol {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--foreground);
+    }
+    .currency-option.selected .currency-symbol {
+      color: var(--primary);
+    }
+    .currency-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      text-align: center;
+    }
+    .currency-option.selected .currency-name {
+      color: var(--primary);
+    }
+    .currency-radio {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .currency-option.selected .currency-radio {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .currency-radio-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+    }
+  </style>
+
+  <style id="format-styles">
+    .format-section-label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      margin-bottom: 10px;
+    }
+    .format-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .format-options:last-child {
+      margin-bottom: 0;
+    }
+    .format-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      background: var(--input);
+      font-size: 13px;
+      color: var(--secondary-foreground);
+    }
+    .format-option.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .format-radio {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .format-option.selected .format-radio {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .format-radio-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #fff;
+    }
+  </style>
+
+  <style id="button-styles">
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 18px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: var(--card);
+      color: var(--secondary-foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-primary-full {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 11px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Langue &amp; Région</span>
+    </div>
+
+    <!-- SETTINGS TABS (scrollable horizontal) -->
+    <div class="settings-tabs-scroll" id="settings-tabs-scroll">
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:user" style="font-size: 13px"></iconify-icon>
+        Profil
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:shield" style="font-size: 13px"></iconify-icon>
+        Sécurité
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:bell" style="font-size: 13px"></iconify-icon>
+        Notifications
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:building" style="font-size: 13px"></iconify-icon>
+        Mon agence
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:file-text" style="font-size: 13px"></iconify-icon>
+        Documents
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:credit-card" style="font-size: 13px"></iconify-icon>
+        Abonnement
+      </div>
+      <div class="stab active" data-media-type="banani-button">
+        <iconify-icon icon="lucide:globe" style="font-size: 13px"></iconify-icon>
+        Langue
+      </div>
+      <div class="stab" data-media-type="banani-button">
+        <iconify-icon icon="lucide:palette" style="font-size: 13px"></iconify-icon>
+        Apparence
+      </div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- LANGUAGE CARD -->
+      <div class="card" id="language-card">
+        <div class="card-title">Langue d'affichage</div>
+        <div class="card-desc">
+          Choisissez la langue dans laquelle vous souhaitez utiliser la plateforme.
+        </div>
+
+        <div class="lang-grid">
+          <div class="lang-option selected" data-media-type="banani-button">
+            <div class="lang-flag">🇫🇷</div>
+            <div class="lang-info">
+              <div class="lang-name">Français</div>
+              <div class="lang-native">Français</div>
+            </div>
+            <div class="lang-radio"><div class="lang-radio-dot"></div></div>
+          </div>
+          <div class="lang-option" data-media-type="banani-button">
+            <div class="lang-flag">🇬🇧</div>
+            <div class="lang-info">
+              <div class="lang-name">Anglais</div>
+              <div class="lang-native">English</div>
+            </div>
+            <div class="lang-radio"></div>
+          </div>
+          <div class="lang-option" data-media-type="banani-button">
+            <div class="lang-flag">🇵🇹</div>
+            <div class="lang-info">
+              <div class="lang-name">Portugais</div>
+              <div class="lang-native">Português</div>
+            </div>
+            <div class="lang-radio"></div>
+          </div>
+          <div class="lang-option" data-media-type="banani-button">
+            <div class="lang-flag">🇸🇳</div>
+            <div class="lang-info">
+              <div class="lang-name">Wolof</div>
+              <div class="lang-native">Wolof</div>
+            </div>
+            <div class="lang-radio"></div>
+          </div>
+          <div class="lang-option" data-media-type="banani-button">
+            <div class="lang-flag">🇧🇯</div>
+            <div class="lang-info">
+              <div class="lang-name">Fon</div>
+              <div class="lang-native">Fɔngbè</div>
+            </div>
+            <div class="lang-radio"></div>
+          </div>
+          <div class="lang-option" data-media-type="banani-button">
+            <div class="lang-flag">🇨🇮</div>
+            <div class="lang-info">
+              <div class="lang-name">Dioula</div>
+              <div class="lang-native">Julakan</div>
+            </div>
+            <div class="lang-radio"></div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- TIMEZONE & REGION CARD -->
+      <div class="card" id="timezone-card">
+        <div class="card-title">Fuseau horaire &amp; Région</div>
+        <div class="card-desc">
+          Paramètres géographiques utilisés pour les visites et les horodatages.
+        </div>
+
+        <div class="tz-row">
+          <div class="tz-icon-wrap">
+            <iconify-icon
+              icon="lucide:clock"
+              style="font-size: 17px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="tz-row-inner">
+            <div class="tz-label">Fuseau horaire</div>
+            <div class="tz-desc">Utilisé pour les rappels et les créneaux de visites</div>
+            <div class="select-fake-active" data-media-type="banani-button">
+              <span>Afrique/Cotonou (GMT+1)</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="tz-row">
+          <div class="tz-icon-wrap">
+            <iconify-icon
+              icon="lucide:map-pin"
+              style="font-size: 17px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="tz-row-inner">
+            <div class="tz-label">Pays principal</div>
+            <div class="tz-desc">Détermine les options de localisation par défaut</div>
+            <div class="select-fake" data-media-type="banani-button">
+              <span>🇧🇯 Bénin</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="tz-row">
+          <div class="tz-icon-wrap">
+            <iconify-icon
+              icon="lucide:flag"
+              style="font-size: 17px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="tz-row-inner">
+            <div class="tz-label">Ville par défaut</div>
+            <div class="tz-desc">Ville affichée en priorité dans les recherches</div>
+            <div class="select-fake" data-media-type="banani-button">
+              <span>Cotonou</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- CURRENCY CARD -->
+      <div class="card" id="currency-card">
+        <div class="card-title">Devise d'affichage</div>
+        <div class="card-desc">
+          Choisissez la devise utilisée pour l'affichage des prix des biens immobiliers.
+        </div>
+
+        <div class="currency-grid">
+          <div class="currency-option selected" data-media-type="banani-button">
+            <div class="currency-symbol">FCFA</div>
+            <div class="currency-name">Franc CFA UEMOA</div>
+            <div class="currency-radio"><div class="currency-radio-dot"></div></div>
+          </div>
+          <div class="currency-option" data-media-type="banani-button">
+            <div class="currency-symbol">FCFA</div>
+            <div class="currency-name">Franc CFA CEMAC</div>
+            <div class="currency-radio"></div>
+          </div>
+          <div class="currency-option" data-media-type="banani-button">
+            <div class="currency-symbol">GHS</div>
+            <div class="currency-name">Cedi ghanéen</div>
+            <div class="currency-radio"></div>
+          </div>
+          <div class="currency-option" data-media-type="banani-button">
+            <div class="currency-symbol">NGN</div>
+            <div class="currency-name">Naira nigérian</div>
+            <div class="currency-radio"></div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- DATE & NUMBER FORMAT CARD -->
+      <div class="card" id="format-card">
+        <div class="card-title">Formats de date &amp; de nombre</div>
+        <div class="card-desc">
+          Définissez comment les dates et les chiffres sont affichés sur la plateforme.
+        </div>
+
+        <div class="format-section-label">Format de date</div>
+        <div class="format-options">
+          <div class="format-option selected" data-media-type="banani-button">
+            <div class="format-radio"><div class="format-radio-dot"></div></div>
+            JJ/MM/AAAA
+          </div>
+          <div class="format-option" data-media-type="banani-button">
+            <div class="format-radio"></div>
+            MM/JJ/AAAA
+          </div>
+          <div class="format-option" data-media-type="banani-button">
+            <div class="format-radio"></div>
+            AAAA-MM-JJ
+          </div>
+        </div>
+
+        <div class="format-section-label">Format des nombres</div>
+        <div class="format-options">
+          <div class="format-option selected" data-media-type="banani-button">
+            <div class="format-radio"><div class="format-radio-dot"></div></div>
+            1 000 000
+          </div>
+          <div class="format-option" data-media-type="banani-button">
+            <div class="format-radio"></div>
+            1,000,000
+          </div>
+          <div class="format-option" data-media-type="banani-button">
+            <div class="format-radio"></div>
+            1.000.000
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'dashboard-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'annonces-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'messages-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div
+        class="bnav-item active"
+        data-media-type="banani-button"
+        onclick="location.href = 'settings-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

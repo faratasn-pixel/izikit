@@ -1,0 +1,1114 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Notifications Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-action {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .unread-badge {
+      background: #ef4444;
+      color: #fff;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      min-width: 18px;
+      text-align: center;
+    }
+  </style>
+
+  <style id="summary-styles">
+    .summary-bar {
+      background: var(--primary);
+      padding: 16px 16px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .summary-stat {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .summary-stat-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .summary-stat-num {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #fff;
+      line-height: 1;
+    }
+    .summary-stat-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 2px;
+    }
+    .summary-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.25);
+      margin: 0 16px;
+    }
+  </style>
+
+  <style id="filter-styles">
+    .filter-scroll-wrap {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      overflow-x: auto;
+      white-space: nowrap;
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .filter-scroll-wrap::-webkit-scrollbar {
+      display: none;
+    }
+    .ftab {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+    .ftab.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    .ftab-count {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+    .ftab:not(.active) .ftab-count {
+      background: var(--border);
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="page-scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--background);
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+
+  <style id="section-styles">
+    .notif-section {
+      padding: 0 0 4px 0;
+    }
+    .notif-section-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 16px 16px 8px 16px;
+    }
+    .notif-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 12px;
+    }
+  </style>
+
+  <style id="notif-card-styles">
+    .notif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 14px;
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      border-left: 3px solid transparent;
+    }
+    .notif-item.unread {
+      border-left-color: var(--primary);
+      background: #fafbff;
+    }
+    .notif-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-icon-wrap.blue {
+      background: var(--sidebar-primary);
+    }
+    .notif-icon-wrap.green {
+      background: var(--success);
+    }
+    .notif-icon-wrap.amber {
+      background: var(--warning);
+    }
+    .notif-icon-wrap.red {
+      background: var(--destructive);
+    }
+    .notif-icon-wrap.purple {
+      background: #f3e8ff;
+    }
+    .notif-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .notif-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .notif-item:not(.unread) .notif-title {
+      font-weight: 500;
+    }
+    .notif-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .notif-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .notif-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .notif-tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+    .notif-tag.blue {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
+    .notif-tag.green {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .notif-tag.amber {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .notif-tag.red {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+    .notif-tag.purple {
+      background: #f3e8ff;
+      color: #6b21a8;
+    }
+    .notif-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .notif-unread-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    .notif-close {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--muted);
+      cursor: pointer;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+  </style>
+
+  <style id="pref-styles">
+    .pref-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      margin: 0 12px;
+      overflow: hidden;
+    }
+    .pref-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      padding: 14px 16px 10px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pref-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .pref-row:last-child {
+      border-bottom: none;
+    }
+    .pref-row-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .pref-row-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+    .pref-row-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+    .toggle-switch {
+      width: 36px;
+      height: 20px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .toggle-switch.on {
+      background: var(--primary);
+      justify-content: flex-end;
+    }
+    .toggle-switch.off {
+      background: var(--muted);
+      justify-content: flex-start;
+    }
+    .toggle-thumb {
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+    }
+  </style>
+
+  <style id="action-styles">
+    .action-row {
+      display: flex;
+      gap: 10px;
+      padding: 0 12px;
+    }
+    .action-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 12px;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .action-btn.outline {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+    }
+    .action-btn.danger-outline {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Notifications</span>
+      <span class="unread-badge">7</span>
+      <div class="topbar-action" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:check-check"
+          style="font-size: 13px; color: var(--primary)"
+        ></iconify-icon>
+        Tout lire
+      </div>
+    </div>
+
+    <!-- SUMMARY BAR -->
+    <div class="summary-bar" id="summary-bar">
+      <div class="summary-stat">
+        <div class="summary-stat-icon">
+          <iconify-icon icon="lucide:bell" style="font-size: 17px; color: #fff"></iconify-icon>
+        </div>
+        <div>
+          <div class="summary-stat-num">7</div>
+          <div class="summary-stat-label">Non lues</div>
+        </div>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-stat">
+        <div class="summary-stat-icon">
+          <iconify-icon
+            icon="lucide:check-circle"
+            style="font-size: 17px; color: #fff"
+          ></iconify-icon>
+        </div>
+        <div>
+          <div class="summary-stat-num">5</div>
+          <div class="summary-stat-label">Lues</div>
+        </div>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-stat">
+        <div class="summary-stat-icon">
+          <iconify-icon icon="lucide:list" style="font-size: 17px; color: #fff"></iconify-icon>
+        </div>
+        <div>
+          <div class="summary-stat-num">12</div>
+          <div class="summary-stat-label">Ce mois</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER TABS -->
+    <div class="filter-scroll-wrap" id="filter-tabs">
+      <div class="ftab active" data-media-type="banani-button">
+        Toutes
+        <span class="ftab-count">12</span>
+      </div>
+      <div class="ftab" data-media-type="banani-button">
+        Non lues
+        <span class="ftab-count">7</span>
+      </div>
+      <div class="ftab" data-media-type="banani-button">Annonces</div>
+      <div class="ftab" data-media-type="banani-button">Contacts</div>
+      <div class="ftab" data-media-type="banani-button">Visites</div>
+      <div class="ftab" data-media-type="banani-button">Système</div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- TODAY -->
+      <div class="notif-section">
+        <div class="notif-section-label">Aujourd'hui</div>
+        <div class="notif-list">
+          <!-- Unread: contact received -->
+          <div class="notif-item unread" data-media-type="banani-button">
+            <div class="notif-icon-wrap blue">
+              <iconify-icon
+                icon="lucide:user-plus"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Nouveau contact reçu</div>
+              <div class="notif-desc">
+                Amadou Diallo a exprimé un intérêt pour votre annonce
+                <strong>Villa moderne – Haie Vive, Cotonou</strong>.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Il y a 18 min
+                </div>
+                <span class="notif-tag blue">Contact</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-unread-dot"></div>
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unread: visit confirmed -->
+          <div class="notif-item unread" data-media-type="banani-button">
+            <div class="notif-icon-wrap green">
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--success-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Visite confirmée</div>
+              <div class="notif-desc">
+                La visite de <strong>Fatou Traoré</strong> est confirmée le
+                <strong>mardi 22 juillet à 10h00</strong>.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Il y a 1h
+                </div>
+                <span class="notif-tag green">Visite</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-unread-dot"></div>
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unread: announcement verified -->
+          <div class="notif-item unread" data-media-type="banani-button">
+            <div class="notif-icon-wrap green">
+              <iconify-icon
+                icon="lucide:shield-check"
+                style="font-size: 17px; color: var(--success-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Annonce vérifiée ✓</div>
+              <div class="notif-desc">
+                Votre annonce <strong>Duplex 4 pièces – Adidogomé, Lomé</strong> est désormais
+                visible par les acheteurs.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Il y a 2h
+                </div>
+                <span class="notif-tag green">Annonce</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-unread-dot"></div>
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unread: document pending -->
+          <div class="notif-item unread" data-media-type="banani-button">
+            <div class="notif-icon-wrap amber">
+              <iconify-icon
+                icon="lucide:file-warning"
+                style="font-size: 17px; color: var(--warning-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Document en attente</div>
+              <div class="notif-desc">
+                Le titre foncier de l'annonce <strong>Villa – Almadies, Dakar</strong> est en cours
+                d'examen. Délai : 24h.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Il y a 3h
+                </div>
+                <span class="notif-tag amber">Document</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-unread-dot"></div>
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Read: message -->
+          <div class="notif-item" data-media-type="banani-button">
+            <div class="notif-icon-wrap blue">
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Nouveau message</div>
+              <div class="notif-desc">
+                Kokou Agbodjan vous a envoyé un message sur le terrain à
+                <strong>Baguida, Lomé</strong>.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Il y a 5h
+                </div>
+                <span class="notif-tag blue">Message</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YESTERDAY -->
+      <div class="notif-section">
+        <div class="notif-section-label">Hier</div>
+        <div class="notif-list">
+          <!-- Unread: tokens low -->
+          <div class="notif-item unread" data-media-type="banani-button">
+            <div class="notif-icon-wrap amber">
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--warning-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Solde de jetons faible</div>
+              <div class="notif-desc">
+                Il vous reste seulement <strong>3 jetons VR</strong>. Rechargez pour continuer à
+                activer les visites virtuelles.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Hier, 18h42
+                </div>
+                <span class="notif-tag amber">Jetons</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-unread-dot"></div>
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Read: expired -->
+          <div class="notif-item" data-media-type="banani-button">
+            <div class="notif-icon-wrap red">
+              <iconify-icon
+                icon="lucide:alert-circle"
+                style="font-size: 17px; color: var(--destructive-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Annonce expirée</div>
+              <div class="notif-desc">
+                Votre annonce <strong>Studio meublé – Cocody, Abidjan</strong> a expiré.
+                Renouvelez-la pour continuer à recevoir des contacts.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Hier, 14h10
+                </div>
+                <span class="notif-tag red">Annonce</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Read: reminder -->
+          <div class="notif-item" data-media-type="banani-button">
+            <div class="notif-icon-wrap purple">
+              <iconify-icon
+                icon="lucide:bell-ring"
+                style="font-size: 17px; color: #7c3aed"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Rappel de visite</div>
+              <div class="notif-desc">
+                Visite avec <strong>Marième Ndiaye</strong> demain à 9h00 — villa à
+                <strong>Fann Résidence, Dakar</strong>.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Hier, 09h00
+                </div>
+                <span class="notif-tag purple">Rappel</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Read: subscription -->
+          <div class="notif-item" data-media-type="banani-button">
+            <div class="notif-icon-wrap blue">
+              <iconify-icon
+                icon="lucide:credit-card"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Renouvellement d'abonnement</div>
+              <div class="notif-desc">
+                Votre abonnement <strong>Agent Pro</strong> a été renouvelé. Prochain renouvellement
+                le <strong>20 août 2025</strong>.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Hier, 07h30
+                </div>
+                <span class="notif-tag blue">Abonnement</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- THIS WEEK -->
+      <div class="notif-section">
+        <div class="notif-section-label">Cette semaine</div>
+        <div class="notif-list">
+          <div class="notif-item" data-media-type="banani-button">
+            <div class="notif-icon-wrap green">
+              <iconify-icon
+                icon="lucide:badge-check"
+                style="font-size: 17px; color: var(--success-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Profil vérifié</div>
+              <div class="notif-desc">
+                Votre profil agent a été vérifié. Vous bénéficiez du badge
+                <strong>Agent vérifié</strong> sur toutes vos annonces.
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Lun. 14 juil.
+                </div>
+                <span class="notif-tag green">Compte</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <div class="notif-item" data-media-type="banani-button">
+            <div class="notif-icon-wrap blue">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <div class="notif-body">
+              <div class="notif-title">Pic de vues</div>
+              <div class="notif-desc">
+                Votre annonce <strong>Villa – Haie Vive, Cotonou</strong> a atteint
+                <strong>340 vues</strong> cette semaine (+68%).
+              </div>
+              <div class="notif-meta">
+                <div class="notif-time">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  Dim. 13 juil.
+                </div>
+                <span class="notif-tag blue">Statistiques</span>
+              </div>
+            </div>
+            <div class="notif-right">
+              <div class="notif-close" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:x"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREFERENCES -->
+      <div style="padding: 16px 16px 8px 16px">
+        <div
+          style="
+            font-family: 'Sora', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--foreground);
+            margin-bottom: 10px;
+          "
+        >
+          Préférences de notification
+        </div>
+      </div>
+      <div class="pref-card" id="pref-card">
+        <div class="pref-row">
+          <div class="pref-row-left">
+            <div class="pref-row-label">Contacts reçus</div>
+            <div class="pref-row-desc">Nouveaux intérêts sur vos annonces</div>
+          </div>
+          <div class="toggle-switch on"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-row-left">
+            <div class="pref-row-label">Visites programmées</div>
+            <div class="pref-row-desc">Confirmations et rappels</div>
+          </div>
+          <div class="toggle-switch on"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-row-left">
+            <div class="pref-row-label">Documents &amp; vérification</div>
+            <div class="pref-row-desc">Statut des pièces jointes</div>
+          </div>
+          <div class="toggle-switch on"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-row-left">
+            <div class="pref-row-label">Jetons &amp; abonnement</div>
+            <div class="pref-row-desc">Alertes de solde et renouvellement</div>
+          </div>
+          <div class="toggle-switch on"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-row-left">
+            <div class="pref-row-label">Statistiques</div>
+            <div class="pref-row-desc">Pics de vues et performance</div>
+          </div>
+          <div class="toggle-switch off"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-row-left">
+            <div class="pref-row-label">Notifications par email</div>
+            <div class="pref-row-desc">kofi@habitatafrik.com</div>
+          </div>
+          <div class="toggle-switch on"><div class="toggle-thumb"></div></div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-row-left">
+            <div class="pref-row-label">Notifications SMS</div>
+            <div class="pref-row-desc">Pour les visites uniquement</div>
+          </div>
+          <div class="toggle-switch off"><div class="toggle-thumb"></div></div>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div style="padding: 16px 0 4px 0">
+        <div class="action-row" id="action-row">
+          <div class="action-btn danger-outline" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:trash-2"
+              style="font-size: 14px; color: var(--destructive-foreground)"
+            ></iconify-icon>
+            Tout supprimer
+          </div>
+          <div class="action-btn outline" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:archive"
+              style="font-size: 14px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            Archiver les lues
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 16px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'dashboard-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'annonces-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'messages-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div
+        class="bnav-item active"
+        data-media-type="banani-button"
+        onclick="location.href = 'notifications-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:bell"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+          <span class="bnav-badge">7</span>
+        </div>
+        <span class="bnav-label">Notifs</span>
+      </div>
+    </div>
+  </div>
+</body>

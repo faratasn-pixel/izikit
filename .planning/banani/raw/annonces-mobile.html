@@ -1,0 +1,1123 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Mes Annonces Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 60px;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .topbar-logo-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .notif-btn {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-avatar-sm {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  </style>
+
+  <style id="page-header-styles">
+    .page-header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 16px 12px 16px;
+    }
+    .page-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .page-header-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+    }
+    .page-header-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 9px 14px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+  </style>
+
+  <style id="stats-styles">
+    .stats-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 14px 16px;
+      background: var(--background);
+    }
+    .stat-chip {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 12px 16px;
+      flex-shrink: 0;
+      min-width: 120px;
+    }
+    .stat-chip-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      margin-bottom: 6px;
+      white-space: nowrap;
+    }
+    .stat-chip-value {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .stat-chip-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .stat-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="filter-styles">
+    .filter-section {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .search-bar {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+    }
+    .search-bar-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+    }
+    .filter-tab {
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      background: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .filter-tab.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .filter-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      background: var(--card);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="listing-card-styles">
+    .listings-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .listing-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .listing-card-inner {
+      display: flex;
+      gap: 0;
+    }
+    .listing-thumb {
+      width: 88px;
+      min-height: 88px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border-radius: 0;
+    }
+    .listing-body {
+      flex: 1;
+      padding: 12px 12px 10px 12px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .listing-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .listing-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+    .listing-ref {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .listing-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .listing-location {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      white-space: nowrap;
+    }
+    .listing-price {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+    .badge-green {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-amber {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-red {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+    .listing-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-top: 1px solid var(--border);
+    }
+    .listing-contacts {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .listing-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      background: var(--input);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+    .action-btn-danger {
+      border-color: #fecaca;
+    }
+  </style>
+
+  <style id="pagination-styles">
+    .pagination-bar {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+    }
+    .pagination-info {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .page-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--secondary-foreground);
+    }
+    .page-btn.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    .page-btn.arrow {
+      background: var(--input);
+      border: 1px solid var(--border);
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 10px 0 12px 0;
+      flex-shrink: 0;
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 0 10px;
+      position: relative;
+    }
+    .bottom-nav-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bottom-nav-item.active .bottom-nav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: 4px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 1px 5px;
+      min-width: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-logo-mark">
+        <iconify-icon icon="lucide:home" style="font-size: 16px; color: #fff"></iconify-icon>
+      </div>
+      <span class="topbar-title">HABITAT-AFRIK</span>
+      <div class="topbar-right">
+        <div class="notif-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:bell"
+            style="font-size: 17px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+          <span class="notif-badge"></span>
+        </div>
+        <img
+          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+          alt="Kofi Mensah"
+          class="user-avatar-sm"
+          data-media-type="banani-button"
+        />
+      </div>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header" id="page-header">
+      <div class="page-header-row">
+        <div>
+          <div class="page-header-title">Mes annonces</div>
+          <div class="page-header-sub">24 biens publiés sur la plateforme</div>
+        </div>
+        <div class="btn-primary" data-media-type="banani-button">
+          <iconify-icon icon="lucide:plus" style="font-size: 14px; color: #fff"></iconify-icon>
+          Publier
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS CHIPS -->
+    <div class="stats-scroll" id="stats-scroll">
+      <div class="stat-chip">
+        <div class="stat-chip-label">Total</div>
+        <div class="stat-chip-value">24</div>
+        <div class="stat-chip-sub">
+          <span class="stat-dot" style="background: #376bff"></span>
+          Toutes
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-chip-label">Vérifiées</div>
+        <div class="stat-chip-value">16</div>
+        <div class="stat-chip-sub">
+          <span class="stat-dot" style="background: #10b981"></span>
+          66% du total
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-chip-label">En attente</div>
+        <div class="stat-chip-value">5</div>
+        <div class="stat-chip-sub">
+          <span class="stat-dot" style="background: #f59e0b"></span>
+          Vérification
+        </div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-chip-label">Vendus</div>
+        <div class="stat-chip-value">3</div>
+        <div class="stat-chip-sub">
+          <span class="stat-dot" style="background: #ef4444"></span>
+          Ce trimestre
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER SECTION -->
+    <div class="filter-section" id="filter-section">
+      <div class="search-bar" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 14px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="search-bar-text">Rechercher une annonce…</span>
+      </div>
+      <div class="filter-row">
+        <div class="filter-tab active" data-media-type="banani-button">Toutes</div>
+        <div class="filter-tab" data-media-type="banani-button">Vérifiées</div>
+        <div class="filter-tab" data-media-type="banani-button">En attente</div>
+        <div class="filter-tab" data-media-type="banani-button">Vendues</div>
+        <div class="filter-chip" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:map-pin"
+            style="font-size: 12px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          Toutes villes
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 11px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <div class="filter-chip" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:sliders-horizontal"
+            style="font-size: 12px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          Filtrer
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTINGS -->
+    <div class="listings-scroll" id="listings-scroll">
+      <!-- Card 1 -->
+      <div class="listing-card" data-media-type="banani-button">
+        <div class="listing-card-inner">
+          <img
+            data-aspect-ratio="2:3"
+            data-query="modern apartment building exterior in Cotonou Benin, blue accent tones, architecture photography"
+            class="listing-thumb"
+            alt="Villa Haie Vive"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/d6637423-a5ad-4e27-9d2c-2fa40fe4aeea.jpg"
+          />
+          <div class="listing-body">
+            <div class="listing-header">
+              <div>
+                <div class="listing-title">Villa moderne — Haie Vive</div>
+                <div class="listing-ref">#ANN-2025-001</div>
+              </div>
+              <span class="badge badge-green">
+                <iconify-icon icon="lucide:check-circle" style="font-size: 10px"></iconify-icon>
+                Vérifié
+              </span>
+            </div>
+            <div class="listing-meta">
+              <div class="listing-location">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 11px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Cotonou, Bénin
+              </div>
+              <span class="type-pill">Vente</span>
+            </div>
+            <div class="listing-price">120 000 000 FCFA</div>
+          </div>
+        </div>
+        <div class="listing-footer">
+          <div class="listing-contacts">
+            <iconify-icon icon="lucide:users" style="font-size: 12px"></iconify-icon>
+            14 contacts · 12 juin 2025
+          </div>
+          <div class="listing-actions">
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:pencil"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn action-btn-danger" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:trash-2"
+                style="font-size: 13px; color: #dc2626"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="listing-card" data-media-type="banani-button">
+        <div class="listing-card-inner">
+          <img
+            data-aspect-ratio="2:3"
+            data-query="residential house in Lomé Togo neighborhood, modern west african architecture, warm tones"
+            class="listing-thumb"
+            alt="Appartement Lomé"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/7cde9b24-2bf7-4461-b51f-58821257facb.jpg"
+          />
+          <div class="listing-body">
+            <div class="listing-header">
+              <div>
+                <div class="listing-title">Appartement F4 — Tokoin</div>
+                <div class="listing-ref">#ANN-2025-002</div>
+              </div>
+              <span class="badge badge-amber">
+                <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                En attente
+              </span>
+            </div>
+            <div class="listing-meta">
+              <div class="listing-location">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 11px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Lomé, Togo
+              </div>
+              <span class="type-pill">Location</span>
+            </div>
+            <div class="listing-price">350 000 FCFA / mois</div>
+          </div>
+        </div>
+        <div class="listing-footer">
+          <div class="listing-contacts">
+            <iconify-icon icon="lucide:users" style="font-size: 12px"></iconify-icon>
+            9 contacts · 8 juin 2025
+          </div>
+          <div class="listing-actions">
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:pencil"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn action-btn-danger" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:trash-2"
+                style="font-size: 13px; color: #dc2626"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="listing-card" data-media-type="banani-button">
+        <div class="listing-card-inner">
+          <img
+            data-aspect-ratio="2:3"
+            data-query="commercial building office space in Abidjan Ivory Coast modern urban blue tones"
+            class="listing-thumb"
+            alt="Bureau Abidjan"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/e9c756c4-1172-426f-939d-e97483b8ca2e.jpg"
+          />
+          <div class="listing-body">
+            <div class="listing-header">
+              <div>
+                <div class="listing-title">Bureau commercial — Plateau</div>
+                <div class="listing-ref">#ANN-2025-003</div>
+              </div>
+              <span class="badge badge-green">
+                <iconify-icon icon="lucide:check-circle" style="font-size: 10px"></iconify-icon>
+                Vérifié
+              </span>
+            </div>
+            <div class="listing-meta">
+              <div class="listing-location">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 11px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Abidjan, Côte d'Ivoire
+              </div>
+              <span class="type-pill">Location</span>
+            </div>
+            <div class="listing-price">800 000 FCFA / mois</div>
+          </div>
+        </div>
+        <div class="listing-footer">
+          <div class="listing-contacts">
+            <iconify-icon icon="lucide:users" style="font-size: 12px"></iconify-icon>
+            22 contacts · 5 juin 2025
+          </div>
+          <div class="listing-actions">
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:pencil"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn action-btn-danger" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:trash-2"
+                style="font-size: 13px; color: #dc2626"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="listing-card" data-media-type="banani-button">
+        <div class="listing-card-inner">
+          <img
+            data-aspect-ratio="2:3"
+            data-query="luxury house villa in Dakar Senegal seaside elegant west african architecture"
+            class="listing-thumb"
+            alt="Villa Dakar"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/77d69ecc-754a-4a08-9df6-74310984a4a0.jpg"
+          />
+          <div class="listing-body">
+            <div class="listing-header">
+              <div>
+                <div class="listing-title">Villa bord de mer — Almadies</div>
+                <div class="listing-ref">#ANN-2025-004</div>
+              </div>
+              <span class="badge badge-red">
+                <iconify-icon icon="lucide:x-circle" style="font-size: 10px"></iconify-icon>
+                Vendu
+              </span>
+            </div>
+            <div class="listing-meta">
+              <div class="listing-location">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 11px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Dakar, Sénégal
+              </div>
+              <span class="type-pill">Vente</span>
+            </div>
+            <div class="listing-price">250 000 000 FCFA</div>
+          </div>
+        </div>
+        <div class="listing-footer">
+          <div class="listing-contacts">
+            <iconify-icon icon="lucide:users" style="font-size: 12px"></iconify-icon>
+            31 contacts · 2 mai 2025
+          </div>
+          <div class="listing-actions">
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:pencil"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn action-btn-danger" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:trash-2"
+                style="font-size: 13px; color: #dc2626"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="listing-card" data-media-type="banani-button">
+        <div class="listing-card-inner">
+          <img
+            data-aspect-ratio="2:3"
+            data-query="apartment complex urban district in Cotonou Benin modern residential building"
+            class="listing-thumb"
+            alt="Duplex Cotonou"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/571a3fb1-b621-4b10-b1f7-5eb1cdfae13c.jpg"
+          />
+          <div class="listing-body">
+            <div class="listing-header">
+              <div>
+                <div class="listing-title">Duplex standing — Cadjehoun</div>
+                <div class="listing-ref">#ANN-2025-005</div>
+              </div>
+              <span class="badge badge-amber">
+                <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                En attente
+              </span>
+            </div>
+            <div class="listing-meta">
+              <div class="listing-location">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 11px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Cotonou, Bénin
+              </div>
+              <span class="type-pill">Vente</span>
+            </div>
+            <div class="listing-price">85 000 000 FCFA</div>
+          </div>
+        </div>
+        <div class="listing-footer">
+          <div class="listing-contacts">
+            <iconify-icon icon="lucide:users" style="font-size: 12px"></iconify-icon>
+            7 contacts · 14 juin 2025
+          </div>
+          <div class="listing-actions">
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:pencil"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn action-btn-danger" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:trash-2"
+                style="font-size: 13px; color: #dc2626"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="listing-card" data-media-type="banani-button">
+        <div class="listing-card-inner">
+          <img
+            data-aspect-ratio="2:3"
+            data-query="terrain land plot for sale in Accra Ghana urban development real estate"
+            class="listing-thumb"
+            alt="Terrain Accra"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/e2ac7929-467a-40b3-99a8-3165a646c27b.jpg"
+          />
+          <div class="listing-body">
+            <div class="listing-header">
+              <div>
+                <div class="listing-title">Terrain constructible — Tema</div>
+                <div class="listing-ref">#ANN-2025-006</div>
+              </div>
+              <span class="badge badge-green">
+                <iconify-icon icon="lucide:check-circle" style="font-size: 10px"></iconify-icon>
+                Vérifié
+              </span>
+            </div>
+            <div class="listing-meta">
+              <div class="listing-location">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 11px; color: var(--muted-foreground)"
+                ></iconify-icon>
+                Accra, Ghana
+              </div>
+              <span class="type-pill">Vente</span>
+            </div>
+            <div class="listing-price">45 000 000 FCFA</div>
+          </div>
+        </div>
+        <div class="listing-footer">
+          <div class="listing-contacts">
+            <iconify-icon icon="lucide:users" style="font-size: 12px"></iconify-icon>
+            5 contacts · 10 juin 2025
+          </div>
+          <div class="listing-actions">
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:pencil"
+                style="font-size: 13px; color: var(--secondary-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="action-btn action-btn-danger" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:trash-2"
+                style="font-size: 13px; color: #dc2626"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination bar -->
+      <div class="pagination-bar" id="pagination-bar">
+        <div class="pagination-info">1–6 sur 24</div>
+        <div class="pagination-controls">
+          <div class="page-btn arrow" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:chevron-left"
+              style="font-size: 13px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="page-btn active" data-media-type="banani-button">1</div>
+          <div class="page-btn" data-media-type="banani-button">2</div>
+          <div class="page-btn" data-media-type="banani-button">3</div>
+          <div class="page-btn" data-media-type="banani-button">4</div>
+          <div class="page-btn arrow" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:chevron-right"
+              style="font-size: 13px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Tableau</span>
+      </div>
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div style="position: relative">
+          <div
+            style="
+              width: 22px;
+              height: 22px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:message-circle"
+              style="font-size: 20px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bottom-nav-label">Messages</span>
+      </div>
+      <div class="bottom-nav-item active" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 20px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Annonces</span>
+      </div>
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:bar-chart-2"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Stats</span>
+      </div>
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

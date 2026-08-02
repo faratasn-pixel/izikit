@@ -1,0 +1,670 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABITAT-AFRIK — Vérification SMS</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #ffffff;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+      height: 100%;
+    }
+    .split-container {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="left-panel">
+    .left-panel {
+      width: 50%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 36px 40px 40px 40px;
+    }
+    .left-panel .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .left-panel .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8, 18, 35, 0.88) 0%,
+        rgba(8, 18, 35, 0.38) 55%,
+        rgba(8, 18, 35, 0.1) 100%
+      );
+      z-index: 1;
+    }
+    .left-panel .top-bar {
+      position: relative;
+      z-index: 2;
+    }
+    .left-panel .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .left-panel .logo-mark {
+      width: 38px;
+      height: 38px;
+      background: #376bff;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .left-panel .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .left-panel .bottom-content {
+      position: relative;
+      z-index: 2;
+    }
+    .left-panel .hero-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 48px;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      max-width: 440px;
+    }
+    .left-panel .hero-title .accent-word {
+      color: #376bff;
+    }
+    .left-panel .hero-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+      margin-bottom: 28px;
+      max-width: 380px;
+    }
+    .pagination-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+    }
+    .dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: #376bff;
+    }
+  </style>
+
+  <style id="right-panel">
+    .right-panel {
+      width: 50%;
+      background: var(--background);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+    }
+    .right-panel-inner {
+      padding: 36px 60px 48px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 812px;
+    }
+    .right-top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 48px;
+    }
+    .back-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--foreground);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--background);
+      cursor: pointer;
+    }
+  </style>
+
+  <style id="form-header-styles">
+    .icon-circle {
+      width: 64px;
+      height: 64px;
+      background: #eef3ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .form-header {
+      margin-bottom: 32px;
+    }
+    .form-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 32px;
+      color: var(--foreground);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .form-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: #6b7280;
+      line-height: 1.6;
+      max-width: 400px;
+    }
+    .phone-highlight {
+      font-weight: 600;
+      color: #374151;
+    }
+  </style>
+
+  <style id="step-indicator">
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 36px;
+    }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .step-circle.done {
+      background: #376bff;
+      color: #ffffff;
+    }
+    .step-circle.active {
+      background: #376bff;
+      color: #ffffff;
+    }
+    .step-circle.inactive {
+      background: #f3f4f6;
+      color: #9ca3af;
+    }
+    .step-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .step-label.done {
+      color: #376bff;
+    }
+    .step-label.active {
+      color: #376bff;
+    }
+    .step-label.inactive {
+      color: #9ca3af;
+    }
+    .step-connector {
+      flex: 1;
+      height: 1.5px;
+      background: #e5e7eb;
+      margin: 0 10px;
+    }
+    .step-connector.done {
+      background: #376bff;
+    }
+  </style>
+
+  <style id="otp-styles">
+    .otp-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 4px;
+    }
+    .otp-box {
+      width: 60px;
+      height: 64px;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 26px;
+      color: var(--foreground);
+      cursor: text;
+    }
+    .otp-box.active {
+      border-color: #376bff;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(55, 107, 255, 0.12);
+    }
+    .otp-box.filled {
+      border-color: #376bff;
+      background: #ffffff;
+      color: #376bff;
+    }
+    .otp-separator {
+      font-size: 20px;
+      color: var(--muted-foreground);
+      font-weight: 400;
+      margin: 0 2px;
+    }
+    .otp-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 30px;
+      background: #376bff;
+      border-radius: 2px;
+    }
+  </style>
+
+  <style id="form-styles">
+    .form-body {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .info-box {
+      background: #eef3ff;
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .info-box-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.5;
+    }
+    .resend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .resend-timer {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .resend-timer .timer-badge {
+      background: #f3f4f6;
+      border-radius: var(--radius-sm);
+      padding: 2px 8px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #374151;
+    }
+    .resend-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: #9ca3af;
+      cursor: not-allowed;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  </style>
+
+  <style id="cta-buttons">
+    .btn-primary {
+      width: 100%;
+      padding: 14px 24px;
+      background: #376bff;
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .signin-row {
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+    .signin-row a {
+      color: #376bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="split-container">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <img
+        class="bg-image"
+        data-query="modern west african architecture building low angle shot, lagos abidjan contemporary glass concrete facade, blue sky, professional photography, cinematic"
+        data-aspect-ratio="9:16"
+        alt="Architecture moderne ouest-africaine"
+        src="https://storage.googleapis.com/banani-generated-images/generated-images/e38fdee5-5b44-46e2-a87d-385be6b8686a.jpg"
+      />
+      <div class="overlay"></div>
+
+      <!-- Logo -->
+      <div class="top-bar">
+        <a href="#" class="logo" data-media-type="banani-button">
+          <div class="logo-mark">
+            <iconify-icon icon="lucide:home" style="font-size: 20px; color: #fff"></iconify-icon>
+          </div>
+          <span class="logo-text">HABITAT-AFRIK</span>
+        </a>
+      </div>
+
+      <!-- Bottom Content -->
+      <div class="bottom-content">
+        <h1 class="hero-title">
+          Trouvez votre <span class="accent-word">chez-vous</span> en Afrique
+        </h1>
+        <p class="hero-subtitle">
+          Des milliers de biens vérifiés. Des agents de confiance. Une plateforme simple.
+        </p>
+        <div class="pagination-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel" id="right-panel">
+      <div class="right-panel-inner">
+        <!-- Top bar: Retour -->
+        <div class="right-top-bar">
+          <a href="#" class="back-link" data-media-type="banani-button">
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:arrow-left"
+                style="font-size: 16px; color: #374151"
+              ></iconify-icon>
+            </div>
+            Retour
+          </a>
+        </div>
+
+        <!-- Icon -->
+        <div class="icon-circle">
+          <iconify-icon
+            icon="lucide:message-square-dot"
+            style="font-size: 28px; color: #376bff"
+          ></iconify-icon>
+        </div>
+
+        <!-- Form Header -->
+        <div class="form-header">
+          <h2 class="form-title">Code de <span style="color: #376bff">vérification</span></h2>
+          <p class="form-subtitle">
+            Un code à 6 chiffres a été envoyé par SMS au numéro
+            <span class="phone-highlight">+229 67 00 00 00</span>. Saisissez-le ci-dessous pour
+            continuer.
+          </p>
+        </div>
+
+        <!-- Step Indicator -->
+        <div class="step-row">
+          <div class="step-item">
+            <div class="step-circle done">
+              <div
+                style="
+                  width: 14px;
+                  height: 14px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:check"
+                  style="font-size: 14px; color: #ffffff"
+                ></iconify-icon>
+              </div>
+            </div>
+            <span class="step-label done">Téléphone</span>
+          </div>
+          <div class="step-connector done"></div>
+          <div class="step-item">
+            <div class="step-circle active">2</div>
+            <span class="step-label active">Vérification</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item">
+            <div class="step-circle inactive">3</div>
+            <span class="step-label inactive">Nouveau mot de passe</span>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="form-body">
+          <!-- OTP Input -->
+          <div>
+            <span class="form-label">Entrez le code à 6 chiffres</span>
+            <div class="otp-row">
+              <div class="otp-box filled" data-media-type="banani-button">3</div>
+              <div class="otp-box filled" data-media-type="banani-button">7</div>
+              <div class="otp-box filled" data-media-type="banani-button">4</div>
+              <div class="otp-separator">—</div>
+              <div class="otp-box active" data-media-type="banani-button">
+                <span class="otp-cursor"></span>
+              </div>
+              <div class="otp-box" data-media-type="banani-button"></div>
+              <div class="otp-box" data-media-type="banani-button"></div>
+            </div>
+          </div>
+
+          <!-- Resend row -->
+          <div class="resend-row">
+            <div class="resend-timer">
+              <div
+                style="
+                  width: 14px;
+                  height: 14px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:clock-3"
+                  style="font-size: 14px; color: #6b7280"
+                ></iconify-icon>
+              </div>
+              Code expirant dans <span class="timer-badge">01:47</span>
+            </div>
+            <div class="resend-link">
+              <div
+                style="
+                  width: 14px;
+                  height: 14px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:refresh-cw"
+                  style="font-size: 14px; color: #9ca3af"
+                ></iconify-icon>
+              </div>
+              Renvoyer le code
+            </div>
+          </div>
+
+          <!-- Info box -->
+          <div class="info-box">
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                margin-top: 1px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:info"
+                style="font-size: 16px; color: #376bff"
+              ></iconify-icon>
+            </div>
+            <p class="info-box-text">
+              Vérifiez vos SMS. Si vous ne recevez pas le code dans 2 minutes, vous pourrez en
+              demander un nouveau.
+            </p>
+          </div>
+
+          <!-- CTA -->
+          <div
+            class="btn-primary"
+            data-media-type="banani-button"
+            onclick="location.href = 'new-password.html'"
+            style="cursor: pointer"
+          >
+            Vérifier le code
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:arrow-right"
+                style="font-size: 18px; color: #ffffff"
+              ></iconify-icon>
+            </div>
+          </div>
+
+          <!-- Back to sign in -->
+          <p class="signin-row">
+            Vous avez retrouvé votre mot de passe ?
+            <a href="login-screen.html" data-media-type="banani-button">Se connecter</a>
+          </p>
+        </div>
+        <!-- /form-body -->
+      </div>
+      <!-- /right-panel-inner -->
+    </div>
+    <!-- /right-panel -->
+  </div>
+</body>

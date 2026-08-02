@@ -1,0 +1,965 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Paramètres Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 60px;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .topbar-logo-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .notif-btn {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-avatar-sm {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  </style>
+
+  <style id="page-header-styles">
+    .page-header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 16px 0 16px;
+    }
+    .page-header-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 14px;
+    }
+    .tabs-scroll {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding-bottom: 0;
+    }
+    .tab-pill {
+      padding: 7px 14px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-bottom: 12px;
+    }
+    .tab-pill.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="settings-content-styles">
+    .settings-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .settings-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 18px 16px;
+    }
+    .settings-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 3px;
+    }
+    .settings-card-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 16px;
+    }
+
+    /* Profile header in card */
+    .profile-avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .profile-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .profile-avatar-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .profile-avatar-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .profile-avatar-meta {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .btn-change-photo {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+      flex-shrink: 0;
+    }
+
+    /* Fields */
+    .settings-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .settings-field:last-of-type {
+      margin-bottom: 0;
+    }
+    .settings-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+    }
+    .settings-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .settings-input.textarea-fake {
+      min-height: 68px;
+      align-items: flex-start;
+      padding-top: 10px;
+    }
+    .settings-input-muted {
+      color: var(--muted-foreground);
+    }
+    .select-fake {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .fields-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    /* Card footer */
+    .settings-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-destructive {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 16px;
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Security items */
+    .security-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .security-item:last-child {
+      border-bottom: none;
+    }
+    .security-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .security-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .security-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .security-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+    .status-badge-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-sm-outline {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .btn-sm-danger {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      color: #dc2626;
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+      flex-shrink: 0;
+    }
+
+    /* Toggle rows */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+    .toggle-info {
+      flex: 1;
+      min-width: 0;
+      padding-right: 12px;
+    }
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .toggle-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+    .toggle-switch {
+      width: 38px;
+      height: 22px;
+      border-radius: 99px;
+      background: var(--primary);
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .toggle-switch.off {
+      background: var(--border);
+    }
+    .toggle-knob {
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    .toggle-switch.off .toggle-knob {
+      right: auto;
+      left: 3px;
+    }
+
+    /* Danger zone */
+    .danger-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 18px 16px;
+      border: 1px solid #fecaca;
+    }
+    .danger-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .danger-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .danger-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .danger-item-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .danger-item-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+
+    .section-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 0 4px;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 10px 0 12px 0;
+      flex-shrink: 0;
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 0 10px;
+      position: relative;
+    }
+    .bottom-nav-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bottom-nav-item.active .bottom-nav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: 6px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 1px 5px;
+      min-width: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-logo-mark">
+        <iconify-icon icon="lucide:home" style="font-size: 16px; color: #fff"></iconify-icon>
+      </div>
+      <span class="topbar-title">HABITAT-AFRIK</span>
+      <div class="topbar-right">
+        <div class="notif-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:bell"
+            style="font-size: 17px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+          <span class="notif-badge"></span>
+        </div>
+        <img
+          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+          alt="Kofi Mensah"
+          class="user-avatar-sm"
+          data-media-type="banani-button"
+        />
+      </div>
+    </div>
+
+    <!-- PAGE HEADER + TABS -->
+    <div class="page-header" id="page-header">
+      <div class="page-header-title">Paramètres</div>
+      <div class="tabs-scroll">
+        <!-- Compte -->
+        <div class="tab-pill active" data-media-type="banani-button">Profil</div>
+        <div class="tab-pill" data-media-type="banani-button">Sécurité</div>
+        <div class="tab-pill" data-media-type="banani-button">Notifications</div>
+        <!-- Agence -->
+        <div class="tab-pill" data-media-type="banani-button">Mon agence</div>
+        <div class="tab-pill" data-media-type="banani-button">Documents</div>
+        <div class="tab-pill" data-media-type="banani-button">Abonnement</div>
+        <!-- Préférences -->
+        <div class="tab-pill" data-media-type="banani-button">Langue</div>
+        <div class="tab-pill" data-media-type="banani-button">Apparence</div>
+      </div>
+    </div>
+
+    <!-- SETTINGS SCROLL AREA -->
+    <div class="settings-scroll" id="settings-scroll">
+      <!-- SECTION: Compte -->
+      <div class="section-group-label">Compte</div>
+
+      <!-- Informations personnelles -->
+      <div class="settings-card" id="profile-card">
+        <div class="settings-card-title">Informations personnelles</div>
+        <div class="settings-card-desc">
+          Ces informations sont affichées sur votre profil public agent.
+        </div>
+
+        <div class="profile-avatar-row">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+            alt="Kofi Mensah"
+            class="profile-avatar"
+          />
+          <div class="profile-avatar-info">
+            <div class="profile-avatar-name">Kofi Mensah</div>
+            <div class="profile-avatar-meta">Agent immobilier · Cotonou, Bénin</div>
+          </div>
+          <div class="btn-change-photo" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:upload"
+              style="font-size: 12px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            Photo
+          </div>
+        </div>
+
+        <div class="fields-row">
+          <div class="settings-field" style="margin-bottom: 0">
+            <div class="settings-label">Prénom</div>
+            <div class="settings-input">Kofi</div>
+          </div>
+          <div class="settings-field" style="margin-bottom: 0">
+            <div class="settings-label">Nom</div>
+            <div class="settings-input">Mensah</div>
+          </div>
+        </div>
+
+        <div class="settings-field" style="margin-top: 12px">
+          <div class="settings-label">Adresse e-mail</div>
+          <div class="settings-input">
+            <iconify-icon
+              icon="lucide:mail"
+              style="font-size: 13px; color: var(--muted-foreground); flex-shrink: 0"
+            ></iconify-icon>
+            <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+              >kofi.mensah@agenceafrik.com</span
+            >
+          </div>
+        </div>
+
+        <div class="settings-field">
+          <div class="settings-label">Numéro de téléphone</div>
+          <div class="settings-input">
+            <iconify-icon
+              icon="lucide:phone"
+              style="font-size: 13px; color: var(--muted-foreground); flex-shrink: 0"
+            ></iconify-icon>
+            +229 97 12 34 56
+          </div>
+        </div>
+
+        <div class="fields-row">
+          <div class="settings-field" style="margin-bottom: 0">
+            <div class="settings-label">Ville</div>
+            <div class="settings-input">Cotonou</div>
+          </div>
+          <div class="settings-field" style="margin-bottom: 0">
+            <div class="settings-label">Pays</div>
+            <div class="select-fake" data-media-type="banani-button">
+              <span>Bénin</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-field" style="margin-top: 12px">
+          <div class="settings-label">Biographie professionnelle</div>
+          <div class="settings-input textarea-fake">
+            Agent immobilier certifié avec 8 ans d'expérience dans la vente et location de biens
+            résidentiels et commerciaux en Afrique de l'Ouest.
+          </div>
+        </div>
+
+        <div class="settings-card-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- SECTION: Sécurité -->
+      <div class="section-group-label">Sécurité</div>
+
+      <div class="settings-card" id="security-card">
+        <div class="settings-card-title">Sécurité du compte</div>
+        <div class="settings-card-desc">
+          Gérez votre mot de passe et la double authentification.
+        </div>
+
+        <div class="security-item">
+          <div class="security-icon-wrap">
+            <iconify-icon
+              icon="lucide:lock"
+              style="font-size: 17px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="security-info">
+            <div class="security-label">Mot de passe</div>
+            <div class="security-desc">Dernière modification il y a 3 mois</div>
+          </div>
+          <div class="btn-sm-outline" data-media-type="banani-button">Modifier</div>
+        </div>
+
+        <div class="security-item">
+          <div class="security-icon-wrap">
+            <iconify-icon
+              icon="lucide:smartphone"
+              style="font-size: 17px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="security-info">
+            <div class="security-label">Double authentification</div>
+            <div class="security-desc">Code SMS à chaque connexion</div>
+          </div>
+          <span class="status-badge-green">
+            <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+            Activé
+          </span>
+        </div>
+
+        <div class="security-item">
+          <div class="security-icon-wrap">
+            <iconify-icon
+              icon="lucide:badge-check"
+              style="font-size: 17px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="security-info">
+            <div class="security-label">Vérification d'identité</div>
+            <div class="security-desc">Pièce soumise le 10 juin 2025</div>
+          </div>
+          <span class="status-badge-green">
+            <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+            Vérifié
+          </span>
+        </div>
+
+        <div class="security-item">
+          <div class="security-icon-wrap">
+            <iconify-icon
+              icon="lucide:monitor"
+              style="font-size: 17px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="security-info">
+            <div class="security-label">Sessions actives</div>
+            <div class="security-desc">2 appareils connectés</div>
+          </div>
+          <div class="btn-sm-danger" data-media-type="banani-button">Déconnecter</div>
+        </div>
+      </div>
+
+      <!-- SECTION: Notifications -->
+      <div class="section-group-label">Notifications</div>
+
+      <div class="settings-card" id="notifications-card">
+        <div class="settings-card-title">Préférences de notifications</div>
+        <div class="settings-card-desc">Choisissez les alertes que vous souhaitez recevoir.</div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Nouveaux messages</div>
+            <div class="toggle-desc">Alerte à chaque nouveau message d'un contact</div>
+          </div>
+          <div class="toggle-switch" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Demandes de visite</div>
+            <div class="toggle-desc">Notifié lorsqu'un prospect demande une visite</div>
+          </div>
+          <div class="toggle-switch" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Statut des annonces</div>
+            <div class="toggle-desc">Alertes lors des changements de statut</div>
+          </div>
+          <div class="toggle-switch" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Rappels de visites</div>
+            <div class="toggle-desc">Rappel 24h avant chaque visite programmée</div>
+          </div>
+          <div class="toggle-switch off" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Newsletter &amp; actualités</div>
+            <div class="toggle-desc">Conseils et nouvelles fonctionnalités</div>
+          </div>
+          <div class="toggle-switch off" data-media-type="banani-button">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="settings-card-footer">
+          <div class="btn-primary" data-media-type="banani-button">Enregistrer les préférences</div>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="section-group-label">Zone de danger</div>
+
+      <div class="danger-card" id="danger-card">
+        <div class="settings-card-title" style="color: #991b1b; margin-bottom: 3px">
+          Zone de danger
+        </div>
+        <div class="settings-card-desc" style="margin-bottom: 12px">
+          Ces actions sont irréversibles. Agissez avec précaution.
+        </div>
+
+        <div class="danger-item">
+          <div class="danger-item-info">
+            <div class="danger-item-label">Désactiver mon compte</div>
+            <div class="danger-item-desc">Compte suspendu, données conservées</div>
+          </div>
+          <div
+            class="btn-sm-outline"
+            style="color: #92400e; border-color: #fcd34d"
+            data-media-type="banani-button"
+          >
+            Désactiver
+          </div>
+        </div>
+
+        <div class="danger-item">
+          <div class="danger-item-info">
+            <div class="danger-item-label" style="color: #991b1b">Supprimer définitivement</div>
+            <div class="danger-item-desc">Toutes vos données seront supprimées</div>
+          </div>
+          <div class="btn-destructive" data-media-type="banani-button">Supprimer</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Tableau</span>
+      </div>
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div style="position: relative">
+          <div
+            style="
+              width: 22px;
+              height: 22px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:message-circle"
+              style="font-size: 20px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bottom-nav-label">Messages</span>
+      </div>
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Annonces</span>
+      </div>
+      <div class="bottom-nav-item" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:bar-chart-2"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Stats</span>
+      </div>
+      <div class="bottom-nav-item active" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 20px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bottom-nav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

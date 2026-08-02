@@ -1,0 +1,1029 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Modifier Annonce Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-subtitle {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .topbar-icon-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+    }
+    .topbar-icon-btn.danger {
+      background: var(--destructive);
+    }
+  </style>
+
+  <style id="status-bar-styles">
+    .status-bar {
+      background: var(--warning);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+    .status-bar-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--warning-foreground);
+    }
+    .status-bar-sub {
+      font-size: 11px;
+      color: var(--warning-foreground);
+      opacity: 0.75;
+      margin-left: auto;
+    }
+  </style>
+
+  <style id="page-scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+
+  <style id="section-card-styles">
+    .section-card {
+      background: var(--card);
+      padding: 16px;
+    }
+    .section-card + .section-card {
+      border-top: 6px solid var(--background);
+    }
+    .section-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 -16px 14px -16px;
+    }
+  </style>
+
+  <style id="form-styles">
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .form-label span {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+    .form-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-input.textarea {
+      min-height: 80px;
+      align-items: flex-start;
+    }
+    .form-input.price-input {
+      justify-content: space-between;
+    }
+    .form-input-value {
+      color: var(--foreground);
+      flex: 1;
+    }
+    .form-input-placeholder {
+      color: var(--muted-foreground);
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    .form-hint {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 6px;
+    }
+  </style>
+
+  <style id="map-styles">
+    .map-block {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 16/7;
+      margin-top: 12px;
+    }
+    .map-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+
+  <style id="feature-tags-styles">
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .feature-tag {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 11px;
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .feature-tag.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
+    .feature-tag.inactive {
+      background: var(--muted);
+      color: var(--secondary-foreground);
+    }
+  </style>
+
+  <style id="photo-grid-styles">
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .photo-thumb {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+    }
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-badge-main {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 600;
+      border-radius: 99px;
+      padding: 2px 6px;
+    }
+    .photo-remove {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 20px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .photo-add {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .photo-add-text {
+      font-size: 10px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      text-align: center;
+    }
+  </style>
+
+  <style id="meta-styles">
+    .meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .meta-row:last-child {
+      border-bottom: none;
+    }
+    .meta-key {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+    .meta-val {
+      font-size: 13px;
+      color: var(--foreground);
+      font-weight: 600;
+    }
+    .meta-val.primary {
+      color: var(--primary);
+      font-size: 15px;
+    }
+  </style>
+
+  <style id="activity-styles">
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .activity-text {
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+      line-height: 1.4;
+    }
+    .activity-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+  </style>
+
+  <style id="bottom-cta-styles">
+    .bottom-cta {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn-primary {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-outline-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-danger-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 14px;
+      border-radius: var(--radius-lg);
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:arrow-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <div class="topbar-title-wrap">
+        <div class="topbar-title">Modifier l'annonce</div>
+        <div class="topbar-subtitle">#AN-0041 — Villa moderne avec piscine</div>
+      </div>
+      <div class="topbar-actions">
+        <div class="topbar-icon-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:eye"
+            style="font-size: 16px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+        </div>
+        <div class="topbar-icon-btn danger" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:trash-2"
+            style="font-size: 16px; color: #991b1b"
+          ></iconify-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUS BAR -->
+    <div class="status-bar" id="status-bar">
+      <div
+        style="
+          width: 16px;
+          height: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        "
+      >
+        <iconify-icon
+          icon="lucide:clock"
+          style="font-size: 14px; color: var(--warning-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="status-bar-text">En attente de vérification</span>
+      <span class="status-bar-sub">Soumis le 12 juil. 2025</span>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- INFORMATIONS GÉNÉRALES -->
+      <div class="section-card" id="card-general">
+        <div class="section-label">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:info"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          Informations générales
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="form-group">
+          <div class="form-label">Titre de l'annonce <span>*</span></div>
+          <div class="form-input">
+            <span class="form-input-value">Villa moderne avec piscine, Cocody</span>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="form-label">Type de bien <span>*</span></div>
+            <div class="form-input" style="justify-content: space-between">
+              <span class="form-input-value">Villa</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Catégorie <span>*</span></div>
+            <div class="form-input" style="justify-content: space-between">
+              <span class="form-input-value">À vendre</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">Description <span>*</span></div>
+          <div class="form-input textarea">
+            <span class="form-input-value" style="line-height: 1.6"
+              >Belle villa moderne 5 pièces avec piscine privée, jardin tropical, 3 chambres en
+              suite, cuisine équipée, double garage, sécurité 24h/24. Quartier résidentiel calme de
+              Cocody, à 10 min du Plateau d'Abidjan.</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- LOCALISATION -->
+      <div class="section-card" id="card-location">
+        <div class="section-label">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:map-pin"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          Localisation
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="form-label">Pays <span>*</span></div>
+            <div class="form-input" style="justify-content: space-between">
+              <span class="form-input-value" style="font-size: 12.5px">Côte d'Ivoire</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Ville <span>*</span></div>
+            <div class="form-input" style="justify-content: space-between">
+              <span class="form-input-value">Abidjan</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <div class="form-label">Commune / Quartier</div>
+            <div class="form-input">
+              <span class="form-input-value">Cocody</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Adresse précise</div>
+            <div class="form-input">
+              <span class="form-input-value" style="font-size: 12.5px"
+                >Rue des Jardins, Lot 12</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="map-block">
+          <img
+            data-aspect-ratio="16:9"
+            data-query="satellite map view of Cocody Abidjan urban residential area aerial view cartographic muted tones streets buildings"
+            alt="Carte localisation"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/dc698a47-a968-4bc6-a52c-7875e73cb78c.jpg"
+          />
+        </div>
+      </div>
+
+      <!-- CARACTÉRISTIQUES -->
+      <div class="section-card" id="card-features">
+        <div class="section-label">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:list-checks"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          Caractéristiques du bien
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="form-row-3" style="margin-bottom: 12px">
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">Surface (m²)</div>
+            <div class="form-input"><span class="form-input-value">320</span></div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">Pièces</div>
+            <div class="form-input"><span class="form-input-value">5</span></div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">Chambres</div>
+            <div class="form-input"><span class="form-input-value">3</span></div>
+          </div>
+        </div>
+        <div class="form-row-3" style="margin-bottom: 14px">
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">SDB</div>
+            <div class="form-input"><span class="form-input-value">3</span></div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">Étages</div>
+            <div class="form-input"><span class="form-input-value">2</span></div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">Parking</div>
+            <div class="form-input" style="justify-content: space-between; padding-right: 6px">
+              <span class="form-input-value" style="font-size: 11.5px">2 garages</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 12px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-tags">
+          <div class="feature-tag active" data-media-type="banani-button">
+            <iconify-icon icon="lucide:check" style="font-size: 12px"></iconify-icon>
+            Piscine
+          </div>
+          <div class="feature-tag active" data-media-type="banani-button">
+            <iconify-icon icon="lucide:check" style="font-size: 12px"></iconify-icon>
+            Jardin
+          </div>
+          <div class="feature-tag active" data-media-type="banani-button">
+            <iconify-icon icon="lucide:check" style="font-size: 12px"></iconify-icon>
+            Sécurité 24h
+          </div>
+          <div class="feature-tag active" data-media-type="banani-button">
+            <iconify-icon icon="lucide:check" style="font-size: 12px"></iconify-icon>
+            Climatisation
+          </div>
+          <div class="feature-tag inactive" data-media-type="banani-button">Ascenseur</div>
+          <div class="feature-tag inactive" data-media-type="banani-button">Balcon</div>
+          <div class="feature-tag inactive" data-media-type="banani-button">Cuisine équipée</div>
+          <div class="feature-tag inactive" data-media-type="banani-button">Panneau solaire</div>
+        </div>
+      </div>
+
+      <!-- PRIX & CONDITIONS -->
+      <div class="section-card" id="card-price">
+        <div class="section-label">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:banknote"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          Prix &amp; Conditions
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="form-group">
+          <div class="form-label">Prix de vente (FCFA) <span>*</span></div>
+          <div class="form-input price-input">
+            <span class="form-input-value" style="font-weight: 600; font-size: 15px"
+              >185 000 000</span
+            >
+            <span style="font-size: 12px; color: var(--muted-foreground)">FCFA</span>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">Négociable</div>
+            <div class="form-input" style="justify-content: space-between">
+              <span class="form-input-value">Oui</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0">
+            <div class="form-label">Charges incluses</div>
+            <div class="form-input" style="justify-content: space-between">
+              <span class="form-input-value" style="font-size: 12.5px">Eau, Électricité</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHOTOS -->
+      <div class="section-card" id="card-photos">
+        <div class="section-label">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:image"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          Photos
+          <span
+            style="
+              font-size: 11px;
+              font-weight: 400;
+              color: var(--muted-foreground);
+              margin-left: 2px;
+            "
+            >4/10</span
+          >
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="photos-grid">
+          <div class="photo-thumb">
+            <img
+              data-aspect-ratio="4:3"
+              data-query="modern villa with pool Abidjan Cote d'Ivoire luxury real estate exterior lush tropical garden blue water white architecture bright daylight"
+              alt="Photo villa"
+            />
+            <span class="photo-badge-main">Principale</span>
+            <div class="photo-remove" data-media-type="banani-button">
+              <iconify-icon icon="lucide:x" style="font-size: 10px; color: #fff"></iconify-icon>
+            </div>
+          </div>
+          <div class="photo-thumb">
+            <img
+              data-aspect-ratio="4:3"
+              data-query="luxurious villa interior living room Abidjan modern furniture bright open space tropical interior design elegant decor"
+              alt="Photo salon"
+              src="https://storage.googleapis.com/banani-generated-images/generated-images/b58ab23d-1c51-40cd-ae54-350f82050cdc.jpg"
+            />
+            <div class="photo-remove" data-media-type="banani-button">
+              <iconify-icon icon="lucide:x" style="font-size: 10px; color: #fff"></iconify-icon>
+            </div>
+          </div>
+          <div class="photo-thumb">
+            <img
+              data-aspect-ratio="4:3"
+              data-query="modern villa kitchen Abidjan white cabinetry marble countertop tropical windows bright natural light luxury real estate"
+              alt="Photo cuisine"
+              src="https://storage.googleapis.com/banani-generated-images/generated-images/fa8b615d-f189-4d53-ac1c-17236c5f2556.jpg"
+            />
+            <div class="photo-remove" data-media-type="banani-button">
+              <iconify-icon icon="lucide:x" style="font-size: 10px; color: #fff"></iconify-icon>
+            </div>
+          </div>
+          <div class="photo-thumb">
+            <img
+              data-aspect-ratio="4:3"
+              data-query="bedroom suite modern villa Abidjan king bed en suite bathroom tropical view premium interior design"
+              alt="Photo chambre"
+              src="https://storage.googleapis.com/banani-generated-images/generated-images/4347a507-5253-46a6-a530-0c9f0dbfff0a.jpg"
+            />
+            <div class="photo-remove" data-media-type="banani-button">
+              <iconify-icon icon="lucide:x" style="font-size: 10px; color: #fff"></iconify-icon>
+            </div>
+          </div>
+          <div class="photo-add" data-media-type="banani-button">
+            <div
+              style="
+                width: 28px;
+                height: 28px;
+                background: var(--muted);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:plus"
+                style="font-size: 16px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+            <span class="photo-add-text">Ajouter</span>
+          </div>
+          <div class="photo-add" data-media-type="banani-button">
+            <div
+              style="
+                width: 28px;
+                height: 28px;
+                background: var(--muted);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:plus"
+                style="font-size: 16px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+            <span class="photo-add-text">Ajouter</span>
+          </div>
+        </div>
+        <div class="form-hint">
+          Format JPG ou PNG, max 5 Mo par photo. La première photo sera utilisée comme image
+          principale.
+        </div>
+      </div>
+
+      <!-- MÉTRIQUES -->
+      <div class="section-card" id="card-metrics">
+        <div class="section-label">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:bar-chart-2"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          Métriques de l'annonce
+        </div>
+        <div class="section-divider"></div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px">
+          <div style="background: var(--muted); border-radius: var(--radius-lg); padding: 12px">
+            <div style="font-size: 20px; font-weight: 700; color: var(--primary)">1 248</div>
+            <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px">
+              Vues totales
+            </div>
+          </div>
+          <div style="background: var(--muted); border-radius: var(--radius-lg); padding: 12px">
+            <div style="font-size: 20px; font-weight: 700; color: var(--foreground)">37</div>
+            <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px">
+              Contacts reçus
+            </div>
+          </div>
+          <div style="background: var(--muted); border-radius: var(--radius-lg); padding: 12px">
+            <div style="font-size: 20px; font-weight: 700; color: var(--foreground)">8</div>
+            <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px">
+              Visites programmées
+            </div>
+          </div>
+          <div style="background: var(--muted); border-radius: var(--radius-lg); padding: 12px">
+            <div
+              style="font-size: 13px; font-weight: 600; color: var(--foreground); line-height: 1.3"
+            >
+              03 juin<br />2025
+            </div>
+            <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px">
+              Mise en ligne
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ RÉCENTE -->
+      <div class="section-card" id="card-activity">
+        <div class="section-label">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:activity"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          Activité récente
+        </div>
+        <div class="section-divider"></div>
+
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot" style="background: #376bff"></div>
+            <div>
+              <div class="activity-text">Nouveau contact de <strong>Aminata Coulibaly</strong></div>
+              <div class="activity-time">Il y a 2h</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: #10b981"></div>
+            <div>
+              <div class="activity-text">Visite programmée pour le 18 juillet</div>
+              <div class="activity-time">Hier, 14:30</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: #f59e0b"></div>
+            <div>
+              <div class="activity-text">Annonce soumise à vérification</div>
+              <div class="activity-time">12 juil. 2025</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: #376bff"></div>
+            <div>
+              <div class="activity-text">Nouveau contact de <strong>Jean-Paul Ehouman</strong></div>
+              <div class="activity-time">11 juil. 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta" id="bottom-cta">
+      <div class="btn-outline-cta" data-media-type="banani-button">
+        <iconify-icon icon="lucide:eye" style="font-size: 14px"></iconify-icon>
+        Prévisualiser
+      </div>
+      <div class="btn-primary" data-media-type="banani-button">
+        <iconify-icon icon="lucide:save" style="font-size: 14px; color: #fff"></iconify-icon>
+        Enregistrer
+      </div>
+      <div class="btn-danger-cta" data-media-type="banani-button">
+        <iconify-icon icon="lucide:trash-2" style="font-size: 14px"></iconify-icon>
+      </div>
+    </div>
+  </div>
+</body>

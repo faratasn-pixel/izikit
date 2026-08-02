@@ -1,0 +1,1248 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Abonnement &amp; Paiement Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+    }
+  </style>
+
+  <style id="plan-banner-styles">
+    .plan-banner {
+      background: linear-gradient(135deg, #376bff 0%, #5b8bff 100%);
+      border-radius: var(--radius-xl);
+      padding: 20px 18px;
+    }
+    .plan-banner-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      margin-bottom: 10px;
+    }
+    .plan-banner-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .plan-banner-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .plan-banner-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .plan-price {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 26px;
+      color: #fff;
+      line-height: 1;
+    }
+    .plan-price-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 3px;
+    }
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      background: #fff;
+      color: var(--primary);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="card-styles">
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+    }
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 3px;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+  </style>
+
+  <style id="plan-card-styles">
+    .plan-cards-scroll {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .plan-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .plan-card.current {
+      border-color: var(--primary);
+    }
+    .plan-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 10px;
+      margin-bottom: 8px;
+    }
+    .plan-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .plan-card-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .plan-card-desc {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+      max-width: 180px;
+    }
+    .plan-card-price {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      text-align: right;
+      white-space: nowrap;
+    }
+    .plan-card-price.primary {
+      color: var(--primary);
+    }
+    .plan-card-period {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      text-align: right;
+    }
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+    .plan-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--secondary-foreground);
+    }
+    .check-icon {
+      width: 15px;
+      height: 15px;
+      background: #d1fae5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cross-icon {
+      width: 15px;
+      height: 15px;
+      background: var(--muted);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px;
+      background: var(--card);
+      color: var(--secondary-foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-sm-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      background: var(--card);
+      color: var(--secondary-foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="token-styles">
+    .token-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .token-row:last-child {
+      border-bottom: none;
+    }
+    .token-icon-wrap {
+      width: 38px;
+      height: 38px;
+      background: #eef3ff;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .token-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .token-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .token-desc {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+    }
+    .token-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .token-count {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--primary);
+    }
+    .token-count-label {
+      font-size: 10px;
+      color: var(--muted-foreground);
+    }
+    .token-action-row {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .token-progress-wrap {
+      margin-top: 8px;
+    }
+    .progress-bar {
+      height: 5px;
+      background: var(--muted);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 99px;
+    }
+    .progress-label {
+      font-size: 10px;
+      color: var(--muted-foreground);
+      margin-top: 3px;
+      text-align: right;
+    }
+  </style>
+
+  <style id="status-badge-styles">
+    .status-badge-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .status-badge-amber {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--warning);
+      color: var(--warning-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="payment-method-styles">
+    .payment-method-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .payment-method-card.selected {
+      border-color: var(--primary);
+      background: #eef3ff;
+    }
+    .pm-icon-wrap {
+      width: 38px;
+      height: 28px;
+      background: var(--card);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .pm-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .pm-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .pm-detail {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .pm-radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pm-radio-inner {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+    .pm-radio-empty {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+    }
+    .add-payment-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+  </style>
+
+  <style id="history-table-styles">
+    .history-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .history-item:last-child {
+      border-bottom: none;
+    }
+    .history-icon-wrap {
+      width: 36px;
+      height: 36px;
+      background: #eef3ff;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .history-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .history-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .history-meta {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 4px;
+    }
+    .history-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .history-amount {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .history-date {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 4px;
+    }
+  </style>
+
+  <style id="cancel-styles">
+    .cancel-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      border: 1px solid #fecaca;
+    }
+    .cancel-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #991b1b;
+      margin-bottom: 4px;
+    }
+    .cancel-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .btn-destructive {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px;
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Abonnement &amp; Paiement</span>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- PLAN BANNER -->
+      <div class="plan-banner" id="plan-banner">
+        <div class="plan-banner-tag">
+          <iconify-icon icon="lucide:zap" style="font-size: 10px"></iconify-icon>
+          Plan actif
+        </div>
+        <div class="plan-banner-title">Plan Pro Agent</div>
+        <div class="plan-banner-sub">
+          Renouvellement automatique le <strong style="color: #fff">15 juillet 2025</strong> ·
+          Abonnement mensuel
+        </div>
+        <div class="plan-banner-row">
+          <div>
+            <div class="plan-price">
+              29 900 <span style="font-size: 14px; font-weight: 400">FCFA</span>
+            </div>
+            <div class="plan-price-sub">par mois, taxes comprises</div>
+          </div>
+          <div class="btn-white" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:refresh-cw"
+              style="font-size: 12px; color: var(--primary)"
+            ></iconify-icon>
+            Changer de plan
+          </div>
+        </div>
+      </div>
+
+      <!-- PLAN COMPARISON -->
+      <div class="card" id="plans-card">
+        <div class="card-title">Comparer les plans</div>
+        <div class="card-desc">Choisissez le plan adapté à votre activité.</div>
+
+        <div class="plan-cards-scroll" id="plan-cards-scroll">
+          <!-- Gratuit -->
+          <div class="plan-card" id="plan-free">
+            <div class="plan-card-header">
+              <div>
+                <div class="plan-card-name">Gratuit</div>
+                <div class="plan-card-desc">Pour démarrer et tester la plateforme</div>
+              </div>
+              <div>
+                <div class="plan-card-price">
+                  0
+                  <span style="font-size: 12px; font-weight: 400; color: var(--muted-foreground)"
+                    >FCFA</span
+                  >
+                </div>
+                <div class="plan-card-period">À vie</div>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                3 annonces publiées
+              </li>
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                Messagerie basique
+              </li>
+              <li class="plan-feature-item">
+                <div class="cross-icon">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 8px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <span style="color: var(--muted-foreground)">Visites virtuelles</span>
+              </li>
+              <li class="plan-feature-item">
+                <div class="cross-icon">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 8px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <span style="color: var(--muted-foreground)">Statistiques avancées</span>
+              </li>
+            </ul>
+            <div class="btn-outline" data-media-type="banani-button">Rétrograder</div>
+          </div>
+
+          <!-- Pro Agent (current) -->
+          <div class="plan-card current" id="plan-pro">
+            <div class="plan-card-badge">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Plan actuel
+            </div>
+            <div class="plan-card-header">
+              <div>
+                <div class="plan-card-name">Pro Agent</div>
+                <div class="plan-card-desc">Pour les agents actifs avec un portefeuille établi</div>
+              </div>
+              <div>
+                <div class="plan-card-price primary">
+                  29 900
+                  <span style="font-size: 12px; font-weight: 400; color: var(--muted-foreground)"
+                    >FCFA</span
+                  >
+                </div>
+                <div class="plan-card-period">par mois</div>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                30 annonces publiées
+              </li>
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                5 visites virtuelles/mois
+              </li>
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                Statistiques complètes
+              </li>
+              <li class="plan-feature-item">
+                <div class="cross-icon">
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 8px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <span style="color: var(--muted-foreground)">Support dédié 24/7</span>
+              </li>
+            </ul>
+            <div class="btn-outline-primary" data-media-type="banani-button">Plan actuel</div>
+          </div>
+
+          <!-- Agence Premium -->
+          <div class="plan-card" id="plan-agency">
+            <div class="plan-card-header">
+              <div>
+                <div class="plan-card-name">Agence Premium</div>
+                <div class="plan-card-desc">Pour les agences à fort volume et multi-agents</div>
+              </div>
+              <div>
+                <div class="plan-card-price">
+                  89 900
+                  <span style="font-size: 12px; font-weight: 400; color: var(--muted-foreground)"
+                    >FCFA</span
+                  >
+                </div>
+                <div class="plan-card-period">par mois</div>
+              </div>
+            </div>
+            <ul class="plan-features">
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                Annonces illimitées
+              </li>
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                Jusqu'à 10 agents
+              </li>
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                Visites VR illimitées
+              </li>
+              <li class="plan-feature-item">
+                <div class="check-icon">
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 8px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                Support dédié 24/7
+              </li>
+            </ul>
+            <div class="btn-primary" data-media-type="banani-button">Passer à Premium</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JETONS & VISITES VR -->
+      <div class="card" id="tokens-card">
+        <div class="card-title">Jetons &amp; Visites virtuelles</div>
+        <div class="card-desc">Solde actuel et utilisation de vos jetons VR.</div>
+
+        <!-- Jetons dispo -->
+        <div class="token-row">
+          <div class="token-icon-wrap">
+            <iconify-icon
+              icon="lucide:coins"
+              style="font-size: 18px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="token-info">
+            <div class="token-label">Jetons disponibles</div>
+            <div class="token-desc">Pour débloquer des visites VR supplémentaires</div>
+            <div class="token-action-row">
+              <div
+                class="btn-primary"
+                style="width: auto; padding: 6px 14px; font-size: 12px"
+                data-media-type="banani-button"
+              >
+                <iconify-icon
+                  icon="lucide:plus"
+                  style="font-size: 12px; color: #fff"
+                ></iconify-icon>
+                Acheter des jetons
+              </div>
+            </div>
+          </div>
+          <div class="token-right">
+            <div class="token-count">48</div>
+            <div class="token-count-label">jetons</div>
+          </div>
+        </div>
+
+        <!-- Visites ce mois -->
+        <div class="token-row">
+          <div class="token-icon-wrap">
+            <iconify-icon
+              icon="lucide:video"
+              style="font-size: 18px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="token-info">
+            <div class="token-label">Visites virtuelles ce mois</div>
+            <div class="token-desc">Incluses dans le plan Pro Agent (5/mois)</div>
+            <div class="token-progress-wrap">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%"></div>
+              </div>
+              <div class="progress-label">60% — 3/5 utilisées</div>
+            </div>
+          </div>
+          <div class="token-right">
+            <div class="token-count">
+              3 <span style="font-size: 12px; color: var(--muted-foreground)">/5</span>
+            </div>
+            <div class="token-count-label">utilisées</div>
+          </div>
+        </div>
+
+        <!-- Jetons utilisés -->
+        <div class="token-row">
+          <div class="token-icon-wrap">
+            <iconify-icon
+              icon="lucide:history"
+              style="font-size: 18px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="token-info">
+            <div class="token-label">Jetons utilisés ce mois</div>
+            <div class="token-desc">Dernière utilisation : Villa ACI 2000 · 8 juin 2025</div>
+            <div class="token-action-row">
+              <div class="btn-sm-outline" data-media-type="banani-button">
+                <iconify-icon icon="lucide:list" style="font-size: 11px"></iconify-icon>
+                Voir l'historique
+              </div>
+            </div>
+          </div>
+          <div class="token-right">
+            <div class="token-count">12</div>
+            <div class="token-count-label">dépensés</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÉTHODES DE PAIEMENT -->
+      <div class="card" id="payment-methods-card">
+        <div class="card-title">Méthodes de paiement</div>
+        <div class="card-desc">Gérez vos moyens de paiement pour le renouvellement.</div>
+
+        <div class="payment-method-card selected" data-media-type="banani-button">
+          <div class="pm-icon-wrap">
+            <iconify-icon
+              icon="lucide:smartphone"
+              style="font-size: 15px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="pm-info">
+            <div class="pm-name">Orange Money</div>
+            <div class="pm-detail">+229 97 12 34 56 · Par défaut</div>
+          </div>
+          <span class="status-badge-green" style="flex-shrink: 0">
+            <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+            Par défaut
+          </span>
+          <div class="pm-radio">
+            <div class="pm-radio-inner"></div>
+          </div>
+        </div>
+
+        <div class="payment-method-card" data-media-type="banani-button">
+          <div class="pm-icon-wrap">
+            <iconify-icon
+              icon="lucide:smartphone"
+              style="font-size: 15px; color: #f97316"
+            ></iconify-icon>
+          </div>
+          <div class="pm-info">
+            <div class="pm-name">MTN MoMo</div>
+            <div class="pm-detail">+229 91 44 78 23</div>
+          </div>
+          <div class="pm-radio-empty"></div>
+        </div>
+
+        <div class="payment-method-card" data-media-type="banani-button">
+          <div class="pm-icon-wrap">
+            <iconify-icon
+              icon="lucide:credit-card"
+              style="font-size: 15px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="pm-info">
+            <div class="pm-name">Carte Visa</div>
+            <div class="pm-detail">•••• 4821 · Expire 09/27</div>
+          </div>
+          <div class="pm-radio-empty"></div>
+        </div>
+
+        <div class="add-payment-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:plus-circle"
+            style="font-size: 16px; color: var(--primary)"
+          ></iconify-icon>
+          Ajouter un moyen de paiement
+        </div>
+      </div>
+
+      <!-- HISTORIQUE DES PAIEMENTS -->
+      <div class="card" id="payment-history-card">
+        <div class="card-header-row">
+          <div class="card-title">Historique des paiements</div>
+          <div class="btn-sm-outline" data-media-type="banani-button">
+            <iconify-icon icon="lucide:download" style="font-size: 11px"></iconify-icon>
+            Exporter
+          </div>
+        </div>
+        <div class="card-desc" style="margin-top: 3px">
+          Vos reçus et transactions des 6 derniers mois.
+        </div>
+
+        <div class="history-item">
+          <div class="history-icon-wrap">
+            <iconify-icon
+              icon="lucide:receipt"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="history-info">
+            <div class="history-name">Abonnement Pro Agent</div>
+            <div class="history-meta">Renouvellement mensuel · Orange Money</div>
+            <span class="status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Payé
+            </span>
+          </div>
+          <div class="history-right">
+            <div class="history-date">15 juin 2025</div>
+            <div class="history-amount">29 900 FCFA</div>
+          </div>
+        </div>
+
+        <div class="history-item">
+          <div class="history-icon-wrap">
+            <iconify-icon
+              icon="lucide:coins"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="history-info">
+            <div class="history-name">Achat de 20 jetons VR</div>
+            <div class="history-meta">Pack jetons standard · Orange Money</div>
+            <span class="status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Payé
+            </span>
+          </div>
+          <div class="history-right">
+            <div class="history-date">10 juin 2025</div>
+            <div class="history-amount">9 500 FCFA</div>
+          </div>
+        </div>
+
+        <div class="history-item">
+          <div class="history-icon-wrap">
+            <iconify-icon
+              icon="lucide:receipt"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="history-info">
+            <div class="history-name">Abonnement Pro Agent</div>
+            <div class="history-meta">Renouvellement mensuel · Orange Money</div>
+            <span class="status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Payé
+            </span>
+          </div>
+          <div class="history-right">
+            <div class="history-date">15 mai 2025</div>
+            <div class="history-amount">29 900 FCFA</div>
+          </div>
+        </div>
+
+        <div class="history-item">
+          <div class="history-icon-wrap">
+            <iconify-icon
+              icon="lucide:receipt"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="history-info">
+            <div class="history-name">Abonnement Pro Agent</div>
+            <div class="history-meta">Renouvellement mensuel · Visa ••4821</div>
+            <span class="status-badge-amber">
+              <iconify-icon icon="lucide:clock" style="font-size: 9px"></iconify-icon>
+              Remboursé
+            </span>
+          </div>
+          <div class="history-right">
+            <div class="history-date">15 avr. 2025</div>
+            <div class="history-amount">29 900 FCFA</div>
+          </div>
+        </div>
+
+        <div class="history-item">
+          <div class="history-icon-wrap">
+            <iconify-icon
+              icon="lucide:receipt"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="history-info">
+            <div class="history-name">Abonnement Pro Agent</div>
+            <div class="history-meta">Renouvellement mensuel · MTN MoMo</div>
+            <span class="status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Payé
+            </span>
+          </div>
+          <div class="history-right">
+            <div class="history-date">15 mars 2025</div>
+            <div class="history-amount">29 900 FCFA</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RÉSILIER L'ABONNEMENT -->
+      <div class="cancel-card" id="cancel-card">
+        <div class="cancel-title">Résilier l'abonnement</div>
+        <div class="cancel-desc">
+          La résiliation prend effet à la fin de la période en cours. Vos annonces resteront
+          visibles jusqu'au 15 juillet 2025.
+        </div>
+        <div class="btn-destructive" data-media-type="banani-button">
+          <iconify-icon icon="lucide:x-circle" style="font-size: 14px"></iconify-icon>
+          Résilier mon abonnement
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div class="bnav-item active" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

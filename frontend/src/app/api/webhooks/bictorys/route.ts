@@ -30,6 +30,9 @@ import { createWebhookHandler } from '@/lib/server/webhook/handler';
 import { bictorysWebhookProvider } from '@/lib/server/webhook/bictorys';
 import { enqueueOutbox } from '@/lib/server/outbox';
 import { prisma } from '@/lib/server/prisma';
+import { isPlanKey } from '@/lib/subscription-plans';
+
+const SUBSCRIPTION_PERIOD_MS = 30 * 24 * 60 * 60 * 1000;
 
 export const POST = createWebhookHandler({
   prisma,
@@ -54,6 +57,32 @@ export const POST = createWebhookHandler({
         ...(paymentMethod !== null ? { paymentMethod } : {}),
       },
     });
+
+    // Settings → "Abonnement & paiement" plan changes ride the existing
+    // Order/Bictorys one-time-charge pipeline instead of a parallel charge
+    // route — POST /api/orders is called directly with this metadata tag.
+    // Activate the plan here, inside the same Serializable tx, once payment
+    // is confirmed. No renewal cron exists yet (see
+    // .planning/banani/abonnement-paiement.md) — currentPeriodEnd is
+    // informational only.
+    const meta = (order.metadata ?? null) as { kind?: unknown; planKey?: unknown } | null;
+    if (order.userId && meta?.kind === 'subscription_plan_change' && isPlanKey(meta.planKey)) {
+      await tx.subscription.upsert({
+        where: { userId: order.userId },
+        create: {
+          userId: order.userId,
+          planKey: meta.planKey,
+          status: 'ACTIVE',
+          currentPeriodEnd: new Date(Date.now() + SUBSCRIPTION_PERIOD_MS),
+        },
+        update: {
+          planKey: meta.planKey,
+          status: 'ACTIVE',
+          currentPeriodEnd: new Date(Date.now() + SUBSCRIPTION_PERIOD_MS),
+          canceledAt: null,
+        },
+      });
+    }
 
     // Outbox emits stay inside the factory's Serializable tx so the rows
     // commit atomically with the status change. The drain cron picks them up

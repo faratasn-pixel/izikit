@@ -1,0 +1,333 @@
+{
+  "flow": {
+    "name": "HABITATAFRIK EQUIPE",
+    "url": "https://app.banani.co/flow/DRXBZMH20_G8",
+    "id": "DRXBZMH20_G8"
+  },
+  "screens": [
+    {
+      "slug": "modifier-annonce-mobile",
+      "screenId": "0Y_AS1z78P9E",
+      "screenName": "Modifier Annonce Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "alerte-secteur",
+      "screenId": "2Xbrlor-QezG",
+      "screenName": "Alerte Secteur",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "statistiques-agent",
+      "screenId": "47H2Ss5450Kt",
+      "screenName": "Statistiques Agent",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "notifications-center",
+      "screenId": "7BVIuww0J0un",
+      "screenName": "Notifications Center",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "dashboard-mobile",
+      "screenId": "7lN40rBbl4AH",
+      "screenName": "Dashboard Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "register-mobile",
+      "screenId": "7vFQEEkiSlxY",
+      "screenName": "Register Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "settings-mobile",
+      "screenId": "8LFaqEyxnye7",
+      "screenName": "Settings Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "documents-legaux-mobile",
+      "screenId": "8MHq3VuwOIJt",
+      "screenName": "Documents Légaux Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "publier-annonce-alt",
+      "screenId": "93t22EgsWF0x",
+      "screenName": "Publier Annonce Alt",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "modifier-annonce",
+      "screenId": "CEIIT-qc549A",
+      "screenName": "Modifier Annonce",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "agent-dashboard",
+      "screenId": "CbuPX1SCd0GF",
+      "screenName": "Agent Dashboard",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "publier-annonce-alt-mobile",
+      "screenId": "E66s1dNhp2jh",
+      "screenName": "Publier Annonce Alt Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "login-screen",
+      "screenId": "Fz9eihsTRNuO",
+      "screenName": "Login Screen",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "alerte-secteur-mobile",
+      "screenId": "GpFd1VSzqPtx",
+      "screenName": "Alerte Secteur Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "publier-annonce-mobile",
+      "screenId": "HC3ARcUnCqC3",
+      "screenName": "Publier Annonce Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "apparence-mobile",
+      "screenId": "J585ZnMVhq0N",
+      "screenName": "Apparence Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "abonnement-mobile",
+      "screenId": "LUYZYAm_YOzB",
+      "screenName": "Abonnement Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "annonce-detail-mobile",
+      "screenId": "LZy7GOhsi-46",
+      "screenName": "Annonce Detail Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "visites-mobile",
+      "screenId": "NNzKE1kGnLxv",
+      "screenName": "Visites Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "settings-page",
+      "screenId": "OH2_l1aYeEhL",
+      "screenName": "Settings Page",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "statistiques-mobile",
+      "screenId": "PBfDXfdSJmmP",
+      "screenName": "Statistiques Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "login-mobile",
+      "screenId": "SqDRsyECewJ_",
+      "screenName": "Login Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "mes-annonces",
+      "screenId": "V9hOWu9LzoGk",
+      "screenName": "Mes Annonces",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "mon-agence",
+      "screenId": "VBgNL9FWcpGQ",
+      "screenName": "Mon Agence",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "otp-verification",
+      "screenId": "VT0UrHnmJWmw",
+      "screenName": "OTP Verification",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "apparence-settings",
+      "screenId": "X9QIFjiEhetp",
+      "screenName": "Apparence Settings",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "messages-mobile",
+      "screenId": "YrNal0EfXgXQ",
+      "screenName": "Messages Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "notifications-mobile",
+      "screenId": "ZFrALZ0Qt_rQ",
+      "screenName": "Notifications Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "publier-annonce",
+      "screenId": "ZlPuIN5mbBn_",
+      "screenName": "Publier Annonce",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "visites-programmees",
+      "screenId": "_COuZRy6uykc",
+      "screenName": "Visites Programmées",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "success-confirmation",
+      "screenId": "_zROCb657kAv",
+      "screenName": "Success Confirmation",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "centre-aide-mobile",
+      "screenId": "bi2ZxrUJMHo9",
+      "screenName": "Centre Aide Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "mon-agence-mobile",
+      "screenId": "dEV3fCsItGJ7",
+      "screenName": "Mon Agence Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "sms-verification",
+      "screenId": "eXyDohZT5bv7",
+      "screenName": "SMS Verification",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "contacts-recus",
+      "screenId": "fu-2n-YWUFP8",
+      "screenName": "Contacts Reçus",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "jetons-vr-mobile",
+      "screenId": "i7G6kfF6iu0N",
+      "screenName": "Jetons VR Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "abonnement-paiement",
+      "screenId": "iB8MbJT5-w3v",
+      "screenName": "Abonnement Paiement",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "annonce-detail",
+      "screenId": "iVqJ9y55-3Tc",
+      "screenName": "Annonce Detail",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "success-mobile",
+      "screenId": "iyo__OLtIdVy",
+      "screenName": "Success Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "annonces-mobile",
+      "screenId": "k-wbQMARQapY",
+      "screenName": "Annonces Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "password-reset",
+      "screenId": "lT5_WWl1zjAu",
+      "screenName": "Password Reset",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "centre-aide",
+      "screenId": "lmIqb_Q6aB0-",
+      "screenName": "Centre Aide",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "documents-legaux",
+      "screenId": "mU9G3YPaywt9",
+      "screenName": "Documents Légaux",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "langue-region-mobile",
+      "screenId": "n6D_GdHtbPGl",
+      "screenName": "Langue Région Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "new-password-mobile",
+      "screenId": "ntTA_9-a2F2T",
+      "screenName": "New Password Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "new-password",
+      "screenId": "oVOI9fMqtEjw",
+      "screenName": "New Password",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "forgot-password",
+      "screenId": "p5BVcXepg7bd",
+      "screenName": "Forgot Password",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "alerte-secteur-mobile-pjd6hr3sh_pr",
+      "screenId": "pjd6HR3sh_pr",
+      "screenName": "Alerte Secteur Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "register-screen",
+      "screenId": "psc8RX9dLcjv",
+      "screenName": "Register Screen",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "langue-region",
+      "screenId": "ptEwwpnr4m_M",
+      "screenName": "Langue Région",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "messages-inbox",
+      "screenId": "u_egjun0aqjO",
+      "screenName": "Messages Inbox",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "contacts-mobile",
+      "screenId": "vfMbvXtqBVJi",
+      "screenName": "Contacts Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "jetons-vr",
+      "screenId": "w3s4uzJeNef2",
+      "screenName": "Jetons VR",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "modifier-annonce-mobile-x9tyh65n9hgj",
+      "screenId": "x9tyH65N9HgJ",
+      "screenName": "Modifier Annonce Mobile",
+      "genType": "mobile-html-css"
+    }
+  ]
+}

@@ -51,18 +51,37 @@ beforeEach(() => {
   });
 });
 
+function baseBody(overrides: Record<string, unknown> = {}) {
+  return {
+    firstName: 'Kofi',
+    lastName: 'Mensah',
+    email: 'new@example.com',
+    phone: '+22967000000',
+    password: 'a-strong-passphrase',
+    accountType: 'TENANT_BUYER',
+    ...overrides,
+  };
+}
+
 describe('POST /api/auth/signup', () => {
   it('creates a new user, code, and outbox event for genuinely new emails', async () => {
-    prismaMock.user.findUnique.mockResolvedValue(null);
+    prismaMock.user.findFirst.mockResolvedValue(null);
     prismaMock.user.create.mockResolvedValue({ id: 'u-new' } as never);
     prismaMock.verificationCode.create.mockResolvedValue({} as never);
 
-    const res = await POST(makeReq({ email: 'new@example.com', password: 'a-strong-passphrase' }));
+    const res = await POST(makeReq(baseBody()));
     expect(res.status).toBe(201);
     const body = await res.json();
     expect(body).toEqual({ ok: true });
 
     expect(prismaMock.user.create).toHaveBeenCalledTimes(1);
+    const createArg = prismaMock.user.create.mock.calls[0]?.[0];
+    expect(createArg?.data).toMatchObject({
+      email: 'new@example.com',
+      phone: '+22967000000',
+      name: 'Kofi Mensah',
+      accountType: 'TENANT_BUYER',
+    });
     expect(prismaMock.verificationCode.create).toHaveBeenCalledTimes(1);
     const codeArg = prismaMock.verificationCode.create.mock.calls[0]?.[0];
     expect(codeArg?.data?.type).toBe('EMAIL_VERIFY');
@@ -74,11 +93,9 @@ describe('POST /api/auth/signup', () => {
   });
 
   it('returns identical 201 + dummy-bcrypts on existing email (enumeration-resist)', async () => {
-    prismaMock.user.findUnique.mockResolvedValue({ id: 'u-existing' } as never);
+    prismaMock.user.findFirst.mockResolvedValue({ id: 'u-existing' } as never);
 
-    const res = await POST(
-      makeReq({ email: 'existing@example.com', password: 'a-strong-passphrase' }),
-    );
+    const res = await POST(makeReq(baseBody({ email: 'existing@example.com' })));
     expect(res.status).toBe(201);
     const body = await res.json();
     expect(body).toEqual({ ok: true });
@@ -89,44 +106,55 @@ describe('POST /api/auth/signup', () => {
     expect(enqueueOutbox).not.toHaveBeenCalled();
   });
 
+  it('returns identical 201 + dummy-bcrypts on existing phone (enumeration-resist)', async () => {
+    prismaMock.user.findFirst.mockResolvedValue({ id: 'u-existing' } as never);
+
+    const res = await POST(makeReq(baseBody({ phone: '+22967000099' })));
+    expect(res.status).toBe(201);
+    expect(dummyBcryptCompare).toHaveBeenCalledTimes(1);
+    expect(prismaMock.user.create).not.toHaveBeenCalled();
+  });
+
   it('rejects banned passwords with PASSWORD_BANNED before user lookup', async () => {
-    const res = await POST(makeReq({ email: 'foo@example.com', password: 'password' }));
+    const res = await POST(makeReq(baseBody({ password: 'password' })));
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toBe('PASSWORD_BANNED');
-    expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
+    expect(prismaMock.user.findFirst).not.toHaveBeenCalled();
   });
 
   it('rejects too-short passwords with PASSWORD_TOO_SHORT', async () => {
-    const res = await POST(makeReq({ email: 'foo@example.com', password: 'short' }));
+    const res = await POST(makeReq(baseBody({ password: 'short' })));
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toBe('PASSWORD_TOO_SHORT');
     expect(body.message).toContain('10');
-    expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
+    expect(prismaMock.user.findFirst).not.toHaveBeenCalled();
   });
 
   it('returns VALIDATION_FAILED for malformed email', async () => {
-    const res = await POST(makeReq({ email: 'not-an-email', password: 'a-strong-passphrase' }));
+    const res = await POST(makeReq(baseBody({ email: 'not-an-email' })));
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toBe('VALIDATION_FAILED');
     expect(Array.isArray(body.issues)).toBe(true);
   });
 
+  it('returns VALIDATION_FAILED for malformed phone', async () => {
+    const res = await POST(makeReq(baseBody({ phone: 'not-a-phone' })));
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toBe('VALIDATION_FAILED');
+  });
+
   it('returns 429 TOO_MANY_SIGNUP_ATTEMPTS when the per-email limit is hit', async () => {
-    prismaMock.user.findUnique.mockResolvedValue(null);
+    prismaMock.user.findFirst.mockResolvedValue(null);
     prismaMock.user.create.mockResolvedValue({ id: 'u-rate' } as never);
     prismaMock.verificationCode.create.mockResolvedValue({} as never);
 
     const calls = await Promise.all(
       Array.from({ length: 6 }, () =>
-        POST(
-          makeReq({
-            email: 'rate-target@example.com',
-            password: 'a-strong-passphrase',
-          }),
-        ),
+        POST(makeReq(baseBody({ email: 'rate-target@example.com' }))),
       ),
     );
     const statuses = calls.map((r) => r.status);
@@ -141,10 +169,7 @@ describe('POST /api/auth/signup', () => {
     (isPwned as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce(true);
     try {
       const res = await POST(
-        makeReq({
-          email: 'hibp@example.com',
-          password: 'a-very-unique-passphrase-1234',
-        }),
+        makeReq(baseBody({ email: 'hibp@example.com', password: 'a-very-unique-passphrase-1234' })),
       );
       expect(res.status).toBe(400);
       const body = await res.json();

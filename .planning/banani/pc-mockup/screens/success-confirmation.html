@@ -1,0 +1,548 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABITAT-AFRIK — Mot de passe réinitialisé</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #ffffff;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+      height: 100%;
+    }
+    .split-container {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="left-panel">
+    .left-panel {
+      width: 50%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 36px 40px 40px 40px;
+    }
+    .left-panel .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .left-panel .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8, 18, 35, 0.88) 0%,
+        rgba(8, 18, 35, 0.38) 55%,
+        rgba(8, 18, 35, 0.1) 100%
+      );
+      z-index: 1;
+    }
+    .left-panel .top-bar {
+      position: relative;
+      z-index: 2;
+    }
+    .left-panel .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .left-panel .logo-mark {
+      width: 38px;
+      height: 38px;
+      background: #376bff;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .left-panel .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .left-panel .bottom-content {
+      position: relative;
+      z-index: 2;
+    }
+    .left-panel .hero-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 48px;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      max-width: 440px;
+    }
+    .left-panel .hero-title .accent-word {
+      color: #376bff;
+    }
+    .left-panel .hero-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+      margin-bottom: 28px;
+      max-width: 380px;
+    }
+    .pagination-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+    }
+    .dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: #376bff;
+    }
+  </style>
+
+  <style id="right-panel">
+    .right-panel {
+      width: 50%;
+      background: var(--background);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+    }
+    .right-panel-inner {
+      padding: 36px 60px 48px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 812px;
+      text-align: center;
+    }
+  </style>
+
+  <style id="success-styles">
+    .success-animation-wrap {
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-outer-ring {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(55, 107, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-inner-ring {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: rgba(55, 107, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #376bff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 32px;
+      color: var(--foreground);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .success-title .accent-word {
+      color: #376bff;
+    }
+    .success-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: #6b7280;
+      line-height: 1.6;
+      max-width: 380px;
+      margin-bottom: 40px;
+    }
+
+    .security-card {
+      background: #f9fafb;
+      border-radius: var(--radius-xl);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+    .security-card-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .security-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .security-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: #eef3ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .security-item-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+    .security-item-text strong {
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      width: 100%;
+      max-width: 420px;
+      padding: 14px 24px;
+      background: #376bff;
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .signin-row {
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .signin-row a {
+      color: #376bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .step-circle.done {
+      background: #376bff;
+      color: #ffffff;
+    }
+    .step-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      white-space: nowrap;
+      color: #376bff;
+    }
+    .step-connector {
+      flex: 1;
+      height: 1.5px;
+      background: #376bff;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="split-container">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <img
+        class="bg-image"
+        data-query="modern west african architecture building low angle shot, lagos abidjan contemporary glass concrete facade, blue sky, professional photography, cinematic"
+        data-aspect-ratio="9:16"
+        alt="Architecture moderne ouest-africaine"
+        src="https://storage.googleapis.com/banani-generated-images/generated-images/e38fdee5-5b44-46e2-a87d-385be6b8686a.jpg"
+      />
+      <div class="overlay"></div>
+
+      <!-- Logo -->
+      <div class="top-bar">
+        <a href="#" class="logo" data-media-type="banani-button">
+          <div class="logo-mark">
+            <iconify-icon icon="lucide:home" style="font-size: 20px; color: #fff"></iconify-icon>
+          </div>
+          <span class="logo-text">HABITAT-AFRIK</span>
+        </a>
+      </div>
+
+      <!-- Bottom Content -->
+      <div class="bottom-content">
+        <h1 class="hero-title">
+          Trouvez votre <span class="accent-word">chez-vous</span> en Afrique
+        </h1>
+        <p class="hero-subtitle">
+          Des milliers de biens vérifiés. Des agents de confiance. Une plateforme simple.
+        </p>
+        <div class="pagination-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel" id="right-panel">
+      <div class="right-panel-inner">
+        <!-- Step Indicator -->
+        <div class="step-row">
+          <div class="step-item">
+            <div class="step-circle done">
+              <div
+                style="
+                  width: 14px;
+                  height: 14px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:check"
+                  style="font-size: 14px; color: #ffffff"
+                ></iconify-icon>
+              </div>
+            </div>
+            <span class="step-label">Téléphone</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item">
+            <div class="step-circle done">
+              <div
+                style="
+                  width: 14px;
+                  height: 14px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:check"
+                  style="font-size: 14px; color: #ffffff"
+                ></iconify-icon>
+              </div>
+            </div>
+            <span class="step-label">Vérification</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item">
+            <div class="step-circle done">
+              <div
+                style="
+                  width: 14px;
+                  height: 14px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:check"
+                  style="font-size: 14px; color: #ffffff"
+                ></iconify-icon>
+              </div>
+            </div>
+            <span class="step-label">Nouveau mot de passe</span>
+          </div>
+        </div>
+
+        <!-- Success Icon -->
+        <div class="success-animation-wrap">
+          <div class="success-outer-ring">
+            <div class="success-inner-ring">
+              <div class="success-circle">
+                <iconify-icon
+                  icon="lucide:check"
+                  style="font-size: 32px; color: #ffffff"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h2 class="success-title">Mot de passe <span class="accent-word">réinitialisé !</span></h2>
+        <p class="success-subtitle">
+          Votre mot de passe a été mis à jour avec succès. Vous pouvez maintenant vous connecter à
+          votre compte HABITAT-AFRIK.
+        </p>
+
+        <!-- Security Info Card -->
+        <div class="security-card">
+          <p class="security-card-title">Informations de sécurité</p>
+          <div class="security-item">
+            <div class="security-icon-wrap">
+              <iconify-icon
+                icon="lucide:clock"
+                style="font-size: 16px; color: #376bff"
+              ></iconify-icon>
+            </div>
+            <p class="security-item-text"><strong>Réinitialisé le</strong> — Aujourd'hui à 14:32</p>
+          </div>
+          <div class="security-item">
+            <div class="security-icon-wrap">
+              <iconify-icon
+                icon="lucide:shield-check"
+                style="font-size: 16px; color: #376bff"
+              ></iconify-icon>
+            </div>
+            <p class="security-item-text">
+              <strong>Toutes vos sessions</strong> ont été déconnectées pour votre sécurité.
+            </p>
+          </div>
+          <div class="security-item">
+            <div class="security-icon-wrap">
+              <iconify-icon
+                icon="lucide:bell"
+                style="font-size: 16px; color: #376bff"
+              ></iconify-icon>
+            </div>
+            <p class="security-item-text">
+              Un <strong>email de confirmation</strong> vous a été envoyé.
+            </p>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div
+          class="btn-primary"
+          data-media-type="banani-button"
+          onclick="location.href = 'login-screen.html'"
+          style="cursor: pointer"
+        >
+          Se connecter maintenant
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:arrow-right"
+              style="font-size: 18px; color: #ffffff"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <p class="signin-row">
+          Besoin d'aide ?
+          <a href="centre-aide.html" data-media-type="banani-button">Contacter le support</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,1232 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375" />
+  <title>HABITAT-AFRIK — Dashboard Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      width: 375px;
+      min-height: 812px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .screen {
+      width: 375px;
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+      background: var(--background);
+      padding-bottom: 72px;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+    }
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .notif-btn {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 1px 6px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="content-styles">
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+  </style>
+
+  <style id="banner-styles">
+    .banner {
+      position: relative;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .banner-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        170deg,
+        rgba(10, 18, 40, 0.72) 0%,
+        rgba(10, 18, 40, 0.55) 50%,
+        rgba(55, 107, 255, 0.35) 100%
+      );
+      z-index: 1;
+    }
+    .banner-content {
+      position: relative;
+      z-index: 2;
+      padding: 20px 16px 16px 16px;
+    }
+    .banner-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .banner-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .banner-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+    }
+    .period-select {
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius-lg);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="stats-styles">
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 14px 16px 0 16px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+    .stat-icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: #eef3ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-delta {
+      font-size: 10px;
+      font-weight: 600;
+      color: #059669;
+      background: rgba(16, 185, 129, 0.12);
+      border-radius: 99px;
+      padding: 2px 6px;
+      white-space: nowrap;
+    }
+    .stat-delta.down {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.12);
+    }
+    .stat-value {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      font-weight: 400;
+    }
+  </style>
+
+  <style id="charts-styles">
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 16px 10px 16px;
+    }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+    }
+    .see-all {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+    }
+    .chart-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin: 0 16px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+    .chart-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .chart-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+    }
+    .chart-filter-pill {
+      background: var(--muted);
+      border-radius: 99px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Donut */
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .donut-svg-container {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+    }
+    .donut-center-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .donut-center-num {
+      font-weight: 600;
+      font-size: 17px;
+      color: var(--foreground);
+      display: block;
+    }
+    .donut-center-sub {
+      font-size: 9px;
+      color: var(--muted-foreground);
+    }
+    .donut-legend {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .legend-label {
+      font-size: 12px;
+      color: var(--secondary-foreground);
+    }
+    .legend-val {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    /* Bar chart */
+    .bar-chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 72px;
+      margin-bottom: 10px;
+    }
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .bar-fill {
+      width: 100%;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      background: var(--primary);
+      opacity: 0.75;
+      min-height: 4px;
+    }
+    .bar-fill.accent {
+      opacity: 1;
+    }
+    .bar-day {
+      font-size: 9px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    .bar-chart-summary {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .bar-summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .bar-summary-val {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+    }
+    .bar-summary-label {
+      font-size: 10px;
+      color: var(--muted-foreground);
+    }
+
+    /* Progress bars */
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .progress-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .progress-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .progress-item-label {
+      font-size: 12px;
+      color: var(--secondary-foreground);
+      font-weight: 500;
+    }
+    .progress-item-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--muted);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+    }
+
+    .charts-gap {
+      height: 12px;
+    }
+  </style>
+
+  <style id="table-styles">
+    .table-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      margin: 0 16px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-search {
+      flex: 1;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+    }
+    .table-search-text {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .btn-primary-sm {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 11px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .annonce-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .annonce-row:last-child {
+      border-bottom: none;
+    }
+    .annonce-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .annonce-id-text {
+      font-size: 10px;
+      color: var(--muted-foreground);
+      font-weight: 400;
+      margin-bottom: 2px;
+    }
+    .annonce-title-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+    .annonce-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+    .annonce-loc {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .type-tag {
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 7px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .annonce-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .price-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .badge {
+      display: inline-block;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .badge-verified {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-pending {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-sold {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 375px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 10px 0 12px 0;
+    }
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+    }
+    .nav-tab-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .nav-tab.active .nav-tab-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .nav-tab-badge {
+      position: absolute;
+      top: -2px;
+      right: calc(50% - 18px);
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 8px;
+      font-weight: 600;
+      padding: 1px 5px;
+      min-width: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen" id="screen">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <a href="#" class="topbar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 15px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+      <div class="topbar-right">
+        <div class="notif-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:bell"
+            style="font-size: 17px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+          <span class="notif-badge"></span>
+        </div>
+        <div class="user-pill" data-media-type="banani-button">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+            alt="Kofi Mensah"
+            class="user-avatar"
+          />
+          <div class="user-info">
+            <span class="user-name">Kofi Mensah</span>
+            <span class="role-badge">Agent</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content" id="content">
+      <!-- BANNER -->
+      <div class="banner" id="banner">
+        <img
+          class="banner-bg"
+          data-query="modern west african architecture Abidjan glass tower contemporary urban landscape cinematic dark rich colors professional real estate photography"
+          data-aspect-ratio="16:9"
+          alt="Bannière"
+          src="https://storage.googleapis.com/banani-generated-images/generated-images/dbad08e2-ef0e-407c-a3f0-182998aa04d3.jpg"
+        />
+        <div class="banner-overlay"></div>
+        <div class="banner-content">
+          <div class="banner-top">
+            <div>
+              <h1 class="banner-title">Bienvenue, Kofi ! 👋</h1>
+              <p class="banner-sub">Résumé de vos annonces aujourd'hui.</p>
+            </div>
+            <div class="period-select" data-media-type="banani-button">
+              <iconify-icon
+                icon="lucide:calendar"
+                style="font-size: 11px; color: #fff"
+              ></iconify-icon>
+              Juillet 2025
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 10px; color: rgba(255, 255, 255, 0.7)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS GRID -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon-row">
+            <div class="stat-icon-wrap">
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 16px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <span class="stat-delta">+12%</span>
+          </div>
+          <span class="stat-value">148</span>
+          <span class="stat-label">Contacts reçus</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-row">
+            <div class="stat-icon-wrap">
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 16px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <span class="stat-delta">+3</span>
+          </div>
+          <span class="stat-value">34</span>
+          <span class="stat-label">Annonces publiées</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-row">
+            <div class="stat-icon-wrap">
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 16px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <span class="stat-delta">+5</span>
+          </div>
+          <span class="stat-value">21</span>
+          <span class="stat-label">Visites programmées</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-row">
+            <div class="stat-icon-wrap">
+              <iconify-icon
+                icon="lucide:shield-check"
+                style="font-size: 16px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <span class="stat-delta down">-2%</span>
+          </div>
+          <span class="stat-value">82%</span>
+          <span class="stat-label">Taux de vérification</span>
+        </div>
+      </div>
+
+      <!-- CHART: Performance des annonces (Donut) -->
+      <div class="section-header">
+        <span class="section-title">Performance des annonces</span>
+        <div class="chart-filter-pill" data-media-type="banani-button">
+          Ce mois
+          <iconify-icon icon="lucide:chevron-down" style="font-size: 10px"></iconify-icon>
+        </div>
+      </div>
+      <div class="chart-card" id="donut-card">
+        <div class="donut-wrap">
+          <div class="donut-svg-container">
+            <svg width="90" height="90" viewBox="0 0 90 90">
+              <circle
+                cx="45"
+                cy="45"
+                r="34"
+                fill="none"
+                stroke="#F3F4F6"
+                stroke-width="12"
+              ></circle>
+              <circle
+                cx="45"
+                cy="45"
+                r="34"
+                fill="none"
+                stroke="#376BFF"
+                stroke-width="12"
+                stroke-dasharray="128.3 85.5"
+                stroke-dashoffset="53"
+                stroke-linecap="butt"
+              ></circle>
+              <circle
+                cx="45"
+                cy="45"
+                r="34"
+                fill="none"
+                stroke="#F59E0B"
+                stroke-width="12"
+                stroke-dasharray="59.9 153.9"
+                stroke-dashoffset="-75.3"
+                stroke-linecap="butt"
+              ></circle>
+              <circle
+                cx="45"
+                cy="45"
+                r="34"
+                fill="none"
+                stroke="#EF4444"
+                stroke-width="12"
+                stroke-dasharray="25.7 188.1"
+                stroke-dashoffset="-135.2"
+                stroke-linecap="butt"
+              ></circle>
+            </svg>
+            <div class="donut-center-label">
+              <span class="donut-center-num">34</span>
+              <span class="donut-center-sub">annonces</span>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #376bff"></div>
+              <span class="legend-label">Vérifié</span>
+              <span class="legend-val">20</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #f59e0b"></div>
+              <span class="legend-label">En attente</span>
+              <span class="legend-val">10</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #ef4444"></div>
+              <span class="legend-label">Vendu</span>
+              <span class="legend-val">4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART: Contacts reçus (Bar) -->
+      <div class="section-header">
+        <span class="section-title">Contacts reçus</span>
+        <div class="chart-filter-pill" data-media-type="banani-button">
+          Cette semaine
+          <iconify-icon icon="lucide:chevron-down" style="font-size: 10px"></iconify-icon>
+        </div>
+      </div>
+      <div class="chart-card" id="bar-card">
+        <div class="bar-chart-bars">
+          <div class="bar-col">
+            <div class="bar-fill" style="height: 45%"></div>
+            <span class="bar-day">Lun</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar-fill" style="height: 62%"></div>
+            <span class="bar-day">Mar</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar-fill" style="height: 38%"></div>
+            <span class="bar-day">Mer</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar-fill accent" style="height: 85%"></div>
+            <span class="bar-day">Jeu</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar-fill" style="height: 70%"></div>
+            <span class="bar-day">Ven</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar-fill" style="height: 50%"></div>
+            <span class="bar-day">Sam</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar-fill" style="height: 28%"></div>
+            <span class="bar-day">Dim</span>
+          </div>
+        </div>
+        <div class="bar-chart-summary">
+          <div class="bar-summary-item">
+            <span class="bar-summary-val">37</span>
+            <span class="bar-summary-label">Cette semaine</span>
+          </div>
+          <div class="bar-summary-item">
+            <span class="bar-summary-val" style="color: #376bff">+14%</span>
+            <span class="bar-summary-label">vs sem. passée</span>
+          </div>
+          <div class="bar-summary-item">
+            <span class="bar-summary-val">14</span>
+            <span class="bar-summary-label">Pic (Jeu)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART: Suivi des documents -->
+      <div class="section-header">
+        <span class="section-title">Suivi des documents</span>
+      </div>
+      <div class="chart-card" id="progress-card">
+        <div class="progress-list">
+          <div class="progress-item">
+            <div class="progress-item-header">
+              <span class="progress-item-label">Titres fonciers validés</span>
+              <span class="progress-item-count">18</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 53%; background: #376bff"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-item-header">
+              <span class="progress-item-label">En cours de vérification</span>
+              <span class="progress-item-count">9</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 26%; background: #f59e0b"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-item-header">
+              <span class="progress-item-label">Documents manquants</span>
+              <span class="progress-item-count">4</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 12%; background: #ef4444"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-item-header">
+              <span class="progress-item-label">Mandats signés</span>
+              <span class="progress-item-count">22</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 65%; background: #10b981"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE: Mes annonces -->
+      <div class="section-header">
+        <span class="section-title">Mes annonces</span>
+        <span class="see-all" data-media-type="banani-button">Voir tout</span>
+      </div>
+      <div class="table-card" id="annonces-table">
+        <div class="table-toolbar">
+          <div class="table-search" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 13px; color: var(--muted-foreground); flex-shrink: 0"
+            ></iconify-icon>
+            <span class="table-search-text">Rechercher…</span>
+          </div>
+          <div class="btn-icon" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:sliders-horizontal"
+              style="font-size: 15px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="btn-primary-sm" data-media-type="banani-button">
+            <iconify-icon icon="lucide:plus" style="font-size: 13px; color: #fff"></iconify-icon>
+            Publier
+          </div>
+        </div>
+
+        <!-- Row 1 -->
+        <div class="annonce-row" data-media-type="banani-button">
+          <div class="annonce-info">
+            <div class="annonce-id-text">#AN-0041</div>
+            <div class="annonce-title-text">Villa moderne avec piscine, Cocody</div>
+            <div class="annonce-meta">
+              <div class="annonce-loc">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 10px; color: var(--muted-foreground); flex-shrink: 0"
+                ></iconify-icon>
+                Abidjan, CI
+              </div>
+              <span class="type-tag">Villa</span>
+            </div>
+          </div>
+          <div class="annonce-right">
+            <span class="price-text">185 000 000</span>
+            <span class="badge badge-verified">Vérifié</span>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="annonce-row" data-media-type="banani-button">
+          <div class="annonce-info">
+            <div class="annonce-id-text">#AN-0038</div>
+            <div class="annonce-title-text">Appartement T3 centre-ville, Plateau</div>
+            <div class="annonce-meta">
+              <div class="annonce-loc">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 10px; color: var(--muted-foreground); flex-shrink: 0"
+                ></iconify-icon>
+                Dakar, SN
+              </div>
+              <span class="type-tag">Appt.</span>
+            </div>
+          </div>
+          <div class="annonce-right">
+            <span class="price-text">42 500 000</span>
+            <span class="badge badge-pending">En attente</span>
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="annonce-row" data-media-type="banani-button">
+          <div class="annonce-info">
+            <div class="annonce-id-text">#AN-0035</div>
+            <div class="annonce-title-text">Terrain à bâtir, Zone industrielle</div>
+            <div class="annonce-meta">
+              <div class="annonce-loc">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 10px; color: var(--muted-foreground); flex-shrink: 0"
+                ></iconify-icon>
+                Cotonou, BJ
+              </div>
+              <span class="type-tag">Terrain</span>
+            </div>
+          </div>
+          <div class="annonce-right">
+            <span class="price-text">28 000 000</span>
+            <span class="badge badge-sold">Vendu</span>
+          </div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="annonce-row" data-media-type="banani-button">
+          <div class="annonce-info">
+            <div class="annonce-id-text">#AN-0031</div>
+            <div class="annonce-title-text">Duplex standing, Tokoin Mairie</div>
+            <div class="annonce-meta">
+              <div class="annonce-loc">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 10px; color: var(--muted-foreground); flex-shrink: 0"
+                ></iconify-icon>
+                Lomé, TG
+              </div>
+              <span class="type-tag">Duplex</span>
+            </div>
+          </div>
+          <div class="annonce-right">
+            <span class="price-text">74 000 000</span>
+            <span class="badge badge-verified">Vérifié</span>
+          </div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="annonce-row" data-media-type="banani-button">
+          <div class="annonce-info">
+            <div class="annonce-id-text">#AN-0028</div>
+            <div class="annonce-title-text">Bureau commercial, Quartier des Affaires</div>
+            <div class="annonce-meta">
+              <div class="annonce-loc">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 10px; color: var(--muted-foreground); flex-shrink: 0"
+                ></iconify-icon>
+                Cotonou, BJ
+              </div>
+              <span class="type-tag">Bureau</span>
+            </div>
+          </div>
+          <div class="annonce-right">
+            <span class="price-text">55 000 000</span>
+            <span class="badge badge-pending">En attente</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 16px"></div>
+    </div>
+    <!-- end content -->
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div class="nav-tab active" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 20px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="nav-tab-label" style="color: var(--primary)">Dashboard</span>
+      </div>
+      <div class="nav-tab" data-media-type="banani-button" style="position: relative">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="nav-tab-badge">5</span>
+        <span class="nav-tab-label">Messages</span>
+      </div>
+      <div class="nav-tab" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="nav-tab-label">Annonces</span>
+      </div>
+      <div class="nav-tab" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:bar-chart-2"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="nav-tab-label">Stats</span>
+      </div>
+      <div class="nav-tab" data-media-type="banani-button">
+        <div
+          style="
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 20px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="nav-tab-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>

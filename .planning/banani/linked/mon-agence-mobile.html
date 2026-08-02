@@ -1,0 +1,1065 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Mon Agence Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+    }
+  </style>
+
+  <style id="stats-styles">
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .stat-chip {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .stat-chip-val {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+    }
+    .stat-chip-label {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="section-styles">
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <style id="card-styles">
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+    }
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 3px;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-bottom: 16px;
+    }
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0;
+    }
+  </style>
+
+  <style id="logo-row-styles">
+    .agency-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .agency-logo-box {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-xl);
+      background: #eef3ff;
+      border: 2px dashed var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .agency-logo-box span {
+      font-size: 9px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .agency-logo-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .agency-logo-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .agency-logo-meta {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 6px;
+    }
+    .agency-verified-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .status-badge-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+    }
+    .status-badge-amber {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--warning);
+      color: var(--warning-foreground);
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+    }
+    .rccm-text {
+      font-size: 10px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="field-styles">
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .field-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .field-input.select {
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .field-textarea {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--foreground);
+      min-height: 72px;
+      line-height: 1.5;
+    }
+    .fields-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .social-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .social-prefix {
+      color: var(--muted-foreground);
+      font-size: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .social-val {
+      color: var(--foreground);
+    }
+  </style>
+
+  <style id="btn-styles">
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      background: var(--card);
+      white-space: nowrap;
+    }
+    .btn-footer {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-footer .btn-outline {
+      flex: 1;
+    }
+    .btn-footer .btn-primary-sm {
+      flex: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="zone-styles">
+    .zone-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .zone-item:last-child {
+      border-bottom: none;
+    }
+    .zone-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .zone-country {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .zones-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .zone-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+    }
+    .zone-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 3px 9px;
+    }
+    .add-zone-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 9px 14px;
+      border: 1px dashed var(--primary);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      margin-top: 6px;
+      background: transparent;
+    }
+  </style>
+
+  <style id="team-styles">
+    .team-member-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .team-member-row:last-child {
+      border-bottom: none;
+    }
+    .team-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .team-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .team-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .team-role-text {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .admin-badge {
+      font-size: 9.5px;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      padding: 1px 7px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .team-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .team-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Mon Agence</span>
+      <div class="topbar-action" data-media-type="banani-button">
+        <iconify-icon icon="lucide:user-plus" style="font-size: 12px; color: #fff"></iconify-icon>
+        Inviter
+      </div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- STAT CHIPS -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-chip">
+          <span class="stat-chip-val">34</span>
+          <span class="stat-chip-label">Annonces publiées</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-val">6</span>
+          <span class="stat-chip-label">Membres équipe</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-val">4</span>
+          <span class="stat-chip-label">Pays couverts</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-val">97%</span>
+          <span class="stat-chip-label">Taux satisfaction</span>
+        </div>
+      </div>
+
+      <!-- IDENTITY CARD -->
+      <div class="card" id="identity-card">
+        <div class="card-title">Identité de l'agence</div>
+        <div class="card-desc">Visible par les prospects sur toutes vos annonces.</div>
+
+        <div class="agency-logo-row">
+          <div class="agency-logo-box" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:image-plus"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+            <span>Logo</span>
+          </div>
+          <div class="agency-logo-info">
+            <div class="agency-logo-name">AfrikImmo Services</div>
+            <div class="agency-logo-meta">Agence · Fondée 2016 · Cotonou, Bénin</div>
+            <div class="agency-verified-row">
+              <span class="status-badge-green">
+                <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+                Vérifiée
+              </span>
+              <span class="rccm-text">RCCM : BJ-COT-2016-B-4421</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fields-stack">
+          <div class="field">
+            <div class="field-label">Nom de l'agence</div>
+            <div class="field-input">AfrikImmo Services</div>
+          </div>
+          <div class="field">
+            <div class="field-label">Type d'agence</div>
+            <div class="field-input select" data-media-type="banani-button">
+              <span>Agence immobilière agréée</span>
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Adresse du siège</div>
+            <div class="field-input">
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              Avenue Jean-Paul II, Haie Vive, Cotonou
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Téléphone professionnel</div>
+            <div class="field-input">
+              <iconify-icon
+                icon="lucide:phone"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              +229 21 30 45 67
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Email professionnel</div>
+            <div class="field-input">
+              <iconify-icon
+                icon="lucide:mail"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              contact@afrikimmo.bj
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Site web</div>
+            <div class="field-input">
+              <iconify-icon
+                icon="lucide:globe"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              www.afrikimmo.bj
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Description</div>
+            <div class="field-textarea">
+              AfrikImmo Services est une agence immobilière de référence en Afrique de l'Ouest,
+              spécialisée dans la vente, la location et la gestion de biens résidentiels et
+              commerciaux.
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Social links -->
+        <div style="margin-bottom: 4px">
+          <div class="field-label" style="margin-bottom: 10px">Réseaux sociaux</div>
+          <div class="fields-stack">
+            <div class="field">
+              <div class="field-label">Facebook</div>
+              <div class="social-input">
+                <span class="social-prefix">facebook.com/</span>
+                <span class="social-val">afrikimmoservices</span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-label">Instagram</div>
+              <div class="social-input">
+                <span class="social-prefix">instagram.com/</span>
+                <span class="social-val">afrikimmo.bj</span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-label">LinkedIn</div>
+              <div class="social-input">
+                <span class="social-prefix">linkedin.com/company/</span>
+                <span class="social-val">afrikimmo-services</span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-label">WhatsApp Business</div>
+              <div class="social-input">
+                <span class="social-prefix">+</span>
+                <span class="social-val">229 97 00 11 22</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-footer">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary-sm" data-media-type="banani-button">Enregistrer</div>
+        </div>
+      </div>
+
+      <!-- ZONES D'ACTIVITÉ -->
+      <div class="card" id="zones-card">
+        <div class="card-title">Zones d'activité</div>
+        <div class="card-desc">Villes et pays où votre agence opère activement.</div>
+
+        <div class="zone-item">
+          <div class="zone-header">
+            <span class="zone-country">Bénin</span>
+            <div
+              class="btn-outline"
+              style="padding: 5px 10px; font-size: 11.5px"
+              data-media-type="banani-button"
+            >
+              <iconify-icon icon="lucide:pencil" style="font-size: 11px"></iconify-icon>
+              Modifier
+            </div>
+          </div>
+          <div class="zones-wrap">
+            <span class="zone-badge"
+              ><iconify-icon icon="lucide:map-pin" style="font-size: 10px"></iconify-icon>
+              Cotonou</span
+            >
+            <span class="zone-tag">Porto-Novo</span>
+            <span class="zone-tag">Parakou</span>
+            <span class="zone-tag">Calavi</span>
+          </div>
+        </div>
+
+        <div class="zone-item">
+          <div class="zone-header">
+            <span class="zone-country">Togo</span>
+            <div
+              class="btn-outline"
+              style="padding: 5px 10px; font-size: 11.5px"
+              data-media-type="banani-button"
+            >
+              <iconify-icon icon="lucide:pencil" style="font-size: 11px"></iconify-icon>
+              Modifier
+            </div>
+          </div>
+          <div class="zones-wrap">
+            <span class="zone-badge"
+              ><iconify-icon icon="lucide:map-pin" style="font-size: 10px"></iconify-icon>
+              Lomé</span
+            >
+            <span class="zone-tag">Kpalimé</span>
+          </div>
+        </div>
+
+        <div class="zone-item">
+          <div class="zone-header">
+            <span class="zone-country">Côte d'Ivoire</span>
+            <div
+              class="btn-outline"
+              style="padding: 5px 10px; font-size: 11.5px"
+              data-media-type="banani-button"
+            >
+              <iconify-icon icon="lucide:pencil" style="font-size: 11px"></iconify-icon>
+              Modifier
+            </div>
+          </div>
+          <div class="zones-wrap">
+            <span class="zone-badge"
+              ><iconify-icon icon="lucide:map-pin" style="font-size: 10px"></iconify-icon>
+              Abidjan</span
+            >
+            <span class="zone-tag">Yamoussoukro</span>
+          </div>
+        </div>
+
+        <div class="zone-item">
+          <div class="zone-header">
+            <span class="zone-country">Sénégal</span>
+            <div
+              class="btn-outline"
+              style="padding: 5px 10px; font-size: 11.5px"
+              data-media-type="banani-button"
+            >
+              <iconify-icon icon="lucide:pencil" style="font-size: 11px"></iconify-icon>
+              Modifier
+            </div>
+          </div>
+          <div class="zones-wrap">
+            <span class="zone-badge"
+              ><iconify-icon icon="lucide:map-pin" style="font-size: 10px"></iconify-icon>
+              Dakar</span
+            >
+          </div>
+        </div>
+
+        <div class="add-zone-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:plus"
+            style="font-size: 13px; color: var(--primary)"
+          ></iconify-icon>
+          Ajouter un pays
+        </div>
+      </div>
+
+      <!-- TEAM CARD -->
+      <div class="card" id="team-card">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3px;
+          "
+        >
+          <div class="card-title">Équipe de l'agence</div>
+        </div>
+        <div class="card-desc">Agents et collaborateurs rattachés à votre agence.</div>
+
+        <div class="team-member-row">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+            alt="Kofi Mensah"
+            class="team-avatar"
+          />
+          <div class="team-info">
+            <div class="team-name">
+              Kofi Mensah
+              <span class="admin-badge">Admin</span>
+            </div>
+            <div class="team-role-text">Agent principal · kofi.mensah@agenceafrik.com</div>
+          </div>
+          <div class="team-right">
+            <span class="team-status-badge status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Actif
+            </span>
+          </div>
+        </div>
+
+        <div class="team-member-row">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F1"
+            alt="Ama Koffi"
+            class="team-avatar"
+          />
+          <div class="team-info">
+            <div class="team-name">Ama Koffi</div>
+            <div class="team-role-text">Agent commercial</div>
+          </div>
+          <div class="team-right">
+            <span class="team-status-badge status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Actif
+            </span>
+            <div
+              class="btn-outline"
+              style="padding: 4px 10px; font-size: 11px"
+              data-media-type="banani-button"
+            >
+              Gérer
+            </div>
+          </div>
+        </div>
+
+        <div class="team-member-row">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F5"
+            alt="Segun Adeyemi"
+            class="team-avatar"
+          />
+          <div class="team-info">
+            <div class="team-name">Segun Adeyemi</div>
+            <div class="team-role-text">Agent commercial</div>
+          </div>
+          <div class="team-right">
+            <span class="team-status-badge status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Actif
+            </span>
+            <div
+              class="btn-outline"
+              style="padding: 4px 10px; font-size: 11px"
+              data-media-type="banani-button"
+            >
+              Gérer
+            </div>
+          </div>
+        </div>
+
+        <div class="team-member-row">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FAfrican%2F2"
+            alt="Fatou Diallo"
+            class="team-avatar"
+          />
+          <div class="team-info">
+            <div class="team-name">Fatou Diallo</div>
+            <div class="team-role-text">Assistante administrative</div>
+          </div>
+          <div class="team-right">
+            <span class="team-status-badge status-badge-amber">
+              <iconify-icon icon="lucide:clock" style="font-size: 9px"></iconify-icon>
+              En attente
+            </span>
+            <div
+              class="btn-outline"
+              style="padding: 4px 10px; font-size: 11px"
+              data-media-type="banani-button"
+            >
+              Gérer
+            </div>
+          </div>
+        </div>
+
+        <div class="team-member-row">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F7"
+            alt="Moussa Coulibaly"
+            class="team-avatar"
+          />
+          <div class="team-info">
+            <div class="team-name">Moussa Coulibaly</div>
+            <div class="team-role-text">Agent commercial</div>
+          </div>
+          <div class="team-right">
+            <span class="team-status-badge status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Actif
+            </span>
+            <div
+              class="btn-outline"
+              style="padding: 4px 10px; font-size: 11px"
+              data-media-type="banani-button"
+            >
+              Gérer
+            </div>
+          </div>
+        </div>
+
+        <div class="team-member-row">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F4"
+            alt="Isabelle Agbodjan"
+            class="team-avatar"
+          />
+          <div class="team-info">
+            <div class="team-name">Isabelle Agbodjan</div>
+            <div class="team-role-text">Responsable marketing</div>
+          </div>
+          <div class="team-right">
+            <span class="team-status-badge status-badge-green">
+              <iconify-icon icon="lucide:check" style="font-size: 9px"></iconify-icon>
+              Actif
+            </span>
+            <div
+              class="btn-outline"
+              style="padding: 4px 10px; font-size: 11px"
+              data-media-type="banani-button"
+            >
+              Gérer
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom spacer -->
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'dashboard-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'annonces-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'messages-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div
+        class="bnav-item active"
+        data-media-type="banani-button"
+        onclick="location.href = 'settings-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:settings"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Paramètres</span>
+      </div>
+    </div>
+  </div>
+</body>
