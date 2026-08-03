@@ -1,0 +1,997 @@
+<head>
+  <meta charset="UTF-8">
+  <title>HABITAT-AFRIK — Modifier Demande</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #F4F6FB;
+      --foreground: #111827;
+      --border: #E5E7EB;
+      --input: #F9FAFB;
+      --primary: #376BFF;
+      --primary-foreground: #FFFFFF;
+      --secondary: #F3F4F6;
+      --secondary-foreground: #374151;
+      --muted: #F3F4F6;
+      --muted-foreground: #9CA3AF;
+      --accent: #376BFF;
+      --accent-foreground: #FFFFFF;
+      --card: #FFFFFF;
+      --card-foreground: #111827;
+      --sidebar: #FFFFFF;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #EEF3FF;
+      --sidebar-primary-foreground: #376BFF;
+      --success: #D1FAE5;
+      --success-foreground: #065F46;
+      --warning: #FEF3C7;
+      --warning-foreground: #92400E;
+      --destructive: #FEE2E2;
+      --destructive-foreground: #991B1B;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text { font-size: 13px; color: var(--muted-foreground); }
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: 8px 0; }
+    .nav-group { margin-bottom: 4px; }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon { color: var(--sidebar-primary-foreground) !important; }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger { color: #DC2626; }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text { font-size: 13px; color: var(--muted-foreground); }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #EF4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .user-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+    .user-info { display: flex; flex-direction: column; gap: 2px; }
+    .user-name { font-weight: 600; font-size: 13px; color: var(--foreground); white-space: nowrap; }
+    .role-badge {
+      display: inline-block;
+      background: #EEF3FF;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="page-styles">
+    .page-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+      background: var(--background);
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-bottom: 8px;
+    }
+    .breadcrumb-link {
+      color: var(--primary);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .btn-danger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border: 1px solid #FCA5A5;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: #DC2626;
+      cursor: pointer;
+      white-space: nowrap;
+      background: #FFF5F5;
+    }
+  </style>
+
+  <style id="form-styles">
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    .form-col-full { grid-column: 1 / -1; }
+    .form-section {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .form-section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .form-section-sub {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 20px;
+    }
+    .form-section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0 20px 0;
+    }
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-label-required::after {
+      content: ' *';
+      color: #EF4444;
+    }
+    .form-input {
+      width: 100%;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      font-family: var(--font-family-body);
+    }
+    .form-input.focused {
+      border-color: var(--primary);
+      background: #fff;
+    }
+    .form-input-with-icon {
+      position: relative;
+    }
+    .form-input-with-icon .form-input {
+      padding-left: 36px;
+    }
+    .form-input-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .form-select {
+      width: 100%;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      font-family: var(--font-family-body);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .form-select-value {
+      font-size: 13.5px;
+      color: var(--foreground);
+    }
+    .form-textarea {
+      width: 100%;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      font-family: var(--font-family-body);
+      min-height: 90px;
+      resize: none;
+    }
+    .form-field { display: flex; flex-direction: column; }
+    .form-hint {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-top: 5px;
+    }
+    .input-prefix {
+      display: flex;
+      align-items: center;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .input-prefix-label {
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      background: #F0F2F5;
+      border-right: 1.5px solid var(--border);
+      white-space: nowrap;
+    }
+    .input-prefix input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      font-family: var(--font-family-body);
+    }
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .radio-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      background: var(--input);
+    }
+    .radio-pill.selected {
+      border-color: var(--primary);
+      background: #EEF3FF;
+      color: var(--primary);
+    }
+    .radio-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .radio-dot.selected {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .radio-dot.selected::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .priority-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--input);
+      color: var(--secondary-foreground);
+    }
+    .priority-option.selected-urgent {
+      border-color: #EF4444;
+      background: #FEF2F2;
+      color: #DC2626;
+    }
+    .priority-option.selected-normal {
+      border-color: #F59E0B;
+      background: #FFFBEB;
+      color: #D97706;
+    }
+    .priority-option.selected-low {
+      border-color: #9CA3AF;
+      background: #F9FAFB;
+      color: #6B7280;
+    }
+    .priority-dot-sm {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .range-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .range-row .form-input {
+      flex: 1;
+    }
+    .range-sep {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .status-select-row {
+      display: flex;
+      gap: 10px;
+    }
+    .status-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--input);
+      color: var(--secondary-foreground);
+    }
+    .status-option.selected {
+      border-color: var(--primary);
+      background: #EEF3FF;
+      color: var(--primary);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="action-bar-styles">
+    .action-bar {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 18px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .action-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .action-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .last-saved {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  </style>
+</head><body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a href="#" class="sidebar-logo" data-media-type="banani-button">
+      <div class="logo-mark">
+        <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff;"></iconify-icon>
+      </div>
+      <span class="logo-text">HABITAT-AFRIK</span>
+    </a>
+
+    <div class="sidebar-search" data-media-type="banani-button">
+      <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
+        <iconify-icon icon="lucide:search" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+      </div>
+      <span class="sidebar-search-text">Recherche globale…</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <p class="nav-group-label">Navigation</p>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:layout-dashboard" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Tableau de bord
+        </a>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:message-circle" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Messages
+          <span class="nav-badge">5</span>
+        </a>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:settings" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Paramètres
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-group-label">Gestion</p>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:building-2" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Mes annonces
+        </a>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:map-pinned" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Alerte secteur
+        </a>
+        <a href="#" class="nav-item active" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:file-search" style="font-size:17px;color:var(--primary);"></iconify-icon>
+          </div>
+          Demande immobilière
+        </a>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:users" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Contacts reçus
+        </a>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:calendar-check" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Visites programmées
+        </a>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:coins" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Jetons &amp; visites VR
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-group-label">Outils</p>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:bar-chart-2" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Statistiques
+        </a>
+        <a href="#" class="nav-item" data-media-type="banani-button">
+          <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="lucide:life-buoy" style="font-size:17px;color:var(--sidebar-foreground);"></iconify-icon>
+          </div>
+          Centre d'aide
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="#" class="nav-item danger" data-media-type="banani-button">
+        <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;">
+          <iconify-icon icon="lucide:log-out" style="font-size:17px;color:#DC2626;"></iconify-icon>
+        </div>
+        Déconnexion
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-search" data-media-type="banani-button">
+        <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
+          <iconify-icon icon="lucide:search" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+        </div>
+        <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+      </div>
+      <div class="topbar-right">
+        <div class="notif-btn" data-media-type="banani-button">
+          <iconify-icon icon="lucide:bell" style="font-size:18px;color:var(--secondary-foreground);"></iconify-icon>
+          <span class="notif-badge"></span>
+        </div>
+        <div class="user-pill" data-media-type="banani-button">
+          <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Kofi Mensah" class="user-avatar">
+          <div class="user-info">
+            <span class="user-name">Kofi Mensah</span>
+            <span class="role-badge">Agent</span>
+          </div>
+          <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;margin-left:2px;">
+            <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content" id="page-content">
+
+      <!-- Breadcrumb + Header -->
+      <div class="page-header">
+        <div>
+          <div class="breadcrumb">
+            <a href="#" class="breadcrumb-link" data-media-type="banani-button">Demande immobilière</a>
+            <iconify-icon icon="lucide:chevron-right" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon>
+            <span>Modifier la demande</span>
+          </div>
+          <div class="page-title">Modifier la demande — Kouassi Brou</div>
+          <div class="page-sub">Ref. #DEM-2025-001 · Créée le 12 jan. 2025 · Dernière modif. il y a 2h</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div class="btn-danger" data-media-type="banani-button">
+            <iconify-icon icon="lucide:trash-2" style="font-size:14px;color:#DC2626;"></iconify-icon>
+            Supprimer
+          </div>
+          <div class="btn-outline" data-media-type="banani-button">
+            <iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--secondary-foreground);"></iconify-icon>
+            Aperçu
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: Informations client -->
+      <div class="form-section">
+        <div class="form-section-title">Informations client</div>
+        <div class="form-section-sub">Coordonnées du demandeur associé à cette demande.</div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label form-label-required">Nom complet</label>
+            <div class="form-input" style="background:#fff;">Kouassi Brou</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label form-label-required">Téléphone</label>
+            <div class="input-prefix">
+              <span class="input-prefix-label">🇨🇮 +225</span>
+              <input type="text" value="07 45 12 38" style="font-size:13.5px;color:var(--foreground);" readonly="">
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Email</label>
+            <div class="form-input-with-icon">
+              <div class="form-input-icon">
+                <iconify-icon icon="lucide:mail" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+              </div>
+              <div class="form-input" style="background:#fff;padding-left:36px;">kouassi.brou@email.com</div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Type de client</label>
+            <div class="form-select" data-media-type="banani-button">
+              <span class="form-select-value">Particulier</span>
+              <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Critères du bien -->
+      <div class="form-section">
+        <div class="form-section-title">Critères du bien recherché</div>
+        <div class="form-section-sub">Définissez le type de bien, la transaction et la localisation souhaitée.</div>
+
+        <div class="form-grid" style="margin-bottom:20px;">
+          <div class="form-field">
+            <label class="form-label form-label-required">Type de bien</label>
+            <div class="radio-group">
+              <div class="radio-pill selected" data-media-type="banani-button">
+                <div class="radio-dot selected"></div>
+                <iconify-icon icon="lucide:home" style="font-size:12px;"></iconify-icon>
+                Villa
+              </div>
+              <div class="radio-pill" data-media-type="banani-button">
+                <div class="radio-dot"></div>
+                <iconify-icon icon="lucide:building" style="font-size:12px;"></iconify-icon>
+                Appartement
+              </div>
+              <div class="radio-pill" data-media-type="banani-button">
+                <div class="radio-dot"></div>
+                <iconify-icon icon="lucide:warehouse" style="font-size:12px;"></iconify-icon>
+                Terrain
+              </div>
+              <div class="radio-pill" data-media-type="banani-button">
+                <div class="radio-dot"></div>
+                <iconify-icon icon="lucide:building-2" style="font-size:12px;"></iconify-icon>
+                Bureau
+              </div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label form-label-required">Type de transaction</label>
+            <div class="radio-group">
+              <div class="radio-pill selected" data-media-type="banani-button">
+                <div class="radio-dot selected"></div>
+                Vente
+              </div>
+              <div class="radio-pill" data-media-type="banani-button">
+                <div class="radio-dot"></div>
+                Location
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section-divider"></div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label form-label-required">Pays</label>
+            <div class="form-select" data-media-type="banani-button">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span>🇨🇮</span>
+                <span class="form-select-value">Côte d'Ivoire</span>
+              </div>
+              <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label form-label-required">Ville</label>
+            <div class="form-select" data-media-type="banani-button">
+              <span class="form-select-value">Abidjan</span>
+              <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Quartier / Zone</label>
+            <div class="form-input-with-icon">
+              <div class="form-input-icon">
+                <iconify-icon icon="lucide:map-pin" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+              </div>
+              <div class="form-input" style="background:#fff;padding-left:36px;">Cocody</div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Superficie souhaitée (m²)</label>
+            <div class="range-row">
+              <div class="form-input" style="background:#fff;">300</div>
+              <span class="range-sep">—</span>
+              <div class="form-input" style="background:#fff;">600</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Budget -->
+      <div class="form-section">
+        <div class="form-section-title">Budget</div>
+        <div class="form-section-sub">Fourchette de prix souhaitée par le client en FCFA.</div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label form-label-required">Budget minimum (FCFA)</label>
+            <div class="input-prefix">
+              <span class="input-prefix-label">FCFA</span>
+              <input type="text" value="80 000 000" style="font-size:13.5px;color:var(--foreground);" readonly="">
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label form-label-required">Budget maximum (FCFA)</label>
+            <div class="input-prefix">
+              <span class="input-prefix-label">FCFA</span>
+              <input type="text" value="150 000 000" style="font-size:13.5px;color:var(--foreground);" readonly="">
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Nombre de pièces</label>
+            <div class="form-select" data-media-type="banani-button">
+              <span class="form-select-value">4 pièces et plus</span>
+              <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Délai de recherche</label>
+            <div class="form-select" data-media-type="banani-button">
+              <span class="form-select-value">Dans 1 à 3 mois</span>
+              <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Priorité & Statut -->
+      <div class="form-section">
+        <div class="form-section-title">Priorité &amp; Statut</div>
+        <div class="form-section-sub">Définissez le niveau d'urgence et le statut de traitement de cette demande.</div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label form-label-required">Priorité</label>
+            <div style="display:flex;gap:10px;">
+              <div class="priority-option selected-urgent" data-media-type="banani-button">
+                <div class="priority-dot-sm" style="background:#EF4444;"></div>
+                Urgent
+              </div>
+              <div class="priority-option" data-media-type="banani-button">
+                <div class="priority-dot-sm" style="background:#F59E0B;"></div>
+                Normale
+              </div>
+              <div class="priority-option" data-media-type="banani-button">
+                <div class="priority-dot-sm" style="background:#9CA3AF;"></div>
+                Basse
+              </div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label form-label-required">Statut</label>
+            <div class="status-select-row">
+              <div class="status-option selected" data-media-type="banani-button">
+                <div class="status-dot" style="background:#F59E0B;"></div>
+                En attente
+              </div>
+              <div class="status-option" data-media-type="banani-button">
+                <div class="status-dot" style="background:#22C55E;"></div>
+                En cours
+              </div>
+              <div class="status-option" data-media-type="banani-button">
+                <div class="status-dot" style="background:#6B7280;"></div>
+                Clôturée
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Notes internes -->
+      <div class="form-section" style="margin-bottom:0;">
+        <div class="form-section-title">Notes internes</div>
+        <div class="form-section-sub">Observations ou informations complémentaires pour l'équipe (non visibles par le client).</div>
+        <div class="form-field">
+          <div class="form-textarea" style="background:#fff;min-height:80px;color:var(--foreground);">Client très motivé, disponible le week-end pour les visites. Préfère les quartiers résidentiels calmes avec gardiennage.</div>
+          <span class="form-hint">Ce champ est visible uniquement par l'équipe interne.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ACTION BAR (sticky bottom) -->
+    <div class="action-bar" id="action-bar">
+      <div class="action-bar-left">
+        <span class="last-saved">
+          <iconify-icon icon="lucide:check-circle" style="font-size:13px;color:#22C55E;"></iconify-icon>
+          Dernière sauvegarde : il y a 2 minutes
+        </span>
+      </div>
+      <div class="action-bar-right">
+        <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+        <div class="btn-outline" data-media-type="banani-button">
+          <iconify-icon icon="lucide:save" style="font-size:14px;color:var(--secondary-foreground);"></iconify-icon>
+          Enregistrer le brouillon
+        </div>
+        <div class="btn-primary" data-media-type="banani-button">
+          <iconify-icon icon="lucide:check" style="font-size:14px;color:#fff;"></iconify-icon>
+          Enregistrer les modifications
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+</body>

@@ -1,18 +1,45 @@
 # Banani implementation status
 
-Last updated: 2026-07-24
+Last updated: 2026-08-03
 
-## Banani subscription expiry was 2026-07-24 — MCP confirmed still working that day
+## 2026-08-03 — 29 new screens archived, subscription expires 2026-08-04
 
-All 54 screens from the "HABITATAFRIK EQUIPE" flow were archived locally on
-2026-07-23 to `.planning/banani/raw/` (raw HTML + theme tokens per screen,
-`_index.json` lists all of them) as a backup before the predicted expiry.
-**Update**: on 2026-07-24 itself, `mcp__banani__banani_get_selected_designs`
-still worked live (used to fetch the "Dashboard Mobile" screen) — so the
-lapse either has a grace period or hasn't taken effect. Try the live MCP
-call first when the user says they've selected something in Banani; only
-fall back to the archived `.html`/`.meta.json` files if the call actually
-errors.
+User generated a new batch of screens (admin back-office + a "Demande
+Immobilière" property-request flow) and asked to archive everything before
+the Banani subscription lapses tomorrow. Diffed the full
+`banani_get_selected_designs` bulk fetch (83 screens selected) against
+`_index.json`'s existing 54 screenIds — 29 were genuinely new, written to
+`.planning/banani/raw/` (`<slug>.html` + `<slug>.meta.json` each) and
+appended to `_index.json`. `_index.json` now lists 83 screens total.
+
+New screens by feature area:
+- **Admin back-office** (8): Gestion Annonces, Gestion Utilisateurs, Finances
+  Jetons, Visites Virtuelles (×2, dup screenName — second uses
+  `-<screenid>` slug suffix per the existing dedup convention), Modération
+  Support, Paramètres Admin, Tarification Admin, Rôles Permissions.
+- **"Demande Immobilière" flow** (21, web + mobile): Demande Immobilière
+  (×2), Demande Immobilière Mobile, Demande Immobilière Agent, Nouvelle
+  Demande (×4), Nouvelle Demande Mobile, Demande Detail (×2), Demande
+  Actions Menu (×2), Modifier Demande, Budget Contact Mobile, Contact
+  Mobile, Nouvelle Alerte, Alerte Secteur, Alerte Detail, Gérer Alertes —
+  a property-request/matching feature not previously seen in the flow.
+
+None of these 29 are planned or implemented yet — they're archived raw only.
+Not reflected in the `linked/`, `gallery.html`, `pc-mockup/` derived views
+(those still cover only the original 54); regenerate from `raw/` if the user
+wants the new screens wired into the clickable prototype too.
+
+## Banani subscription expiry — MCP confirmed working past predicted lapse dates
+
+All 54 original screens from the "HABITATAFRIK EQUIPE" flow were archived
+locally on 2026-07-23 to `.planning/banani/raw/` (raw HTML + theme tokens
+per screen, `_index.json` lists all of them) as a backup before the
+predicted 2026-07-24 expiry. On 2026-07-24 itself, and again on 2026-08-03
+(see above), `mcp__banani__banani_get_selected_designs` still worked live —
+so the lapse either has a grace period or hasn't taken effect. Try the live
+MCP call first when the user says they've selected something in Banani;
+only fall back to the archived `.html`/`.meta.json` files if the call
+actually errors.
 
 ## Clickable prototype — `.planning/banani/linked/` + `gallery.html`
 

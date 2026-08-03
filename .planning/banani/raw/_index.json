@@ -328,6 +328,180 @@
       "screenId": "x9tyH65N9HgJ",
       "screenName": "Modifier Annonce Mobile",
       "genType": "mobile-html-css"
+    },
+    {
+      "slug": "gestion-annonces",
+      "screenId": "KwtyLo_2MeSI",
+      "screenName": "Gestion Annonces",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "gestion-utilisateurs",
+      "screenId": "-Uy2RRwYIq6u",
+      "screenName": "Gestion Utilisateurs",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "finances-jetons",
+      "screenId": "z9rwwxh6snfW",
+      "screenName": "Finances Jetons",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "visites-virtuelles",
+      "screenId": "JDulvkW2xcRO",
+      "screenName": "Visites Virtuelles",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "visites-virtuelles-tpdfrijyzzmr",
+      "screenId": "TPDfrijYzzMR",
+      "screenName": "Visites Virtuelles",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "moderation-support",
+      "screenId": "BJKHob0JudDQ",
+      "screenName": "Modération Support",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "parametres-admin",
+      "screenId": "ikG97Z8-uL2Z",
+      "screenName": "Paramètres Admin",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "tarification-admin",
+      "screenId": "WCE8iUkqg8QO",
+      "screenName": "Tarification Admin",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "roles-permissions",
+      "screenId": "LZmHMZTrI3Rt",
+      "screenName": "Rôles Permissions",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "demande-immobiliere",
+      "screenId": "6X4qFRuiWsHb",
+      "screenName": "Demande Immobilière",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "demande-immobiliere-mobile",
+      "screenId": "qAwsKgAn9WzD",
+      "screenName": "Demande Immobilière Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "nouvelle-demande",
+      "screenId": "diLtxluZGALA",
+      "screenName": "Nouvelle Demande",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "nouvelle-demande-mobile",
+      "screenId": "Zo3wTNZDt1SI",
+      "screenName": "Nouvelle Demande Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "demande-immobiliere-5cg1hafzigs0",
+      "screenId": "5Cg1HaFziGS0",
+      "screenName": "Demande Immobilière",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "demande-detail",
+      "screenId": "s5ZkkOLjoKCt",
+      "screenName": "Demande Detail",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "demande-actions-menu",
+      "screenId": "TRsiWNht02xZ",
+      "screenName": "Demande Actions Menu",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "budget-contact-mobile",
+      "screenId": "qsrqy7yUhDbi",
+      "screenName": "Budget Contact Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "demande-detail-dedjyyejpgfp",
+      "screenId": "DEDJyYeJPGFP",
+      "screenName": "Demande Detail",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "contact-mobile",
+      "screenId": "gGnzftxGBVCh",
+      "screenName": "Contact Mobile",
+      "genType": "mobile-html-css"
+    },
+    {
+      "slug": "demande-immobiliere-agent",
+      "screenId": "e48WC0idcwtd",
+      "screenName": "Demande Immobilière Agent",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "modifier-demande",
+      "screenId": "Uty_ZBBZ5pIJ",
+      "screenName": "Modifier Demande",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "nouvelle-alerte",
+      "screenId": "pyVgOb8k_wRD",
+      "screenName": "Nouvelle Alerte",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "nouvelle-demande-zytkwqu8kvnc",
+      "screenId": "ZYtkWqU8KVNc",
+      "screenName": "Nouvelle Demande",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "demande-actions-menu-sqczmtlhwj4n",
+      "screenId": "sqczmtlhWJ4N",
+      "screenName": "Demande Actions Menu",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "nouvelle-demande-7kdshexe2qmf",
+      "screenId": "7kdSHEXE2QMF",
+      "screenName": "Nouvelle Demande",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "nouvelle-demande-fglepwmorlgw",
+      "screenId": "fgLePwMorLgw",
+      "screenName": "Nouvelle Demande",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "alerte-secteur-ruc_wxnetkzv",
+      "screenId": "ruc_WxneTkzV",
+      "screenName": "Alerte Secteur",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "alerte-detail",
+      "screenId": "aLYiQWu5EH_7",
+      "screenName": "Alerte Detail",
+      "genType": "web-html-css"
+    },
+    {
+      "slug": "gerer-alertes",
+      "screenId": "YKST5vLCMORh",
+      "screenName": "Gérer Alertes",
+      "genType": "web-html-css"
     }
   ]
 }

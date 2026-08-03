@@ -1,0 +1,887 @@
+<head>
+  <meta charset="UTF-8">
+  <title>Habitat-Afrik — Modération &amp; Support</title>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="base-styles">
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 812px;
+      background: #F5F6F8;
+      color: #1A1A1A;
+      font-size: 14px;
+    }
+    .screen-wrap {
+      min-height: 812px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      background: #F5F6F8;
+    }
+    .icon-wrap { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .icon-wrap.sm { width: 16px; height: 16px; }
+    .icon-wrap.lg { width: 20px; height: 20px; }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: #FFFFFF;
+      color: #1A1A1A;
+      border-right: 1px solid #E5E7EB;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .brand-block { display: flex; align-items: center; gap: 12px; padding: 8px 8px 4px 8px; }
+    .brand-mark {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      background: #EFF6FF;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-title { font-size: 16px; font-weight: 700; color: #1A1A1A; line-height: 1.2; }
+    .brand-subtitle { font-size: 12px; color: #6B7280; line-height: 1.2; }
+    .country-switcher {
+      background: #F5F6F8;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .country-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .country-avatar {
+      width: 32px; height: 32px; border-radius: 999px;
+      background: #FFFFFF; color: #0EA5E9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .country-label { font-size: 11px; color: #6B7280; margin-bottom: 2px; }
+    .country-value { font-size: 13px; font-weight: 600; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-section { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-section-title { font-size: 11px; font-weight: 600; color: #6B7280; padding: 0 8px; }
+    .country-pills { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 8px; }
+    .cpill {
+      height: 32px; padding: 0 12px; border-radius: 999px;
+      background: #F5F6F8; color: #6B7280;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; white-space: nowrap;
+    }
+    .cpill.active { background: #0EA5E9; color: #FFFFFF; }
+    .nav-list { display: flex; flex-direction: column; gap: 4px; }
+    .nav-item {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 12px; border-radius: 12px;
+      text-decoration: none; background: transparent; cursor: pointer;
+    }
+    .nav-item-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .nav-item-label { font-size: 14px; font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-item.active { background: #EFF6FF; }
+    .nav-item.active .nav-item-label { color: #0EA5E9; font-weight: 600; }
+    .nav-count {
+      min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px;
+      background: #F5F6F8; color: #6B7280;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; white-space: nowrap;
+    }
+    .nav-item.active .nav-count { background: #0EA5E9; color: #FFFFFF; }
+    .sidebar-spacer { flex: 1; }
+    .logout-item { background: #FEF2F2; }
+    .logout-item .nav-item-label { color: #EF4444; font-weight: 600; }
+  </style>
+
+  <style id="topbar-styles">
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .topbar {
+      height: 76px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #E5E7EB;
+      padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .searchbar {
+      width: 420px; max-width: 100%; height: 44px;
+      border-radius: 12px; background: #F5F6F8;
+      display: flex; align-items: center; gap: 10px; padding: 0 14px;
+      color: #6B7280;
+    }
+    .searchbar-text { font-size: 14px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .icon-btn {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: #F5F6F8;
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .notif-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; border-radius: 999px; background: #EF4444; }
+    .admin-pill {
+      height: 42px; padding: 0 12px; border-radius: 12px;
+      background: #F5F6F8;
+      display: flex; align-items: center; gap: 10px; min-width: 0;
+    }
+    .admin-avatar { width: 30px; height: 30px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
+    .admin-name { font-size: 13px; font-weight: 600; color: #1A1A1A; white-space: nowrap; }
+    .admin-role { font-size: 11px; color: #6B7280; white-space: nowrap; }
+  </style>
+
+  <style id="page-styles">
+    .page {
+      flex: 1; min-width: 0; padding: 28px;
+      display: flex; flex-direction: column; gap: 20px;
+      padding-right: 508px;
+      overflow-y: auto;
+    }
+    .page-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .page-title-block { display: flex; flex-direction: column; gap: 6px; }
+    .page-eyebrow { font-size: 12px; font-weight: 600; color: #0EA5E9; }
+    .page-title { margin: 0; font-size: 24px; font-weight: 700; color: #1A1A1A; line-height: 1.2; }
+    .btn {
+      height: 40px; padding: 0 16px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer;
+    }
+    .btn.primary { background: #0EA5E9; color: #FFFFFF; }
+    .btn.secondary { background: #FFFFFF; color: #1A1A1A; border: 1px solid #E5E7EB; }
+    .btn.success { background: #F0FDF4; color: #22C55E; border: 1px solid #BBF7D0; }
+    .btn.danger { background: #FEF2F2; color: #EF4444; border: 1px solid #FECACA; }
+  </style>
+
+  <style id="tabs-styles">
+    .main-tabs { display: flex; align-items: center; gap: 4px; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 4px; width: fit-content; }
+    .mtab {
+      height: 36px; padding: 0 18px; border-radius: 10px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: #6B7280; white-space: nowrap; cursor: pointer;
+    }
+    .mtab.active { background: #0EA5E9; color: #FFFFFF; }
+    .mtab-count {
+      min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px;
+      background: rgba(255,255,255,0.25); color: inherit;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+    .mtab:not(.active) .mtab-count { background: #F5F6F8; color: #6B7280; }
+  </style>
+
+  <style id="kpi-styles">
+    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .kpi-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .kpi-label { font-size: 12px; font-weight: 600; color: #6B7280; }
+    .kpi-value { font-size: 26px; font-weight: 700; color: #1A1A1A; line-height: 1.1; }
+    .kpi-sub { font-size: 12px; color: #6B7280; }
+    .kpi-icon { width: 36px; height: 36px; border-radius: 10px; background: #EFF6FF; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+    .kpi-warning .kpi-icon { background: #FFFBEB; }
+    .kpi-success .kpi-icon { background: #F0FDF4; }
+  </style>
+
+  <style id="filter-styles">
+    .filter-bar {
+      background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px;
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .filter-label { font-size: 12px; font-weight: 600; color: #6B7280; white-space: nowrap; }
+    .filter-select {
+      height: 36px; padding: 0 12px; border-radius: 10px;
+      background: #F5F6F8; border: 1px solid #E5E7EB;
+      display: flex; align-items: center; gap: 8px;
+      color: #1A1A1A; font-size: 13px; font-weight: 500; white-space: nowrap; cursor: pointer;
+    }
+    .filter-divider { width: 1px; height: 24px; background: #E5E7EB; }
+    .filter-reset { height: 36px; padding: 0 12px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #6B7280; white-space: nowrap; cursor: pointer; }
+  </style>
+
+  <style id="table-styles">
+    .table-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; overflow: hidden; }
+    .table-toolbar {
+      padding: 16px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .table-toolbar-left { font-size: 14px; font-weight: 700; color: #1A1A1A; }
+    .table-toolbar-right { display: flex; align-items: center; gap: 10px; }
+    .table-search {
+      height: 36px; width: 220px; border-radius: 10px;
+      background: #F5F6F8; border: 1px solid #E5E7EB;
+      display: flex; align-items: center; gap: 8px; padding: 0 12px;
+      color: #6B7280; font-size: 13px; white-space: nowrap;
+    }
+
+    /* SIGNALEMENTS TABLE */
+    .sig-heads, .sig-row {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1.2fr) minmax(0, 1.8fr) 90px 90px 80px 90px 40px;
+      gap: 10px; align-items: center;
+      padding: 0 18px;
+    }
+    .sig-heads {
+      height: 42px;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E5E7EB;
+      font-size: 11px; font-weight: 700; color: #6B7280; letter-spacing: 0.02em;
+    }
+    .sig-row {
+      min-height: 64px; padding-top: 10px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      background: #FFFFFF; cursor: pointer;
+    }
+    .sig-row.alt { background: #FCFDFE; }
+    .sig-row > div { min-width: 0; }
+
+    /* SUPPORT TABLE */
+    .sup-heads, .sup-row {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 2fr) 100px 90px 80px 100px 40px;
+      gap: 10px; align-items: center;
+      padding: 0 18px;
+    }
+    .sup-heads {
+      height: 42px;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E5E7EB;
+      font-size: 11px; font-weight: 700; color: #6B7280; letter-spacing: 0.02em;
+    }
+    .sup-row {
+      min-height: 68px; padding-top: 10px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      background: #FFFFFF; cursor: pointer;
+    }
+    .sup-row.alt { background: #FCFDFE; }
+    .sup-row > div { min-width: 0; }
+
+    .user-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .user-avatar { width: 34px; height: 34px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
+    .user-name { font-size: 13px; font-weight: 600; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-sub { font-size: 11px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .ticket-cell { min-width: 0; }
+    .ticket-subject { font-size: 13px; font-weight: 600; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .ticket-preview { font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .type-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .type-fraud { background: #FEF2F2; }
+    .type-content { background: #FFFBEB; }
+    .type-scam { background: #FFF1F2; }
+    .type-other { background: #F5F6F8; }
+
+    .element-cell { min-width: 0; }
+    .element-name { font-size: 13px; font-weight: 600; color: #0EA5E9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+    .element-sub { font-size: 11px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .motif-cell { font-size: 12px; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 22px; padding: 0 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; white-space: nowrap; max-width: 100%;
+    }
+    .badge-critical { background: #FEF2F2; color: #EF4444; }
+    .badge-medium { background: #FFFBEB; color: #D97706; }
+    .badge-low { background: #F5F6F8; color: #6B7280; }
+    .badge-new { background: #EFF6FF; color: #0EA5E9; }
+    .badge-inprogress { background: #FFFBEB; color: #D97706; }
+    .badge-resolved { background: #F0FDF4; color: #22C55E; }
+    .badge-rejected { background: #F5F6F8; color: #6B7280; }
+    .badge-open { background: #EFF6FF; color: #0EA5E9; }
+    .badge-urgent { background: #FEF2F2; color: #EF4444; }
+    .badge-normal { background: #F5F6F8; color: #6B7280; }
+    .badge-high { background: #FFFBEB; color: #D97706; }
+    .badge-low-p { background: #F0FDF4; color: #22C55E; }
+
+    .date-cell { font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .action-menu { display: flex; align-items: center; justify-content: flex-end; }
+    .action-mini {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: #F5F6F8;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+
+    .pagination-bar {
+      padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .pagination-info { font-size: 13px; color: #6B7280; white-space: nowrap; }
+    .rows-select {
+      height: 32px; padding: 0 10px; border-radius: 8px;
+      border: 1px solid #E5E7EB; background: #F5F6F8;
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap; font-size: 13px; color: #1A1A1A; cursor: pointer;
+    }
+    .pagination-pages { display: flex; align-items: center; gap: 6px; }
+    .ppage {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: #F5F6F8; color: #6B7280;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; white-space: nowrap; cursor: pointer;
+    }
+    .ppage.active { background: #0EA5E9; color: #FFFFFF; }
+  </style>
+
+  <style id="drawer-styles">
+    .drawer-backdrop {
+      position: absolute; top: 0; right: 0;
+      width: 460px; height: 100%;
+      background: #FFFFFF; border-left: 1px solid #E5E7EB;
+      display: flex; flex-direction: column; z-index: 5;
+    }
+    .drawer-header {
+      height: 68px; padding: 0 18px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0;
+    }
+    .drawer-title { font-size: 16px; font-weight: 700; color: #1A1A1A; }
+    .drawer-close {
+      width: 32px; height: 32px; border-radius: 10px;
+      background: #F5F6F8;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+    .drawer-section-label { font-size: 12px; font-weight: 700; color: #6B7280; margin-bottom: 6px; }
+    .drawer-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .info-item { background: #F5F6F8; border-radius: 12px; padding: 12px 14px; }
+    .info-key { font-size: 11px; font-weight: 500; color: #6B7280; margin-bottom: 4px; }
+    .info-val { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+    .preview-card {
+      background: #F5F6F8; border-radius: 14px; padding: 14px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .preview-thumb { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+    .preview-title { font-size: 14px; font-weight: 600; color: #0EA5E9; margin-bottom: 4px; }
+    .preview-meta { font-size: 12px; color: #6B7280; }
+    .reporter-card { background: #F5F6F8; border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 12px; }
+    .reporter-avatar { width: 40px; height: 40px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
+    .reporter-name { font-size: 14px; font-weight: 600; color: #1A1A1A; margin-bottom: 3px; }
+    .reporter-meta { font-size: 12px; color: #6B7280; }
+    .history-list { display: flex; flex-direction: column; gap: 12px; }
+    .history-item { display: flex; align-items: flex-start; gap: 10px; }
+    .history-dot { width: 8px; height: 8px; border-radius: 999px; background: #E5E7EB; margin-top: 5px; flex-shrink: 0; }
+    .history-dot.active { background: #0EA5E9; }
+    .history-text { font-size: 13px; color: #374151; line-height: 1.45; }
+    .history-time { font-size: 11px; color: #6B7280; margin-top: 3px; }
+    .note-field { background: #F5F6F8; border-radius: 12px; padding: 12px 14px; }
+    .note-label { font-size: 12px; font-weight: 600; color: #6B7280; margin-bottom: 8px; }
+    .note-input {
+      background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 10px;
+      padding: 10px 12px; font-size: 13px; color: #6B7280;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .status-change { display: flex; gap: 8px; flex-wrap: wrap; }
+    .status-btn {
+      height: 34px; padding: 0 14px; border-radius: 10px;
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer;
+    }
+    .status-btn.primary { background: #0EA5E9; color: #FFFFFF; }
+    .status-btn.warning { background: #FFFBEB; color: #D97706; border: 1px solid #FDE68A; }
+    .status-btn.success { background: #F0FDF4; color: #22C55E; border: 1px solid #BBF7D0; }
+    .status-btn.gray { background: #F5F6F8; color: #6B7280; border: 1px solid #E5E7EB; }
+    .drawer-actions {
+      padding: 14px 18px 16px 18px;
+      border-top: 1px solid #E5E7EB;
+      display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;
+    }
+    .drawer-actions-row { display: flex; gap: 10px; }
+  </style>
+
+  <style id="chat-styles">
+    .chat-area { display: flex; flex-direction: column; gap: 12px; }
+    .chat-msg { display: flex; gap: 10px; align-items: flex-start; }
+    .chat-msg.admin { flex-direction: row-reverse; }
+    .chat-avatar { width: 32px; height: 32px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
+    .chat-bubble {
+      max-width: 75%;
+      background: #F5F6F8; border-radius: 12px; padding: 10px 14px;
+    }
+    .chat-msg.admin .chat-bubble { background: #EFF6FF; }
+    .chat-text { font-size: 13px; color: #1A1A1A; line-height: 1.5; }
+    .chat-time { font-size: 11px; color: #6B7280; margin-top: 4px; }
+    .chat-input-area {
+      background: #F5F6F8; border-radius: 14px; padding: 12px 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .chat-input {
+      flex: 1; background: #FFFFFF; border: 1px solid #E5E7EB;
+      border-radius: 10px; padding: 10px 12px; font-size: 13px; color: #6B7280;
+      min-width: 0;
+    }
+    .chat-send {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: #0EA5E9;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer;
+    }
+  </style>
+</head><body>
+  <div class="screen-wrap" id="screen-wrap">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">
+          <div class="icon-wrap lg"><iconify-icon icon="lucide:building-2" style="font-size:20px;color:#0EA5E9;"></iconify-icon></div>
+        </div>
+        <div>
+          <div class="brand-title">Habitat-Afrik</div>
+          <div class="brand-subtitle">Administration</div>
+        </div>
+      </div>
+
+      <div class="country-switcher" data-media-type="banani-button">
+        <div class="country-left">
+          <div class="country-avatar">AF</div>
+          <div>
+            <div class="country-label">Vue active</div>
+            <div class="country-value">Multi-pays agrégée</div>
+          </div>
+        </div>
+        <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:16px;color:#6B7280;"></iconify-icon></div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Pays</div>
+        <div class="country-pills">
+          <div class="cpill active" data-media-type="banani-button">BJ</div>
+          <div class="cpill" data-media-type="banani-button">TG</div>
+          <div class="cpill" data-media-type="banani-button">CI</div>
+          <div class="cpill" data-media-type="banani-button">SN</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <div class="nav-list">
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap"><iconify-icon icon="lucide:layout-dashboard" style="font-size:18px;color:#6B7280;"></iconify-icon></div>
+              <span class="nav-item-label">Tableau de bord</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap"><iconify-icon icon="lucide:clipboard-list" style="font-size:18px;color:#6B7280;"></iconify-icon></div>
+              <span class="nav-item-label">Gestion des annonces</span>
+            </div>
+            <span class="nav-count">128</span>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap"><iconify-icon icon="lucide:users" style="font-size:18px;color:#6B7280;"></iconify-icon></div>
+              <span class="nav-item-label">Utilisateurs</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap"><iconify-icon icon="lucide:wallet" style="font-size:18px;color:#6B7280;"></iconify-icon></div>
+              <span class="nav-item-label">Finances &amp; jetons</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap"><iconify-icon icon="lucide:video" style="font-size:18px;color:#6B7280;"></iconify-icon></div>
+              <span class="nav-item-label">Visites virtuelles</span>
+            </div>
+          </a>
+          <a class="nav-item active" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap"><iconify-icon icon="lucide:shield-alert" style="font-size:18px;color:#0EA5E9;"></iconify-icon></div>
+              <span class="nav-item-label">Modération &amp; support</span>
+            </div>
+            <span class="nav-count">19</span>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap"><iconify-icon icon="lucide:settings-2" style="font-size:18px;color:#6B7280;"></iconify-icon></div>
+              <span class="nav-item-label">Paramètres</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-spacer"></div>
+      <a class="nav-item logout-item" data-media-type="banani-button">
+        <div class="nav-item-left">
+          <div class="icon-wrap"><iconify-icon icon="lucide:log-out" style="font-size:18px;color:#EF4444;"></iconify-icon></div>
+          <span class="nav-item-label">Déconnexion</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main" id="main-content">
+      <div class="topbar" id="topbar">
+        <div class="searchbar" data-media-type="banani-button">
+          <div class="icon-wrap"><iconify-icon icon="lucide:search" style="font-size:16px;color:#6B7280;"></iconify-icon></div>
+          <span class="searchbar-text">Rechercher un signalement, un ticket, un utilisateur…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="icon-btn" data-media-type="banani-button">
+            <iconify-icon icon="lucide:bell" style="font-size:18px;color:#1A1A1A;"></iconify-icon>
+            <span class="notif-dot"></span>
+          </div>
+          <div class="admin-pill" data-media-type="banani-button">
+            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Admin" class="admin-avatar">
+            <div>
+              <div class="admin-name">Kofi Mensah</div>
+              <div class="admin-role">Admin plateforme</div>
+            </div>
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:chevrons-up-down" style="font-size:14px;color:#6B7280;"></iconify-icon></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE -->
+      <div class="page" id="page">
+        <div class="page-header">
+          <div class="page-title-block">
+            <div class="page-eyebrow">Administration · Multi-pays agrégée</div>
+            <h1 class="page-title">Modération &amp; Support</h1>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <div class="btn secondary" data-media-type="banani-button">
+              <div class="icon-wrap sm"><iconify-icon icon="lucide:file-down" style="font-size:14px;color:#1A1A1A;"></iconify-icon></div>
+              Exporter
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN TABS -->
+        <div class="main-tabs" id="main-tabs">
+          <div class="mtab active" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:flag" style="font-size:14px;color:inherit;"></iconify-icon></div>
+            Signalements <span class="mtab-count">14</span>
+          </div>
+          <div class="mtab" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:message-square" style="font-size:14px;color:inherit;"></iconify-icon></div>
+            Support client <span class="mtab-count">5</span>
+          </div>
+        </div>
+
+        <!-- KPI ROW -->
+        <div class="kpi-row" id="kpi-row">
+          <div class="kpi-card kpi-warning">
+            <div class="kpi-icon kpi-warning">
+              <div class="icon-wrap"><iconify-icon icon="lucide:clock" style="font-size:18px;color:#D97706;"></iconify-icon></div>
+            </div>
+            <div class="kpi-label">Signalements en attente</div>
+            <div class="kpi-value">14</div>
+            <div class="kpi-sub">+3 depuis hier</div>
+          </div>
+          <div class="kpi-card kpi-success">
+            <div class="kpi-icon kpi-success">
+              <div class="icon-wrap"><iconify-icon icon="lucide:check-circle-2" style="font-size:18px;color:#22C55E;"></iconify-icon></div>
+            </div>
+            <div class="kpi-label">Traités cette semaine</div>
+            <div class="kpi-value">27</div>
+            <div class="kpi-sub">Sur 31 signalements reçus</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <div class="icon-wrap"><iconify-icon icon="lucide:timer" style="font-size:18px;color:#0EA5E9;"></iconify-icon></div>
+            </div>
+            <div class="kpi-label">Temps de traitement moyen</div>
+            <div class="kpi-value">4h 12m</div>
+            <div class="kpi-sub">Objectif : moins de 6h</div>
+          </div>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar" id="filter-bar">
+          <div class="filter-label">Filtrer :</div>
+          <div class="filter-select" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:tag" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+            Motif
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:alert-triangle" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+            Gravité
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:activity" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+            Statut
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:globe" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+            Pays
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:calendar" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+            Période
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-reset" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:rotate-ccw" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+            Réinitialiser
+          </div>
+        </div>
+
+        <!-- SIGNALEMENTS TABLE -->
+        <div class="table-card" id="sig-table">
+          <div class="table-toolbar">
+            <div class="table-toolbar-left">41 signalements</div>
+            <div class="table-toolbar-right">
+              <div class="table-search" data-media-type="banani-button">
+                <div class="icon-wrap sm"><iconify-icon icon="lucide:search" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+                Rechercher…
+              </div>
+              <div class="btn secondary" style="height:36px;font-size:13px;" data-media-type="banani-button">
+                <div class="icon-wrap sm"><iconify-icon icon="lucide:file-down" style="font-size:13px;color:#1A1A1A;"></iconify-icon></div>
+                Exporter CSV
+              </div>
+            </div>
+          </div>
+
+          <div class="sig-heads" id="sig-heads">
+            <div></div>
+            <div>Type</div>
+            <div>Élément concerné</div>
+            <div>Motif</div>
+            <div>Gravité</div>
+            <div>Statut</div>
+            <div>Date</div>
+            <div></div>
+          </div>
+
+          <!-- Row 1 -->
+          <div class="sig-row" data-media-type="banani-button">
+            <div><div class="type-icon type-fraud"><iconify-icon icon="lucide:alert-octagon" style="font-size:16px;color:#EF4444;"></iconify-icon></div></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#1A1A1A;">Annonce frauduleuse</div>
+              <div style="font-size:11px;color:#6B7280;">Annonce</div>
+            </div>
+            <div class="element-cell">
+              <div class="element-name">Villa de luxe – Cocody</div>
+              <div class="element-sub">Réf. HA-8941 · Abidjan, CI</div>
+            </div>
+            <div class="motif-cell">Photos volées</div>
+            <div><span class="badge badge-critical">Critique</span></div>
+            <div><span class="badge badge-new">Nouveau</span></div>
+            <div class="date-cell">04 juil. 2025</div>
+            <div class="action-menu"><div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:#6B7280;"></iconify-icon></div></div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="sig-row alt" data-media-type="banani-button">
+            <div><div class="type-icon type-scam"><iconify-icon icon="lucide:ban" style="font-size:16px;color:#EF4444;"></iconify-icon></div></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#1A1A1A;">Arnaque</div>
+              <div style="font-size:11px;color:#6B7280;">Utilisateur</div>
+            </div>
+            <div class="element-cell">
+              <div class="element-name">Moussa Traoré</div>
+              <div class="element-sub">Particulier · Dakar, SN</div>
+            </div>
+            <div class="motif-cell">Demande d'avance</div>
+            <div><span class="badge badge-critical">Critique</span></div>
+            <div><span class="badge badge-inprogress">En cours</span></div>
+            <div class="date-cell">03 juil. 2025</div>
+            <div class="action-menu"><div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:#6B7280;"></iconify-icon></div></div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="sig-row" data-media-type="banani-button">
+            <div><div class="type-icon type-content"><iconify-icon icon="lucide:image-off" style="font-size:16px;color:#D97706;"></iconify-icon></div></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#1A1A1A;">Contenu inapproprié</div>
+              <div style="font-size:11px;color:#6B7280;">Annonce</div>
+            </div>
+            <div class="element-cell">
+              <div class="element-name">Appartement Plateau</div>
+              <div class="element-sub">Réf. HA-8912 · Dakar, SN</div>
+            </div>
+            <div class="motif-cell">Photos trompeuses</div>
+            <div><span class="badge badge-medium">Moyenne</span></div>
+            <div><span class="badge badge-new">Nouveau</span></div>
+            <div class="date-cell">03 juil. 2025</div>
+            <div class="action-menu"><div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:#6B7280;"></iconify-icon></div></div>
+          </div>
+
+          <!-- Row 4 -->
+          <div class="sig-row alt" data-media-type="banani-button">
+            <div><div class="type-icon type-fraud"><iconify-icon icon="lucide:alert-octagon" style="font-size:16px;color:#EF4444;"></iconify-icon></div></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#1A1A1A;">Annonce frauduleuse</div>
+              <div style="font-size:11px;color:#6B7280;">Annonce</div>
+            </div>
+            <div class="element-cell">
+              <div class="element-name">Terrain 800m² Cotonou</div>
+              <div class="element-sub">Réf. HA-8864 · Cotonou, BJ</div>
+            </div>
+            <div class="motif-cell">Titre de propriété douteux</div>
+            <div><span class="badge badge-critical">Critique</span></div>
+            <div><span class="badge badge-resolved">Résolu</span></div>
+            <div class="date-cell">02 juil. 2025</div>
+            <div class="action-menu"><div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:#6B7280;"></iconify-icon></div></div>
+          </div>
+
+          <!-- Row 5 -->
+          <div class="sig-row" data-media-type="banani-button">
+            <div><div class="type-icon type-other"><iconify-icon icon="lucide:help-circle" style="font-size:16px;color:#6B7280;"></iconify-icon></div></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#1A1A1A;">Autre</div>
+              <div style="font-size:11px;color:#6B7280;">Utilisateur</div>
+            </div>
+            <div class="element-cell">
+              <div class="element-name">Agence Immo Plus</div>
+              <div class="element-sub">Agence · Lomé, TG</div>
+            </div>
+            <div class="motif-cell">Spam de messages</div>
+            <div><span class="badge badge-low">Faible</span></div>
+            <div><span class="badge badge-inprogress">En cours</span></div>
+            <div class="date-cell">01 juil. 2025</div>
+            <div class="action-menu"><div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:#6B7280;"></iconify-icon></div></div>
+          </div>
+
+          <!-- Row 6 -->
+          <div class="sig-row alt" data-media-type="banani-button">
+            <div><div class="type-icon type-content"><iconify-icon icon="lucide:image-off" style="font-size:16px;color:#D97706;"></iconify-icon></div></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#1A1A1A;">Contenu inapproprié</div>
+              <div style="font-size:11px;color:#6B7280;">Annonce</div>
+            </div>
+            <div class="element-cell">
+              <div class="element-name">Local Commercial Lomé</div>
+              <div class="element-sub">Réf. HA-8807 · Lomé, TG</div>
+            </div>
+            <div class="motif-cell">Description mensongère</div>
+            <div><span class="badge badge-medium">Moyenne</span></div>
+            <div><span class="badge badge-rejected">Rejeté</span></div>
+            <div class="date-cell">30 juin 2025</div>
+            <div class="action-menu"><div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:#6B7280;"></iconify-icon></div></div>
+          </div>
+
+          <div class="pagination-bar">
+            <div class="pagination-info">Affichage 1–6 sur 41 signalements</div>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <div class="rows-select" data-media-type="banani-button">10 par page <iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:#6B7280;"></iconify-icon></div>
+              <div class="pagination-pages">
+                <div class="ppage" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-left" style="font-size:14px;color:#6B7280;"></iconify-icon></div>
+                <div class="ppage active">1</div>
+                <div class="ppage" data-media-type="banani-button">2</div>
+                <div class="ppage" data-media-type="banani-button">3</div>
+                <div class="ppage" data-media-type="banani-button">5</div>
+                <div class="ppage" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-right" style="font-size:14px;color:#6B7280;"></iconify-icon></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- end .page -->
+    </div><!-- end .main -->
+
+    <!-- DRAWER: Détail signalement -->
+    <div class="drawer-backdrop" id="sig-drawer">
+      <div class="drawer-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="drawer-title">Détail du signalement</div>
+          <span class="badge badge-critical">Critique</span>
+        </div>
+        <div class="drawer-close" data-media-type="banani-button"><iconify-icon icon="lucide:x" style="font-size:16px;color:#1A1A1A;"></iconify-icon></div>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Type & Motif -->
+        <div class="drawer-info-grid">
+          <div class="info-item"><div class="info-key">Type</div><div class="info-val">Annonce frauduleuse</div></div>
+          <div class="info-item"><div class="info-key">Motif</div><div class="info-val">Photos volées</div></div>
+          <div class="info-item"><div class="info-key">Gravité</div><div class="info-val" style="color:#EF4444;">Critique</div></div>
+          <div class="info-item"><div class="info-key">Signalé le</div><div class="info-val">04 juil. 2025 · 11h34</div></div>
+        </div>
+
+        <!-- Élément concerné -->
+        <div>
+          <div class="drawer-section-label">Élément concerné</div>
+          <div class="preview-card">
+            <img class="preview-thumb" data-aspect-ratio="1:1" data-query="luxury villa with pool west africa exterior white modern architecture blue sky" alt="Villa" src="https://storage.googleapis.com/banani-generated-images/generated-images/96f00759-67e0-476b-be39-d147e08b315d.jpg">
+            <div style="min-width:0;">
+              <div class="preview-title">Villa de luxe – Cocody</div>
+              <div class="preview-meta">Réf. HA-8941 · Abidjan, CI · 185 M FCFA</div>
+              <div class="preview-meta" style="margin-top:4px;">Publiée par : Agence Babi Prestige</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signalé par -->
+        <div>
+          <div class="drawer-section-label">Signalé par</div>
+          <div class="reporter-card">
+            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F2" alt="Reporter" class="reporter-avatar">
+            <div style="flex:1;min-width:0;">
+              <div class="reporter-name">Amadou Diallo</div>
+              <div class="reporter-meta">Particulier · Abidjan, CI · +225 07 22 11 90</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <div class="drawer-section-label">Description du signalement</div>
+          <div style="background:#F5F6F8;border-radius:12px;padding:14px;">
+            <div style="font-size:13px;line-height:1.6;color:#374151;">
+              "Les photos utilisées pour cette annonce sont identiques à celles d'une villa en vente sur un autre site. Le propriétaire demande un virement de 500 000 FCFA avant toute visite, ce qui est très suspect. J'ai été contacté via WhatsApp avec un numéro étranger."
+            </div>
+          </div>
+        </div>
+
+        <!-- Changer statut -->
+        <div>
+          <div class="drawer-section-label">Changer le statut</div>
+          <div class="status-change">
+            <div class="status-btn primary" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:13px;color:inherit;"></iconify-icon>En cours</div>
+            <div class="status-btn success" data-media-type="banani-button"><iconify-icon icon="lucide:check" style="font-size:13px;color:inherit;"></iconify-icon>Résoudre</div>
+            <div class="status-btn gray" data-media-type="banani-button"><iconify-icon icon="lucide:x" style="font-size:13px;color:inherit;"></iconify-icon>Rejeter</div>
+          </div>
+        </div>
+
+        <!-- Historique -->
+        <div>
+          <div class="drawer-section-label">Historique de traitement</div>
+          <div class="history-list">
+            <div class="history-item"><div class="history-dot active"></div><div><div class="history-text">Signalement reçu et en attente d'examen</div><div class="history-time">04 juil. 2025 · 11h34</div></div></div>
+            <div class="history-item"><div class="history-dot"></div><div><div class="history-text">Assigné à Kofi Mensah (Admin)</div><div class="history-time">04 juil. 2025 · 12h05</div></div></div>
+          </div>
+        </div>
+
+        <!-- Note interne -->
+        <div>
+          <div class="note-field">
+            <div class="note-label">Ajouter une note interne</div>
+            <div class="note-input">Écrire une note pour l'équipe…</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-actions">
+        <div class="drawer-actions-row">
+          <div class="btn danger" style="flex:1;" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:ban" style="font-size:14px;color:#EF4444;"></iconify-icon></div>
+            Suspendre l'annonce
+          </div>
+          <div class="btn danger" style="flex:1;" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:user-x" style="font-size:14px;color:#EF4444;"></iconify-icon></div>
+            Suspendre l'utilisateur
+          </div>
+        </div>
+        <div class="drawer-actions-row">
+          <div class="btn success" style="flex:1;" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:check-circle-2" style="font-size:14px;color:#22C55E;"></iconify-icon></div>
+            Marquer comme résolu
+          </div>
+          <div class="btn secondary" style="flex:1;" data-media-type="banani-button">
+            <div class="icon-wrap sm"><iconify-icon icon="lucide:message-circle" style="font-size:14px;color:#1A1A1A;"></iconify-icon></div>
+            Contacter le signalant
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</body>
