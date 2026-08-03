@@ -52,3 +52,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   });
 }
+
+// Vercel Cron invokes scheduled routes with GET, not POST.
+export const GET = POST;
