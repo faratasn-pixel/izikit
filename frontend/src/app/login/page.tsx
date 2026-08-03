@@ -27,6 +27,8 @@ function errorMessage(err: unknown): string {
         return 'Ce compte a été suspendu. Contactez le support.';
       case 'TOO_MANY_LOGIN_ATTEMPTS':
         return 'Trop de tentatives. Réessayez dans quelques minutes.';
+      case 'EMAIL_NOT_VERIFIED':
+        return 'Adresse email non vérifiée. Vérifiez votre boîte mail, ou demandez un nouveau code ci-dessous.';
       default:
         return err.message;
     }
@@ -41,12 +43,14 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [needsVerification, setNeedsVerification] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
+    setNeedsVerification(false);
     try {
       const res = await api<{ csrfToken?: string }>('/api/auth/login', {
         method: 'POST',
@@ -57,6 +61,7 @@ export default function LoginPage() {
       router.push('/dashboard');
     } catch (err) {
       setError(errorMessage(err));
+      setNeedsVerification(err instanceof ApiError && err.code === 'EMAIL_NOT_VERIFIED');
     } finally {
       setSubmitting(false);
     }
@@ -137,6 +142,17 @@ export default function LoginPage() {
         {error && (
           <p role="alert" className="text-sm text-red-600">
             {error}
+            {needsVerification && (
+              <>
+                {' '}
+                <Link
+                  href={`/verify-email?email=${encodeURIComponent(email)}`}
+                  className="font-medium underline"
+                >
+                  Vérifier mon email
+                </Link>
+              </>
+            )}
           </p>
         )}
 
