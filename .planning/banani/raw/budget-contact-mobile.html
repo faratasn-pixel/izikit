@@ -1,33 +1,40 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Nouvelle Demande — Budget &amp; Contact</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
 
   <style id="reset-base">
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 
   <style id="tokens">
     :root {
-      --background: #F4F6FB;
+      --background: #f4f6fb;
       --foreground: #111827;
-      --border: #E5E7EB;
-      --input: #F9FAFB;
-      --primary: #376BFF;
-      --primary-foreground: #FFFFFF;
-      --secondary: #F3F4F6;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
       --secondary-foreground: #374151;
-      --muted: #F3F4F6;
-      --muted-foreground: #9CA3AF;
-      --card: #FFFFFF;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
       --card-foreground: #111827;
-      --success: #D1FAE5;
-      --success-foreground: #065F46;
-      --warning: #FEF3C7;
-      --warning-foreground: #92400E;
-      --destructive: #FEE2E2;
-      --destructive-foreground: #991B1B;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
@@ -124,7 +131,7 @@
       color: #fff;
     }
     .step-circle.active {
-      background: #EEF3FF;
+      background: #eef3ff;
       border-color: var(--primary);
       color: var(--primary);
     }
@@ -135,8 +142,12 @@
       white-space: nowrap;
       text-align: center;
     }
-    .step-label.active { color: var(--primary); }
-    .step-label.done { color: var(--foreground); }
+    .step-label.active {
+      color: var(--primary);
+    }
+    .step-label.done {
+      color: var(--foreground);
+    }
     .progress-track {
       height: 4px;
       background: var(--border);
@@ -176,7 +187,7 @@
       width: 28px;
       height: 28px;
       border-radius: var(--radius-md);
-      background: #EEF3FF;
+      background: #eef3ff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -195,8 +206,12 @@
   </style>
 
   <style id="field-styles">
-    .field { margin-bottom: 14px; }
-    .field:last-child { margin-bottom: 0; }
+    .field {
+      margin-bottom: 14px;
+    }
+    .field:last-child {
+      margin-bottom: 0;
+    }
     .field-label {
       font-size: 11.5px;
       font-weight: 600;
@@ -207,7 +222,7 @@
       gap: 4px;
     }
     .required-dot {
-      color: #EF4444;
+      color: #ef4444;
       font-size: 13px;
       line-height: 1;
     }
@@ -223,7 +238,9 @@
       align-items: center;
       gap: 8px;
     }
-    .field-input.placeholder { color: var(--muted-foreground); }
+    .field-input.placeholder {
+      color: var(--muted-foreground);
+    }
     .field-select {
       width: 100%;
       background: var(--input);
@@ -237,7 +254,9 @@
       justify-content: space-between;
       cursor: pointer;
     }
-    .field-select.placeholder { color: var(--muted-foreground); }
+    .field-select.placeholder {
+      color: var(--muted-foreground);
+    }
     .field-textarea {
       width: 100%;
       background: var(--input);
@@ -261,7 +280,7 @@
     }
     .field-active {
       border-color: var(--primary);
-      background: #F5F8FF;
+      background: #f5f8ff;
     }
     .field-with-prefix {
       display: flex;
@@ -324,13 +343,13 @@
       background: var(--primary);
       border: 2px solid #fff;
       top: -6px;
-      box-shadow: 0 1px 6px rgba(55,107,255,0.35);
+      box-shadow: 0 1px 6px rgba(55, 107, 255, 0.35);
     }
     .budget-summary-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #EEF3FF;
+      background: #eef3ff;
       border-radius: var(--radius-lg);
       padding: 10px 14px;
       margin-top: 12px;
@@ -366,7 +385,7 @@
     }
     .payment-card.selected {
       border-color: var(--primary);
-      background: #EEF3FF;
+      background: #eef3ff;
     }
     .payment-icon {
       width: 30px;
@@ -378,7 +397,7 @@
       justify-content: center;
     }
     .payment-card.selected .payment-icon {
-      background: #D8E6FF;
+      background: #d8e6ff;
     }
     .payment-label {
       font-size: 11.5px;
@@ -404,8 +423,12 @@
       padding: 10px 0;
       border-bottom: 1px solid var(--border);
     }
-    .toggle-row:last-child { border-bottom: none; }
-    .toggle-info { flex: 1; }
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+    .toggle-info {
+      flex: 1;
+    }
     .toggle-title {
       font-size: 13px;
       font-weight: 600;
@@ -423,8 +446,12 @@
       position: relative;
       flex-shrink: 0;
     }
-    .toggle-switch.on { background: var(--primary); }
-    .toggle-switch.off { background: var(--border); }
+    .toggle-switch.on {
+      background: var(--primary);
+    }
+    .toggle-switch.off {
+      background: var(--border);
+    }
     .toggle-knob {
       width: 16px;
       height: 16px;
@@ -432,10 +459,14 @@
       background: #fff;
       position: absolute;
       top: 3px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
-    .toggle-switch.on .toggle-knob { right: 3px; }
-    .toggle-switch.off .toggle-knob { left: 3px; }
+    .toggle-switch.on .toggle-knob {
+      right: 3px;
+    }
+    .toggle-switch.off .toggle-knob {
+      left: 3px;
+    }
   </style>
 
   <style id="summary-styles">
@@ -493,8 +524,14 @@
       font-size: 11px;
       font-weight: 600;
     }
-    .badge-blue { background: #EEF3FF; color: var(--primary); }
-    .badge-red { background: #FEE2E2; color: #B91C1C; }
+    .badge-blue {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .badge-red {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
   </style>
 
   <style id="footer-styles">
@@ -554,17 +591,35 @@
       cursor: pointer;
     }
   </style>
-</head><body>
-
+</head>
+<body>
   <!-- TOPBAR -->
   <div class="topbar" id="topbar">
     <div class="back-btn" data-media-type="banani-button">
-      <iconify-icon icon="lucide:arrow-left" style="font-size:16px;color:var(--secondary-foreground);"></iconify-icon>
+      <iconify-icon
+        icon="lucide:arrow-left"
+        style="font-size: 16px; color: var(--secondary-foreground)"
+      ></iconify-icon>
     </div>
     <span class="topbar-title">Nouvelle demande</span>
     <div class="topbar-actions">
-      <div style="width:34px;height:34px;background:var(--muted);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;cursor:pointer;" data-media-type="banani-button">
-        <iconify-icon icon="lucide:help-circle" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon>
+      <div
+        style="
+          width: 34px;
+          height: 34px;
+          background: var(--muted);
+          border-radius: var(--radius-lg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        "
+        data-media-type="banani-button"
+      >
+        <iconify-icon
+          icon="lucide:help-circle"
+          style="font-size: 16px; color: var(--muted-foreground)"
+        ></iconify-icon>
       </div>
     </div>
   </div>
@@ -574,7 +629,7 @@
     <div class="stepper-labels">
       <div class="stepper-step" data-media-type="banani-button">
         <div class="step-circle done">
-          <iconify-icon icon="lucide:check" style="font-size:12px;color:#fff;"></iconify-icon>
+          <iconify-icon icon="lucide:check" style="font-size: 12px; color: #fff"></iconify-icon>
         </div>
         <span class="step-label done">Critères</span>
       </div>
@@ -594,7 +649,6 @@
 
   <!-- PAGE CONTENT -->
   <div class="page-content" id="page-content">
-
     <!-- Résumé étape 1 -->
     <div class="summary-card" id="summary-step1">
       <div class="summary-header">
@@ -618,16 +672,16 @@
           <span class="summary-item-label">Surface / Pièces</span>
           <span class="summary-item-value">200 m² · 4p min.</span>
         </div>
-        <div class="summary-item" style="grid-column:1/-1;">
+        <div class="summary-item" style="grid-column: 1/-1">
           <span class="summary-item-label">Équipements</span>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px">
             <span class="badge-pill badge-blue">piscine</span>
             <span class="badge-pill badge-blue">gardien</span>
             <span class="badge-pill badge-blue">jardin</span>
             <span class="badge-pill badge-blue">garage</span>
           </div>
         </div>
-        <div class="summary-item" style="grid-column:1/-1;">
+        <div class="summary-item" style="grid-column: 1/-1">
           <span class="summary-item-label">Urgence</span>
           <span class="badge-pill badge-red">Haute — moins d'1 mois</span>
         </div>
@@ -638,7 +692,10 @@
     <div class="form-section" id="section-budget">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:wallet" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:wallet"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Budget</div>
@@ -646,7 +703,7 @@
         </div>
       </div>
 
-      <div class="field-row" style="margin-bottom:14px;">
+      <div class="field-row" style="margin-bottom: 14px">
         <div class="field">
           <div class="field-label">Budget min. <span class="required-dot">*</span></div>
           <div class="field-with-prefix field-active">
@@ -665,12 +722,12 @@
 
       <div class="range-track">
         <div class="range-fill"></div>
-        <div class="range-thumb" style="left:calc(18% - 8px);"></div>
-        <div class="range-thumb" style="left:calc(88% - 8px);"></div>
+        <div class="range-thumb" style="left: calc(18% - 8px)"></div>
+        <div class="range-thumb" style="left: calc(88% - 8px)"></div>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px;">
-        <span style="font-size:10.5px;color:var(--muted-foreground);">0 FCFA</span>
-        <span style="font-size:10.5px;color:var(--muted-foreground);">500M FCFA</span>
+      <div style="display: flex; justify-content: space-between; margin-top: 6px">
+        <span style="font-size: 10.5px; color: var(--muted-foreground)">0 FCFA</span>
+        <span style="font-size: 10.5px; color: var(--muted-foreground)">500M FCFA</span>
       </div>
 
       <div class="budget-summary-row">
@@ -678,12 +735,25 @@
         <span class="budget-summary-value">80M – 200M FCFA</span>
       </div>
 
-      <div class="field" style="margin-top:14px;">
+      <div class="field" style="margin-top: 14px">
         <div class="field-label">Flexibilité budgétaire</div>
         <div class="field-select" data-media-type="banani-button">
-          <span style="font-size:13px;color:var(--foreground);font-weight:500;">Négociable (±10%)</span>
-          <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-            <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+          <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+            >Négociable (±10%)</span
+          >
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
         </div>
         <div class="field-hint">Indiquez si vous avez une certaine flexibilité sur le prix.</div>
@@ -694,7 +764,10 @@
     <div class="form-section" id="section-financement">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:credit-card" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:credit-card"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Mode de financement</div>
@@ -705,28 +778,40 @@
       <div class="payment-grid">
         <div class="payment-card selected" data-media-type="banani-button">
           <div class="payment-icon">
-            <iconify-icon icon="lucide:banknote" style="font-size:15px;color:var(--primary);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:banknote"
+              style="font-size: 15px; color: var(--primary)"
+            ></iconify-icon>
           </div>
           <span class="payment-label">Fonds propres</span>
           <span class="payment-sub">Paiement comptant</span>
         </div>
         <div class="payment-card" data-media-type="banani-button">
           <div class="payment-icon">
-            <iconify-icon icon="lucide:landmark" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:landmark"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
           <span class="payment-label">Prêt bancaire</span>
           <span class="payment-sub">Crédit immobilier</span>
         </div>
         <div class="payment-card" data-media-type="banani-button">
           <div class="payment-icon">
-            <iconify-icon icon="lucide:users" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:users"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
           <span class="payment-label">Tontine</span>
           <span class="payment-sub">Financement groupé</span>
         </div>
         <div class="payment-card" data-media-type="banani-button">
           <div class="payment-icon">
-            <iconify-icon icon="lucide:help-circle" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:help-circle"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
           <span class="payment-label">Non défini</span>
           <span class="payment-sub">À déterminer</span>
@@ -738,7 +823,10 @@
     <div class="form-section" id="section-contact">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:user" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:user"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Informations de contact</div>
@@ -749,8 +837,13 @@
       <div class="field">
         <div class="field-label">Nom complet <span class="required-dot">*</span></div>
         <div class="field-input field-active">
-          <iconify-icon icon="lucide:user" style="font-size:14px;color:var(--muted-foreground);flex-shrink:0;"></iconify-icon>
-          <span style="font-size:13px;font-weight:500;color:var(--foreground);">Koffi Emmanuel Assoumou</span>
+          <iconify-icon
+            icon="lucide:user"
+            style="font-size: 14px; color: var(--muted-foreground); flex-shrink: 0"
+          ></iconify-icon>
+          <span style="font-size: 13px; font-weight: 500; color: var(--foreground)"
+            >Koffi Emmanuel Assoumou</span
+          >
         </div>
       </div>
 
@@ -765,10 +858,15 @@
         <div class="field">
           <div class="field-label">WhatsApp</div>
           <div class="field-with-prefix">
-            <span class="field-prefix" style="font-size:12px;">
-              <iconify-icon icon="lucide:message-circle" style="font-size:12px;color:var(--muted-foreground);"></iconify-icon>
+            <span class="field-prefix" style="font-size: 12px">
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 12px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </span>
-            <div class="inner-input" style="font-size:13px;color:var(--muted-foreground);">Idem</div>
+            <div class="inner-input" style="font-size: 13px; color: var(--muted-foreground)">
+              Idem
+            </div>
           </div>
         </div>
       </div>
@@ -776,17 +874,33 @@
       <div class="field">
         <div class="field-label">Email</div>
         <div class="field-input">
-          <iconify-icon icon="lucide:mail" style="font-size:14px;color:var(--muted-foreground);flex-shrink:0;"></iconify-icon>
-          <span style="font-size:13px;color:var(--muted-foreground);">k.assoumou@email.com</span>
+          <iconify-icon
+            icon="lucide:mail"
+            style="font-size: 14px; color: var(--muted-foreground); flex-shrink: 0"
+          ></iconify-icon>
+          <span style="font-size: 13px; color: var(--muted-foreground)">k.assoumou@email.com</span>
         </div>
       </div>
 
       <div class="field">
         <div class="field-label">Disponibilité pour visite</div>
         <div class="field-select" data-media-type="banani-button">
-          <span style="font-size:13px;color:var(--foreground);font-weight:500;">En semaine, matin ou après-midi</span>
-          <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-            <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+          <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+            >En semaine, matin ou après-midi</span
+          >
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
         </div>
       </div>
@@ -796,7 +910,10 @@
     <div class="form-section" id="section-notifs">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:bell" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:bell"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Notifications</div>
@@ -843,15 +960,38 @@
     </div>
 
     <!-- Note confidentialité -->
-    <div style="background:#F0FDF4;border-radius:var(--radius-lg);padding:10px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px;">
-      <div style="width:18px;height:18px;display:flex;align-items:flex-start;justify-content:center;flex-shrink:0;margin-top:1px;">
-        <iconify-icon icon="lucide:shield-check" style="font-size:14px;color:#16A34A;"></iconify-icon>
+    <div
+      style="
+        background: #f0fdf4;
+        border-radius: var(--radius-lg);
+        padding: 10px 12px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      "
+    >
+      <div
+        style="
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-top: 1px;
+        "
+      >
+        <iconify-icon
+          icon="lucide:shield-check"
+          style="font-size: 14px; color: #16a34a"
+        ></iconify-icon>
       </div>
-      <div style="font-size:12px;color:#166534;line-height:1.5;">
-        Vos informations de contact sont partagées uniquement avec les agents certifiés Habitat-Afrik après validation de votre demande.
+      <div style="font-size: 12px; color: #166534; line-height: 1.5">
+        Vos informations de contact sont partagées uniquement avec les agents certifiés
+        Habitat-Afrik après validation de votre demande.
       </div>
     </div>
-
   </div>
 
   <!-- FOOTER -->
@@ -862,15 +1002,18 @@
     </div>
     <div class="btn-primary" data-media-type="banani-button">
       Soumettre la demande
-      <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-        <iconify-icon icon="lucide:send" style="font-size:14px;color:#fff;"></iconify-icon>
+      <div
+        style="
+          width: 16px;
+          height: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <iconify-icon icon="lucide:send" style="font-size: 14px; color: #fff"></iconify-icon>
       </div>
     </div>
-    <div class="btn-ghost" data-media-type="banani-button">
-      Retour aux critères
-    </div>
+    <div class="btn-ghost" data-media-type="banani-button">Retour aux critères</div>
   </div>
-
-
-
 </body>

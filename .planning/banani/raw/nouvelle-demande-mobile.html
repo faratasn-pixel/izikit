@@ -1,33 +1,40 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Nouvelle Demande — Mobile</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
 
   <style id="reset-base">
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 
   <style id="tokens">
     :root {
-      --background: #F4F6FB;
+      --background: #f4f6fb;
       --foreground: #111827;
-      --border: #E5E7EB;
-      --input: #F9FAFB;
-      --primary: #376BFF;
-      --primary-foreground: #FFFFFF;
-      --secondary: #F3F4F6;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
       --secondary-foreground: #374151;
-      --muted: #F3F4F6;
-      --muted-foreground: #9CA3AF;
-      --card: #FFFFFF;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
       --card-foreground: #111827;
-      --success: #D1FAE5;
-      --success-foreground: #065F46;
-      --warning: #FEF3C7;
-      --warning-foreground: #92400E;
-      --destructive: #FEE2E2;
-      --destructive-foreground: #991B1B;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
@@ -124,7 +131,7 @@
       color: #fff;
     }
     .step-circle.active {
-      background: #EEF3FF;
+      background: #eef3ff;
       border-color: var(--primary);
       color: var(--primary);
     }
@@ -135,8 +142,12 @@
       white-space: nowrap;
       text-align: center;
     }
-    .step-label.active { color: var(--primary); }
-    .step-label.done { color: var(--foreground); }
+    .step-label.active {
+      color: var(--primary);
+    }
+    .step-label.done {
+      color: var(--foreground);
+    }
     .progress-track {
       height: 4px;
       background: var(--border);
@@ -172,7 +183,7 @@
       width: 26px;
       height: 26px;
       border-radius: var(--radius-md);
-      background: #EEF3FF;
+      background: #eef3ff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -196,7 +207,7 @@
       width: 28px;
       height: 28px;
       border-radius: var(--radius-md);
-      background: #EEF3FF;
+      background: #eef3ff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -215,8 +226,12 @@
   </style>
 
   <style id="field-styles">
-    .field { margin-bottom: 14px; }
-    .field:last-child { margin-bottom: 0; }
+    .field {
+      margin-bottom: 14px;
+    }
+    .field:last-child {
+      margin-bottom: 0;
+    }
     .field-label {
       font-size: 11.5px;
       font-weight: 600;
@@ -227,7 +242,7 @@
       gap: 4px;
     }
     .required-dot {
-      color: #EF4444;
+      color: #ef4444;
       font-size: 13px;
       line-height: 1;
     }
@@ -243,7 +258,9 @@
       align-items: center;
       gap: 8px;
     }
-    .field-input.placeholder { color: var(--muted-foreground); }
+    .field-input.placeholder {
+      color: var(--muted-foreground);
+    }
     .field-input-icon {
       flex-shrink: 0;
     }
@@ -260,7 +277,9 @@
       justify-content: space-between;
       cursor: pointer;
     }
-    .field-select.placeholder { color: var(--muted-foreground); }
+    .field-select.placeholder {
+      color: var(--muted-foreground);
+    }
     .field-textarea {
       width: 100%;
       background: var(--input);
@@ -284,7 +303,7 @@
     }
     .field-active {
       border-color: var(--primary);
-      background: #F5F8FF;
+      background: #f5f8ff;
     }
   </style>
 
@@ -307,7 +326,7 @@
     }
     .type-card.selected {
       border-color: var(--primary);
-      background: #EEF3FF;
+      background: #eef3ff;
     }
     .type-card-icon {
       width: 30px;
@@ -319,7 +338,7 @@
       justify-content: center;
     }
     .type-card.selected .type-card-icon {
-      background: #D8E6FF;
+      background: #d8e6ff;
     }
     .type-card-label {
       font-size: 11px;
@@ -347,7 +366,7 @@
     }
     .trans-card.selected {
       border-color: var(--primary);
-      background: #EEF3FF;
+      background: #eef3ff;
     }
     .trans-radio {
       width: 16px;
@@ -374,7 +393,9 @@
       font-weight: 600;
       color: var(--secondary-foreground);
     }
-    .trans-card.selected .trans-label { color: var(--primary); }
+    .trans-card.selected .trans-label {
+      color: var(--primary);
+    }
   </style>
 
   <style id="urgency-styles">
@@ -395,8 +416,8 @@
       cursor: pointer;
     }
     .urgency-card.selected-high {
-      border-color: #EF4444;
-      background: #FEF2F2;
+      border-color: #ef4444;
+      background: #fef2f2;
     }
     .urgency-dot {
       width: 10px;
@@ -408,7 +429,9 @@
       font-weight: 600;
       color: var(--secondary-foreground);
     }
-    .urgency-card.selected-high .urgency-card-label { color: #B91C1C; }
+    .urgency-card.selected-high .urgency-card-label {
+      color: #b91c1c;
+    }
   </style>
 
   <style id="tags-styles">
@@ -434,7 +457,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      background: #EEF3FF;
+      background: #eef3ff;
       color: var(--primary);
       border-radius: 99px;
       font-size: 12px;
@@ -501,7 +524,7 @@
       background: var(--primary);
       border: 2px solid #fff;
       top: -5px;
-      box-shadow: 0 1px 4px rgba(55,107,255,0.3);
+      box-shadow: 0 1px 4px rgba(55, 107, 255, 0.3);
     }
   </style>
 
@@ -562,18 +585,35 @@
       cursor: pointer;
     }
   </style>
-
-</head><body>
-
+</head>
+<body>
   <!-- TOPBAR -->
   <div class="topbar" id="topbar">
     <div class="back-btn" data-media-type="banani-button">
-      <iconify-icon icon="lucide:arrow-left" style="font-size:16px;color:var(--secondary-foreground);"></iconify-icon>
+      <iconify-icon
+        icon="lucide:arrow-left"
+        style="font-size: 16px; color: var(--secondary-foreground)"
+      ></iconify-icon>
     </div>
     <span class="topbar-title">Nouvelle demande</span>
     <div class="topbar-actions">
-      <div style="width:34px;height:34px;background:var(--muted);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;cursor:pointer;" data-media-type="banani-button">
-        <iconify-icon icon="lucide:help-circle" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon>
+      <div
+        style="
+          width: 34px;
+          height: 34px;
+          background: var(--muted);
+          border-radius: var(--radius-lg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        "
+        data-media-type="banani-button"
+      >
+        <iconify-icon
+          icon="lucide:help-circle"
+          style="font-size: 16px; color: var(--muted-foreground)"
+        ></iconify-icon>
       </div>
     </div>
   </div>
@@ -601,14 +641,37 @@
 
   <!-- PAGE CONTENT -->
   <div class="page-content" id="page-content">
-
     <!-- Intro note -->
-    <div style="background:#EEF3FF;border-radius:var(--radius-lg);padding:10px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px;">
-      <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:flex-start;flex-shrink:0;margin-top:1px;">
-        <iconify-icon icon="lucide:info" style="font-size:14px;color:var(--primary);"></iconify-icon>
+    <div
+      style="
+        background: #eef3ff;
+        border-radius: var(--radius-lg);
+        padding: 10px 12px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      "
+    >
+      <div
+        style="
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-shrink: 0;
+          margin-top: 1px;
+        "
+      >
+        <iconify-icon
+          icon="lucide:info"
+          style="font-size: 14px; color: var(--primary)"
+        ></iconify-icon>
       </div>
-      <div style="font-size:12px;color:#1D4ED8;line-height:1.5;">
-        Renseignez les critères du bien recherché. Les agents correspondants seront notifiés automatiquement.
+      <div style="font-size: 12px; color: #1d4ed8; line-height: 1.5">
+        Renseignez les critères du bien recherché. Les agents correspondants seront notifiés
+        automatiquement.
       </div>
     </div>
 
@@ -616,7 +679,10 @@
     <div class="form-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:building-2" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Type de bien</div>
@@ -630,37 +696,55 @@
         <div class="type-grid">
           <div class="type-card selected" data-media-type="banani-button">
             <div class="type-card-icon">
-              <iconify-icon icon="lucide:home" style="font-size:15px;color:var(--primary);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:home"
+                style="font-size: 15px; color: var(--primary)"
+              ></iconify-icon>
             </div>
             <span class="type-card-label">Villa</span>
           </div>
           <div class="type-card" data-media-type="banani-button">
             <div class="type-card-icon">
-              <iconify-icon icon="lucide:building" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:building"
+                style="font-size: 15px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
             <span class="type-card-label">Appartement</span>
           </div>
           <div class="type-card" data-media-type="banani-button">
             <div class="type-card-icon">
-              <iconify-icon icon="lucide:map" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:map"
+                style="font-size: 15px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
             <span class="type-card-label">Terrain</span>
           </div>
           <div class="type-card" data-media-type="banani-button">
             <div class="type-card-icon">
-              <iconify-icon icon="lucide:briefcase" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:briefcase"
+                style="font-size: 15px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
             <span class="type-card-label">Bureau</span>
           </div>
           <div class="type-card" data-media-type="banani-button">
             <div class="type-card-icon">
-              <iconify-icon icon="lucide:store" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:store"
+                style="font-size: 15px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
             <span class="type-card-label">Commercial</span>
           </div>
           <div class="type-card" data-media-type="banani-button">
             <div class="type-card-icon">
-              <iconify-icon icon="lucide:more-horizontal" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:more-horizontal"
+                style="font-size: 15px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
             <span class="type-card-label">Autre</span>
           </div>
@@ -678,7 +762,10 @@
             <span class="trans-label">Vente</span>
           </div>
           <div class="trans-card" data-media-type="banani-button">
-            <div class="trans-radio" style="background:transparent;border-color:var(--border);"></div>
+            <div
+              class="trans-radio"
+              style="background: transparent; border-color: var(--border)"
+            ></div>
             <span class="trans-label">Location</span>
           </div>
         </div>
@@ -689,7 +776,10 @@
     <div class="form-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:map-pin" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:map-pin"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Localisation</div>
@@ -700,12 +790,25 @@
       <div class="field">
         <div class="field-label">Pays <span class="required-dot">*</span></div>
         <div class="field-select" data-media-type="banani-button">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:16px;">🇨🇮</span>
-            <span style="font-size:13px;color:var(--foreground);font-weight:500;">Côte d'Ivoire</span>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="font-size: 16px">🇨🇮</span>
+            <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+              >Côte d'Ivoire</span
+            >
           </div>
-          <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-            <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
         </div>
       </div>
@@ -714,13 +817,13 @@
         <div class="field">
           <div class="field-label">Ville <span class="required-dot">*</span></div>
           <div class="field-input field-active">
-            <span style="font-size:13px;color:var(--foreground);font-weight:500;">Abidjan</span>
+            <span style="font-size: 13px; color: var(--foreground); font-weight: 500">Abidjan</span>
           </div>
         </div>
         <div class="field">
           <div class="field-label">Quartier</div>
           <div class="field-input placeholder">
-            <span style="font-size:13px;">Plateau</span>
+            <span style="font-size: 13px">Plateau</span>
           </div>
         </div>
       </div>
@@ -728,9 +831,22 @@
       <div class="field">
         <div class="field-label">Rayon de recherche</div>
         <div class="field-select" data-media-type="banani-button">
-          <span style="font-size:13px;color:var(--foreground);font-weight:500;">5 km autour du quartier</span>
-          <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-            <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+          <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+            >5 km autour du quartier</span
+          >
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 14px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
         </div>
       </div>
@@ -740,7 +856,10 @@
     <div class="form-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:sliders-horizontal" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:sliders-horizontal"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Caractéristiques</div>
@@ -752,14 +871,19 @@
         <div class="field">
           <div class="field-label">Pièces min.</div>
           <div class="field-select" data-media-type="banani-button">
-            <span style="font-size:13px;color:var(--foreground);font-weight:500;">4 pièces</span>
-            <iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon>
+            <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+              >4 pièces</span
+            >
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 13px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
         </div>
         <div class="field">
           <div class="field-label">Surface min.</div>
           <div class="field-input placeholder">
-            <span style="font-size:13px;color:var(--foreground);font-weight:500;">200 m²</span>
+            <span style="font-size: 13px; color: var(--foreground); font-weight: 500">200 m²</span>
           </div>
         </div>
       </div>
@@ -770,29 +894,44 @@
           <span class="tag-item">
             piscine
             <span class="tag-remove">
-              <iconify-icon icon="lucide:x" style="font-size:10px;color:var(--primary);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:x"
+                style="font-size: 10px; color: var(--primary)"
+              ></iconify-icon>
             </span>
           </span>
           <span class="tag-item">
             gardien
             <span class="tag-remove">
-              <iconify-icon icon="lucide:x" style="font-size:10px;color:var(--primary);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:x"
+                style="font-size: 10px; color: var(--primary)"
+              ></iconify-icon>
             </span>
           </span>
           <span class="tag-item">
             jardin
             <span class="tag-remove">
-              <iconify-icon icon="lucide:x" style="font-size:10px;color:var(--primary);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:x"
+                style="font-size: 10px; color: var(--primary)"
+              ></iconify-icon>
             </span>
           </span>
           <span class="tag-item">
             garage
             <span class="tag-remove">
-              <iconify-icon icon="lucide:x" style="font-size:10px;color:var(--primary);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:x"
+                style="font-size: 10px; color: var(--primary)"
+              ></iconify-icon>
             </span>
           </span>
           <span class="tag-add" data-media-type="banani-button">
-            <iconify-icon icon="lucide:plus" style="font-size:11px;color:var(--muted-foreground);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:plus"
+              style="font-size: 11px; color: var(--muted-foreground)"
+            ></iconify-icon>
             Ajouter
           </span>
         </div>
@@ -803,7 +942,10 @@
     <div class="form-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:wallet" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:wallet"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Budget</div>
@@ -811,30 +953,30 @@
         </div>
       </div>
 
-      <div class="budget-row" style="margin-bottom:12px;">
+      <div class="budget-row" style="margin-bottom: 12px">
         <div class="field">
           <div class="field-label">Budget min.</div>
           <div class="budget-input-wrap">
-            <div class="budget-field" style="padding-right:48px;">80 000 000</div>
+            <div class="budget-field" style="padding-right: 48px">80 000 000</div>
             <span class="budget-currency">FCFA</span>
           </div>
         </div>
         <div class="field">
           <div class="field-label">Budget max.</div>
           <div class="budget-input-wrap">
-            <div class="budget-field" style="padding-right:48px;">200 000 000</div>
+            <div class="budget-field" style="padding-right: 48px">200 000 000</div>
             <span class="budget-currency">FCFA</span>
           </div>
         </div>
       </div>
       <div class="range-track">
         <div class="range-fill"></div>
-        <div class="range-thumb" style="left:calc(15% - 7px);"></div>
-        <div class="range-thumb" style="left:calc(90% - 7px);"></div>
+        <div class="range-thumb" style="left: calc(15% - 7px)"></div>
+        <div class="range-thumb" style="left: calc(90% - 7px)"></div>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px;">
-        <span style="font-size:10.5px;color:var(--muted-foreground);">0 FCFA</span>
-        <span style="font-size:10.5px;color:var(--muted-foreground);">500M FCFA</span>
+      <div style="display: flex; justify-content: space-between; margin-top: 6px">
+        <span style="font-size: 10.5px; color: var(--muted-foreground)">0 FCFA</span>
+        <span style="font-size: 10.5px; color: var(--muted-foreground)">500M FCFA</span>
       </div>
     </div>
 
@@ -842,7 +984,10 @@
     <div class="form-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:zap" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:zap"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Niveau d'urgence</div>
@@ -852,19 +997,19 @@
 
       <div class="urgency-row">
         <div class="urgency-card" data-media-type="banani-button">
-          <div class="urgency-dot" style="background:#22C55E;"></div>
+          <div class="urgency-dot" style="background: #22c55e"></div>
           <span class="urgency-card-label">Basse</span>
-          <span style="font-size:10px;color:var(--muted-foreground);">+3 mois</span>
+          <span style="font-size: 10px; color: var(--muted-foreground)">+3 mois</span>
         </div>
         <div class="urgency-card" data-media-type="banani-button">
-          <div class="urgency-dot" style="background:#F59E0B;"></div>
+          <div class="urgency-dot" style="background: #f59e0b"></div>
           <span class="urgency-card-label">Moyenne</span>
-          <span style="font-size:10px;color:var(--muted-foreground);">1–3 mois</span>
+          <span style="font-size: 10px; color: var(--muted-foreground)">1–3 mois</span>
         </div>
         <div class="urgency-card selected-high" data-media-type="banani-button">
-          <div class="urgency-dot" style="background:#EF4444;"></div>
+          <div class="urgency-dot" style="background: #ef4444"></div>
           <span class="urgency-card-label">Haute</span>
-          <span style="font-size:10px;color:#B91C1C;">-1 mois</span>
+          <span style="font-size: 10px; color: #b91c1c">-1 mois</span>
         </div>
       </div>
     </div>
@@ -873,7 +1018,10 @@
     <div class="form-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:file-text" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:file-text"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Description complémentaire</div>
@@ -881,11 +1029,11 @@
         </div>
       </div>
       <div class="field-textarea">
-        Recherche villa haut standing avec vue dégagée, dans quartier résidentiel sécurisé. Préférence pour rez-de-chaussée ou accès plain-pied...
+        Recherche villa haut standing avec vue dégagée, dans quartier résidentiel sécurisé.
+        Préférence pour rez-de-chaussée ou accès plain-pied...
       </div>
-      <div class="field-hint" style="text-align:right;margin-top:6px;">142 / 500 caractères</div>
+      <div class="field-hint" style="text-align: right; margin-top: 6px">142 / 500 caractères</div>
     </div>
-
   </div>
 
   <!-- FOOTER -->
@@ -896,15 +1044,18 @@
     </div>
     <div class="btn-primary" data-media-type="banani-button">
       Continuer — Budget &amp; Contact
-      <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-        <iconify-icon icon="lucide:arrow-right" style="font-size:14px;color:#fff;"></iconify-icon>
+      <div
+        style="
+          width: 16px;
+          height: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <iconify-icon icon="lucide:arrow-right" style="font-size: 14px; color: #fff"></iconify-icon>
       </div>
     </div>
-    <div class="btn-ghost" data-media-type="banani-button">
-      Annuler
-    </div>
+    <div class="btn-ghost" data-media-type="banani-button">Annuler</div>
   </div>
-
-
-
 </body>

@@ -1,34 +1,38 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Habitat-Afrik — Gestion des utilisateurs</title>
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
   <style id="base-styles">
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     :root {
-      --background: #F5F6F8;
-      --foreground: #1A1A1A;
-      --border: #E5E7EB;
-      --input: #FFFFFF;
-      --primary: #0EA5E9;
-      --primary-foreground: #FFFFFF;
-      --secondary: #F1F5F9;
+      --background: #f5f6f8;
+      --foreground: #1a1a1a;
+      --border: #e5e7eb;
+      --input: #ffffff;
+      --primary: #0ea5e9;
+      --primary-foreground: #ffffff;
+      --secondary: #f1f5f9;
       --secondary-foreground: #374151;
-      --muted: #F1F5F9;
-      --muted-foreground: #6B7280;
-      --success: #22C55E;
-      --success-foreground: #FFFFFF;
-      --accent: #E0F2FE;
-      --accent-foreground: #0EA5E9;
-      --destructive: #EF4444;
-      --destructive-foreground: #FFFFFF;
-      --warning: #F59E0B;
-      --warning-foreground: #FFFFFF;
-      --card: #FFFFFF;
-      --card-foreground: #1A1A1A;
-      --sidebar: #FFFFFF;
-      --sidebar-foreground: #1A1A1A;
-      --sidebar-primary: #E0F2FE;
-      --sidebar-primary-foreground: #0EA5E9;
+      --muted: #f1f5f9;
+      --muted-foreground: #6b7280;
+      --success: #22c55e;
+      --success-foreground: #ffffff;
+      --accent: #e0f2fe;
+      --accent-foreground: #0ea5e9;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --warning: #f59e0b;
+      --warning-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #1a1a1a;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #1a1a1a;
+      --sidebar-primary: #e0f2fe;
+      --sidebar-primary-foreground: #0ea5e9;
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
@@ -45,10 +49,24 @@
       display: flex;
       min-height: 812px;
     }
-    .icon-wrap { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .icon-wrap.sm { width: 16px; height: 16px; }
-    .icon-wrap.md { width: 18px; height: 18px; }
-    .icon-wrap.lg { width: 20px; height: 20px; }
+    .icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-wrap.sm {
+      width: 16px;
+      height: 16px;
+    }
+    .icon-wrap.md {
+      width: 18px;
+      height: 18px;
+    }
+    .icon-wrap.lg {
+      width: 20px;
+      height: 20px;
+    }
   </style>
 
   <style id="sidebar-styles">
@@ -78,8 +96,17 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .brand-title { font-size: 15px; font-weight: 700; color: var(--sidebar-foreground); white-space: nowrap; }
-    .brand-subtitle { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; }
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+    }
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
     .country-switcher {
       display: flex;
       align-items: center;
@@ -90,50 +117,129 @@
       border-radius: var(--radius-lg);
       cursor: pointer;
     }
-    .country-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .country-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
     .country-avatar {
-      width: 30px; height: 30px; border-radius: 999px;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
       background: var(--card);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; color: var(--primary); flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      flex-shrink: 0;
     }
-    .country-label { font-size: 11px; color: var(--muted-foreground); margin-bottom: 2px; }
-    .country-value { font-size: 13px; font-weight: 600; color: var(--sidebar-foreground); white-space: nowrap; }
-    .country-pills { display: flex; gap: 6px; flex-wrap: wrap; }
-    .cpill {
-      height: 28px; padding: 0 10px; border-radius: 999px;
-      background: var(--muted);
-      color: var(--secondary-foreground);
-      font-size: 12px; font-weight: 600;
-      display: flex; align-items: center;
-      white-space: nowrap; cursor: pointer;
+    .country-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 2px;
     }
-    .cpill.active { background: var(--sidebar-primary); color: var(--primary); }
-    .section-label { font-size: 11px; font-weight: 600; color: var(--muted-foreground); padding: 0 8px; }
-    .nav-list { display: flex; flex-direction: column; gap: 3px; }
-    .nav-item {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 10px; padding: 10px 12px; border-radius: var(--radius-lg);
-      text-decoration: none; background: transparent; cursor: pointer;
-    }
-    .nav-item.active { background: var(--sidebar-primary); }
-    .nav-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .nav-label {
-      font-size: 14px; font-weight: 500; color: var(--sidebar-foreground);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .nav-item.active .nav-label { color: var(--primary); font-weight: 600; }
-    .nav-badge {
-      min-width: 20px; height: 20px; padding: 0 6px;
-      border-radius: 999px; background: var(--muted);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 600; color: var(--secondary-foreground);
+    .country-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--sidebar-foreground);
       white-space: nowrap;
     }
-    .nav-item.active .nav-badge { background: var(--card); color: var(--primary); }
-    .sidebar-spacer { flex: 1; }
-    .nav-item.logout { background: #FEF2F2; }
-    .nav-item.logout .nav-label { color: var(--destructive); font-weight: 600; }
+    .country-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .cpill {
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .cpill.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 8px;
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-item.active .nav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .nav-badge {
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+    .nav-item.active .nav-badge {
+      background: var(--card);
+      color: var(--primary);
+    }
+    .sidebar-spacer {
+      flex: 1;
+    }
+    .nav-item.logout {
+      background: #fef2f2;
+    }
+    .nav-item.logout .nav-label {
+      color: var(--destructive);
+      font-weight: 600;
+    }
   </style>
 
   <style id="topbar-styles">
@@ -141,172 +247,389 @@
       height: 72px;
       background: var(--card);
       border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 28px; gap: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      gap: 20px;
     }
     .searchbar {
-      width: 400px; height: 40px;
+      width: 400px;
+      height: 40px;
       border-radius: var(--radius-lg);
       background: var(--muted);
-      display: flex; align-items: center; gap: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 0 14px;
     }
-    .searchbar-text { font-size: 14px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .topbar-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .searchbar-text {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
     .icon-btn {
-      width: 40px; height: 40px; border-radius: var(--radius-lg);
-      background: var(--muted);
-      display: flex; align-items: center; justify-content: center;
-      position: relative; cursor: pointer;
-    }
-    .notif-dot {
-      position: absolute; top: 9px; right: 9px;
-      width: 7px; height: 7px; border-radius: 999px; background: var(--destructive);
-    }
-    .admin-pill {
-      height: 40px; padding: 0 12px;
+      width: 40px;
+      height: 40px;
       border-radius: var(--radius-lg);
       background: var(--muted);
-      display: flex; align-items: center; gap: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
       cursor: pointer;
     }
-    .admin-avatar { width: 28px; height: 28px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .admin-name { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; }
-    .admin-role { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; }
+    .notif-dot {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--destructive);
+    }
+    .admin-pill {
+      height: 40px;
+      padding: 0 12px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .admin-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .admin-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .admin-role {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
   </style>
 
   <style id="page-styles">
-    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-    .page { flex: 1; padding: 28px; display: flex; flex-direction: column; gap: 22px; min-width: 0; overflow: auto; }
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .page {
+      flex: 1;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      min-width: 0;
+      overflow: auto;
+    }
 
-    .page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
-    .page-eyebrow { font-size: 12px; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
-    .page-title { font-size: 26px; font-weight: 700; color: var(--foreground); line-height: 1.1; }
-    .page-meta { font-size: 13px; color: var(--muted-foreground); margin-top: 5px; }
-    .page-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.1;
+    }
+    .page-meta {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-top: 5px;
+    }
+    .page-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
 
     .btn {
-      height: 38px; padding: 0 16px;
+      height: 38px;
+      padding: 0 16px;
       border-radius: var(--radius-lg);
-      display: flex; align-items: center; gap: 8px;
-      font-size: 14px; font-weight: 600;
-      white-space: nowrap; cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
     }
-    .btn-primary { background: var(--primary); color: var(--primary-foreground); }
-    .btn-secondary { background: var(--card); color: var(--foreground); border: 1px solid var(--border); }
-    .btn-ghost { background: transparent; color: var(--primary); padding: 0; }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .btn-secondary {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--primary);
+      padding: 0;
+    }
   </style>
 
   <style id="kpi-styles">
-    .kpi-row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
-    .kpi-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); padding: 18px;
-      display: flex; flex-direction: column; gap: 12px;
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
-    .kpi-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .kpi-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
     .kpi-icon {
-      width: 34px; height: 34px; border-radius: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       background: var(--sidebar-primary);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .kpi-delta {
-      padding: 4px 8px; border-radius: 999px;
-      font-size: 11px; font-weight: 600; white-space: nowrap;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .kpi-delta.up { background: #DCFCE7; color: var(--success); }
-    .kpi-delta.warn { background: #FEF3C7; color: var(--warning); }
-    .kpi-value { font-size: 26px; font-weight: 700; color: var(--foreground); line-height: 1; }
-    .kpi-label { font-size: 13px; font-weight: 500; color: var(--muted-foreground); }
-    .kpi-foot { font-size: 12px; color: var(--muted-foreground); }
+    .kpi-delta.up {
+      background: #dcfce7;
+      color: var(--success);
+    }
+    .kpi-delta.warn {
+      background: #fef3c7;
+      color: var(--warning);
+    }
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .kpi-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+    .kpi-foot {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
   </style>
 
   <style id="table-styles">
     .table-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
     }
     .table-toolbar {
       padding: 16px 20px;
       border-bottom: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
-    .toolbar-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-    .table-title { font-size: 16px; font-weight: 700; color: var(--foreground); }
+    .toolbar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .table-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
     .total-badge {
-      display: inline-flex; align-items: center;
-      height: 24px; padding: 0 10px; border-radius: 999px;
-      background: var(--sidebar-primary); color: var(--primary);
-      font-size: 12px; font-weight: 700; white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
     }
-    .tab-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .tab-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
     .tab {
-      height: 30px; padding: 0 12px; border-radius: 999px;
-      background: var(--muted); color: var(--secondary-foreground);
-      font-size: 12px; font-weight: 600; white-space: nowrap;
-      display: flex; align-items: center; gap: 5px; cursor: pointer;
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
     }
-    .tab.active { background: var(--sidebar-primary); color: var(--primary); }
+    .tab.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
     .tab-count {
-      min-width: 18px; height: 18px; padding: 0 5px;
-      border-radius: 999px; background: rgba(0,0,0,0.07);
-      font-size: 10px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.07);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .tab.active .tab-count { background: var(--primary); color: #fff; }
-    .filters-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .tab.active .tab-count {
+      background: var(--primary);
+      color: #fff;
+    }
+    .filters-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
     .filter-select {
-      height: 34px; padding: 0 12px;
+      height: 34px;
+      padding: 0 12px;
       border-radius: var(--radius-lg);
-      background: var(--muted); color: var(--secondary-foreground);
-      border: 1px solid var(--border);
-      font-size: 13px; font-weight: 500;
-      display: flex; align-items: center; gap: 8px;
-      cursor: pointer; white-space: nowrap;
-    }
-    .search-input {
-      height: 34px; padding: 0 12px;
-      border-radius: var(--radius-lg);
-      background: var(--muted); color: var(--foreground);
+      background: var(--muted);
+      color: var(--secondary-foreground);
       border: 1px solid var(--border);
       font-size: 13px;
-      display: flex; align-items: center; gap: 8px;
-      flex: 1; min-width: 180px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .search-input span { color: var(--muted-foreground); }
-    .reset-btn {
-      height: 34px; padding: 0 12px;
+    .search-input {
+      height: 34px;
+      padding: 0 12px;
       border-radius: var(--radius-lg);
-      background: transparent; color: var(--primary);
-      font-size: 13px; font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
-      cursor: pointer; white-space: nowrap;
+      background: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 180px;
+    }
+    .search-input span {
+      color: var(--muted-foreground);
+    }
+    .reset-btn {
+      height: 34px;
+      padding: 0 12px;
+      border-radius: var(--radius-lg);
+      background: transparent;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
     }
     .table-head {
       display: grid;
-      grid-template-columns: 36px minmax(200px,2.4fr) minmax(100px,1fr) minmax(90px,0.9fr) minmax(110px,1fr) minmax(80px,0.8fr) minmax(80px,0.8fr) minmax(100px,1fr) 80px;
+      grid-template-columns:
+        36px minmax(200px, 2.4fr) minmax(100px, 1fr) minmax(90px, 0.9fr)
+        minmax(110px, 1fr) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr) 80px;
       gap: 10px;
       align-items: center;
       padding: 11px 20px;
       background: var(--muted);
-      font-size: 11px; font-weight: 700; color: var(--muted-foreground);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted-foreground);
       border-bottom: 1px solid var(--border);
     }
     .table-row {
       display: grid;
-      grid-template-columns: 36px minmax(200px,2.4fr) minmax(100px,1fr) minmax(90px,0.9fr) minmax(110px,1fr) minmax(80px,0.8fr) minmax(80px,0.8fr) minmax(100px,1fr) 80px;
+      grid-template-columns:
+        36px minmax(200px, 2.4fr) minmax(100px, 1fr) minmax(90px, 0.9fr)
+        minmax(110px, 1fr) minmax(80px, 0.8fr) minmax(80px, 0.8fr) minmax(100px, 1fr) 80px;
       gap: 10px;
       align-items: center;
       padding: 13px 20px;
       border-top: 1px solid var(--border);
-      font-size: 13px; color: var(--foreground);
+      font-size: 13px;
+      color: var(--foreground);
       cursor: pointer;
     }
-    .table-row.alt { background: #FAFAFA; }
-    .table-row.selected { background: var(--accent); }
+    .table-row.alt {
+      background: #fafafa;
+    }
+    .table-row.selected {
+      background: var(--accent);
+    }
 
     .checkbox-cell {
-      width: 16px; height: 16px;
+      width: 16px;
+      height: 16px;
       border-radius: var(--radius-sm);
       border: 2px solid var(--border);
       background: var(--card);
@@ -315,704 +638,1366 @@
     .checkbox-cell.checked {
       background: var(--primary);
       border-color: var(--primary);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .user-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .user-avatar { width: 36px; height: 36px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .user-name { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .user-email { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-email {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .badge {
-      display: inline-flex; align-items: center;
-      height: 22px; padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
       border-radius: 999px;
-      font-size: 11px; font-weight: 700;
+      font-size: 11px;
+      font-weight: 700;
       white-space: nowrap;
     }
-    .badge-success { background: #DCFCE7; color: var(--success); }
-    .badge-warning { background: #FEF3C7; color: var(--warning); }
-    .badge-danger { background: #FEE2E2; color: var(--destructive); }
-    .badge-primary { background: var(--accent); color: var(--primary); }
-    .badge-neutral { background: var(--muted); color: var(--secondary-foreground); }
+    .badge-success {
+      background: #dcfce7;
+      color: var(--success);
+    }
+    .badge-warning {
+      background: #fef3c7;
+      color: var(--warning);
+    }
+    .badge-danger {
+      background: #fee2e2;
+      color: var(--destructive);
+    }
+    .badge-primary {
+      background: var(--accent);
+      color: var(--primary);
+    }
+    .badge-neutral {
+      background: var(--muted);
+      color: var(--secondary-foreground);
+    }
 
-    .col-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .col-number { font-size: 13px; font-weight: 600; color: var(--foreground); }
-    .col-muted { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; }
+    .col-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .col-number {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .col-muted {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
 
-    .actions-cell { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-end;
+    }
     .action-btn {
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
       border-radius: var(--radius-md);
       background: var(--muted);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
     }
 
     .bulk-bar {
       padding: 10px 20px;
       background: var(--accent);
-      border-bottom: 1px solid #BAE6FD;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      border-bottom: 1px solid #bae6fd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
-    .bulk-info { font-size: 13px; font-weight: 600; color: var(--primary); }
-    .bulk-actions { display: flex; align-items: center; gap: 8px; }
+    .bulk-info {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .bulk-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .bulk-btn {
-      height: 30px; padding: 0 12px;
+      height: 30px;
+      padding: 0 12px;
       border-radius: var(--radius-lg);
-      font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
-      cursor: pointer; white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .bulk-btn-danger { background: #FEE2E2; color: var(--destructive); }
-    .bulk-btn-primary { background: var(--primary); color: var(--primary-foreground); }
-    .bulk-btn-secondary { background: var(--card); color: var(--foreground); border: 1px solid var(--border); }
+    .bulk-btn-danger {
+      background: #fee2e2;
+      color: var(--destructive);
+    }
+    .bulk-btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .bulk-btn-secondary {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
 
     .pagination {
       padding: 14px 20px;
       border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
-    .page-info { font-size: 13px; color: var(--muted-foreground); white-space: nowrap; }
-    .page-controls { display: flex; align-items: center; gap: 6px; }
+    .page-info {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .page-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
     .page-btn {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       border-radius: var(--radius-md);
       background: var(--muted);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 600; color: var(--foreground);
-      cursor: pointer; white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .page-btn.active { background: var(--primary); color: var(--primary-foreground); }
+    .page-btn.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
     .rows-select {
-      height: 32px; padding: 0 10px;
+      height: 32px;
+      padding: 0 10px;
       border-radius: var(--radius-md);
-      background: var(--muted); border: 1px solid var(--border);
-      font-size: 13px; color: var(--secondary-foreground);
-      display: flex; align-items: center; gap: 6px;
+      background: var(--muted);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--secondary-foreground);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
   </style>
 
   <style id="drawer-styles">
     .drawer-overlay {
-      position: absolute; top: 0; right: 0; bottom: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
       width: 420px;
       background: var(--card);
       border-left: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      box-shadow: -4px 0 24px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.06);
       z-index: 10;
       overflow: hidden;
     }
     .drawer-header {
       padding: 18px 20px 14px 20px;
       border-bottom: 1px solid var(--border);
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
       flex-shrink: 0;
     }
     .drawer-close {
-      width: 32px; height: 32px; border-radius: var(--radius-md);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
       background: var(--muted);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
     }
-    .drawer-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
     .drawer-footer {
       padding: 16px 20px;
       border-top: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       flex-shrink: 0;
     }
-    .drawer-footer-row { display: flex; gap: 10px; }
+    .drawer-footer-row {
+      display: flex;
+      gap: 10px;
+    }
 
     .drawer-user-header {
-      display: flex; align-items: center; gap: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .drawer-avatar { width: 64px; height: 64px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .drawer-user-name { font-size: 18px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; }
-    .drawer-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .drawer-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .drawer-user-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 6px;
+    }
+    .drawer-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-    .info-block { display: flex; flex-direction: column; gap: 12px; }
-    .info-row { display: flex; align-items: flex-start; gap: 12px; }
-    .info-icon {
-      width: 32px; height: 32px; border-radius: var(--radius-md);
-      background: var(--muted);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .info-label { font-size: 11px; color: var(--muted-foreground); margin-bottom: 2px; }
-    .info-value { font-size: 13px; font-weight: 600; color: var(--foreground); }
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .info-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .info-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 2px;
+    }
+    .info-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
 
     .kyc-block {
       padding: 14px;
       border-radius: var(--radius-lg);
-      background: #FEF3C7;
-      border: 1px solid #FDE68A;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
     }
-    .kyc-title { font-size: 13px; font-weight: 700; color: #92400E; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .kyc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .kyc-doc {
-      display: flex; align-items: center; gap: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 8px 12px;
-      background: var(--card); border-radius: var(--radius-md);
+      background: var(--card);
+      border-radius: var(--radius-md);
       margin-top: 8px;
     }
-    .kyc-doc-name { font-size: 13px; font-weight: 500; color: var(--foreground); flex: 1; }
-    .kyc-doc-link { font-size: 12px; font-weight: 600; color: var(--primary); cursor: pointer; white-space: nowrap; }
+    .kyc-doc-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .kyc-doc-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      white-space: nowrap;
+    }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
     .stat-item {
       padding: 12px;
       background: var(--muted);
       border-radius: var(--radius-lg);
       text-align: center;
     }
-    .stat-value { font-size: 20px; font-weight: 700; color: var(--foreground); line-height: 1; }
-    .stat-label { font-size: 11px; color: var(--muted-foreground); margin-top: 4px; }
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 4px;
+    }
 
-    .drawer-tabs { display: flex; border-bottom: 1px solid var(--border); gap: 0; }
+    .drawer-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      gap: 0;
+    }
     .dtab {
       padding: 10px 16px;
-      font-size: 13px; font-weight: 600;
+      font-size: 13px;
+      font-weight: 600;
       color: var(--muted-foreground);
       border-bottom: 2px solid transparent;
-      cursor: pointer; white-space: nowrap;
+      cursor: pointer;
+      white-space: nowrap;
       margin-bottom: -1px;
     }
-    .dtab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .dtab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
 
-    .mini-list { display: flex; flex-direction: column; gap: 10px; }
+    .mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
     .mini-item {
-      display: flex; align-items: center; gap: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 10px 12px;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
     }
-    .mini-thumb { width: 36px; height: 36px; border-radius: var(--radius-md); object-fit: cover; flex-shrink: 0; }
-    .mini-info { flex: 1; min-width: 0; }
-    .mini-title { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mini-sub { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; }
+    .mini-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .mini-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .mini-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mini-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
 
-    .section-title { font-size: 13px; font-weight: 700; color: var(--foreground); }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
 
     .action-full {
-      height: 38px; border-radius: var(--radius-lg);
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;
+      height: 38px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .action-full.danger { background: #FEE2E2; color: var(--destructive); }
-    .action-full.primary-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); flex: 1; }
-    .action-full.secondary { background: var(--muted); color: var(--foreground); flex: 1; }
-    .action-full.success { background: #DCFCE7; color: var(--success); flex: 1; }
+    .action-full.danger {
+      background: #fee2e2;
+      color: var(--destructive);
+    }
+    .action-full.primary-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      flex: 1;
+    }
+    .action-full.secondary {
+      background: var(--muted);
+      color: var(--foreground);
+      flex: 1;
+    }
+    .action-full.success {
+      background: #dcfce7;
+      color: var(--success);
+      flex: 1;
+    }
   </style>
-</head><body>
-<div class="app" id="admin-users">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand-block">
-      <div class="brand-mark">
-        <div class="icon-wrap lg"><iconify-icon icon="lucide:building-2" style="font-size:20px;color:var(--primary);"></iconify-icon></div>
-      </div>
-      <div>
-        <div class="brand-title">Habitat-Afrik</div>
-        <div class="brand-subtitle">Administration</div>
-      </div>
-    </div>
-
-    <div class="country-switcher" data-media-type="banani-button">
-      <div class="country-left">
-        <div class="country-avatar">AF</div>
+</head>
+<body>
+  <div class="app" id="admin-users">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">
+          <div class="icon-wrap lg">
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+        </div>
         <div>
-          <div class="country-label">Vue active</div>
-          <div class="country-value">Multi-pays agrégée</div>
+          <div class="brand-title">Habitat-Afrik</div>
+          <div class="brand-subtitle">Administration</div>
         </div>
       </div>
-      <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-    </div>
 
-    <div style="display:flex;flex-direction:column;gap:6px;">
-      <div class="section-label">Pays</div>
-      <div class="country-pills">
-        <div class="cpill active" data-media-type="banani-button">BJ</div>
-        <div class="cpill" data-media-type="banani-button">TG</div>
-        <div class="cpill" data-media-type="banani-button">CI</div>
-        <div class="cpill" data-media-type="banani-button">SN</div>
-      </div>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div class="section-label">Navigation</div>
-      <div class="nav-list">
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:layout-dashboard" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div><span class="nav-label">Tableau de bord</span></div>
-          <span class="nav-badge">4</span>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:clipboard-list" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div><span class="nav-label">Gestion des annonces</span></div>
-        </a>
-        <a class="nav-item active" href="#" data-media-type="banani-button">
-          <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:users" style="font-size:18px;color:var(--primary);"></iconify-icon></div><span class="nav-label">Utilisateurs</span></div>
-          <span class="nav-badge">3 284</span>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:wallet" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div><span class="nav-label">Finances &amp; jetons</span></div>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:video" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div><span class="nav-label">Visites virtuelles</span></div>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:shield-alert" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div><span class="nav-label">Modération &amp; support</span></div>
-          <span class="nav-badge">19</span>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:settings-2" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div><span class="nav-label">Paramètres</span></div>
-        </a>
-      </div>
-    </div>
-
-    <div class="sidebar-spacer"></div>
-
-    <a class="nav-item logout" href="#" data-media-type="banani-button">
-      <div class="nav-left"><div class="icon-wrap md"><iconify-icon icon="lucide:log-out" style="font-size:18px;color:var(--destructive);"></iconify-icon></div><span class="nav-label">Déconnexion</span></div>
-    </a>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main" id="main-content" style="position:relative;">
-    <!-- TOPBAR -->
-    <div class="topbar" id="topbar">
-      <div class="searchbar" data-media-type="banani-button">
-        <div class="icon-wrap sm"><iconify-icon icon="lucide:search" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon></div>
-        <span class="searchbar-text">Rechercher un utilisateur, annonce, paiement…</span>
-      </div>
-      <div class="topbar-right">
-        <div class="icon-btn" data-media-type="banani-button">
-          <iconify-icon icon="lucide:bell" style="font-size:18px;color:var(--foreground);"></iconify-icon>
-          <span class="notif-dot"></span>
-        </div>
-        <div class="admin-pill" data-media-type="banani-button">
-          <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Admin" class="admin-avatar">
+      <div class="country-switcher" data-media-type="banani-button">
+        <div class="country-left">
+          <div class="country-avatar">AF</div>
           <div>
-            <div class="admin-name">Kofi Mensah</div>
-            <div class="admin-role">Admin plateforme</div>
+            <div class="country-label">Vue active</div>
+            <div class="country-value">Multi-pays agrégée</div>
           </div>
-          <div class="icon-wrap sm"><iconify-icon icon="lucide:chevrons-up-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
         </div>
-      </div>
-    </div>
-
-    <!-- PAGE -->
-    <div class="page" id="page">
-      <!-- Header -->
-      <div class="page-header">
-        <div>
-          <div class="page-eyebrow">Administration · Multi-pays agrégée</div>
-          <div class="page-title">Utilisateurs</div>
-          <div class="page-meta">Gestion des comptes, vérifications KYC, activité et transactions de tous les profils inscrits.</div>
-        </div>
-        <div class="page-actions">
-          <div class="btn btn-secondary" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:download" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            Exporter CSV
-          </div>
-          <div class="btn btn-primary" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:user-plus" style="font-size:14px;color:#fff;"></iconify-icon></div>
-            + Ajouter un admin
-          </div>
+        <div class="icon-wrap sm">
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 14px; color: var(--muted-foreground)"
+          ></iconify-icon>
         </div>
       </div>
 
-      <!-- KPI Cards -->
-      <div class="kpi-row" id="kpi-row">
-        <div class="kpi-card" data-media-type="banani-button">
-          <div class="kpi-top">
-            <div class="kpi-icon"><iconify-icon icon="lucide:users" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="kpi-delta up">+6,4%</span>
-          </div>
-          <div class="kpi-value">3 284</div>
-          <div class="kpi-label">Total utilisateurs</div>
-          <div class="kpi-foot">Agences, particuliers, démarcheurs, admins</div>
-        </div>
-        <div class="kpi-card" data-media-type="banani-button">
-          <div class="kpi-top">
-            <div class="kpi-icon"><iconify-icon icon="lucide:user-round-plus" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="kpi-delta up">+14,6%</span>
-          </div>
-          <div class="kpi-value">986</div>
-          <div class="kpi-label">Nouvelles inscriptions · 7j</div>
-          <div class="kpi-foot">Comparé aux 7 jours précédents</div>
-        </div>
-        <div class="kpi-card" data-media-type="banani-button">
-          <div class="kpi-top">
-            <div class="kpi-icon"><iconify-icon icon="lucide:shield-question" style="font-size:18px;color:var(--warning);"></iconify-icon></div>
-            <span class="kpi-delta warn">+3</span>
-          </div>
-          <div class="kpi-value">47</div>
-          <div class="kpi-label">Comptes en attente de vérification</div>
-          <div class="kpi-foot">KYC et documents en cours de traitement</div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div class="section-label">Pays</div>
+        <div class="country-pills">
+          <div class="cpill active" data-media-type="banani-button">BJ</div>
+          <div class="cpill" data-media-type="banani-button">TG</div>
+          <div class="cpill" data-media-type="banani-button">CI</div>
+          <div class="cpill" data-media-type="banani-button">SN</div>
         </div>
       </div>
 
-      <!-- Table Card -->
-      <div class="table-card" id="table-card">
-        <div class="table-toolbar">
-          <!-- Toolbar top -->
-          <div class="toolbar-top">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span class="table-title">Tous les utilisateurs</span>
-              <span class="total-badge">3 284 au total</span>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div class="section-label">Navigation</div>
+        <div class="nav-list">
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-left">
+              <div class="icon-wrap md">
+                <iconify-icon
+                  icon="lucide:layout-dashboard"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-label">Tableau de bord</span>
             </div>
-          </div>
-          <!-- Tabs -->
-          <div class="tab-row">
-            <div class="tab active" data-media-type="banani-button">Tous <span class="tab-count">3284</span></div>
-            <div class="tab" data-media-type="banani-button">Particuliers <span class="tab-count">1 840</span></div>
-            <div class="tab" data-media-type="banani-button">Agences <span class="tab-count">912</span></div>
-            <div class="tab" data-media-type="banani-button">Démarcheurs <span class="tab-count">487</span></div>
-            <div class="tab" data-media-type="banani-button">Admins <span class="tab-count">45</span></div>
-          </div>
-          <!-- Filters -->
-          <div class="filters-row">
-            <div class="search-input" data-media-type="banani-button">
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:search" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
-              <span>Rechercher nom, email ou téléphone…</span>
+            <span class="nav-badge">4</span>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-left">
+              <div class="icon-wrap md">
+                <iconify-icon
+                  icon="lucide:clipboard-list"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-label">Gestion des annonces</span>
             </div>
-            <div class="filter-select" data-media-type="banani-button">Statut <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div></div>
-            <div class="filter-select" data-media-type="banani-button">Pays <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div></div>
-            <div class="filter-select" data-media-type="banani-button">Date d'inscription <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div></div>
-            <div class="reset-btn" data-media-type="banani-button">
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:x-circle" style="font-size:13px;color:var(--primary);"></iconify-icon></div>
-              Réinitialiser
+          </a>
+          <a class="nav-item active" href="#" data-media-type="banani-button">
+            <div class="nav-left">
+              <div class="icon-wrap md">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-label">Utilisateurs</span>
+            </div>
+            <span class="nav-badge">3 284</span>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-left">
+              <div class="icon-wrap md">
+                <iconify-icon
+                  icon="lucide:wallet"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-label">Finances &amp; jetons</span>
+            </div>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-left">
+              <div class="icon-wrap md">
+                <iconify-icon
+                  icon="lucide:video"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-label">Visites virtuelles</span>
+            </div>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-left">
+              <div class="icon-wrap md">
+                <iconify-icon
+                  icon="lucide:shield-alert"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-label">Modération &amp; support</span>
+            </div>
+            <span class="nav-badge">19</span>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-left">
+              <div class="icon-wrap md">
+                <iconify-icon
+                  icon="lucide:settings-2"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-label">Paramètres</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-spacer"></div>
+
+      <a class="nav-item logout" href="#" data-media-type="banani-button">
+        <div class="nav-left">
+          <div class="icon-wrap md">
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 18px; color: var(--destructive)"
+            ></iconify-icon>
+          </div>
+          <span class="nav-label">Déconnexion</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" id="main-content" style="position: relative">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="searchbar" data-media-type="banani-button">
+          <div class="icon-wrap sm">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="searchbar-text">Rechercher un utilisateur, annonce, paiement…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="icon-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--foreground)"
+            ></iconify-icon>
+            <span class="notif-dot"></span>
+          </div>
+          <div class="admin-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Admin"
+              class="admin-avatar"
+            />
+            <div>
+              <div class="admin-name">Kofi Mensah</div>
+              <div class="admin-role">Admin plateforme</div>
+            </div>
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:chevrons-up-down"
+                style="font-size: 13px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Bulk bar (1 row selected) -->
-        <div class="bulk-bar">
-          <span class="bulk-info">1 utilisateur sélectionné</span>
-          <div class="bulk-actions">
-            <div class="bulk-btn bulk-btn-danger" data-media-type="banani-button">
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:ban" style="font-size:13px;color:var(--destructive);"></iconify-icon></div>
-              Suspendre
+      <!-- PAGE -->
+      <div class="page" id="page">
+        <!-- Header -->
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow">Administration · Multi-pays agrégée</div>
+            <div class="page-title">Utilisateurs</div>
+            <div class="page-meta">
+              Gestion des comptes, vérifications KYC, activité et transactions de tous les profils
+              inscrits.
             </div>
-            <div class="bulk-btn bulk-btn-secondary" data-media-type="banani-button">
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:download" style="font-size:13px;color:var(--foreground);"></iconify-icon></div>
+          </div>
+          <div class="page-actions">
+            <div class="btn btn-secondary" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:download"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
+              </div>
               Exporter CSV
             </div>
+            <div class="btn btn-primary" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:user-plus"
+                  style="font-size: 14px; color: #fff"
+                ></iconify-icon>
+              </div>
+              + Ajouter un admin
+            </div>
           </div>
         </div>
 
-        <!-- Table head -->
-        <div class="table-head" id="table-head">
-          <div></div>
-          <div>Utilisateur</div>
-          <div>Type</div>
-          <div>Pays</div>
-          <div>Statut</div>
-          <div>Annonces</div>
-          <div>Jetons</div>
-          <div>Inscription</div>
-          <div style="text-align:right;">Actions</div>
+        <!-- KPI Cards -->
+        <div class="kpi-row" id="kpi-row">
+          <div class="kpi-card" data-media-type="banani-button">
+            <div class="kpi-top">
+              <div class="kpi-icon">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="kpi-delta up">+6,4%</span>
+            </div>
+            <div class="kpi-value">3 284</div>
+            <div class="kpi-label">Total utilisateurs</div>
+            <div class="kpi-foot">Agences, particuliers, démarcheurs, admins</div>
+          </div>
+          <div class="kpi-card" data-media-type="banani-button">
+            <div class="kpi-top">
+              <div class="kpi-icon">
+                <iconify-icon
+                  icon="lucide:user-round-plus"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="kpi-delta up">+14,6%</span>
+            </div>
+            <div class="kpi-value">986</div>
+            <div class="kpi-label">Nouvelles inscriptions · 7j</div>
+            <div class="kpi-foot">Comparé aux 7 jours précédents</div>
+          </div>
+          <div class="kpi-card" data-media-type="banani-button">
+            <div class="kpi-top">
+              <div class="kpi-icon">
+                <iconify-icon
+                  icon="lucide:shield-question"
+                  style="font-size: 18px; color: var(--warning)"
+                ></iconify-icon>
+              </div>
+              <span class="kpi-delta warn">+3</span>
+            </div>
+            <div class="kpi-value">47</div>
+            <div class="kpi-label">Comptes en attente de vérification</div>
+            <div class="kpi-foot">KYC et documents en cours de traitement</div>
+          </div>
         </div>
 
-        <!-- Row 1 — selected -->
-        <div class="table-row selected" id="row-1" data-media-type="banani-button">
-          <div class="checkbox-cell checked"><iconify-icon icon="lucide:check" style="font-size:10px;color:#fff;"></iconify-icon></div>
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F2" alt="Ama Kouassi" class="user-avatar">
+        <!-- Table Card -->
+        <div class="table-card" id="table-card">
+          <div class="table-toolbar">
+            <!-- Toolbar top -->
+            <div class="toolbar-top">
+              <div style="display: flex; align-items: center; gap: 10px">
+                <span class="table-title">Tous les utilisateurs</span>
+                <span class="total-badge">3 284 au total</span>
+              </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tab-row">
+              <div class="tab active" data-media-type="banani-button">
+                Tous <span class="tab-count">3284</span>
+              </div>
+              <div class="tab" data-media-type="banani-button">
+                Particuliers <span class="tab-count">1 840</span>
+              </div>
+              <div class="tab" data-media-type="banani-button">
+                Agences <span class="tab-count">912</span>
+              </div>
+              <div class="tab" data-media-type="banani-button">
+                Démarcheurs <span class="tab-count">487</span>
+              </div>
+              <div class="tab" data-media-type="banani-button">
+                Admins <span class="tab-count">45</span>
+              </div>
+            </div>
+            <!-- Filters -->
+            <div class="filters-row">
+              <div class="search-input" data-media-type="banani-button">
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:search"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <span>Rechercher nom, email ou téléphone…</span>
+              </div>
+              <div class="filter-select" data-media-type="banani-button">
+                Statut
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+              <div class="filter-select" data-media-type="banani-button">
+                Pays
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+              <div class="filter-select" data-media-type="banani-button">
+                Date d'inscription
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+              <div class="reset-btn" data-media-type="banani-button">
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:x-circle"
+                    style="font-size: 13px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Réinitialiser
+              </div>
+            </div>
+          </div>
+
+          <!-- Bulk bar (1 row selected) -->
+          <div class="bulk-bar">
+            <span class="bulk-info">1 utilisateur sélectionné</span>
+            <div class="bulk-actions">
+              <div class="bulk-btn bulk-btn-danger" data-media-type="banani-button">
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:ban"
+                    style="font-size: 13px; color: var(--destructive)"
+                  ></iconify-icon>
+                </div>
+                Suspendre
+              </div>
+              <div class="bulk-btn bulk-btn-secondary" data-media-type="banani-button">
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:download"
+                    style="font-size: 13px; color: var(--foreground)"
+                  ></iconify-icon>
+                </div>
+                Exporter CSV
+              </div>
+            </div>
+          </div>
+
+          <!-- Table head -->
+          <div class="table-head" id="table-head">
+            <div></div>
+            <div>Utilisateur</div>
+            <div>Type</div>
+            <div>Pays</div>
+            <div>Statut</div>
+            <div>Annonces</div>
+            <div>Jetons</div>
+            <div>Inscription</div>
+            <div style="text-align: right">Actions</div>
+          </div>
+
+          <!-- Row 1 — selected -->
+          <div class="table-row selected" id="row-1" data-media-type="banani-button">
+            <div class="checkbox-cell checked">
+              <iconify-icon icon="lucide:check" style="font-size: 10px; color: #fff"></iconify-icon>
+            </div>
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F2"
+                alt="Ama Kouassi"
+                class="user-avatar"
+              />
+              <div>
+                <div class="user-name">Ama Kouassi</div>
+                <div class="user-email">ama.kouassi@agence-prestige.ci</div>
+              </div>
+            </div>
+            <div><span class="badge badge-primary">Agence</span></div>
+            <div class="col-text">🇨🇮 CI</div>
+            <div><span class="badge badge-success">Actif</span></div>
+            <div class="col-number">34</div>
+            <div class="col-number">120</div>
+            <div class="col-muted">12 juin 2024</div>
+            <div class="actions-cell">
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="table-row alt" id="row-2" data-media-type="banani-button">
+            <div class="checkbox-cell"></div>
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F5"
+                alt="Komi Agbodjan"
+                class="user-avatar"
+              />
+              <div>
+                <div class="user-name">Komi Agbodjan</div>
+                <div class="user-email">k.agbodjan@demo.tg</div>
+              </div>
+            </div>
+            <div><span class="badge badge-neutral">Particulier</span></div>
+            <div class="col-text">🇹🇬 TG</div>
+            <div><span class="badge badge-success">Actif</span></div>
+            <div class="col-number">7</div>
+            <div class="col-number">45</div>
+            <div class="col-muted">02 jan. 2025</div>
+            <div class="actions-cell">
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="table-row" id="row-3" data-media-type="banani-button">
+            <div class="checkbox-cell"></div>
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F7"
+                alt="Fatou Diallo"
+                class="user-avatar"
+              />
+              <div>
+                <div class="user-name">Fatou Diallo</div>
+                <div class="user-email">fatou.diallo@immo-sn.sn</div>
+              </div>
+            </div>
+            <div><span class="badge badge-primary">Agence</span></div>
+            <div class="col-text">🇸🇳 SN</div>
+            <div><span class="badge badge-warning">En vérif.</span></div>
+            <div class="col-number">19</div>
+            <div class="col-number">0</div>
+            <div class="col-muted">18 avr. 2025</div>
+            <div class="actions-cell">
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4 -->
+          <div class="table-row alt" id="row-4" data-media-type="banani-button">
+            <div class="checkbox-cell"></div>
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F1"
+                alt="Moussa Traoré"
+                class="user-avatar"
+              />
+              <div>
+                <div class="user-name">Moussa Traoré</div>
+                <div class="user-email">moussa.t@habitation-bj.bj</div>
+              </div>
+            </div>
             <div>
-              <div class="user-name">Ama Kouassi</div>
-              <div class="user-email">ama.kouassi@agence-prestige.ci</div>
+              <span class="badge badge-warning" style="background: #fef3c7; color: #b45309"
+                >Démarcheur</span
+              >
+            </div>
+            <div class="col-text">🇧🇯 BJ</div>
+            <div><span class="badge badge-success">Actif</span></div>
+            <div class="col-number">4</div>
+            <div class="col-number">88</div>
+            <div class="col-muted">25 mars 2025</div>
+            <div class="actions-cell">
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
             </div>
           </div>
-          <div><span class="badge badge-primary">Agence</span></div>
-          <div class="col-text">🇨🇮 CI</div>
-          <div><span class="badge badge-success">Actif</span></div>
-          <div class="col-number">34</div>
-          <div class="col-number">120</div>
-          <div class="col-muted">12 juin 2024</div>
-          <div class="actions-cell">
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-          </div>
-        </div>
 
-        <!-- Row 2 -->
-        <div class="table-row alt" id="row-2" data-media-type="banani-button">
-          <div class="checkbox-cell"></div>
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F5" alt="Komi Agbodjan" class="user-avatar">
-            <div>
-              <div class="user-name">Komi Agbodjan</div>
-              <div class="user-email">k.agbodjan@demo.tg</div>
+          <!-- Row 5 -->
+          <div class="table-row" id="row-5" data-media-type="banani-button">
+            <div class="checkbox-cell"></div>
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F4"
+                alt="Jean-Pierre Dossou"
+                class="user-avatar"
+              />
+              <div>
+                <div class="user-name">Jean-Pierre Dossou</div>
+                <div class="user-email">jp.dossou@luxe-immo.ci</div>
+              </div>
+            </div>
+            <div><span class="badge badge-primary">Agence</span></div>
+            <div class="col-text">🇨🇮 CI</div>
+            <div><span class="badge badge-danger">Suspendu</span></div>
+            <div class="col-number">62</div>
+            <div class="col-number">0</div>
+            <div class="col-muted">07 oct. 2023</div>
+            <div class="actions-cell">
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
             </div>
           </div>
-          <div><span class="badge badge-neutral">Particulier</span></div>
-          <div class="col-text">🇹🇬 TG</div>
-          <div><span class="badge badge-success">Actif</span></div>
-          <div class="col-number">7</div>
-          <div class="col-number">45</div>
-          <div class="col-muted">02 jan. 2025</div>
-          <div class="actions-cell">
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-          </div>
-        </div>
 
-        <!-- Row 3 -->
-        <div class="table-row" id="row-3" data-media-type="banani-button">
-          <div class="checkbox-cell"></div>
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F7" alt="Fatou Diallo" class="user-avatar">
-            <div>
-              <div class="user-name">Fatou Diallo</div>
-              <div class="user-email">fatou.diallo@immo-sn.sn</div>
+          <!-- Row 6 -->
+          <div class="table-row alt" id="row-6" data-media-type="banani-button">
+            <div class="checkbox-cell"></div>
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FAfrican%2F3"
+                alt="Aïssatou Ba"
+                class="user-avatar"
+              />
+              <div>
+                <div class="user-name">Aïssatou Ba</div>
+                <div class="user-email">aissatou.ba@gmail.sn</div>
+              </div>
+            </div>
+            <div><span class="badge badge-neutral">Particulier</span></div>
+            <div class="col-text">🇸🇳 SN</div>
+            <div><span class="badge badge-success">Actif</span></div>
+            <div class="col-number">2</div>
+            <div class="col-number">15</div>
+            <div class="col-muted">30 juin 2025</div>
+            <div class="actions-cell">
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
             </div>
           </div>
-          <div><span class="badge badge-primary">Agence</span></div>
-          <div class="col-text">🇸🇳 SN</div>
-          <div><span class="badge badge-warning">En vérif.</span></div>
-          <div class="col-number">19</div>
-          <div class="col-number">0</div>
-          <div class="col-muted">18 avr. 2025</div>
-          <div class="actions-cell">
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-          </div>
-        </div>
 
-        <!-- Row 4 -->
-        <div class="table-row alt" id="row-4" data-media-type="banani-button">
-          <div class="checkbox-cell"></div>
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F1" alt="Moussa Traoré" class="user-avatar">
-            <div>
-              <div class="user-name">Moussa Traoré</div>
-              <div class="user-email">moussa.t@habitation-bj.bj</div>
+          <!-- Pagination -->
+          <div class="pagination">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span class="page-info">Affichage 1–6 sur 3 284</span>
+              <div class="rows-select" data-media-type="banani-button">
+                25 lignes
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 12px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
             </div>
-          </div>
-          <div><span class="badge badge-warning" style="background:#FEF3C7;color:#B45309;">Démarcheur</span></div>
-          <div class="col-text">🇧🇯 BJ</div>
-          <div><span class="badge badge-success">Actif</span></div>
-          <div class="col-number">4</div>
-          <div class="col-number">88</div>
-          <div class="col-muted">25 mars 2025</div>
-          <div class="actions-cell">
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <!-- Row 5 -->
-        <div class="table-row" id="row-5" data-media-type="banani-button">
-          <div class="checkbox-cell"></div>
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F4" alt="Jean-Pierre Dossou" class="user-avatar">
-            <div>
-              <div class="user-name">Jean-Pierre Dossou</div>
-              <div class="user-email">jp.dossou@luxe-immo.ci</div>
+            <div class="page-controls">
+              <div class="page-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:chevron-left"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="page-btn active" data-media-type="banani-button">1</div>
+              <div class="page-btn" data-media-type="banani-button">2</div>
+              <div class="page-btn" data-media-type="banani-button">3</div>
+              <div
+                class="page-btn"
+                data-media-type="banani-button"
+                style="background: transparent; color: var(--muted-foreground)"
+              >
+                …
+              </div>
+              <div class="page-btn" data-media-type="banani-button">132</div>
+              <div class="page-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:chevron-right"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
             </div>
-          </div>
-          <div><span class="badge badge-primary">Agence</span></div>
-          <div class="col-text">🇨🇮 CI</div>
-          <div><span class="badge badge-danger">Suspendu</span></div>
-          <div class="col-number">62</div>
-          <div class="col-number">0</div>
-          <div class="col-muted">07 oct. 2023</div>
-          <div class="actions-cell">
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <!-- Row 6 -->
-        <div class="table-row alt" id="row-6" data-media-type="banani-button">
-          <div class="checkbox-cell"></div>
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FAfrican%2F3" alt="Aïssatou Ba" class="user-avatar">
-            <div>
-              <div class="user-name">Aïssatou Ba</div>
-              <div class="user-email">aissatou.ba@gmail.sn</div>
-            </div>
-          </div>
-          <div><span class="badge badge-neutral">Particulier</span></div>
-          <div class="col-text">🇸🇳 SN</div>
-          <div><span class="badge badge-success">Actif</span></div>
-          <div class="col-number">2</div>
-          <div class="col-number">15</div>
-          <div class="col-muted">30 juin 2025</div>
-          <div class="actions-cell">
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-            <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <!-- Pagination -->
-        <div class="pagination">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span class="page-info">Affichage 1–6 sur 3 284</span>
-            <div class="rows-select" data-media-type="banani-button">
-              25 lignes
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:12px;color:var(--muted-foreground);"></iconify-icon></div>
-            </div>
-          </div>
-          <div class="page-controls">
-            <div class="page-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-left" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-            <div class="page-btn active" data-media-type="banani-button">1</div>
-            <div class="page-btn" data-media-type="banani-button">2</div>
-            <div class="page-btn" data-media-type="banani-button">3</div>
-            <div class="page-btn" data-media-type="banani-button" style="background:transparent;color:var(--muted-foreground);">…</div>
-            <div class="page-btn" data-media-type="banani-button">132</div>
-            <div class="page-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-right" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
           </div>
         </div>
       </div>
-    </div><!-- /page -->
+      <!-- /page -->
 
-    <!-- DRAWER (Fiche utilisateur — Ama Kouassi) -->
-    <div class="drawer-overlay" id="user-drawer">
-      <div class="drawer-header">
-        <div class="drawer-user-header">
-          <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F2" alt="Ama Kouassi" class="drawer-avatar">
+      <!-- DRAWER (Fiche utilisateur — Ama Kouassi) -->
+      <div class="drawer-overlay" id="user-drawer">
+        <div class="drawer-header">
+          <div class="drawer-user-header">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F2"
+              alt="Ama Kouassi"
+              class="drawer-avatar"
+            />
+            <div>
+              <div class="drawer-user-name">Ama Kouassi</div>
+              <div class="drawer-badges">
+                <span class="badge badge-primary">Agence</span>
+                <span class="badge badge-success">Actif</span>
+                <span class="badge" style="background: #dcfce7; color: #15803d">✔ Vérifié KYC</span>
+              </div>
+            </div>
+          </div>
+          <div class="drawer-close" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:x"
+              style="font-size: 16px; color: var(--foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+
+        <div class="drawer-body">
+          <!-- Stats rapides -->
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value">34</div>
+              <div class="stat-label">Annonces actives</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">120</div>
+              <div class="stat-label">Jetons restants</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">4,7 ★</div>
+              <div class="stat-label">Note moyenne</div>
+            </div>
+          </div>
+
+          <!-- Infos de contact -->
           <div>
-            <div class="drawer-user-name">Ama Kouassi</div>
-            <div class="drawer-badges">
-              <span class="badge badge-primary">Agence</span>
-              <span class="badge badge-success">Actif</span>
-              <span class="badge" style="background:#DCFCE7;color:#15803D;">✔ Vérifié KYC</span>
-            </div>
-          </div>
-        </div>
-        <div class="drawer-close" data-media-type="banani-button">
-          <iconify-icon icon="lucide:x" style="font-size:16px;color:var(--foreground);"></iconify-icon>
-        </div>
-      </div>
-
-      <div class="drawer-body">
-        <!-- Stats rapides -->
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-value">34</div>
-            <div class="stat-label">Annonces actives</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">120</div>
-            <div class="stat-label">Jetons restants</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">4,7 ★</div>
-            <div class="stat-label">Note moyenne</div>
-          </div>
-        </div>
-
-        <!-- Infos de contact -->
-        <div>
-          <div class="section-title" style="margin-bottom:12px;">Informations de contact</div>
-          <div class="info-block">
-            <div class="info-row">
-              <div class="info-icon"><iconify-icon icon="lucide:mail" style="font-size:15px;color:var(--primary);"></iconify-icon></div>
-              <div><div class="info-label">Email</div><div class="info-value">ama.kouassi@agence-prestige.ci</div></div>
-            </div>
-            <div class="info-row">
-              <div class="info-icon"><iconify-icon icon="lucide:phone" style="font-size:15px;color:var(--primary);"></iconify-icon></div>
-              <div><div class="info-label">Téléphone</div><div class="info-value">+225 07 08 12 34 56</div></div>
-            </div>
-            <div class="info-row">
-              <div class="info-icon"><iconify-icon icon="lucide:map-pin" style="font-size:15px;color:var(--primary);"></iconify-icon></div>
-              <div><div class="info-label">Pays / Ville</div><div class="info-value">🇨🇮 Abidjan, Côte d'Ivoire</div></div>
-            </div>
-            <div class="info-row">
-              <div class="info-icon"><iconify-icon icon="lucide:calendar" style="font-size:15px;color:var(--primary);"></iconify-icon></div>
-              <div><div class="info-label">Date d'inscription</div><div class="info-value">12 juin 2024</div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- KYC -->
-        <div class="kyc-block">
-          <div class="kyc-title">
-            <iconify-icon icon="lucide:shield-check" style="font-size:15px;color:#92400E;"></iconify-icon>
-            Documents KYC — Agence vérifiée
-          </div>
-          <div class="kyc-doc" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:file-text" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="kyc-doc-name">Registre de commerce · RC-CI-2021-B-04821</span>
-            <span class="kyc-doc-link">Voir</span>
-          </div>
-          <div class="kyc-doc" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:file-text" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="kyc-doc-name">Pièce d'identité dirigeant</span>
-            <span class="kyc-doc-link">Voir</span>
-          </div>
-        </div>
-
-        <!-- Onglets internes -->
-        <div>
-          <div class="drawer-tabs">
-            <div class="dtab active">Annonces</div>
-            <div class="dtab">Transactions</div>
-            <div class="dtab">Activité</div>
-          </div>
-          <div style="padding-top:14px;">
-            <div class="mini-list">
-              <div class="mini-item" data-media-type="banani-button">
-                <img src="https://storage.googleapis.com/banani-generated-images/generated-images/773113c6-30ca-4dd0-a6be-3f6574e9345d.jpg" alt="" class="mini-thumb" data-query="luxury villa abidjan west africa exterior" data-aspect-ratio="1:1">
-                <div class="mini-info">
-                  <div class="mini-title">Villa F5 à Cocody, piscine</div>
-                  <div class="mini-sub">320 M FCFA · Vente</div>
+            <div class="section-title" style="margin-bottom: 12px">Informations de contact</div>
+            <div class="info-block">
+              <div class="info-row">
+                <div class="info-icon">
+                  <iconify-icon
+                    icon="lucide:mail"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
                 </div>
-                <span class="badge badge-success">Validée</span>
+                <div>
+                  <div class="info-label">Email</div>
+                  <div class="info-value">ama.kouassi@agence-prestige.ci</div>
+                </div>
               </div>
-              <div class="mini-item" data-media-type="banani-button">
-                <img src="https://storage.googleapis.com/banani-generated-images/generated-images/a6724078-48fb-4caa-ad20-a93d7f949415.jpg" alt="" class="mini-thumb" data-query="apartment building abidjan ivory coast modern real estate" data-aspect-ratio="1:1">
-                <div class="mini-info">
-                  <div class="mini-title">Appartement T3 Plateau</div>
-                  <div class="mini-sub">95 M FCFA · Vente</div>
+              <div class="info-row">
+                <div class="info-icon">
+                  <iconify-icon
+                    icon="lucide:phone"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
                 </div>
-                <span class="badge badge-warning">En attente</span>
+                <div>
+                  <div class="info-label">Téléphone</div>
+                  <div class="info-value">+225 07 08 12 34 56</div>
+                </div>
               </div>
-              <div class="mini-item" data-media-type="banani-button">
-                <img src="https://storage.googleapis.com/banani-generated-images/generated-images/20853626-2d8e-40da-a67a-de3e4db786e8.jpg" alt="" class="mini-thumb" data-query="commercial office space abidjan ivory coast interior" data-aspect-ratio="1:1">
-                <div class="mini-info">
-                  <div class="mini-title">Plateau bureaux Zone 4</div>
-                  <div class="mini-sub">1,2 M FCFA/mois · Location</div>
+              <div class="info-row">
+                <div class="info-icon">
+                  <iconify-icon
+                    icon="lucide:map-pin"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
                 </div>
-                <span class="badge badge-success">Validée</span>
+                <div>
+                  <div class="info-label">Pays / Ville</div>
+                  <div class="info-value">🇨🇮 Abidjan, Côte d'Ivoire</div>
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-icon">
+                  <iconify-icon
+                    icon="lucide:calendar"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <div>
+                  <div class="info-label">Date d'inscription</div>
+                  <div class="info-value">12 juin 2024</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Taux conversion -->
-        <div style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--muted);border-radius:var(--radius-lg);">
-          <div class="icon-wrap lg"><iconify-icon icon="lucide:trending-up" style="font-size:20px;color:var(--primary);"></iconify-icon></div>
+          <!-- KYC -->
+          <div class="kyc-block">
+            <div class="kyc-title">
+              <iconify-icon
+                icon="lucide:shield-check"
+                style="font-size: 15px; color: #92400e"
+              ></iconify-icon>
+              Documents KYC — Agence vérifiée
+            </div>
+            <div class="kyc-doc" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:file-text"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="kyc-doc-name">Registre de commerce · RC-CI-2021-B-04821</span>
+              <span class="kyc-doc-link">Voir</span>
+            </div>
+            <div class="kyc-doc" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:file-text"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="kyc-doc-name">Pièce d'identité dirigeant</span>
+              <span class="kyc-doc-link">Voir</span>
+            </div>
+          </div>
+
+          <!-- Onglets internes -->
           <div>
-            <div style="font-size:13px;font-weight:700;color:var(--foreground);">Taux de conversion : 22,6%</div>
-            <div style="font-size:12px;color:var(--muted-foreground);">Annonces → visites confirmées (30 derniers jours)</div>
+            <div class="drawer-tabs">
+              <div class="dtab active">Annonces</div>
+              <div class="dtab">Transactions</div>
+              <div class="dtab">Activité</div>
+            </div>
+            <div style="padding-top: 14px">
+              <div class="mini-list">
+                <div class="mini-item" data-media-type="banani-button">
+                  <img
+                    src="https://storage.googleapis.com/banani-generated-images/generated-images/773113c6-30ca-4dd0-a6be-3f6574e9345d.jpg"
+                    alt=""
+                    class="mini-thumb"
+                    data-query="luxury villa abidjan west africa exterior"
+                    data-aspect-ratio="1:1"
+                  />
+                  <div class="mini-info">
+                    <div class="mini-title">Villa F5 à Cocody, piscine</div>
+                    <div class="mini-sub">320 M FCFA · Vente</div>
+                  </div>
+                  <span class="badge badge-success">Validée</span>
+                </div>
+                <div class="mini-item" data-media-type="banani-button">
+                  <img
+                    src="https://storage.googleapis.com/banani-generated-images/generated-images/a6724078-48fb-4caa-ad20-a93d7f949415.jpg"
+                    alt=""
+                    class="mini-thumb"
+                    data-query="apartment building abidjan ivory coast modern real estate"
+                    data-aspect-ratio="1:1"
+                  />
+                  <div class="mini-info">
+                    <div class="mini-title">Appartement T3 Plateau</div>
+                    <div class="mini-sub">95 M FCFA · Vente</div>
+                  </div>
+                  <span class="badge badge-warning">En attente</span>
+                </div>
+                <div class="mini-item" data-media-type="banani-button">
+                  <img
+                    src="https://storage.googleapis.com/banani-generated-images/generated-images/20853626-2d8e-40da-a67a-de3e4db786e8.jpg"
+                    alt=""
+                    class="mini-thumb"
+                    data-query="commercial office space abidjan ivory coast interior"
+                    data-aspect-ratio="1:1"
+                  />
+                  <div class="mini-info">
+                    <div class="mini-title">Plateau bureaux Zone 4</div>
+                    <div class="mini-sub">1,2 M FCFA/mois · Location</div>
+                  </div>
+                  <span class="badge badge-success">Validée</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Taux conversion -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 14px;
+              padding: 14px;
+              background: var(--muted);
+              border-radius: var(--radius-lg);
+            "
+          >
+            <div class="icon-wrap lg">
+              <iconify-icon
+                icon="lucide:trending-up"
+                style="font-size: 20px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--foreground)">
+                Taux de conversion : 22,6%
+              </div>
+              <div style="font-size: 12px; color: var(--muted-foreground)">
+                Annonces → visites confirmées (30 derniers jours)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer actions -->
+        <div class="drawer-footer">
+          <div class="action-full danger" data-media-type="banani-button">
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:ban"
+                style="font-size: 14px; color: var(--destructive)"
+              ></iconify-icon>
+            </div>
+            Suspendre le compte
+          </div>
+          <div class="drawer-footer-row">
+            <div class="action-full primary-outline" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:message-square"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              Envoyer un message
+            </div>
+            <div class="action-full secondary" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:pencil"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
+              </div>
+              Modifier le profil
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- Footer actions -->
-      <div class="drawer-footer">
-        <div class="action-full danger" data-media-type="banani-button">
-          <div class="icon-wrap sm"><iconify-icon icon="lucide:ban" style="font-size:14px;color:var(--destructive);"></iconify-icon></div>
-          Suspendre le compte
-        </div>
-        <div class="drawer-footer-row">
-          <div class="action-full primary-outline" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:message-square" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-            Envoyer un message
-          </div>
-          <div class="action-full secondary" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:pencil" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            Modifier le profil
-          </div>
-        </div>
-      </div>
-    </div><!-- /drawer -->
-
-  </main>
-</div>
-
-
+      <!-- /drawer -->
+    </main>
+  </div>
 </body>

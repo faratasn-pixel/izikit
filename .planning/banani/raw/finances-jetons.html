@@ -1,9 +1,11 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Habitat-Afrik — Finances &amp; Jetons</title>
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
   <style id="base-styles">
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       min-height: 812px;
@@ -11,821 +13,2036 @@
       color: var(--foreground);
       font-family: var(--font-family-body);
     }
-    .app { min-height: 812px; display: flex; background: var(--background); }
-    .icon-wrap { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .icon-wrap.lg { width: 20px; height: 20px; }
-    .icon-wrap.sm { width: 16px; height: 16px; }
-    .pill { border-radius: 999px; white-space: nowrap; }
+    .app {
+      min-height: 812px;
+      display: flex;
+      background: var(--background);
+    }
+    .icon-wrap {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-wrap.lg {
+      width: 20px;
+      height: 20px;
+    }
+    .icon-wrap.sm {
+      width: 16px;
+      height: 16px;
+    }
+    .pill {
+      border-radius: 999px;
+      white-space: nowrap;
+    }
   </style>
 
   <style id="sidebar-styles">
-    .sidebar { width: 248px; background: var(--sidebar); border-right: 1px solid var(--border); padding: 20px 16px; display: flex; flex-direction: column; gap: 22px; }
-    .brand-block { display: flex; align-items: center; gap: 12px; padding: 8px 6px 4px 6px; }
-    .brand-mark { width: 40px; height: 40px; border-radius: var(--radius-lg); background: var(--sidebar-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .brand-texts { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-    .brand-title { font-size: 16px; font-weight: 700; color: var(--sidebar-foreground); white-space: nowrap; }
-    .brand-subtitle { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; }
-    .country-switcher { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; background: var(--muted); border-radius: var(--radius-lg); }
-    .country-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .country-avatar { width: 32px; height: 32px; border-radius: 999px; background: var(--card); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--primary); flex-shrink: 0; }
-    .country-meta { min-width: 0; }
-    .country-label { font-size: 11px; color: var(--muted-foreground); margin-bottom: 2px; }
-    .country-value { font-size: 13px; font-weight: 600; color: var(--sidebar-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sidebar-section { display: flex; flex-direction: column; gap: 8px; }
-    .sidebar-section-title { font-size: 11px; font-weight: 600; color: var(--muted-foreground); padding: 0 8px; white-space: nowrap; }
-    .nav-list { display: flex; flex-direction: column; gap: 4px; }
-    .nav-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; border-radius: var(--radius-lg); text-decoration: none; background: transparent; }
-    .nav-item.active { background: var(--sidebar-primary); }
-    .nav-item-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .nav-item-label { font-size: 14px; font-weight: 500; color: var(--sidebar-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .nav-item.active .nav-item-label { color: var(--sidebar-primary-foreground); font-weight: 600; }
-    .nav-count { min-width: 22px; height: 22px; padding: 0 7px; border-radius: 999px; background: var(--muted); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--secondary-foreground); white-space: nowrap; }
-    .nav-item.active .nav-count { background: var(--card); color: var(--primary); }
-    .sidebar-spacer { flex: 1; }
-    .logout-item { background: var(--destructive); }
-    .logout-item .nav-item-label { color: var(--destructive-foreground); font-weight: 600; }
+    .sidebar {
+      width: 248px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 6px 4px 6px;
+    }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      background: var(--sidebar-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-texts {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .country-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+    }
+    .country-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .country-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+    .country-meta {
+      min-width: 0;
+    }
+    .country-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 2px;
+    }
+    .country-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 8px;
+      white-space: nowrap;
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 12px;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      background: transparent;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+    }
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-item-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-item.active .nav-item-label {
+      color: var(--sidebar-primary-foreground);
+      font-weight: 600;
+    }
+    .nav-count {
+      min-width: 22px;
+      height: 22px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+    .nav-item.active .nav-count {
+      background: var(--card);
+      color: var(--primary);
+    }
+    .sidebar-spacer {
+      flex: 1;
+    }
+    .logout-item {
+      background: var(--destructive);
+    }
+    .logout-item .nav-item-label {
+      color: var(--destructive-foreground);
+      font-weight: 600;
+    }
   </style>
 
   <style id="main-layout-styles">
-    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-    .topbar { height: 76px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; gap: 20px; }
-    .searchbar { width: 420px; max-width: 100%; height: 44px; border-radius: var(--radius-lg); background: var(--muted); display: flex; align-items: center; gap: 10px; padding: 0 14px; color: var(--muted-foreground); }
-    .searchbar-text { font-size: 14px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .topbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-    .icon-btn { width: 42px; height: 42px; border-radius: var(--radius-lg); background: var(--muted); display: flex; align-items: center; justify-content: center; position: relative; }
-    .notif-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; border-radius: 999px; background: var(--destructive); }
-    .admin-pill { height: 42px; padding: 0 12px; border-radius: var(--radius-lg); background: var(--muted); display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .admin-avatar { width: 30px; height: 30px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .admin-meta { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-    .admin-name { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; }
-    .admin-role { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; }
-    .page { flex: 1; padding: 28px; display: flex; flex-direction: column; gap: 24px; min-width: 0; overflow-y: auto; }
-    .page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-    .page-title-block { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-    .page-eyebrow { font-size: 12px; font-weight: 600; color: var(--primary); white-space: nowrap; }
-    .page-title { font-size: 26px; font-weight: 700; color: var(--foreground); line-height: 1.1; margin: 0; }
-    .page-subtitle { font-size: 14px; color: var(--muted-foreground); line-height: 1.5; }
-    .page-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .button { height: 40px; padding: 0 14px; border-radius: var(--radius-lg); display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; white-space: nowrap; }
-    .button.secondary { background: var(--card); color: var(--foreground); border: 1px solid var(--border); }
-    .button.primary { background: var(--primary); color: var(--primary-foreground); }
-    .button.danger { background: var(--destructive); color: var(--destructive-foreground); }
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      height: 76px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      gap: 20px;
+    }
+    .searchbar {
+      width: 420px;
+      max-width: 100%;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      color: var(--muted-foreground);
+    }
+    .searchbar-text {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .notif-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--destructive);
+    }
+    .admin-pill {
+      height: 42px;
+      padding: 0 12px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .admin-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .admin-meta {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .admin-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .admin-role {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .page {
+      flex: 1;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+      overflow-y: auto;
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .page-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.1;
+      margin: 0;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      line-height: 1.5;
+    }
+    .page-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .button {
+      height: 40px;
+      padding: 0 14px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .button.secondary {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .button.primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .button.danger {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
   </style>
 
   <style id="kpi-styles">
-    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-    .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-    .kpi-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .kpi-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--sidebar-primary); display: flex; align-items: center; justify-content: center; }
-    .delta { padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; white-space: nowrap; }
-    .delta.up { background: color-mix(in srgb, var(--success) 14%, var(--card)); color: var(--success); }
-    .delta.down { background: color-mix(in srgb, var(--destructive) 12%, var(--card)); color: var(--destructive); }
-    .delta.warn { background: color-mix(in srgb, var(--warning) 16%, var(--card)); color: var(--warning); }
-    .kpi-value { font-size: 24px; font-weight: 700; color: var(--foreground); line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .kpi-label { font-size: 13px; font-weight: 500; color: var(--muted-foreground); }
-    .kpi-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted-foreground); white-space: nowrap; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+    .kpi-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .kpi-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--sidebar-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .delta {
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .delta.up {
+      background: color-mix(in srgb, var(--success) 14%, var(--card));
+      color: var(--success);
+    }
+    .delta.down {
+      background: color-mix(in srgb, var(--destructive) 12%, var(--card));
+      color: var(--destructive);
+    }
+    .delta.warn {
+      background: color-mix(in srgb, var(--warning) 16%, var(--card));
+      color: var(--warning);
+    }
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .kpi-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+    .kpi-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
   </style>
 
   <style id="card-styles">
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 18px; min-width: 0; }
-    .card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-    .card-title-wrap { min-width: 0; }
-    .card-title { font-size: 15px; font-weight: 700; color: var(--card-foreground); margin: 0 0 4px 0; }
-    .card-subtitle { font-size: 12px; color: var(--muted-foreground); line-height: 1.45; }
-    .mini-filter { height: 32px; padding: 0 12px; border-radius: 999px; background: var(--muted); display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--secondary-foreground); white-space: nowrap; cursor: pointer; }
-    .two-col { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 16px; }
-    .left-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-    .right-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      min-width: 0;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .card-title-wrap {
+      min-width: 0;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--card-foreground);
+      margin: 0 0 4px 0;
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      line-height: 1.45;
+    }
+    .mini-filter {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
   </style>
 
   <style id="chart-styles">
-    .period-tabs { display: flex; align-items: center; gap: 6px; }
-    .period-tab { height: 28px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--muted); color: var(--muted-foreground); white-space: nowrap; }
-    .period-tab.active { background: var(--primary); color: var(--primary-foreground); }
+    .period-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .period-tab {
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--muted);
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .period-tab.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
 
     /* Line chart */
-    .line-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
-    .legend-chip { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--secondary-foreground); white-space: nowrap; }
-    .legend-dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; }
-    .line-chart-area { height: 220px; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 8px; align-items: stretch; }
-    .y-axis { display: flex; flex-direction: column; justify-content: space-between; padding: 8px 0 22px 0; font-size: 11px; color: var(--muted-foreground); text-align: right; }
-    .plot-area { position: relative; border-radius: var(--radius-lg); padding: 8px 12px 24px 12px; overflow: hidden; background: linear-gradient(to bottom, transparent 0%, transparent 24%, color-mix(in srgb, var(--border) 60%, transparent) 24%, color-mix(in srgb, var(--border) 60%, transparent) 25%, transparent 25%, transparent 49%, color-mix(in srgb, var(--border) 60%, transparent) 49%, color-mix(in srgb, var(--border) 60%, transparent) 50%, transparent 50%, transparent 74%, color-mix(in srgb, var(--border) 60%, transparent) 74%, color-mix(in srgb, var(--border) 60%, transparent) 75%, transparent 75%); }
-    .plot-svg { width: 100%; height: 100%; display: block; }
-    .x-axis { position: absolute; left: 12px; right: 12px; bottom: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; font-size: 11px; color: var(--muted-foreground); }
-    .x-axis span { white-space: nowrap; }
+    .line-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .legend-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .line-chart-area {
+      height: 220px;
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 8px;
+      align-items: stretch;
+    }
+    .y-axis {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px 0 22px 0;
+      font-size: 11px;
+      color: var(--muted-foreground);
+      text-align: right;
+    }
+    .plot-area {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: 8px 12px 24px 12px;
+      overflow: hidden;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 24%,
+        color-mix(in srgb, var(--border) 60%, transparent) 24%,
+        color-mix(in srgb, var(--border) 60%, transparent) 25%,
+        transparent 25%,
+        transparent 49%,
+        color-mix(in srgb, var(--border) 60%, transparent) 49%,
+        color-mix(in srgb, var(--border) 60%, transparent) 50%,
+        transparent 50%,
+        transparent 74%,
+        color-mix(in srgb, var(--border) 60%, transparent) 74%,
+        color-mix(in srgb, var(--border) 60%, transparent) 75%,
+        transparent 75%
+      );
+    }
+    .plot-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .x-axis {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .x-axis span {
+      white-space: nowrap;
+    }
 
     /* Pie / donut chart */
-    .donut-wrap { display: flex; align-items: center; gap: 20px; }
-    .donut-svg-container { width: 120px; height: 120px; flex-shrink: 0; }
-    .donut-legend { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 0; }
-    .donut-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--foreground); }
-    .donut-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-    .donut-val { font-weight: 700; margin-left: auto; font-size: 12px; white-space: nowrap; }
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .donut-svg-container {
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+    }
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .donut-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--foreground);
+    }
+    .donut-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .donut-val {
+      font-weight: 700;
+      margin-left: auto;
+      font-size: 12px;
+      white-space: nowrap;
+    }
   </style>
 
   <style id="table-styles">
-    .table-card { padding: 0; overflow: hidden; }
-    .table-toolbar { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .table-title { font-size: 15px; font-weight: 700; color: var(--foreground); white-space: nowrap; }
-    .table-filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .filter-chip { height: 32px; padding: 0 12px; border-radius: 999px; background: var(--muted); display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--secondary-foreground); white-space: nowrap; }
-    .filter-chip.active { background: var(--sidebar-primary); color: var(--primary); font-weight: 600; }
-    .table-head, .table-row { display: grid; grid-template-columns: 2fr 1.1fr 1fr 1.1fr 1fr 1.1fr 1fr; gap: 10px; align-items: center; padding: 12px 18px; }
-    .table-head { background: var(--muted); font-size: 11px; font-weight: 700; color: var(--muted-foreground); border-bottom: 1px solid var(--border); }
-    .table-row { font-size: 13px; color: var(--foreground); border-top: 1px solid var(--border); }
-    .table-row.alt { background: color-mix(in srgb, var(--muted) 38%, var(--card)); }
-    .user-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .user-avatar { width: 32px; height: 32px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .user-texts { min-width: 0; }
-    .user-name { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .user-email { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .cell-text { font-size: 13px; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .cell-sub { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .cell-bold { font-size: 13px; font-weight: 700; color: var(--foreground); white-space: nowrap; }
-    .status-badge { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-    .status-badge.success { background: color-mix(in srgb, var(--success) 14%, var(--card)); color: var(--success); }
-    .status-badge.warning { background: color-mix(in srgb, var(--warning) 14%, var(--card)); color: var(--warning); }
-    .status-badge.danger { background: color-mix(in srgb, var(--destructive) 12%, var(--card)); color: var(--destructive); }
-    .status-badge.primary { background: var(--sidebar-primary); color: var(--primary); }
-    .status-badge.neutral { background: var(--muted); color: var(--secondary-foreground); }
-    .pay-badge { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 9px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--muted); color: var(--secondary-foreground); white-space: nowrap; }
-    .table-actions { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
-    .action-mini { width: 28px; height: 28px; border-radius: 7px; background: var(--muted); display: flex; align-items: center; justify-content: center; }
-    .pagination { padding: 14px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .pagination-info { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; }
-    .pagination-controls { display: flex; align-items: center; gap: 6px; }
-    .page-btn { width: 30px; height: 30px; border-radius: 7px; background: var(--muted); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--secondary-foreground); }
-    .page-btn.active { background: var(--primary); color: var(--primary-foreground); }
+    .table-card {
+      padding: 0;
+      overflow: hidden;
+    }
+    .table-toolbar {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .table-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .table-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+    .filter-chip.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .table-head,
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1.1fr 1fr 1.1fr 1fr 1.1fr 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 18px;
+    }
+    .table-head {
+      background: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted-foreground);
+      border-bottom: 1px solid var(--border);
+    }
+    .table-row {
+      font-size: 13px;
+      color: var(--foreground);
+      border-top: 1px solid var(--border);
+    }
+    .table-row.alt {
+      background: color-mix(in srgb, var(--muted) 38%, var(--card));
+    }
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .user-texts {
+      min-width: 0;
+    }
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-email {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cell-text {
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cell-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cell-bold {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status-badge.success {
+      background: color-mix(in srgb, var(--success) 14%, var(--card));
+      color: var(--success);
+    }
+    .status-badge.warning {
+      background: color-mix(in srgb, var(--warning) 14%, var(--card));
+      color: var(--warning);
+    }
+    .status-badge.danger {
+      background: color-mix(in srgb, var(--destructive) 12%, var(--card));
+      color: var(--destructive);
+    }
+    .status-badge.primary {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
+    .status-badge.neutral {
+      background: var(--muted);
+      color: var(--secondary-foreground);
+    }
+    .pay-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+    .table-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+    .action-mini {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pagination {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .pagination-info {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .page-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .page-btn.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
   </style>
 
   <style id="pricing-styles">
-    .pricing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .pricing-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-    .pricing-row:last-child { border-bottom: none; }
-    .pricing-label { font-size: 13px; font-weight: 500; color: var(--foreground); }
-    .pricing-sub { font-size: 11px; color: var(--muted-foreground); margin-top: 2px; }
-    .pricing-input { height: 34px; padding: 0 10px; border-radius: var(--radius-md); background: var(--muted); border: 1px solid var(--border); display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--foreground); min-width: 120px; justify-content: space-between; }
-    .pricing-input-unit { font-size: 11px; color: var(--muted-foreground); }
-    .history-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-    .history-row:last-child { border-bottom: none; }
-    .history-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--primary); flex-shrink: 0; margin-top: 5px; }
-    .history-main { min-width: 0; flex: 1; }
-    .history-title { font-size: 13px; font-weight: 500; color: var(--foreground); margin-bottom: 2px; }
-    .history-meta { font-size: 11px; color: var(--muted-foreground); }
-    .history-time { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; flex-shrink: 0; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .pricing-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .pricing-row:last-child {
+      border-bottom: none;
+    }
+    .pricing-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+    .pricing-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .pricing-input {
+      height: 34px;
+      padding: 0 10px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      min-width: 120px;
+      justify-content: space-between;
+    }
+    .pricing-input-unit {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .history-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .history-row:last-child {
+      border-bottom: none;
+    }
+    .history-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .history-main {
+      min-width: 0;
+      flex: 1;
+    }
+    .history-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      margin-bottom: 2px;
+    }
+    .history-meta {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .history-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
   </style>
-</head><body>
-<div class="app" id="finances-app">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand-block">
-      <div class="brand-mark">
-        <div class="icon-wrap lg">
-          <iconify-icon icon="lucide:building-2" style="font-size:20px;color:var(--primary);"></iconify-icon>
+</head>
+<body>
+  <div class="app" id="finances-app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">
+          <div class="icon-wrap lg">
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div class="brand-texts">
+          <div class="brand-title">Habitat-Afrik</div>
+          <div class="brand-subtitle">Administration</div>
         </div>
       </div>
-      <div class="brand-texts">
-        <div class="brand-title">Habitat-Afrik</div>
-        <div class="brand-subtitle">Administration</div>
-      </div>
-    </div>
 
-    <div class="country-switcher" data-media-type="banani-button">
-      <div class="country-left">
-        <div class="country-avatar">AF</div>
-        <div class="country-meta">
-          <div class="country-label">Vue active</div>
-          <div class="country-value">Multi-pays agrégée</div>
+      <div class="country-switcher" data-media-type="banani-button">
+        <div class="country-left">
+          <div class="country-avatar">AF</div>
+          <div class="country-meta">
+            <div class="country-label">Vue active</div>
+            <div class="country-value">Multi-pays agrégée</div>
+          </div>
+        </div>
+        <div class="icon-wrap sm">
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 16px; color: var(--muted-foreground)"
+          ></iconify-icon>
         </div>
       </div>
-      <div class="icon-wrap sm">
-        <iconify-icon icon="lucide:chevron-down" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon>
-      </div>
-    </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Pays</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <div style="height:28px;padding:0 12px;border-radius:999px;background:var(--primary);color:var(--primary-foreground);font-size:12px;font-weight:600;display:flex;align-items:center;" data-media-type="banani-button">BJ</div>
-        <div style="height:28px;padding:0 12px;border-radius:999px;background:var(--muted);color:var(--secondary-foreground);font-size:12px;font-weight:600;display:flex;align-items:center;" data-media-type="banani-button">TG</div>
-        <div style="height:28px;padding:0 12px;border-radius:999px;background:var(--muted);color:var(--secondary-foreground);font-size:12px;font-weight:600;display:flex;align-items:center;" data-media-type="banani-button">CI</div>
-        <div style="height:28px;padding:0 12px;border-radius:999px;background:var(--muted);color:var(--secondary-foreground);font-size:12px;font-weight:600;display:flex;align-items:center;" data-media-type="banani-button">SN</div>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Navigation</div>
-      <div class="nav-list">
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:layout-dashboard" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Tableau de bord</span>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Pays</div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap">
+          <div
+            style="
+              height: 28px;
+              padding: 0 12px;
+              border-radius: 999px;
+              background: var(--primary);
+              color: var(--primary-foreground);
+              font-size: 12px;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+            "
+            data-media-type="banani-button"
+          >
+            BJ
           </div>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:clipboard-list" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Gestion des annonces</span>
+          <div
+            style="
+              height: 28px;
+              padding: 0 12px;
+              border-radius: 999px;
+              background: var(--muted);
+              color: var(--secondary-foreground);
+              font-size: 12px;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+            "
+            data-media-type="banani-button"
+          >
+            TG
           </div>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:users" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Utilisateurs</span>
+          <div
+            style="
+              height: 28px;
+              padding: 0 12px;
+              border-radius: 999px;
+              background: var(--muted);
+              color: var(--secondary-foreground);
+              font-size: 12px;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+            "
+            data-media-type="banani-button"
+          >
+            CI
           </div>
-        </a>
-        <a class="nav-item active" href="#" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:wallet" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="nav-item-label">Finances &amp; jetons</span>
-          </div>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:video" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Visites virtuelles</span>
-          </div>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:shield-alert" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Modération &amp; support</span>
-          </div>
-          <span class="nav-count">19</span>
-        </a>
-        <a class="nav-item" href="#" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:settings-2" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Paramètres</span>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="sidebar-spacer"></div>
-    <a class="nav-item logout-item" href="#" data-media-type="banani-button">
-      <div class="nav-item-left">
-        <div class="icon-wrap"><iconify-icon icon="lucide:log-out" style="font-size:18px;color:var(--destructive-foreground);"></iconify-icon></div>
-        <span class="nav-item-label">Déconnexion</span>
-      </div>
-    </a>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="searchbar" data-media-type="banani-button">
-        <div class="icon-wrap"><iconify-icon icon="lucide:search" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-        <span class="searchbar-text">Rechercher une transaction, un utilisateur ou une référence…</span>
-      </div>
-      <div class="topbar-right">
-        <div class="icon-btn" data-media-type="banani-button">
-          <iconify-icon icon="lucide:bell" style="font-size:18px;color:var(--foreground);"></iconify-icon>
-          <span class="notif-dot"></span>
-        </div>
-        <div class="admin-pill" data-media-type="banani-button">
-          <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Admin" class="admin-avatar">
-          <div class="admin-meta">
-            <span class="admin-name">Kofi Mensah</span>
-            <span class="admin-role">Admin plateforme</span>
-          </div>
-          <div class="icon-wrap sm"><iconify-icon icon="lucide:chevrons-up-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PAGE CONTENT -->
-    <div class="page" id="page">
-      <!-- Header -->
-      <div class="page-header">
-        <div class="page-title-block">
-          <div class="page-eyebrow">Revenus &amp; Transactions · Multi-pays agrégée</div>
-          <h1 class="page-title">Finances &amp; Jetons</h1>
-          <div class="page-subtitle">Suivi des revenus, transactions et paramétrage de la tarification pour l'ensemble des pays.</div>
-        </div>
-        <div class="page-actions">
-          <div class="button secondary" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:download" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            Exporter CSV
-          </div>
-          <div class="button primary" data-media-type="banani-button">
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:file-bar-chart" style="font-size:14px;color:var(--primary-foreground);"></iconify-icon></div>
-            Rapport financier
+          <div
+            style="
+              height: 28px;
+              padding: 0 12px;
+              border-radius: 999px;
+              background: var(--muted);
+              color: var(--secondary-foreground);
+              font-size: 12px;
+              font-weight: 600;
+              display: flex;
+              align-items: center;
+            "
+            data-media-type="banani-button"
+          >
+            SN
           </div>
         </div>
       </div>
 
-      <!-- KPI CARDS -->
-      <div class="kpi-grid">
-        <div class="kpi-card" data-media-type="banani-button">
-          <div class="kpi-top">
-            <div class="kpi-icon"><iconify-icon icon="lucide:coins" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="delta up">+14,2%</span>
-          </div>
-          <div class="kpi-value">42,3 M FCFA</div>
-          <div class="kpi-label">Revenus jetons · juillet</div>
-          <div class="kpi-foot"><span>4 812 packs vendus</span><span>vs juin</span></div>
-        </div>
-        <div class="kpi-card" data-media-type="banani-button">
-          <div class="kpi-top">
-            <div class="kpi-icon"><iconify-icon icon="lucide:landmark" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="delta up">+9,8%</span>
-          </div>
-          <div class="kpi-value">31,9 M FCFA</div>
-          <div class="kpi-label">Revenus commissions · juillet</div>
-          <div class="kpi-foot"><span>Ventes confirmées</span><span>vs juin</span></div>
-        </div>
-        <div class="kpi-card" data-media-type="banani-button">
-          <div class="kpi-top">
-            <div class="kpi-icon"><iconify-icon icon="lucide:trending-up" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="delta up">+11,1%</span>
-          </div>
-          <div class="kpi-value">84,7 M FCFA</div>
-          <div class="kpi-label">Total du mois</div>
-          <div class="kpi-foot"><span>↑ 8,5 M vs juin</span><span>Juillet 2025</span></div>
-        </div>
-        <div class="kpi-card" data-media-type="banani-button">
-          <div class="kpi-top">
-            <div class="kpi-icon"><iconify-icon icon="lucide:receipt" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="delta warn">-3,2%</span>
-          </div>
-          <div class="kpi-value">1 847</div>
-          <div class="kpi-label">Transactions du mois</div>
-          <div class="kpi-foot"><span>Réussies : 1 712 · Échouées : 135</span><span>Juillet 2025</span></div>
-        </div>
-      </div>
-
-      <!-- CHARTS ROW -->
-      <div class="two-col">
-        <!-- Line chart -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-wrap">
-              <h2 class="card-title">Évolution des revenus sur 6 mois</h2>
-              <div class="card-subtitle">Jetons + commissions + VR — tendance consolidée multi-pays.</div>
-            </div>
-            <div class="period-tabs">
-              <div class="period-tab" data-media-type="banani-button">7j</div>
-              <div class="period-tab" data-media-type="banani-button">30j</div>
-              <div class="period-tab active" data-media-type="banani-button">6 mois</div>
-              <div class="period-tab" data-media-type="banani-button">Année</div>
-            </div>
-          </div>
-          <div class="line-legend">
-            <div class="legend-chip"><span class="legend-dot" style="background:var(--primary);"></span>Jetons</div>
-            <div class="legend-chip"><span class="legend-dot" style="background:var(--success);"></span>Commissions</div>
-            <div class="legend-chip"><span class="legend-dot" style="background:var(--warning);"></span>VR</div>
-          </div>
-          <div class="line-chart-area">
-            <div class="y-axis">
-              <span>50 M</span>
-              <span>37 M</span>
-              <span>25 M</span>
-              <span>12 M</span>
-              <span>0</span>
-            </div>
-            <div class="plot-area">
-              <svg class="plot-svg" viewBox="0 0 700 190" preserveAspectRatio="none">
-                <!-- Jetons area fill -->
-                <polygon points="0,148 140,138 280,120 420,100 560,88 700,70 700,190 0,190" fill="color-mix(in srgb, var(--primary) 10%, transparent)"></polygon>
-                <polyline points="0,148 140,138 280,120 420,100 560,88 700,70" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                <!-- Commissions -->
-                <polyline points="0,162 140,154 280,144 420,128 560,118 700,108" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0"></polyline>
-                <!-- VR -->
-                <polyline points="0,174 140,170 280,165 420,158 560,152 700,144" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                <!-- Dots -->
-                <circle cx="700" cy="70" r="4" fill="var(--primary)"></circle>
-                <circle cx="700" cy="108" r="4" fill="var(--success)"></circle>
-                <circle cx="700" cy="144" r="4" fill="var(--warning)"></circle>
-              </svg>
-              <div class="x-axis">
-                <span>Fév.</span>
-                <span>Mars</span>
-                <span>Avr.</span>
-                <span>Mai</span>
-                <span>Juin</span>
-                <span>Juil.</span>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <div class="nav-list">
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:layout-dashboard"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
               </div>
+              <span class="nav-item-label">Tableau de bord</span>
             </div>
-          </div>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:clipboard-list"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Gestion des annonces</span>
+            </div>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Utilisateurs</span>
+            </div>
+          </a>
+          <a class="nav-item active" href="#" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:wallet"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Finances &amp; jetons</span>
+            </div>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:video"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Visites virtuelles</span>
+            </div>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-alert"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Modération &amp; support</span>
+            </div>
+            <span class="nav-count">19</span>
+          </a>
+          <a class="nav-item" href="#" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings-2"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Paramètres</span>
+            </div>
+          </a>
         </div>
+      </div>
 
-        <!-- Donut chart — répartition par pays -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-wrap">
-              <h2 class="card-title">Répartition des revenus par pays</h2>
-              <div class="card-subtitle">Part de chaque marché dans le total du mois.</div>
-            </div>
-            <div class="mini-filter" data-media-type="banani-button">
-              Juillet 2025
-              <iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon>
-            </div>
+      <div class="sidebar-spacer"></div>
+      <a class="nav-item logout-item" href="#" data-media-type="banani-button">
+        <div class="nav-item-left">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 18px; color: var(--destructive-foreground)"
+            ></iconify-icon>
           </div>
-          <div class="donut-wrap" style="margin-top:8px;">
-            <div class="donut-svg-container">
-              <svg viewBox="0 0 120 120" width="120" height="120">
-                <!-- CI 38% -->
-                <circle cx="60" cy="60" r="46" fill="none" stroke="var(--primary)" stroke-width="18" stroke-dasharray="109.7 289.3" stroke-dashoffset="0" transform="rotate(-90 60 60)"></circle>
-                <!-- SN 28% -->
-                <circle cx="60" cy="60" r="46" fill="none" stroke="var(--success)" stroke-width="18" stroke-dasharray="80.9 317.7" stroke-dashoffset="-109.7" transform="rotate(-90 60 60)"></circle>
-                <!-- BJ 20% -->
-                <circle cx="60" cy="60" r="46" fill="none" stroke="var(--warning)" stroke-width="18" stroke-dasharray="57.8 341" stroke-dashoffset="-190.6" transform="rotate(-90 60 60)"></circle>
-                <!-- TG 14% -->
-                <circle cx="60" cy="60" r="46" fill="none" stroke="color-mix(in srgb, var(--foreground) 55%, var(--card))" stroke-width="18" stroke-dasharray="40.5 358.4" stroke-dashoffset="-248.4" transform="rotate(-90 60 60)"></circle>
-                <circle cx="60" cy="60" r="36" fill="var(--card)"></circle>
-                <text x="60" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="var(--foreground)">84,7 M</text>
-                <text x="60" y="70" text-anchor="middle" font-size="9" fill="var(--muted-foreground)">FCFA total</text>
-              </svg>
+          <span class="nav-item-label">Déconnexion</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <div class="searchbar" data-media-type="banani-button">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 16px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="searchbar-text"
+            >Rechercher une transaction, un utilisateur ou une référence…</span
+          >
+        </div>
+        <div class="topbar-right">
+          <div class="icon-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--foreground)"
+            ></iconify-icon>
+            <span class="notif-dot"></span>
+          </div>
+          <div class="admin-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Admin"
+              class="admin-avatar"
+            />
+            <div class="admin-meta">
+              <span class="admin-name">Kofi Mensah</span>
+              <span class="admin-role">Admin plateforme</span>
             </div>
-            <div class="donut-legend">
-              <div class="donut-legend-item">
-                <div class="donut-dot" style="background:var(--primary);"></div>
-                <span>Côte d'Ivoire</span>
-                <span class="donut-val">38%</span>
-              </div>
-              <div class="donut-legend-item">
-                <div class="donut-dot" style="background:var(--success);"></div>
-                <span>Sénégal</span>
-                <span class="donut-val">28%</span>
-              </div>
-              <div class="donut-legend-item">
-                <div class="donut-dot" style="background:var(--warning);"></div>
-                <span>Bénin</span>
-                <span class="donut-val">20%</span>
-              </div>
-              <div class="donut-legend-item">
-                <div class="donut-dot" style="background:color-mix(in srgb, var(--foreground) 55%, var(--card));"></div>
-                <span>Togo</span>
-                <span class="donut-val">14%</span>
-              </div>
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:chevrons-up-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TRANSACTIONS TABLE -->
-      <div class="card table-card">
-        <div class="table-toolbar">
-          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-            <div class="table-title">Transactions</div>
-            <div class="table-filters">
-              <div class="filter-chip active" data-media-type="banani-button">Toutes</div>
-              <div class="filter-chip" data-media-type="banani-button">Achats jetons</div>
-              <div class="filter-chip" data-media-type="banani-button">Commissions</div>
-              <div class="filter-chip" data-media-type="banani-button">Remboursements</div>
+      <!-- PAGE CONTENT -->
+      <div class="page" id="page">
+        <!-- Header -->
+        <div class="page-header">
+          <div class="page-title-block">
+            <div class="page-eyebrow">Revenus &amp; Transactions · Multi-pays agrégée</div>
+            <h1 class="page-title">Finances &amp; Jetons</h1>
+            <div class="page-subtitle">
+              Suivi des revenus, transactions et paramétrage de la tarification pour l'ensemble des
+              pays.
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div class="filter-chip" data-media-type="banani-button">
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:sliders-horizontal" style="font-size:13px;color:var(--secondary-foreground);"></iconify-icon></div>
-              Filtres
+          <div class="page-actions">
+            <div class="button secondary" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:download"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
+              </div>
+              Exporter CSV
             </div>
-            <div class="button secondary" style="height:34px;font-size:13px;" data-media-type="banani-button">
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:download" style="font-size:13px;color:var(--foreground);"></iconify-icon></div>
-              Exporter
+            <div class="button primary" data-media-type="banani-button">
+              <div class="icon-wrap sm">
+                <iconify-icon
+                  icon="lucide:file-bar-chart"
+                  style="font-size: 14px; color: var(--primary-foreground)"
+                ></iconify-icon>
+              </div>
+              Rapport financier
             </div>
           </div>
         </div>
 
-        <div class="table-head">
-          <div>Utilisateur</div>
-          <div>Type</div>
-          <div>Montant</div>
-          <div>Moyen de paiement</div>
-          <div>Statut</div>
-          <div>Date / heure</div>
-          <div style="text-align:right;">Actions</div>
-        </div>
-
-        <!-- Row 1 -->
-        <div class="table-row alt" data-media-type="banani-button">
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2" alt="user" class="user-avatar">
-            <div class="user-texts">
-              <div class="user-name">Awa Diallo</div>
-              <div class="user-email">awa.diallo@gmail.com</div>
+        <!-- KPI CARDS -->
+        <div class="kpi-grid">
+          <div class="kpi-card" data-media-type="banani-button">
+            <div class="kpi-top">
+              <div class="kpi-icon">
+                <iconify-icon
+                  icon="lucide:coins"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="delta up">+14,2%</span>
             </div>
+            <div class="kpi-value">42,3 M FCFA</div>
+            <div class="kpi-label">Revenus jetons · juillet</div>
+            <div class="kpi-foot"><span>4 812 packs vendus</span><span>vs juin</span></div>
           </div>
-          <div>
-            <div class="cell-text">Achat jetons</div>
-            <div class="cell-sub">Pack 50 jetons</div>
-          </div>
-          <div class="cell-bold" style="color:var(--primary);">125 000 FCFA</div>
-          <div><div class="pay-badge"><iconify-icon icon="lucide:smartphone" style="font-size:12px;"></iconify-icon> Mobile Money</div></div>
-          <div><span class="status-badge success">Réussi</span></div>
-          <div>
-            <div class="cell-text">Juil. 30, 09:14</div>
-            <div class="cell-sub">Réf. TXN-28491</div>
-          </div>
-          <div class="table-actions">
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:receipt" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="table-row" data-media-type="banani-button">
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FSouth%20Asian%2F1" alt="user" class="user-avatar">
-            <div class="user-texts">
-              <div class="user-name">Agence Horizon Immo</div>
-              <div class="user-email">contact@horizonimmo.sn</div>
+          <div class="kpi-card" data-media-type="banani-button">
+            <div class="kpi-top">
+              <div class="kpi-icon">
+                <iconify-icon
+                  icon="lucide:landmark"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="delta up">+9,8%</span>
             </div>
+            <div class="kpi-value">31,9 M FCFA</div>
+            <div class="kpi-label">Revenus commissions · juillet</div>
+            <div class="kpi-foot"><span>Ventes confirmées</span><span>vs juin</span></div>
           </div>
-          <div>
-            <div class="cell-text">Commission</div>
-            <div class="cell-sub">Vente confirmée</div>
-          </div>
-          <div class="cell-bold" style="color:var(--success);">420 000 FCFA</div>
-          <div><div class="pay-badge"><iconify-icon icon="lucide:smartphone" style="font-size:12px;"></iconify-icon> Mobile Money</div></div>
-          <div><span class="status-badge success">Réussi</span></div>
-          <div>
-            <div class="cell-text">Juil. 29, 16:42</div>
-            <div class="cell-sub">Réf. TXN-28470</div>
-          </div>
-          <div class="table-actions">
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:receipt" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <!-- Row 3 -->
-        <div class="table-row alt" data-media-type="banani-button">
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F4" alt="user" class="user-avatar">
-            <div class="user-texts">
-              <div class="user-name">Koffi Amegah</div>
-              <div class="user-email">k.amegah@tg.immo</div>
+          <div class="kpi-card" data-media-type="banani-button">
+            <div class="kpi-top">
+              <div class="kpi-icon">
+                <iconify-icon
+                  icon="lucide:trending-up"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="delta up">+11,1%</span>
             </div>
+            <div class="kpi-value">84,7 M FCFA</div>
+            <div class="kpi-label">Total du mois</div>
+            <div class="kpi-foot"><span>↑ 8,5 M vs juin</span><span>Juillet 2025</span></div>
           </div>
-          <div>
-            <div class="cell-text">Achat jetons</div>
-            <div class="cell-sub">Pack 20 jetons</div>
-          </div>
-          <div class="cell-bold">50 000 FCFA</div>
-          <div><div class="pay-badge"><iconify-icon icon="lucide:credit-card" style="font-size:12px;"></iconify-icon> Carte bancaire</div></div>
-          <div><span class="status-badge warning">En attente</span></div>
-          <div>
-            <div class="cell-text">Juil. 29, 11:08</div>
-            <div class="cell-sub">Réf. TXN-28441</div>
-          </div>
-          <div class="table-actions">
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <!-- Row 4 -->
-        <div class="table-row" data-media-type="banani-button">
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F7" alt="user" class="user-avatar">
-            <div class="user-texts">
-              <div class="user-name">Mariama Koné</div>
-              <div class="user-email">m.kone@babi-prestige.ci</div>
+          <div class="kpi-card" data-media-type="banani-button">
+            <div class="kpi-top">
+              <div class="kpi-icon">
+                <iconify-icon
+                  icon="lucide:receipt"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="delta warn">-3,2%</span>
             </div>
-          </div>
-          <div>
-            <div class="cell-text">Remboursement</div>
-            <div class="cell-sub">Annulation pack VR</div>
-          </div>
-          <div class="cell-bold" style="color:var(--destructive);">-75 000 FCFA</div>
-          <div><div class="pay-badge"><iconify-icon icon="lucide:building-2" style="font-size:12px;"></iconify-icon> Virement</div></div>
-          <div><span class="status-badge danger">Remboursé</span></div>
-          <div>
-            <div class="cell-text">Juil. 28, 14:55</div>
-            <div class="cell-sub">Réf. TXN-28398</div>
-          </div>
-          <div class="table-actions">
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:receipt" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <!-- Row 5 -->
-        <div class="table-row alt" data-media-type="banani-button">
-          <div class="user-cell">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F5" alt="user" class="user-avatar">
-            <div class="user-texts">
-              <div class="user-name">Jean-Pierre Adjovi</div>
-              <div class="user-email">jp.adjovi@immo-bj.com</div>
-            </div>
-          </div>
-          <div>
-            <div class="cell-text">Achat jetons</div>
-            <div class="cell-sub">Pack 100 jetons</div>
-          </div>
-          <div class="cell-bold">250 000 FCFA</div>
-          <div><div class="pay-badge"><iconify-icon icon="lucide:smartphone" style="font-size:12px;"></iconify-icon> Mobile Money</div></div>
-          <div><span class="status-badge danger">Échoué</span></div>
-          <div>
-            <div class="cell-text">Juil. 28, 08:30</div>
-            <div class="cell-sub">Réf. TXN-28371</div>
-          </div>
-          <div class="table-actions">
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-            <div class="action-mini" data-media-type="banani-button"><iconify-icon icon="lucide:rotate-ccw" style="font-size:14px;color:var(--warning);"></iconify-icon></div>
-          </div>
-        </div>
-
-        <div class="pagination">
-          <div class="pagination-info">Affichage de 1–5 sur 1 847 transactions</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted-foreground);">
-              Lignes par page :
-              <div class="filter-chip" style="height:28px;" data-media-type="banani-button">25 <iconify-icon icon="lucide:chevron-down" style="font-size:12px;"></iconify-icon></div>
-            </div>
-            <div class="pagination-controls">
-              <div class="page-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-left" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
-              <div class="page-btn active" data-media-type="banani-button">1</div>
-              <div class="page-btn" data-media-type="banani-button">2</div>
-              <div class="page-btn" data-media-type="banani-button">3</div>
-              <div class="page-btn" data-media-type="banani-button">…</div>
-              <div class="page-btn" data-media-type="banani-button">74</div>
-              <div class="page-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-right" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+            <div class="kpi-value">1 847</div>
+            <div class="kpi-label">Transactions du mois</div>
+            <div class="kpi-foot">
+              <span>Réussies : 1 712 · Échouées : 135</span><span>Juillet 2025</span>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- PRICING SETTINGS -->
-      <div class="two-col">
-        <!-- Token pricing by country -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-wrap">
-              <h2 class="card-title">Paramétrage de la tarification</h2>
-              <div class="card-subtitle">Prix des jetons et taux de commission par pays et type de transaction.</div>
-            </div>
-            <div class="button secondary" style="height:34px;font-size:13px;" data-media-type="banani-button">
-              <div class="icon-wrap sm"><iconify-icon icon="lucide:pencil" style="font-size:13px;color:var(--foreground);"></iconify-icon></div>
-              Modifier
-            </div>
-          </div>
-          <div class="pricing-grid">
-            <!-- BJ -->
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <div style="font-size:12px;font-weight:700;color:var(--primary);padding-bottom:6px;border-bottom:1px solid var(--border);">🇧🇯 Bénin (FCFA)</div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Jeton unitaire</div>
-                  <div class="pricing-sub">Prix de base</div>
+        <!-- CHARTS ROW -->
+        <div class="two-col">
+          <!-- Line chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <h2 class="card-title">Évolution des revenus sur 6 mois</h2>
+                <div class="card-subtitle">
+                  Jetons + commissions + VR — tendance consolidée multi-pays.
                 </div>
-                <div class="pricing-input">2 500 <span class="pricing-input-unit">FCFA</span></div>
               </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission vente</div>
-                  <div class="pricing-sub">% sur transaction</div>
-                </div>
-                <div class="pricing-input">3,5 <span class="pricing-input-unit">%</span></div>
-              </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission location</div>
-                  <div class="pricing-sub">% sur 1er loyer</div>
-                </div>
-                <div class="pricing-input">8,0 <span class="pricing-input-unit">%</span></div>
+              <div class="period-tabs">
+                <div class="period-tab" data-media-type="banani-button">7j</div>
+                <div class="period-tab" data-media-type="banani-button">30j</div>
+                <div class="period-tab active" data-media-type="banani-button">6 mois</div>
+                <div class="period-tab" data-media-type="banani-button">Année</div>
               </div>
             </div>
-            <!-- CI -->
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <div style="font-size:12px;font-weight:700;color:var(--primary);padding-bottom:6px;border-bottom:1px solid var(--border);">🇨🇮 Côte d'Ivoire (FCFA)</div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Jeton unitaire</div>
-                  <div class="pricing-sub">Prix de base</div>
-                </div>
-                <div class="pricing-input">2 800 <span class="pricing-input-unit">FCFA</span></div>
+            <div class="line-legend">
+              <div class="legend-chip">
+                <span class="legend-dot" style="background: var(--primary)"></span>Jetons
               </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission vente</div>
-                  <div class="pricing-sub">% sur transaction</div>
-                </div>
-                <div class="pricing-input">4,0 <span class="pricing-input-unit">%</span></div>
+              <div class="legend-chip">
+                <span class="legend-dot" style="background: var(--success)"></span>Commissions
               </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission location</div>
-                  <div class="pricing-sub">% sur 1er loyer</div>
-                </div>
-                <div class="pricing-input">9,0 <span class="pricing-input-unit">%</span></div>
+              <div class="legend-chip">
+                <span class="legend-dot" style="background: var(--warning)"></span>VR
               </div>
             </div>
-            <!-- TG -->
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <div style="font-size:12px;font-weight:700;color:var(--primary);padding-bottom:6px;border-bottom:1px solid var(--border);">🇹🇬 Togo (FCFA)</div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Jeton unitaire</div>
-                </div>
-                <div class="pricing-input">2 200 <span class="pricing-input-unit">FCFA</span></div>
+            <div class="line-chart-area">
+              <div class="y-axis">
+                <span>50 M</span>
+                <span>37 M</span>
+                <span>25 M</span>
+                <span>12 M</span>
+                <span>0</span>
               </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission vente</div>
+              <div class="plot-area">
+                <svg class="plot-svg" viewBox="0 0 700 190" preserveAspectRatio="none">
+                  <!-- Jetons area fill -->
+                  <polygon
+                    points="0,148 140,138 280,120 420,100 560,88 700,70 700,190 0,190"
+                    fill="color-mix(in srgb, var(--primary) 10%, transparent)"
+                  ></polygon>
+                  <polyline
+                    points="0,148 140,138 280,120 420,100 560,88 700,70"
+                    fill="none"
+                    stroke="var(--primary)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></polyline>
+                  <!-- Commissions -->
+                  <polyline
+                    points="0,162 140,154 280,144 420,128 560,118 700,108"
+                    fill="none"
+                    stroke="var(--success)"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="0"
+                  ></polyline>
+                  <!-- VR -->
+                  <polyline
+                    points="0,174 140,170 280,165 420,158 560,152 700,144"
+                    fill="none"
+                    stroke="var(--warning)"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></polyline>
+                  <!-- Dots -->
+                  <circle cx="700" cy="70" r="4" fill="var(--primary)"></circle>
+                  <circle cx="700" cy="108" r="4" fill="var(--success)"></circle>
+                  <circle cx="700" cy="144" r="4" fill="var(--warning)"></circle>
+                </svg>
+                <div class="x-axis">
+                  <span>Fév.</span>
+                  <span>Mars</span>
+                  <span>Avr.</span>
+                  <span>Mai</span>
+                  <span>Juin</span>
+                  <span>Juil.</span>
                 </div>
-                <div class="pricing-input">3,0 <span class="pricing-input-unit">%</span></div>
-              </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission location</div>
-                </div>
-                <div class="pricing-input">7,5 <span class="pricing-input-unit">%</span></div>
               </div>
             </div>
-            <!-- SN -->
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <div style="font-size:12px;font-weight:700;color:var(--primary);padding-bottom:6px;border-bottom:1px solid var(--border);">🇸🇳 Sénégal (FCFA)</div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Jeton unitaire</div>
-                </div>
-                <div class="pricing-input">3 000 <span class="pricing-input-unit">FCFA</span></div>
+          </div>
+
+          <!-- Donut chart — répartition par pays -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <h2 class="card-title">Répartition des revenus par pays</h2>
+                <div class="card-subtitle">Part de chaque marché dans le total du mois.</div>
               </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission vente</div>
-                </div>
-                <div class="pricing-input">4,5 <span class="pricing-input-unit">%</span></div>
+              <div class="mini-filter" data-media-type="banani-button">
+                Juillet 2025
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 13px; color: var(--muted-foreground)"
+                ></iconify-icon>
               </div>
-              <div class="pricing-row">
-                <div>
-                  <div class="pricing-label">Commission location</div>
+            </div>
+            <div class="donut-wrap" style="margin-top: 8px">
+              <div class="donut-svg-container">
+                <svg viewBox="0 0 120 120" width="120" height="120">
+                  <!-- CI 38% -->
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="46"
+                    fill="none"
+                    stroke="var(--primary)"
+                    stroke-width="18"
+                    stroke-dasharray="109.7 289.3"
+                    stroke-dashoffset="0"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                  <!-- SN 28% -->
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="46"
+                    fill="none"
+                    stroke="var(--success)"
+                    stroke-width="18"
+                    stroke-dasharray="80.9 317.7"
+                    stroke-dashoffset="-109.7"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                  <!-- BJ 20% -->
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="46"
+                    fill="none"
+                    stroke="var(--warning)"
+                    stroke-width="18"
+                    stroke-dasharray="57.8 341"
+                    stroke-dashoffset="-190.6"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                  <!-- TG 14% -->
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="46"
+                    fill="none"
+                    stroke="color-mix(in srgb, var(--foreground) 55%, var(--card))"
+                    stroke-width="18"
+                    stroke-dasharray="40.5 358.4"
+                    stroke-dashoffset="-248.4"
+                    transform="rotate(-90 60 60)"
+                  ></circle>
+                  <circle cx="60" cy="60" r="36" fill="var(--card)"></circle>
+                  <text
+                    x="60"
+                    y="56"
+                    text-anchor="middle"
+                    font-size="13"
+                    font-weight="700"
+                    fill="var(--foreground)"
+                  >
+                    84,7 M
+                  </text>
+                  <text
+                    x="60"
+                    y="70"
+                    text-anchor="middle"
+                    font-size="9"
+                    fill="var(--muted-foreground)"
+                  >
+                    FCFA total
+                  </text>
+                </svg>
+              </div>
+              <div class="donut-legend">
+                <div class="donut-legend-item">
+                  <div class="donut-dot" style="background: var(--primary)"></div>
+                  <span>Côte d'Ivoire</span>
+                  <span class="donut-val">38%</span>
                 </div>
-                <div class="pricing-input">10,0 <span class="pricing-input-unit">%</span></div>
+                <div class="donut-legend-item">
+                  <div class="donut-dot" style="background: var(--success)"></div>
+                  <span>Sénégal</span>
+                  <span class="donut-val">28%</span>
+                </div>
+                <div class="donut-legend-item">
+                  <div class="donut-dot" style="background: var(--warning)"></div>
+                  <span>Bénin</span>
+                  <span class="donut-val">20%</span>
+                </div>
+                <div class="donut-legend-item">
+                  <div
+                    class="donut-dot"
+                    style="background: color-mix(in srgb, var(--foreground) 55%, var(--card))"
+                  ></div>
+                  <span>Togo</span>
+                  <span class="donut-val">14%</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Change history -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-wrap">
-              <h2 class="card-title">Historique des modifications tarifaires</h2>
-              <div class="card-subtitle">Toutes les révisions effectuées sur les prix et commissions.</div>
+        <!-- TRANSACTIONS TABLE -->
+        <div class="card table-card">
+          <div class="table-toolbar">
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+              <div class="table-title">Transactions</div>
+              <div class="table-filters">
+                <div class="filter-chip active" data-media-type="banani-button">Toutes</div>
+                <div class="filter-chip" data-media-type="banani-button">Achats jetons</div>
+                <div class="filter-chip" data-media-type="banani-button">Commissions</div>
+                <div class="filter-chip" data-media-type="banani-button">Remboursements</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px">
+              <div class="filter-chip" data-media-type="banani-button">
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:sliders-horizontal"
+                    style="font-size: 13px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+                Filtres
+              </div>
+              <div
+                class="button secondary"
+                style="height: 34px; font-size: 13px"
+                data-media-type="banani-button"
+              >
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:download"
+                    style="font-size: 13px; color: var(--foreground)"
+                  ></iconify-icon>
+                </div>
+                Exporter
+              </div>
             </div>
           </div>
-          <div>
-            <div class="history-row">
-              <div class="history-dot"></div>
-              <div class="history-main">
-                <div class="history-title">Jeton CI : 2 500 → 2 800 FCFA</div>
-                <div class="history-meta">Par Kofi Mensah (Admin)</div>
+
+          <div class="table-head">
+            <div>Utilisateur</div>
+            <div>Type</div>
+            <div>Montant</div>
+            <div>Moyen de paiement</div>
+            <div>Statut</div>
+            <div>Date / heure</div>
+            <div style="text-align: right">Actions</div>
+          </div>
+
+          <!-- Row 1 -->
+          <div class="table-row alt" data-media-type="banani-button">
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                alt="user"
+                class="user-avatar"
+              />
+              <div class="user-texts">
+                <div class="user-name">Awa Diallo</div>
+                <div class="user-email">awa.diallo@gmail.com</div>
               </div>
-              <div class="history-time">28 juil. 2025</div>
             </div>
-            <div class="history-row">
-              <div class="history-dot" style="background:var(--success);"></div>
-              <div class="history-main">
-                <div class="history-title">Commission SN vente : 4,0% → 4,5%</div>
-                <div class="history-meta">Par Fatou Sow (Finance Admin)</div>
-              </div>
-              <div class="history-time">15 juil. 2025</div>
+            <div>
+              <div class="cell-text">Achat jetons</div>
+              <div class="cell-sub">Pack 50 jetons</div>
             </div>
-            <div class="history-row">
-              <div class="history-dot" style="background:var(--warning);"></div>
-              <div class="history-main">
-                <div class="history-title">Jeton TG : 2 000 → 2 200 FCFA</div>
-                <div class="history-meta">Par Kofi Mensah (Admin)</div>
+            <div class="cell-bold" style="color: var(--primary)">125 000 FCFA</div>
+            <div>
+              <div class="pay-badge">
+                <iconify-icon icon="lucide:smartphone" style="font-size: 12px"></iconify-icon>
+                Mobile Money
               </div>
-              <div class="history-time">02 juil. 2025</div>
             </div>
-            <div class="history-row">
-              <div class="history-dot" style="background:var(--success);"></div>
-              <div class="history-main">
-                <div class="history-title">Commission BJ location : 7,0% → 8,0%</div>
-                <div class="history-meta">Par Fatou Sow (Finance Admin)</div>
-              </div>
-              <div class="history-time">18 juin 2025</div>
+            <div><span class="status-badge success">Réussi</span></div>
+            <div>
+              <div class="cell-text">Juil. 30, 09:14</div>
+              <div class="cell-sub">Réf. TXN-28491</div>
             </div>
-            <div class="history-row">
-              <div class="history-dot" style="background:var(--muted-foreground);"></div>
-              <div class="history-main">
-                <div class="history-title">Pack jetons VR : nouveau tarif créé</div>
-                <div class="history-meta">Par Kofi Mensah (Admin)</div>
+            <div class="table-actions">
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
               </div>
-              <div class="history-time">05 juin 2025</div>
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:receipt"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
             </div>
-            <div class="history-row">
-              <div class="history-dot" style="background:var(--muted-foreground);"></div>
-              <div class="history-main">
-                <div class="history-title">Commission CI location : 8,5% → 9,0%</div>
-                <div class="history-meta">Par Fatou Sow (Finance Admin)</div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="table-row" data-media-type="banani-button">
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FSouth%20Asian%2F1"
+                alt="user"
+                class="user-avatar"
+              />
+              <div class="user-texts">
+                <div class="user-name">Agence Horizon Immo</div>
+                <div class="user-email">contact@horizonimmo.sn</div>
               </div>
-              <div class="history-time">22 mai 2025</div>
+            </div>
+            <div>
+              <div class="cell-text">Commission</div>
+              <div class="cell-sub">Vente confirmée</div>
+            </div>
+            <div class="cell-bold" style="color: var(--success)">420 000 FCFA</div>
+            <div>
+              <div class="pay-badge">
+                <iconify-icon icon="lucide:smartphone" style="font-size: 12px"></iconify-icon>
+                Mobile Money
+              </div>
+            </div>
+            <div><span class="status-badge success">Réussi</span></div>
+            <div>
+              <div class="cell-text">Juil. 29, 16:42</div>
+              <div class="cell-sub">Réf. TXN-28470</div>
+            </div>
+            <div class="table-actions">
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:receipt"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="table-row alt" data-media-type="banani-button">
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F4"
+                alt="user"
+                class="user-avatar"
+              />
+              <div class="user-texts">
+                <div class="user-name">Koffi Amegah</div>
+                <div class="user-email">k.amegah@tg.immo</div>
+              </div>
+            </div>
+            <div>
+              <div class="cell-text">Achat jetons</div>
+              <div class="cell-sub">Pack 20 jetons</div>
+            </div>
+            <div class="cell-bold">50 000 FCFA</div>
+            <div>
+              <div class="pay-badge">
+                <iconify-icon icon="lucide:credit-card" style="font-size: 12px"></iconify-icon>
+                Carte bancaire
+              </div>
+            </div>
+            <div><span class="status-badge warning">En attente</span></div>
+            <div>
+              <div class="cell-text">Juil. 29, 11:08</div>
+              <div class="cell-sub">Réf. TXN-28441</div>
+            </div>
+            <div class="table-actions">
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4 -->
+          <div class="table-row" data-media-type="banani-button">
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F7"
+                alt="user"
+                class="user-avatar"
+              />
+              <div class="user-texts">
+                <div class="user-name">Mariama Koné</div>
+                <div class="user-email">m.kone@babi-prestige.ci</div>
+              </div>
+            </div>
+            <div>
+              <div class="cell-text">Remboursement</div>
+              <div class="cell-sub">Annulation pack VR</div>
+            </div>
+            <div class="cell-bold" style="color: var(--destructive)">-75 000 FCFA</div>
+            <div>
+              <div class="pay-badge">
+                <iconify-icon icon="lucide:building-2" style="font-size: 12px"></iconify-icon>
+                Virement
+              </div>
+            </div>
+            <div><span class="status-badge danger">Remboursé</span></div>
+            <div>
+              <div class="cell-text">Juil. 28, 14:55</div>
+              <div class="cell-sub">Réf. TXN-28398</div>
+            </div>
+            <div class="table-actions">
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:receipt"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 5 -->
+          <div class="table-row alt" data-media-type="banani-button">
+            <div class="user-cell">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F5"
+                alt="user"
+                class="user-avatar"
+              />
+              <div class="user-texts">
+                <div class="user-name">Jean-Pierre Adjovi</div>
+                <div class="user-email">jp.adjovi@immo-bj.com</div>
+              </div>
+            </div>
+            <div>
+              <div class="cell-text">Achat jetons</div>
+              <div class="cell-sub">Pack 100 jetons</div>
+            </div>
+            <div class="cell-bold">250 000 FCFA</div>
+            <div>
+              <div class="pay-badge">
+                <iconify-icon icon="lucide:smartphone" style="font-size: 12px"></iconify-icon>
+                Mobile Money
+              </div>
+            </div>
+            <div><span class="status-badge danger">Échoué</span></div>
+            <div>
+              <div class="cell-text">Juil. 28, 08:30</div>
+              <div class="cell-sub">Réf. TXN-28371</div>
+            </div>
+            <div class="table-actions">
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="action-mini" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:rotate-ccw"
+                  style="font-size: 14px; color: var(--warning)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <div class="pagination-info">Affichage de 1–5 sur 1 847 transactions</div>
+            <div style="display: flex; align-items: center; gap: 12px">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 12px;
+                  color: var(--muted-foreground);
+                "
+              >
+                Lignes par page :
+                <div class="filter-chip" style="height: 28px" data-media-type="banani-button">
+                  25
+                  <iconify-icon icon="lucide:chevron-down" style="font-size: 12px"></iconify-icon>
+                </div>
+              </div>
+              <div class="pagination-controls">
+                <div class="page-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:chevron-left"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="page-btn active" data-media-type="banani-button">1</div>
+                <div class="page-btn" data-media-type="banani-button">2</div>
+                <div class="page-btn" data-media-type="banani-button">3</div>
+                <div class="page-btn" data-media-type="banani-button">…</div>
+                <div class="page-btn" data-media-type="banani-button">74</div>
+                <div class="page-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:chevron-right"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRICING SETTINGS -->
+        <div class="two-col">
+          <!-- Token pricing by country -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <h2 class="card-title">Paramétrage de la tarification</h2>
+                <div class="card-subtitle">
+                  Prix des jetons et taux de commission par pays et type de transaction.
+                </div>
+              </div>
+              <div
+                class="button secondary"
+                style="height: 34px; font-size: 13px"
+                data-media-type="banani-button"
+              >
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 13px; color: var(--foreground)"
+                  ></iconify-icon>
+                </div>
+                Modifier
+              </div>
+            </div>
+            <div class="pricing-grid">
+              <!-- BJ -->
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <div
+                  style="
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: var(--primary);
+                    padding-bottom: 6px;
+                    border-bottom: 1px solid var(--border);
+                  "
+                >
+                  🇧🇯 Bénin (FCFA)
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Jeton unitaire</div>
+                    <div class="pricing-sub">Prix de base</div>
+                  </div>
+                  <div class="pricing-input">
+                    2 500 <span class="pricing-input-unit">FCFA</span>
+                  </div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission vente</div>
+                    <div class="pricing-sub">% sur transaction</div>
+                  </div>
+                  <div class="pricing-input">3,5 <span class="pricing-input-unit">%</span></div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission location</div>
+                    <div class="pricing-sub">% sur 1er loyer</div>
+                  </div>
+                  <div class="pricing-input">8,0 <span class="pricing-input-unit">%</span></div>
+                </div>
+              </div>
+              <!-- CI -->
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <div
+                  style="
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: var(--primary);
+                    padding-bottom: 6px;
+                    border-bottom: 1px solid var(--border);
+                  "
+                >
+                  🇨🇮 Côte d'Ivoire (FCFA)
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Jeton unitaire</div>
+                    <div class="pricing-sub">Prix de base</div>
+                  </div>
+                  <div class="pricing-input">
+                    2 800 <span class="pricing-input-unit">FCFA</span>
+                  </div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission vente</div>
+                    <div class="pricing-sub">% sur transaction</div>
+                  </div>
+                  <div class="pricing-input">4,0 <span class="pricing-input-unit">%</span></div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission location</div>
+                    <div class="pricing-sub">% sur 1er loyer</div>
+                  </div>
+                  <div class="pricing-input">9,0 <span class="pricing-input-unit">%</span></div>
+                </div>
+              </div>
+              <!-- TG -->
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <div
+                  style="
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: var(--primary);
+                    padding-bottom: 6px;
+                    border-bottom: 1px solid var(--border);
+                  "
+                >
+                  🇹🇬 Togo (FCFA)
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Jeton unitaire</div>
+                  </div>
+                  <div class="pricing-input">
+                    2 200 <span class="pricing-input-unit">FCFA</span>
+                  </div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission vente</div>
+                  </div>
+                  <div class="pricing-input">3,0 <span class="pricing-input-unit">%</span></div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission location</div>
+                  </div>
+                  <div class="pricing-input">7,5 <span class="pricing-input-unit">%</span></div>
+                </div>
+              </div>
+              <!-- SN -->
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <div
+                  style="
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: var(--primary);
+                    padding-bottom: 6px;
+                    border-bottom: 1px solid var(--border);
+                  "
+                >
+                  🇸🇳 Sénégal (FCFA)
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Jeton unitaire</div>
+                  </div>
+                  <div class="pricing-input">
+                    3 000 <span class="pricing-input-unit">FCFA</span>
+                  </div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission vente</div>
+                  </div>
+                  <div class="pricing-input">4,5 <span class="pricing-input-unit">%</span></div>
+                </div>
+                <div class="pricing-row">
+                  <div>
+                    <div class="pricing-label">Commission location</div>
+                  </div>
+                  <div class="pricing-input">10,0 <span class="pricing-input-unit">%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Change history -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-wrap">
+                <h2 class="card-title">Historique des modifications tarifaires</h2>
+                <div class="card-subtitle">
+                  Toutes les révisions effectuées sur les prix et commissions.
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="history-row">
+                <div class="history-dot"></div>
+                <div class="history-main">
+                  <div class="history-title">Jeton CI : 2 500 → 2 800 FCFA</div>
+                  <div class="history-meta">Par Kofi Mensah (Admin)</div>
+                </div>
+                <div class="history-time">28 juil. 2025</div>
+              </div>
+              <div class="history-row">
+                <div class="history-dot" style="background: var(--success)"></div>
+                <div class="history-main">
+                  <div class="history-title">Commission SN vente : 4,0% → 4,5%</div>
+                  <div class="history-meta">Par Fatou Sow (Finance Admin)</div>
+                </div>
+                <div class="history-time">15 juil. 2025</div>
+              </div>
+              <div class="history-row">
+                <div class="history-dot" style="background: var(--warning)"></div>
+                <div class="history-main">
+                  <div class="history-title">Jeton TG : 2 000 → 2 200 FCFA</div>
+                  <div class="history-meta">Par Kofi Mensah (Admin)</div>
+                </div>
+                <div class="history-time">02 juil. 2025</div>
+              </div>
+              <div class="history-row">
+                <div class="history-dot" style="background: var(--success)"></div>
+                <div class="history-main">
+                  <div class="history-title">Commission BJ location : 7,0% → 8,0%</div>
+                  <div class="history-meta">Par Fatou Sow (Finance Admin)</div>
+                </div>
+                <div class="history-time">18 juin 2025</div>
+              </div>
+              <div class="history-row">
+                <div class="history-dot" style="background: var(--muted-foreground)"></div>
+                <div class="history-main">
+                  <div class="history-title">Pack jetons VR : nouveau tarif créé</div>
+                  <div class="history-meta">Par Kofi Mensah (Admin)</div>
+                </div>
+                <div class="history-time">05 juin 2025</div>
+              </div>
+              <div class="history-row">
+                <div class="history-dot" style="background: var(--muted-foreground)"></div>
+                <div class="history-main">
+                  <div class="history-title">Commission CI location : 8,5% → 9,0%</div>
+                  <div class="history-meta">Par Fatou Sow (Finance Admin)</div>
+                </div>
+                <div class="history-time">22 mai 2025</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-    </div>
-  </main>
-</div>
-
-
+    </main>
+  </div>
 </body>

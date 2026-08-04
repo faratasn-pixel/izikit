@@ -1,33 +1,40 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Nouvelle Demande — Étape 3 Contact</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
 
   <style id="reset-base">
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 
   <style id="tokens">
     :root {
-      --background: #F4F6FB;
+      --background: #f4f6fb;
       --foreground: #111827;
-      --border: #E5E7EB;
-      --input: #F9FAFB;
-      --primary: #376BFF;
-      --primary-foreground: #FFFFFF;
-      --secondary: #F3F4F6;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
       --secondary-foreground: #374151;
-      --muted: #F3F4F6;
-      --muted-foreground: #9CA3AF;
-      --card: #FFFFFF;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
       --card-foreground: #111827;
-      --success: #D1FAE5;
-      --success-foreground: #065F46;
-      --warning: #FEF3C7;
-      --warning-foreground: #92400E;
-      --destructive: #FEE2E2;
-      --destructive-foreground: #991B1B;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
@@ -119,7 +126,7 @@
       color: #fff;
     }
     .step-circle.active {
-      background: #EEF3FF;
+      background: #eef3ff;
       border-color: var(--primary);
       color: var(--primary);
     }
@@ -130,8 +137,12 @@
       white-space: nowrap;
       text-align: center;
     }
-    .step-label.active { color: var(--primary); }
-    .step-label.done { color: var(--foreground); }
+    .step-label.active {
+      color: var(--primary);
+    }
+    .step-label.done {
+      color: var(--foreground);
+    }
     .progress-track {
       height: 4px;
       background: var(--border);
@@ -171,7 +182,7 @@
       width: 28px;
       height: 28px;
       border-radius: var(--radius-md);
-      background: #EEF3FF;
+      background: #eef3ff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -190,8 +201,12 @@
   </style>
 
   <style id="field-styles">
-    .field { margin-bottom: 14px; }
-    .field:last-child { margin-bottom: 0; }
+    .field {
+      margin-bottom: 14px;
+    }
+    .field:last-child {
+      margin-bottom: 0;
+    }
     .field-label {
       font-size: 11.5px;
       font-weight: 600;
@@ -202,7 +217,7 @@
       gap: 4px;
     }
     .required-dot {
-      color: #EF4444;
+      color: #ef4444;
       font-size: 13px;
       line-height: 1;
     }
@@ -218,8 +233,13 @@
       align-items: center;
       gap: 8px;
     }
-    .field-input.placeholder { color: var(--muted-foreground); }
-    .field-input.active { border-color: var(--primary); background: #F5F8FF; }
+    .field-input.placeholder {
+      color: var(--muted-foreground);
+    }
+    .field-input.active {
+      border-color: var(--primary);
+      background: #f5f8ff;
+    }
     .field-select {
       width: 100%;
       background: var(--input);
@@ -302,8 +322,13 @@
       padding: 10px 0;
       border-bottom: 1px solid var(--border);
     }
-    .toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .toggle-row:first-child { padding-top: 0; }
+    .toggle-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .toggle-row:first-child {
+      padding-top: 0;
+    }
     .toggle-label {
       display: flex;
       flex-direction: column;
@@ -338,7 +363,7 @@
       background: #fff;
       top: 3px;
       right: 3px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
     .toggle-switch.off .toggle-thumb {
       right: auto;
@@ -348,8 +373,8 @@
 
   <style id="summary-styles">
     .summary-card {
-      background: linear-gradient(135deg, #EEF3FF 0%, #F0F9FF 100%);
-      border: 1px solid #C7D7FE;
+      background: linear-gradient(135deg, #eef3ff 0%, #f0f9ff 100%);
+      border: 1px solid #c7d7fe;
       border-radius: var(--radius-xl);
       padding: 14px 16px;
       margin-bottom: 14px;
@@ -375,7 +400,7 @@
     }
     .summary-item-label {
       font-size: 10px;
-      color: #6B7280;
+      color: #6b7280;
       font-weight: 500;
     }
     .summary-item-value {
@@ -415,7 +440,7 @@
     }
     .contact-type-card.selected {
       border-color: var(--primary);
-      background: #EEF3FF;
+      background: #eef3ff;
     }
     .contact-type-icon {
       width: 30px;
@@ -427,7 +452,7 @@
       justify-content: center;
     }
     .contact-type-card.selected .contact-type-icon {
-      background: #D8E6FF;
+      background: #d8e6ff;
     }
     .contact-type-label {
       font-size: 11px;
@@ -503,7 +528,7 @@
       justify-content: center;
       gap: 8px;
       padding: 13px;
-      background: #22C55E;
+      background: #22c55e;
       color: #fff;
       border-radius: var(--radius-lg);
       font-size: 14px;
@@ -511,17 +536,34 @@
       cursor: pointer;
     }
   </style>
-
-</head><body>
-
+</head>
+<body>
   <!-- TOPBAR -->
   <div class="topbar" id="topbar">
     <div class="back-btn" data-media-type="banani-button">
-      <iconify-icon icon="lucide:arrow-left" style="font-size:16px;color:var(--secondary-foreground);"></iconify-icon>
+      <iconify-icon
+        icon="lucide:arrow-left"
+        style="font-size: 16px; color: var(--secondary-foreground)"
+      ></iconify-icon>
     </div>
     <span class="topbar-title">Nouvelle demande</span>
-    <div style="width:34px;height:34px;background:var(--muted);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;cursor:pointer;" data-media-type="banani-button">
-      <iconify-icon icon="lucide:help-circle" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon>
+    <div
+      style="
+        width: 34px;
+        height: 34px;
+        background: var(--muted);
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      "
+      data-media-type="banani-button"
+    >
+      <iconify-icon
+        icon="lucide:help-circle"
+        style="font-size: 16px; color: var(--muted-foreground)"
+      ></iconify-icon>
     </div>
   </div>
 
@@ -530,13 +572,13 @@
     <div class="stepper-labels">
       <div class="stepper-step" data-media-type="banani-button">
         <div class="step-circle done">
-          <iconify-icon icon="lucide:check" style="font-size:13px;color:#fff;"></iconify-icon>
+          <iconify-icon icon="lucide:check" style="font-size: 13px; color: #fff"></iconify-icon>
         </div>
         <span class="step-label done">Critères</span>
       </div>
       <div class="stepper-step" data-media-type="banani-button">
         <div class="step-circle done">
-          <iconify-icon icon="lucide:check" style="font-size:13px;color:#fff;"></iconify-icon>
+          <iconify-icon icon="lucide:check" style="font-size: 13px; color: #fff"></iconify-icon>
         </div>
         <span class="step-label done">Budget</span>
       </div>
@@ -552,11 +594,13 @@
 
   <!-- PAGE CONTENT -->
   <div class="page-content" id="page-content">
-
     <!-- Récapitulatif de la demande -->
     <div class="summary-card" id="summary-recap">
       <div class="summary-card-title">
-        <iconify-icon icon="lucide:clipboard-list" style="font-size:13px;color:var(--primary);"></iconify-icon>
+        <iconify-icon
+          icon="lucide:clipboard-list"
+          style="font-size: 13px; color: var(--primary)"
+        ></iconify-icon>
         Récapitulatif de votre demande
       </div>
       <div class="summary-grid">
@@ -582,21 +626,53 @@
         </div>
         <div class="summary-item">
           <span class="summary-item-label">Urgence</span>
-          <div style="display:flex;align-items:center;gap:4px;">
-            <span style="width:8px;height:8px;border-radius:50%;background:#EF4444;display:inline-block;"></span>
-            <span class="summary-item-value" style="color:#B91C1C;">Haute</span>
+          <div style="display: flex; align-items: center; gap: 4px">
+            <span
+              style="
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #ef4444;
+                display: inline-block;
+              "
+            ></span>
+            <span class="summary-item-value" style="color: #b91c1c">Haute</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Info note -->
-    <div style="background:#EEF3FF;border-radius:var(--radius-lg);padding:10px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px;">
-      <div style="width:18px;height:18px;display:flex;align-items:center;justify-content:flex-start;flex-shrink:0;margin-top:1px;">
-        <iconify-icon icon="lucide:info" style="font-size:14px;color:var(--primary);"></iconify-icon>
+    <div
+      style="
+        background: #eef3ff;
+        border-radius: var(--radius-lg);
+        padding: 10px 12px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      "
+    >
+      <div
+        style="
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-shrink: 0;
+          margin-top: 1px;
+        "
+      >
+        <iconify-icon
+          icon="lucide:info"
+          style="font-size: 14px; color: var(--primary)"
+        ></iconify-icon>
       </div>
-      <div style="font-size:12px;color:#1D4ED8;line-height:1.5;">
-        Vos coordonnées permettront aux agents de vous contacter directement. Elles ne seront pas publiées publiquement.
+      <div style="font-size: 12px; color: #1d4ed8; line-height: 1.5">
+        Vos coordonnées permettront aux agents de vous contacter directement. Elles ne seront pas
+        publiées publiquement.
       </div>
     </div>
 
@@ -604,7 +680,10 @@
     <div class="form-section" id="identity-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:user" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:user"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Identité du demandeur</div>
@@ -615,13 +694,16 @@
       <!-- Avatar upload -->
       <div class="avatar-upload-zone" data-media-type="banani-button">
         <div class="avatar-preview">
-          <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Avatar">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+            alt="Avatar"
+          />
         </div>
         <span class="avatar-upload-label">Changer la photo</span>
         <span class="avatar-upload-hint">PNG, JPG — max 2 Mo</span>
       </div>
 
-      <div class="field-row" style="margin-bottom:14px;">
+      <div class="field-row" style="margin-bottom: 14px">
         <div class="field">
           <div class="field-label">Prénom <span class="required-dot">*</span></div>
           <div class="field-input active">
@@ -641,19 +723,28 @@
         <div class="contact-type-grid">
           <div class="contact-type-card selected" data-media-type="banani-button">
             <div class="contact-type-icon">
-              <iconify-icon icon="lucide:user" style="font-size:14px;color:var(--primary);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:user"
+                style="font-size: 14px; color: var(--primary)"
+              ></iconify-icon>
             </div>
             <span class="contact-type-label">Particulier</span>
           </div>
           <div class="contact-type-card" data-media-type="banani-button">
             <div class="contact-type-icon">
-              <iconify-icon icon="lucide:building-2" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
             <span class="contact-type-label">Entreprise</span>
           </div>
           <div class="contact-type-card" data-media-type="banani-button">
             <div class="contact-type-icon">
-              <iconify-icon icon="lucide:briefcase" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:briefcase"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
             <span class="contact-type-label">Investisseur</span>
           </div>
@@ -665,7 +756,10 @@
     <div class="form-section" id="contact-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:phone" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:phone"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Coordonnées</div>
@@ -675,39 +769,65 @@
 
       <div class="field">
         <div class="field-label">Téléphone <span class="required-dot">*</span></div>
-        <div class="field-input active" style="gap:0;">
-          <div style="display:flex;align-items:center;gap:6px;padding-right:10px;border-right:1px solid var(--border);margin-right:10px;">
-            <span style="font-size:15px;">🇨🇮</span>
-            <span style="font-size:12px;font-weight:600;color:var(--secondary-foreground);">+225</span>
-            <iconify-icon icon="lucide:chevron-down" style="font-size:12px;color:var(--muted-foreground);"></iconify-icon>
+        <div class="field-input active" style="gap: 0">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              padding-right: 10px;
+              border-right: 1px solid var(--border);
+              margin-right: 10px;
+            "
+          >
+            <span style="font-size: 15px">🇨🇮</span>
+            <span style="font-size: 12px; font-weight: 600; color: var(--secondary-foreground)"
+              >+225</span
+            >
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 12px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
-          <span style="font-size:13px;color:var(--foreground);font-weight:500;">07 12 34 56 78</span>
+          <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+            >07 12 34 56 78</span
+          >
         </div>
       </div>
 
       <div class="field">
         <div class="field-label">Email</div>
-        <div class="field-input" style="gap:8px;">
-          <iconify-icon icon="lucide:mail" style="font-size:14px;color:var(--muted-foreground);flex-shrink:0;"></iconify-icon>
-          <span style="font-size:13px;color:var(--foreground);">kouassi.ablo@email.com</span>
+        <div class="field-input" style="gap: 8px">
+          <iconify-icon
+            icon="lucide:mail"
+            style="font-size: 14px; color: var(--muted-foreground); flex-shrink: 0"
+          ></iconify-icon>
+          <span style="font-size: 13px; color: var(--foreground)">kouassi.ablo@email.com</span>
         </div>
       </div>
 
       <div class="field">
         <div class="field-label">WhatsApp</div>
-        <div class="field-input placeholder" style="gap:8px;">
-          <iconify-icon icon="lucide:message-circle" style="font-size:14px;color:var(--muted-foreground);flex-shrink:0;"></iconify-icon>
-          <span style="font-size:13px;color:var(--muted-foreground);">Numéro WhatsApp (si différent)</span>
+        <div class="field-input placeholder" style="gap: 8px">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 14px; color: var(--muted-foreground); flex-shrink: 0"
+          ></iconify-icon>
+          <span style="font-size: 13px; color: var(--muted-foreground)"
+            >Numéro WhatsApp (si différent)</span
+          >
         </div>
       </div>
-
     </div>
 
     <!-- Section Préférences de contact -->
     <div class="form-section" id="preferences-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:settings-2" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:settings-2"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Préférences de contact</div>
@@ -760,7 +880,10 @@
     <div class="form-section" id="availability-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:calendar" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:calendar"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Disponibilités pour visites</div>
@@ -770,22 +893,101 @@
 
       <div class="field">
         <div class="field-label">Jours préférés</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          <span style="padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:var(--primary);color:#fff;">Lun</span>
-          <span style="padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:var(--input);border:1px solid var(--border);color:var(--secondary-foreground);">Mar</span>
-          <span style="padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:var(--primary);color:#fff;">Mer</span>
-          <span style="padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:var(--input);border:1px solid var(--border);color:var(--secondary-foreground);">Jeu</span>
-          <span style="padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:var(--primary);color:#fff;">Ven</span>
-          <span style="padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:var(--input);border:1px solid var(--border);color:var(--secondary-foreground);">Sam</span>
-          <span style="padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;background:var(--input);border:1px solid var(--border);color:var(--secondary-foreground);">Dim</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px">
+          <span
+            style="
+              padding: 6px 12px;
+              border-radius: 99px;
+              font-size: 12px;
+              font-weight: 600;
+              background: var(--primary);
+              color: #fff;
+            "
+            >Lun</span
+          >
+          <span
+            style="
+              padding: 6px 12px;
+              border-radius: 99px;
+              font-size: 12px;
+              font-weight: 600;
+              background: var(--input);
+              border: 1px solid var(--border);
+              color: var(--secondary-foreground);
+            "
+            >Mar</span
+          >
+          <span
+            style="
+              padding: 6px 12px;
+              border-radius: 99px;
+              font-size: 12px;
+              font-weight: 600;
+              background: var(--primary);
+              color: #fff;
+            "
+            >Mer</span
+          >
+          <span
+            style="
+              padding: 6px 12px;
+              border-radius: 99px;
+              font-size: 12px;
+              font-weight: 600;
+              background: var(--input);
+              border: 1px solid var(--border);
+              color: var(--secondary-foreground);
+            "
+            >Jeu</span
+          >
+          <span
+            style="
+              padding: 6px 12px;
+              border-radius: 99px;
+              font-size: 12px;
+              font-weight: 600;
+              background: var(--primary);
+              color: #fff;
+            "
+            >Ven</span
+          >
+          <span
+            style="
+              padding: 6px 12px;
+              border-radius: 99px;
+              font-size: 12px;
+              font-weight: 600;
+              background: var(--input);
+              border: 1px solid var(--border);
+              color: var(--secondary-foreground);
+            "
+            >Sam</span
+          >
+          <span
+            style="
+              padding: 6px 12px;
+              border-radius: 99px;
+              font-size: 12px;
+              font-weight: 600;
+              background: var(--input);
+              border: 1px solid var(--border);
+              color: var(--secondary-foreground);
+            "
+            >Dim</span
+          >
         </div>
       </div>
 
       <div class="field">
         <div class="field-label">Créneau horaire</div>
         <div class="field-select" data-media-type="banani-button">
-          <span style="font-size:13px;color:var(--foreground);font-weight:500;">08h – 12h (Matin)</span>
-          <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+          <span style="font-size: 13px; color: var(--foreground); font-weight: 500"
+            >08h – 12h (Matin)</span
+          >
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 14px; color: var(--muted-foreground)"
+          ></iconify-icon>
         </div>
       </div>
     </div>
@@ -794,7 +996,10 @@
     <div class="form-section" id="privacy-section">
       <div class="form-section-header">
         <div class="form-section-icon">
-          <iconify-icon icon="lucide:shield" style="font-size:14px;color:var(--primary);"></iconify-icon>
+          <iconify-icon
+            icon="lucide:shield"
+            style="font-size: 14px; color: var(--primary)"
+          ></iconify-icon>
         </div>
         <div>
           <div class="form-section-title">Confidentialité</div>
@@ -822,7 +1027,7 @@
         </div>
       </div>
 
-      <div class="toggle-row" style="border-bottom:none;padding-bottom:0;">
+      <div class="toggle-row" style="border-bottom: none; padding-bottom: 0">
         <div class="toggle-label">
           <span class="toggle-label-title">Alertes par email</span>
           <span class="toggle-label-sub">Recevoir les nouvelles correspondances</span>
@@ -834,15 +1039,43 @@
     </div>
 
     <!-- Conditions d'utilisation -->
-    <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--card);border-radius:var(--radius-xl);margin-bottom:14px;" id="terms-section">
-      <div style="width:20px;height:20px;border-radius:var(--radius-sm);background:var(--primary);border:2px solid var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;cursor:pointer;" data-media-type="banani-button">
-        <iconify-icon icon="lucide:check" style="font-size:12px;color:#fff;"></iconify-icon>
+    <div
+      style="
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 14px;
+        background: var(--card);
+        border-radius: var(--radius-xl);
+        margin-bottom: 14px;
+      "
+      id="terms-section"
+    >
+      <div
+        style="
+          width: 20px;
+          height: 20px;
+          border-radius: var(--radius-sm);
+          background: var(--primary);
+          border: 2px solid var(--primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-top: 1px;
+          cursor: pointer;
+        "
+        data-media-type="banani-button"
+      >
+        <iconify-icon icon="lucide:check" style="font-size: 12px; color: #fff"></iconify-icon>
       </div>
-      <div style="font-size:12px;color:var(--secondary-foreground);line-height:1.5;">
-        J'accepte les <span style="color:var(--primary);font-weight:600;">conditions d'utilisation</span> et la <span style="color:var(--primary);font-weight:600;">politique de confidentialité</span> de Habitat-Afrik.
+      <div style="font-size: 12px; color: var(--secondary-foreground); line-height: 1.5">
+        J'accepte les
+        <span style="color: var(--primary); font-weight: 600">conditions d'utilisation</span> et la
+        <span style="color: var(--primary); font-weight: 600">politique de confidentialité</span> de
+        Habitat-Afrik.
       </div>
     </div>
-
   </div>
 
   <!-- FOOTER -->
@@ -852,15 +1085,15 @@
       <span class="footer-step-count">100%</span>
     </div>
     <div class="btn-success" data-media-type="banani-button">
-      <iconify-icon icon="lucide:send" style="font-size:15px;color:#fff;"></iconify-icon>
+      <iconify-icon icon="lucide:send" style="font-size: 15px; color: #fff"></iconify-icon>
       Soumettre la demande
     </div>
     <div class="btn-ghost" data-media-type="banani-button">
-      <iconify-icon icon="lucide:arrow-left" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon>
+      <iconify-icon
+        icon="lucide:arrow-left"
+        style="font-size: 13px; color: var(--muted-foreground)"
+      ></iconify-icon>
       Retour — Budget
     </div>
   </div>
-
-
-
 </body>

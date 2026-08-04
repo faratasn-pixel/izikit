@@ -1,34 +1,34 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Habitat-Afrik — Visites Virtuelles</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
   <style id="tokens">
     :root {
-      --background: #F5F6F8;
-      --foreground: #1A1A1A;
-      --border: #E5E7EB;
-      --input: #FFFFFF;
-      --primary: #0EA5E9;
-      --primary-foreground: #FFFFFF;
-      --secondary: #F1F5F9;
+      --background: #f5f6f8;
+      --foreground: #1a1a1a;
+      --border: #e5e7eb;
+      --input: #ffffff;
+      --primary: #0ea5e9;
+      --primary-foreground: #ffffff;
+      --secondary: #f1f5f9;
       --secondary-foreground: #374151;
-      --muted: #F1F5F9;
-      --muted-foreground: #6B7280;
-      --success: #22C55E;
-      --success-foreground: #FFFFFF;
-      --accent: #E0F2FE;
-      --accent-foreground: #0EA5E9;
-      --destructive: #EF4444;
-      --destructive-foreground: #FFFFFF;
-      --warning: #F59E0B;
-      --warning-foreground: #FFFFFF;
-      --card: #FFFFFF;
-      --card-foreground: #1A1A1A;
-      --sidebar: #FFFFFF;
-      --sidebar-foreground: #1A1A1A;
-      --sidebar-primary: #E0F2FE;
-      --sidebar-primary-foreground: #0EA5E9;
+      --muted: #f1f5f9;
+      --muted-foreground: #6b7280;
+      --success: #22c55e;
+      --success-foreground: #ffffff;
+      --accent: #e0f2fe;
+      --accent-foreground: #0ea5e9;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --warning: #f59e0b;
+      --warning-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #1a1a1a;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #1a1a1a;
+      --sidebar-primary: #e0f2fe;
+      --sidebar-primary-foreground: #0ea5e9;
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
@@ -37,7 +37,9 @@
     }
   </style>
   <style id="base-styles">
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       min-height: 812px;
@@ -51,9 +53,22 @@
       display: flex;
       background: var(--background);
     }
-    .icon-wrap { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .icon-wrap.lg { width: 20px; height: 20px; }
-    .icon-wrap.sm { width: 16px; height: 16px; }
+    .icon-wrap {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-wrap.lg {
+      width: 20px;
+      height: 20px;
+    }
+    .icon-wrap.sm {
+      width: 16px;
+      height: 16px;
+    }
   </style>
   <style id="sidebar-styles">
     .sidebar {
@@ -66,300 +81,982 @@
       gap: 22px;
       flex-shrink: 0;
     }
-    .brand-block { display: flex; align-items: center; gap: 12px; padding: 8px 6px 4px 6px; }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 6px 4px 6px;
+    }
     .brand-mark {
-      width: 40px; height: 40px; border-radius: var(--radius-lg);
-      background: var(--sidebar-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      background: var(--sidebar-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
-    .brand-title { font-size: 16px; font-weight: 700; color: var(--sidebar-foreground); white-space: nowrap; }
-    .brand-subtitle { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
     .country-switcher {
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 10px 12px; background: var(--muted); border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
     }
-    .country-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .country-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
     .country-avatar {
-      width: 32px; height: 32px; border-radius: 999px; background: var(--card);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; color: var(--primary); flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      flex-shrink: 0;
     }
-    .country-label { font-size: 11px; color: var(--muted-foreground); margin-bottom: 2px; }
-    .country-value { font-size: 13px; font-weight: 600; color: var(--sidebar-foreground); white-space: nowrap; }
-    .sidebar-section { display: flex; flex-direction: column; gap: 8px; }
-    .sidebar-section-title { font-size: 11px; font-weight: 600; color: var(--muted-foreground); padding: 0 8px; white-space: nowrap; }
-    .country-pills { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 0 2px; }
+    .country-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 2px;
+    }
+    .country-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+    }
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 8px;
+      white-space: nowrap;
+    }
+    .country-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 0 2px;
+    }
     .cpill {
-      height: 28px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
-      display: flex; align-items: center; background: var(--muted); color: var(--secondary-foreground); white-space: nowrap;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      white-space: nowrap;
     }
-    .cpill.active { background: var(--sidebar-primary); color: var(--primary); }
-    .nav-list { display: flex; flex-direction: column; gap: 4px; }
+    .cpill.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
     .nav-item {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      padding: 11px 12px; border-radius: var(--radius-lg); text-decoration: none; background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 12px;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      background: transparent;
     }
-    .nav-item.active { background: var(--sidebar-primary); }
-    .nav-item-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .nav-item-label { font-size: 14px; font-weight: 500; color: var(--sidebar-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .nav-item.active .nav-item-label { color: var(--sidebar-primary-foreground); font-weight: 600; }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+    }
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-item-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-item.active .nav-item-label {
+      color: var(--sidebar-primary-foreground);
+      font-weight: 600;
+    }
     .nav-count {
-      min-width: 22px; height: 22px; padding: 0 7px; border-radius: 999px;
-      background: var(--muted); display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 600; color: var(--secondary-foreground); white-space: nowrap;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
     }
-    .nav-item.active .nav-count { background: var(--card); color: var(--primary); }
-    .sidebar-spacer { flex: 1; }
-    .logout-item { background: #FEF2F2; }
-    .logout-item .nav-item-label { color: var(--destructive); font-weight: 600; }
+    .nav-item.active .nav-count {
+      background: var(--card);
+      color: var(--primary);
+    }
+    .sidebar-spacer {
+      flex: 1;
+    }
+    .logout-item {
+      background: #fef2f2;
+    }
+    .logout-item .nav-item-label {
+      color: var(--destructive);
+      font-weight: 600;
+    }
   </style>
   <style id="main-layout-styles">
-    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
     .topbar {
-      height: 76px; background: var(--card); border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; padding: 0 28px; gap: 20px;
+      height: 76px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      gap: 20px;
     }
     .searchbar {
-      width: 420px; max-width: 100%; height: 44px; border-radius: var(--radius-lg);
-      background: var(--muted); display: flex; align-items: center; gap: 10px; padding: 0 14px; color: var(--muted-foreground);
+      width: 420px;
+      max-width: 100%;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      color: var(--muted-foreground);
     }
-    .searchbar-text { font-size: 14px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .topbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .searchbar-text {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
     .icon-btn {
-      width: 42px; height: 42px; border-radius: var(--radius-lg);
-      background: var(--muted); display: flex; align-items: center; justify-content: center; position: relative;
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
-    .notif-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; border-radius: 999px; background: var(--destructive); }
+    .notif-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--destructive);
+    }
     .admin-pill {
-      height: 42px; padding: 0 12px; border-radius: var(--radius-lg);
-      background: var(--muted); display: flex; align-items: center; gap: 10px; min-width: 0;
+      height: 42px;
+      padding: 0 12px;
+      border-radius: var(--radius-lg);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
     }
-    .admin-avatar { width: 30px; height: 30px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .admin-name { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; }
-    .admin-role { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; }
-    .page { flex: 1; padding: 28px; display: flex; flex-direction: column; gap: 24px; min-width: 0; }
-    .page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
-    .page-title-block { display: flex; flex-direction: column; gap: 6px; }
-    .page-eyebrow { font-size: 12px; font-weight: 600; color: var(--primary); white-space: nowrap; }
-    .page-title { font-size: 28px; font-weight: 700; color: var(--foreground); line-height: 1.1; margin: 0; }
-    .page-subtitle { font-size: 14px; color: var(--muted-foreground); line-height: 1.5; }
-    .page-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .admin-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .admin-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .admin-role {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .page {
+      flex: 1;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .page-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.1;
+      margin: 0;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      line-height: 1.5;
+    }
+    .page-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
     .button {
-      height: 40px; padding: 0 14px; border-radius: var(--radius-lg);
-      display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; white-space: nowrap;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .button.secondary { background: var(--card); color: var(--foreground); border: 1px solid var(--border); }
-    .button.primary { background: var(--primary); color: var(--primary-foreground); }
-    .button.ghost { background: transparent; color: var(--muted-foreground); }
+    .button.secondary {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .button.primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .button.ghost {
+      background: transparent;
+      color: var(--muted-foreground);
+    }
   </style>
   <style id="kpi-styles">
-    .kpi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
     .kpi-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl);
-      padding: 18px; display: flex; flex-direction: column; gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .kpi-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .kpi-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
     .kpi-icon {
-      width: 36px; height: 36px; border-radius: 10px; background: var(--sidebar-primary);
-      display: flex; align-items: center; justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--sidebar-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .kpi-value { font-size: 30px; font-weight: 700; color: var(--foreground); line-height: 1; }
-    .kpi-label { font-size: 13px; font-weight: 500; color: var(--muted-foreground); }
-    .delta { padding: 4px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; white-space: nowrap; }
-    .delta.up { background: #DCFCE7; color: var(--success); }
-    .delta.warn { background: #FEF3C7; color: var(--warning); }
-    .delta.neutral { background: var(--muted); color: var(--muted-foreground); }
+    .kpi-value {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .kpi-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+    .delta {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .delta.up {
+      background: #dcfce7;
+      color: var(--success);
+    }
+    .delta.warn {
+      background: #fef3c7;
+      color: var(--warning);
+    }
+    .delta.neutral {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
   </style>
   <style id="view-toggle-styles">
     .view-toggle-bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
     .filter-bar {
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .filter-select {
-      height: 36px; padding: 0 12px; border-radius: var(--radius-lg);
-      background: var(--card); border: 1px solid var(--border);
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: var(--foreground); font-weight: 500; white-space: nowrap;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--foreground);
+      font-weight: 500;
+      white-space: nowrap;
     }
     .toggle-group {
-      display: flex; align-items: center; background: var(--muted); border-radius: var(--radius-lg); padding: 3px; gap: 2px;
+      display: flex;
+      align-items: center;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      padding: 3px;
+      gap: 2px;
     }
     .toggle-btn {
-      height: 32px; padding: 0 14px; border-radius: var(--radius-md);
-      display: flex; align-items: center; gap: 7px;
-      font-size: 13px; font-weight: 600; color: var(--muted-foreground); white-space: nowrap;
+      height: 32px;
+      padding: 0 14px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      white-space: nowrap;
     }
-    .toggle-btn.active { background: var(--card); color: var(--primary); }
+    .toggle-btn.active {
+      background: var(--card);
+      color: var(--primary);
+    }
   </style>
-  <style id="table-styles">.card {
-  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-.card-header {
-  padding: 18px 20px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-}
-.card-title { font-size: 16px; font-weight: 700; color: var(--card-foreground); margin: 0; }
-.card-subtitle { font-size: 13px; color: var(--muted-foreground); margin-top: 3px; }
-.status-badge {
-  display: inline-flex; align-items: center; justify-content: center; height: 24px; padding: 0 10px;
-  border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap;
-}
-.status-badge.success { background: #DCFCE7; color: var(--success); }
-.status-badge.warning { background: #FEF3C7; color: var(--warning); }
-.status-badge.danger { background: #FEE2E2; color: var(--destructive); }
-.status-badge.primary { background: var(--sidebar-primary); color: var(--primary); }
-.status-badge.neutral { background: var(--muted); color: var(--muted-foreground); }
-.table-wrap { width: 100%; overflow: hidden; }
-.table-head {
-  display: grid;
-  grid-template-columns: 56px minmax(0,2.2fr) minmax(160px,1.3fr) minmax(160px,1.3fr) 130px 110px 82px;
-  gap: 16px; align-items: center;
-  padding: 14px 20px;
-  background: var(--muted); border-bottom: 1px solid var(--border);
-  font-size: 11px; font-weight: 700; color: var(--muted-foreground);
-}
-.table-row {
-  display: grid;
-  grid-template-columns: 56px minmax(0,2.2fr) minmax(160px,1.3fr) minmax(160px,1.3fr) 130px 110px 82px;
-  gap: 16px; align-items: center;
-  padding: 14px 20px; border-bottom: 1px solid var(--border);
-  font-size: 13px; color: var(--foreground);
-}
-.table-row.alt { background: #FBFCFD; }
-.table-row.selected { background: var(--sidebar-primary); }
-.thumb {
-  width: 48px; height: 48px; border-radius: 10px; object-fit: cover; flex-shrink: 0; display: block;
-}
-.cell-main { min-width: 0; display: flex; align-items: center; gap: 12px; }
-.cell-texts, .person-texts, .schedule-cell { min-width: 0; }
-.cell-title, .person-name {
-  font-size: 13px; font-weight: 600; color: var(--foreground);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.cell-title { margin-bottom: 4px; }
-.cell-sub, .person-sub, .schedule-sub {
-  font-size: 11px; color: var(--muted-foreground);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.person-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.person-avatar { width: 32px; height: 32px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-.person-name { margin-bottom: 3px; }
-.schedule-main {
-  font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap;
-}
-.table-row.selected .schedule-main,
-.table-row.selected .schedule-sub,
-.table-row.selected .cell-title,
-.table-row.selected .cell-sub,
-.table-row.selected .person-name,
-.table-row.selected .person-sub { color: var(--foreground); }
-.action-btn {
-  width: 32px; height: 32px; border-radius: var(--radius-md);
-  background: var(--muted); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.table-actions { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
-.pagination-bar {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 14px 20px; background: var(--card); border-top: 1px solid var(--border);
-}
-.page-info { font-size: 13px; color: var(--muted-foreground); white-space: nowrap; }
-.page-btns { display: flex; align-items: center; gap: 6px; }
-.page-btn {
-  width: 32px; height: 32px; border-radius: var(--radius-md);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 600; color: var(--muted-foreground); background: var(--muted);
-}
-.page-btn.active { background: var(--primary); color: var(--primary-foreground); }
-.unassigned {
-  font-size: 12px; color: var(--muted-foreground); font-style: italic;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.table-row.selected .unassigned { color: var(--foreground); opacity: 0.8; }</style>
+  <style id="table-styles">
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--card-foreground);
+      margin: 0;
+    }
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-top: 3px;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status-badge.success {
+      background: #dcfce7;
+      color: var(--success);
+    }
+    .status-badge.warning {
+      background: #fef3c7;
+      color: var(--warning);
+    }
+    .status-badge.danger {
+      background: #fee2e2;
+      color: var(--destructive);
+    }
+    .status-badge.primary {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
+    .status-badge.neutral {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+    .table-wrap {
+      width: 100%;
+      overflow: hidden;
+    }
+    .table-head {
+      display: grid;
+      grid-template-columns:
+        56px minmax(0, 2.2fr) minmax(160px, 1.3fr) minmax(160px, 1.3fr)
+        130px 110px 82px;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 20px;
+      background: var(--muted);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted-foreground);
+    }
+    .table-row {
+      display: grid;
+      grid-template-columns:
+        56px minmax(0, 2.2fr) minmax(160px, 1.3fr) minmax(160px, 1.3fr)
+        130px 110px 82px;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--foreground);
+    }
+    .table-row.alt {
+      background: #fbfcfd;
+    }
+    .table-row.selected {
+      background: var(--sidebar-primary);
+    }
+    .thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      display: block;
+    }
+    .cell-main {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cell-texts,
+    .person-texts,
+    .schedule-cell {
+      min-width: 0;
+    }
+    .cell-title,
+    .person-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cell-title {
+      margin-bottom: 4px;
+    }
+    .cell-sub,
+    .person-sub,
+    .schedule-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .person-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .person-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .person-name {
+      margin-bottom: 3px;
+    }
+    .schedule-main {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .table-row.selected .schedule-main,
+    .table-row.selected .schedule-sub,
+    .table-row.selected .cell-title,
+    .table-row.selected .cell-sub,
+    .table-row.selected .person-name,
+    .table-row.selected .person-sub {
+      color: var(--foreground);
+    }
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .table-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 20px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+    .page-info {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .page-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .page-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      background: var(--muted);
+    }
+    .page-btn.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .unassigned {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .table-row.selected .unassigned {
+      color: var(--foreground);
+      opacity: 0.8;
+    }
+  </style>
   <style id="calendar-styles">
-    .cal-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; }
-    .cal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .cal-title { font-size: 16px; font-weight: 700; color: var(--foreground); }
-    .cal-nav { display: flex; align-items: center; gap: 8px; }
-    .cal-nav-btn { width: 30px; height: 30px; border-radius: var(--radius-md); background: var(--muted); display: flex; align-items: center; justify-content: center; }
+    .cal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .cal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .cal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cal-nav-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .cal-week-grid {
-      display: grid; grid-template-columns: 60px repeat(7, minmax(0,1fr));
+      display: grid;
+      grid-template-columns: 60px repeat(7, minmax(0, 1fr));
       border-bottom: 1px solid var(--border);
     }
     .cal-day-head {
-      padding: 10px 8px; text-align: center; font-size: 12px; font-weight: 700;
-      color: var(--muted-foreground); border-left: 1px solid var(--border);
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted-foreground);
+      border-left: 1px solid var(--border);
     }
-    .cal-day-head:first-child { border-left: none; }
-    .cal-day-head.today { color: var(--primary); }
-    .cal-body { display: grid; grid-template-columns: 60px repeat(7, minmax(0,1fr)); }
-    .cal-time-col { display: flex; flex-direction: column; }
-    .cal-time-slot { height: 56px; padding: 6px 8px; font-size: 11px; color: var(--muted-foreground); text-align: right; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: flex-end; }
-    .cal-day-col { border-left: 1px solid var(--border); position: relative; }
-    .cal-slot { height: 56px; border-bottom: 1px solid var(--border); }
+    .cal-day-head:first-child {
+      border-left: none;
+    }
+    .cal-day-head.today {
+      color: var(--primary);
+    }
+    .cal-body {
+      display: grid;
+      grid-template-columns: 60px repeat(7, minmax(0, 1fr));
+    }
+    .cal-time-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .cal-time-slot {
+      height: 56px;
+      padding: 6px 8px;
+      font-size: 11px;
+      color: var(--muted-foreground);
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+    .cal-day-col {
+      border-left: 1px solid var(--border);
+      position: relative;
+    }
+    .cal-slot {
+      height: 56px;
+      border-bottom: 1px solid var(--border);
+    }
     .cal-event {
-      position: absolute; left: 4px; right: 4px;
-      border-radius: var(--radius-md); padding: 4px 7px;
-      font-size: 11px; font-weight: 600; overflow: hidden;
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      border-radius: var(--radius-md);
+      padding: 4px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      overflow: hidden;
     }
-    .cal-event.confirmed { background: #DCFCE7; color: var(--success); }
-    .cal-event.pending { background: #FEF3C7; color: #92400E; }
-    .cal-event.done { background: var(--sidebar-primary); color: var(--primary); }
-    .cal-event.cancelled { background: #FEE2E2; color: var(--destructive); }
+    .cal-event.confirmed {
+      background: #dcfce7;
+      color: var(--success);
+    }
+    .cal-event.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .cal-event.done {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
+    .cal-event.cancelled {
+      background: #fee2e2;
+      color: var(--destructive);
+    }
   </style>
   <style id="drawer-styles">
-    .layout-with-drawer { display: flex; gap: 0; min-width: 0; flex: 1; }
-    .page-content { flex: 1; display: flex; flex-direction: column; gap: 24px; min-width: 0; overflow: hidden; }
+    .layout-with-drawer {
+      display: flex;
+      gap: 0;
+      min-width: 0;
+      flex: 1;
+    }
+    .page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+      overflow: hidden;
+    }
     .drawer {
-      width: 380px; flex-shrink: 0; background: var(--card);
-      border-left: 1px solid var(--border); display: flex; flex-direction: column;
-      overflow-y: auto; max-height: calc(100vh - 76px);
+      width: 380px;
+      flex-shrink: 0;
+      background: var(--card);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: calc(100vh - 76px);
     }
-    .drawer-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-    .drawer-title { font-size: 16px; font-weight: 700; color: var(--foreground); margin-bottom: 4px; }
-    .drawer-sub { font-size: 12px; color: var(--muted-foreground); }
-    .drawer-close { width: 30px; height: 30px; border-radius: var(--radius-md); background: var(--muted); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .drawer-section { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 14px; }
-    .drawer-section-title { font-size: 12px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; letter-spacing: 0.04em; }
-    .info-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-    .info-label { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; flex-shrink: 0; }
-    .info-value { font-size: 13px; font-weight: 600; color: var(--foreground); text-align: right; }
-    .drawer-thumb { width: 100%; height: 180px; object-fit: cover; display: block; }
-    .agent-row { display: flex; align-items: center; gap: 10px; }
-    .agent-avatar { width: 36px; height: 36px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .agent-name { font-size: 13px; font-weight: 600; color: var(--foreground); }
-    .agent-role { font-size: 12px; color: var(--muted-foreground); }
-    .agent-reassign { margin-left: auto; height: 28px; padding: 0 10px; border-radius: var(--radius-md); background: var(--muted); font-size: 12px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-    .notes-box { background: var(--muted); border-radius: var(--radius-lg); padding: 12px; font-size: 13px; color: var(--muted-foreground); line-height: 1.5; min-height: 72px; }
-    .drawer-actions { padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .drawer-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .drawer-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .drawer-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .drawer-close {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .drawer-section {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .drawer-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .info-label {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .info-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      text-align: right;
+    }
+    .drawer-thumb {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+    .agent-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .agent-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .agent-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .agent-role {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .agent-reassign {
+      margin-left: auto;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .notes-box {
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      line-height: 1.5;
+      min-height: 72px;
+    }
+    .drawer-actions {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
     .drawer-btn {
-      height: 40px; border-radius: var(--radius-lg);
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      font-size: 14px; font-weight: 600; white-space: nowrap;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .drawer-btn.confirm { background: var(--success); color: var(--success-foreground); }
-    .drawer-btn.cancel { background: #FEE2E2; color: var(--destructive); }
-    .drawer-btn.reschedule { background: var(--muted); color: var(--foreground); }
-    .drawer-btn.assign { background: var(--sidebar-primary); color: var(--primary); }
+    .drawer-btn.confirm {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .drawer-btn.cancel {
+      background: #fee2e2;
+      color: var(--destructive);
+    }
+    .drawer-btn.reschedule {
+      background: var(--muted);
+      color: var(--foreground);
+    }
+    .drawer-btn.assign {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+    }
     .status-select {
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .status-chip {
-      height: 28px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap;
-      display: flex; align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
     }
-    .status-chip.active { background: var(--primary); color: var(--primary-foreground); }
-    .status-chip.inactive { background: var(--muted); color: var(--muted-foreground); }
+    .status-chip.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .status-chip.inactive {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
   </style>
-</head><body>
+</head>
+<body>
   <div class="app" id="admin-app">
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="brand-block">
         <div class="brand-mark">
           <div class="icon-wrap lg">
-            <iconify-icon icon="lucide:building-2" style="font-size:20px;color:var(--primary);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
           </div>
         </div>
         <div>
@@ -376,7 +1073,12 @@
             <div class="country-value">Multi-pays agrégée</div>
           </div>
         </div>
-        <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
+        <div class="icon-wrap sm">
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 16px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
       </div>
 
       <div class="sidebar-section">
@@ -394,45 +1096,80 @@
         <div class="nav-list">
           <a class="nav-item" href="#" data-media-type="banani-button">
             <div class="nav-item-left">
-              <div class="icon-wrap"><iconify-icon icon="lucide:layout-dashboard" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:layout-dashboard"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
               <span class="nav-item-label">Tableau de bord</span>
             </div>
           </a>
           <a class="nav-item" href="#" data-media-type="banani-button">
             <div class="nav-item-left">
-              <div class="icon-wrap"><iconify-icon icon="lucide:clipboard-list" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:clipboard-list"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
               <span class="nav-item-label">Gestion des annonces</span>
             </div>
           </a>
           <a class="nav-item" href="#" data-media-type="banani-button">
             <div class="nav-item-left">
-              <div class="icon-wrap"><iconify-icon icon="lucide:users" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
               <span class="nav-item-label">Utilisateurs</span>
             </div>
           </a>
           <a class="nav-item" href="#" data-media-type="banani-button">
             <div class="nav-item-left">
-              <div class="icon-wrap"><iconify-icon icon="lucide:wallet" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:wallet"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
               <span class="nav-item-label">Finances &amp; jetons</span>
             </div>
           </a>
           <a class="nav-item active" href="#" data-media-type="banani-button">
             <div class="nav-item-left">
-              <div class="icon-wrap"><iconify-icon icon="lucide:video" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:video"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
               <span class="nav-item-label">Visites virtuelles</span>
             </div>
             <span class="nav-count">8</span>
           </a>
           <a class="nav-item" href="#" data-media-type="banani-button">
             <div class="nav-item-left">
-              <div class="icon-wrap"><iconify-icon icon="lucide:shield-alert" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-alert"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
               <span class="nav-item-label">Modération &amp; support</span>
             </div>
             <span class="nav-count">19</span>
           </a>
           <a class="nav-item" href="#" data-media-type="banani-button">
             <div class="nav-item-left">
-              <div class="icon-wrap"><iconify-icon icon="lucide:settings-2" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings-2"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
               <span class="nav-item-label">Paramètres</span>
             </div>
           </a>
@@ -442,7 +1179,12 @@
       <div class="sidebar-spacer"></div>
       <a class="nav-item logout-item" href="#" data-media-type="banani-button">
         <div class="nav-item-left">
-          <div class="icon-wrap"><iconify-icon icon="lucide:log-out" style="font-size:18px;color:var(--destructive);"></iconify-icon></div>
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 18px; color: var(--destructive)"
+            ></iconify-icon>
+          </div>
           <span class="nav-item-label">Déconnexion</span>
         </div>
       </a>
@@ -453,21 +1195,40 @@
       <!-- TOPBAR -->
       <div class="topbar" id="topbar">
         <div class="searchbar" data-media-type="banani-button">
-          <div class="icon-wrap"><iconify-icon icon="lucide:search" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-          <span class="searchbar-text">Rechercher une visite, un bien, un agent ou un demandeur…</span>
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 16px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="searchbar-text"
+            >Rechercher une visite, un bien, un agent ou un demandeur…</span
+          >
         </div>
         <div class="topbar-right">
           <div class="icon-btn" data-media-type="banani-button">
-            <iconify-icon icon="lucide:bell" style="font-size:18px;color:var(--foreground);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--foreground)"
+            ></iconify-icon>
             <span class="notif-dot"></span>
           </div>
           <div class="admin-pill" data-media-type="banani-button">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Admin" class="admin-avatar">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Admin"
+              class="admin-avatar"
+            />
             <div>
               <div class="admin-name">Kofi Mensah</div>
               <div class="admin-role">Admin plateforme</div>
             </div>
-            <div class="icon-wrap sm"><iconify-icon icon="lucide:chevrons-up-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:chevrons-up-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
           </div>
         </div>
       </div>
@@ -480,15 +1241,28 @@
             <div class="page-title-block">
               <div class="page-eyebrow">Admin · Visites virtuelles</div>
               <h1 class="page-title">Visites virtuelles</h1>
-              <div class="page-subtitle">Gérez les demandes, assignez des agents et suivez le calendrier des visites en temps réel.</div>
+              <div class="page-subtitle">
+                Gérez les demandes, assignez des agents et suivez le calendrier des visites en temps
+                réel.
+              </div>
             </div>
             <div class="page-actions">
               <div class="button secondary" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:download" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:download"
+                    style="font-size: 14px; color: var(--foreground)"
+                  ></iconify-icon>
+                </div>
                 Exporter
               </div>
               <div class="button primary" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:plus" style="font-size:14px;color:#fff;"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:plus"
+                    style="font-size: 14px; color: #fff"
+                  ></iconify-icon>
+                </div>
                 Planifier une visite
               </div>
             </div>
@@ -498,7 +1272,12 @@
           <div class="kpi-grid" id="kpi-grid">
             <div class="kpi-card">
               <div class="kpi-top">
-                <div class="kpi-icon"><iconify-icon icon="lucide:clock" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
+                <div class="kpi-icon">
+                  <iconify-icon
+                    icon="lucide:clock"
+                    style="font-size: 18px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
                 <span class="delta warn">+3 depuis hier</span>
               </div>
               <div class="kpi-value">24</div>
@@ -506,7 +1285,12 @@
             </div>
             <div class="kpi-card">
               <div class="kpi-top">
-                <div class="kpi-icon"><iconify-icon icon="lucide:calendar-check" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
+                <div class="kpi-icon">
+                  <iconify-icon
+                    icon="lucide:calendar-check"
+                    style="font-size: 18px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
                 <span class="delta up">+18%</span>
               </div>
               <div class="kpi-value">38</div>
@@ -514,7 +1298,12 @@
             </div>
             <div class="kpi-card">
               <div class="kpi-top">
-                <div class="kpi-icon"><iconify-icon icon="lucide:badge-percent" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
+                <div class="kpi-icon">
+                  <iconify-icon
+                    icon="lucide:badge-percent"
+                    style="font-size: 18px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
                 <span class="delta up">+4 pts</span>
               </div>
               <div class="kpi-value">82%</div>
@@ -526,33 +1315,83 @@
           <div class="view-toggle-bar" id="view-toggle-bar">
             <div class="filter-bar">
               <div class="filter-select" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:circle-dot" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:circle-dot"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
                 Tous les statuts
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
               </div>
               <div class="filter-select" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:globe" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:globe"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
                 Pays
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
               </div>
               <div class="filter-select" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:user-check" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:user-check"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
                 Agent assigné
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
               </div>
               <div class="filter-select" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:calendar" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:calendar"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
                 Période
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
               </div>
             </div>
             <div class="toggle-group" data-media-type="banani-button">
               <div class="toggle-btn active" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:list" style="font-size:13px;color:var(--primary);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:list"
+                    style="font-size: 13px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
                 Vue liste
               </div>
               <div class="toggle-btn" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:calendar-days" style="font-size:13px;color:var(--muted-foreground);"></iconify-icon></div>
+                <div class="icon-wrap sm">
+                  <iconify-icon
+                    icon="lucide:calendar-days"
+                    style="font-size: 13px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
                 Vue calendrier
               </div>
             </div>
@@ -560,261 +1399,454 @@
 
           <!-- TABLE -->
           <div class="card" id="visites-table">
-  <div class="card-header">
-    <div>
-      <div class="card-title">Liste des visites</div>
-      <div class="card-subtitle">62 visites au total · Semaine du 14 au 20 juillet 2025</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <div style="font-size:13px;color:var(--muted-foreground);">Lignes par page :</div>
-      <div class="filter-select" style="height:32px;padding:0 10px;" data-media-type="banani-button">
-        10 <iconify-icon icon="lucide:chevron-down" style="font-size:12px;"></iconify-icon>
-      </div>
-    </div>
-  </div>
+            <div class="card-header">
+              <div>
+                <div class="card-title">Liste des visites</div>
+                <div class="card-subtitle">
+                  62 visites au total · Semaine du 14 au 20 juillet 2025
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px">
+                <div style="font-size: 13px; color: var(--muted-foreground)">Lignes par page :</div>
+                <div
+                  class="filter-select"
+                  style="height: 32px; padding: 0 10px"
+                  data-media-type="banani-button"
+                >
+                  10
+                  <iconify-icon icon="lucide:chevron-down" style="font-size: 12px"></iconify-icon>
+                </div>
+              </div>
+            </div>
 
-  <div class="table-wrap">
-    <div class="table-head">
-      <div></div>
-      <div>Bien concerné</div>
-      <div>Demandeur</div>
-      <div>Agent assigné</div>
-      <div>Date / Heure</div>
-      <div>Statut</div>
-      <div style="text-align:right;">Actions</div>
-    </div>
+            <div class="table-wrap">
+              <div class="table-head">
+                <div></div>
+                <div>Bien concerné</div>
+                <div>Demandeur</div>
+                <div>Agent assigné</div>
+                <div>Date / Heure</div>
+                <div>Statut</div>
+                <div style="text-align: right">Actions</div>
+              </div>
 
-    <div class="table-row" data-media-type="banani-button">
-      <img class="thumb" data-aspect-ratio="1:1" data-query="villa west africa luxury pool exterior modern architecture" alt="Bien" src="https://storage.googleapis.com/banani-generated-images/generated-images/c32e0fcf-897e-4cb3-b3de-e14d0c7b7595.jpg">
-      <div class="cell-main">
-        <div class="cell-texts">
-          <div class="cell-title">Villa duplex à Cocody</div>
-          <div class="cell-sub">Abidjan, CI · Vente · 185 M FCFA</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2" class="person-avatar" alt="Dem">
-        <div class="person-texts">
-          <div class="person-name">Aissata Coulibaly</div>
-          <div class="person-sub">Particulier</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F5" class="person-avatar" alt="Agent">
-        <div class="person-texts">
-          <div class="person-name">Marcus Dossou</div>
-          <div class="person-sub">Agent senior</div>
-        </div>
-      </div>
-      <div class="schedule-cell">
-        <div class="schedule-main">Lun 14 juil.</div>
-        <div class="schedule-sub">10:00 – 11:00</div>
-      </div>
-      <div><span class="status-badge success">Confirmée</span></div>
-      <div class="table-actions">
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-      </div>
-    </div>
+              <div class="table-row" data-media-type="banani-button">
+                <img
+                  class="thumb"
+                  data-aspect-ratio="1:1"
+                  data-query="villa west africa luxury pool exterior modern architecture"
+                  alt="Bien"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/c32e0fcf-897e-4cb3-b3de-e14d0c7b7595.jpg"
+                />
+                <div class="cell-main">
+                  <div class="cell-texts">
+                    <div class="cell-title">Villa duplex à Cocody</div>
+                    <div class="cell-sub">Abidjan, CI · Vente · 185 M FCFA</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                    class="person-avatar"
+                    alt="Dem"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Aissata Coulibaly</div>
+                    <div class="person-sub">Particulier</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F5"
+                    class="person-avatar"
+                    alt="Agent"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Marcus Dossou</div>
+                    <div class="person-sub">Agent senior</div>
+                  </div>
+                </div>
+                <div class="schedule-cell">
+                  <div class="schedule-main">Lun 14 juil.</div>
+                  <div class="schedule-sub">10:00 – 11:00</div>
+                </div>
+                <div><span class="status-badge success">Confirmée</span></div>
+                <div class="table-actions">
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:eye"
+                      style="font-size: 14px; color: var(--foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:more-horizontal"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
 
-    <div class="table-row alt" data-media-type="banani-button">
-      <img class="thumb" data-aspect-ratio="1:1" data-query="apartment building senegal dakar urban residential real estate exterior" alt="Bien" src="https://storage.googleapis.com/banani-generated-images/generated-images/924692c8-f522-463d-a1e4-07857c35ac67.jpg">
-      <div class="cell-main">
-        <div class="cell-texts">
-          <div class="cell-title">Appartement T4 Plateau</div>
-          <div class="cell-sub">Dakar, SN · Location · 320 000 FCFA/m.</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FSouth%20Asian%2F1" class="person-avatar" alt="Dem">
-        <div class="person-texts">
-          <div class="person-name">Rohan Mendes</div>
-          <div class="person-sub">Particulier</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <div class="icon-wrap" style="width:32px;height:32px;background:var(--muted);border-radius:999px;">
-          <iconify-icon icon="lucide:user-x" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
-        </div>
-        <div class="person-texts">
-          <div class="person-name">Non assigné</div>
-          <div class="person-sub">Affectation requise</div>
-        </div>
-      </div>
-      <div class="schedule-cell">
-        <div class="schedule-main">Mar 15 juil.</div>
-        <div class="schedule-sub">14:30 – 15:30</div>
-      </div>
-      <div><span class="status-badge warning">En attente</span></div>
-      <div class="table-actions">
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:user-plus" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-      </div>
-    </div>
+              <div class="table-row alt" data-media-type="banani-button">
+                <img
+                  class="thumb"
+                  data-aspect-ratio="1:1"
+                  data-query="apartment building senegal dakar urban residential real estate exterior"
+                  alt="Bien"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/924692c8-f522-463d-a1e4-07857c35ac67.jpg"
+                />
+                <div class="cell-main">
+                  <div class="cell-texts">
+                    <div class="cell-title">Appartement T4 Plateau</div>
+                    <div class="cell-sub">Dakar, SN · Location · 320 000 FCFA/m.</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FSouth%20Asian%2F1"
+                    class="person-avatar"
+                    alt="Dem"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Rohan Mendes</div>
+                    <div class="person-sub">Particulier</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <div
+                    class="icon-wrap"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      background: var(--muted);
+                      border-radius: 999px;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:user-x"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="person-texts">
+                    <div class="person-name">Non assigné</div>
+                    <div class="person-sub">Affectation requise</div>
+                  </div>
+                </div>
+                <div class="schedule-cell">
+                  <div class="schedule-main">Mar 15 juil.</div>
+                  <div class="schedule-sub">14:30 – 15:30</div>
+                </div>
+                <div><span class="status-badge warning">En attente</span></div>
+                <div class="table-actions">
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:user-plus"
+                      style="font-size: 14px; color: var(--primary)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:more-horizontal"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
 
-    <div class="table-row selected" data-media-type="banani-button">
-      <img class="thumb" data-aspect-ratio="1:1" data-query="modern office space west africa business district interior premium" alt="Bien" src="https://storage.googleapis.com/banani-generated-images/generated-images/52915d8b-5047-4dee-a34e-65b769df2545.jpg">
-      <div class="cell-main">
-        <div class="cell-texts">
-          <div class="cell-title">Plateau bureaux Lomé Affaires</div>
-          <div class="cell-sub">Lomé, TG · Location · 3,8 M FCFA/m.</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F4" class="person-avatar" alt="Dem">
-        <div class="person-texts">
-          <div class="person-name">Fatou Ndiaye</div>
-          <div class="person-sub">Agence Prestige</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F7" class="person-avatar" alt="Agent">
-        <div class="person-texts">
-          <div class="person-name">Nadia Toure</div>
-          <div class="person-sub">Agent junior</div>
-        </div>
-      </div>
-      <div class="schedule-cell">
-        <div class="schedule-main">Mer 16 juil.</div>
-        <div class="schedule-sub">09:00 – 10:00</div>
-      </div>
-      <div><span class="status-badge primary">Réalisée</span></div>
-      <div class="table-actions">
-        <div class="action-btn" style="background:var(--card);" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-        <div class="action-btn" style="background:var(--card);" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-      </div>
-    </div>
+              <div class="table-row selected" data-media-type="banani-button">
+                <img
+                  class="thumb"
+                  data-aspect-ratio="1:1"
+                  data-query="modern office space west africa business district interior premium"
+                  alt="Bien"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/52915d8b-5047-4dee-a34e-65b769df2545.jpg"
+                />
+                <div class="cell-main">
+                  <div class="cell-texts">
+                    <div class="cell-title">Plateau bureaux Lomé Affaires</div>
+                    <div class="cell-sub">Lomé, TG · Location · 3,8 M FCFA/m.</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F4"
+                    class="person-avatar"
+                    alt="Dem"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Fatou Ndiaye</div>
+                    <div class="person-sub">Agence Prestige</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F7"
+                    class="person-avatar"
+                    alt="Agent"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Nadia Toure</div>
+                    <div class="person-sub">Agent junior</div>
+                  </div>
+                </div>
+                <div class="schedule-cell">
+                  <div class="schedule-main">Mer 16 juil.</div>
+                  <div class="schedule-sub">09:00 – 10:00</div>
+                </div>
+                <div><span class="status-badge primary">Réalisée</span></div>
+                <div class="table-actions">
+                  <div
+                    class="action-btn"
+                    style="background: var(--card)"
+                    data-media-type="banani-button"
+                  >
+                    <iconify-icon
+                      icon="lucide:eye"
+                      style="font-size: 14px; color: var(--primary)"
+                    ></iconify-icon>
+                  </div>
+                  <div
+                    class="action-btn"
+                    style="background: var(--card)"
+                    data-media-type="banani-button"
+                  >
+                    <iconify-icon
+                      icon="lucide:more-horizontal"
+                      style="font-size: 14px; color: var(--primary)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
 
-    <div class="table-row" data-media-type="banani-button">
-      <img class="thumb" data-aspect-ratio="1:1" data-query="plot land benin west africa aerial view development real estate" alt="Bien" src="https://storage.googleapis.com/banani-generated-images/generated-images/14007c8e-b8d6-400f-9f10-5182ff4d6699.jpg">
-      <div class="cell-main">
-        <div class="cell-texts">
-          <div class="cell-title">Terrain résidentiel périphérie</div>
-          <div class="cell-sub">Cotonou, BJ · Vente · 24 M FCFA</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F18-25%2FAfrican%2F3" class="person-avatar" alt="Dem">
-        <div class="person-texts">
-          <div class="person-name">Samuel Adiko</div>
-          <div class="person-sub">Particulier</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F1" class="person-avatar" alt="Agent">
-        <div class="person-texts">
-          <div class="person-name">Jean-Paul Koffi</div>
-          <div class="person-sub">Agent senior</div>
-        </div>
-      </div>
-      <div class="schedule-cell">
-        <div class="schedule-main">Jeu 17 juil.</div>
-        <div class="schedule-sub">11:00 – 12:00</div>
-      </div>
-      <div><span class="status-badge danger">Annulée</span></div>
-      <div class="table-actions">
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:rotate-ccw" style="font-size:14px;color:var(--warning);"></iconify-icon></div>
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-      </div>
-    </div>
+              <div class="table-row" data-media-type="banani-button">
+                <img
+                  class="thumb"
+                  data-aspect-ratio="1:1"
+                  data-query="plot land benin west africa aerial view development real estate"
+                  alt="Bien"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/14007c8e-b8d6-400f-9f10-5182ff4d6699.jpg"
+                />
+                <div class="cell-main">
+                  <div class="cell-texts">
+                    <div class="cell-title">Terrain résidentiel périphérie</div>
+                    <div class="cell-sub">Cotonou, BJ · Vente · 24 M FCFA</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F18-25%2FAfrican%2F3"
+                    class="person-avatar"
+                    alt="Dem"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Samuel Adiko</div>
+                    <div class="person-sub">Particulier</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F1"
+                    class="person-avatar"
+                    alt="Agent"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Jean-Paul Koffi</div>
+                    <div class="person-sub">Agent senior</div>
+                  </div>
+                </div>
+                <div class="schedule-cell">
+                  <div class="schedule-main">Jeu 17 juil.</div>
+                  <div class="schedule-sub">11:00 – 12:00</div>
+                </div>
+                <div><span class="status-badge danger">Annulée</span></div>
+                <div class="table-actions">
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:rotate-ccw"
+                      style="font-size: 14px; color: var(--warning)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:more-horizontal"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
 
-    <div class="table-row alt" data-media-type="banani-button">
-      <img class="thumb" data-aspect-ratio="1:1" data-query="modern villa abidjan ivory coast residential home exterior sunny" alt="Bien" src="https://storage.googleapis.com/banani-generated-images/generated-images/66ffa211-dd53-479c-9304-fed80bee770e.jpg">
-      <div class="cell-main">
-        <div class="cell-texts">
-          <div class="cell-title">Villa 5 pièces Marcory</div>
-          <div class="cell-sub">Abidjan, CI · Vente · 98 M FCFA</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F6" class="person-avatar" alt="Dem">
-        <div class="person-texts">
-          <div class="person-name">Blandine Sawadogo</div>
-          <div class="person-sub">Agence Sahel</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <div class="icon-wrap" style="width:32px;height:32px;background:var(--muted);border-radius:999px;">
-          <iconify-icon icon="lucide:user-x" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
-        </div>
-        <div class="person-texts">
-          <div class="person-name">Non assigné</div>
-          <div class="person-sub">Affectation requise</div>
-        </div>
-      </div>
-      <div class="schedule-cell">
-        <div class="schedule-main">Ven 18 juil.</div>
-        <div class="schedule-sub">16:00 – 17:00</div>
-      </div>
-      <div><span class="status-badge warning">En attente</span></div>
-      <div class="table-actions">
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:user-plus" style="font-size:14px;color:var(--primary);"></iconify-icon></div>
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-      </div>
-    </div>
+              <div class="table-row alt" data-media-type="banani-button">
+                <img
+                  class="thumb"
+                  data-aspect-ratio="1:1"
+                  data-query="modern villa abidjan ivory coast residential home exterior sunny"
+                  alt="Bien"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/66ffa211-dd53-479c-9304-fed80bee770e.jpg"
+                />
+                <div class="cell-main">
+                  <div class="cell-texts">
+                    <div class="cell-title">Villa 5 pièces Marcory</div>
+                    <div class="cell-sub">Abidjan, CI · Vente · 98 M FCFA</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F6"
+                    class="person-avatar"
+                    alt="Dem"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Blandine Sawadogo</div>
+                    <div class="person-sub">Agence Sahel</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <div
+                    class="icon-wrap"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      background: var(--muted);
+                      border-radius: 999px;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:user-x"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="person-texts">
+                    <div class="person-name">Non assigné</div>
+                    <div class="person-sub">Affectation requise</div>
+                  </div>
+                </div>
+                <div class="schedule-cell">
+                  <div class="schedule-main">Ven 18 juil.</div>
+                  <div class="schedule-sub">16:00 – 17:00</div>
+                </div>
+                <div><span class="status-badge warning">En attente</span></div>
+                <div class="table-actions">
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:user-plus"
+                      style="font-size: 14px; color: var(--primary)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:more-horizontal"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
 
-    <div class="table-row" data-media-type="banani-button">
-      <img class="thumb" data-aspect-ratio="1:1" data-query="luxury apartment senegal ocean view modern high rise real estate" alt="Bien" src="https://storage.googleapis.com/banani-generated-images/generated-images/6ad0d477-82e8-4baa-998e-4f387d061258.jpg">
-      <div class="cell-main">
-        <div class="cell-texts">
-          <div class="cell-title">Appartement vue mer Almadies</div>
-          <div class="cell-sub">Dakar, SN · Vente · 145 M FCFA</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F2" class="person-avatar" alt="Dem">
-        <div class="person-texts">
-          <div class="person-name">Ibrahima Mbaye</div>
-          <div class="person-sub">Particulier</div>
-        </div>
-      </div>
-      <div class="person-cell">
-        <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F8" class="person-avatar" alt="Agent">
-        <div class="person-texts">
-          <div class="person-name">Serge Diallo</div>
-          <div class="person-sub">Agent senior</div>
-        </div>
-      </div>
-      <div class="schedule-cell">
-        <div class="schedule-main">Sam 19 juil.</div>
-        <div class="schedule-sub">09:30 – 10:30</div>
-      </div>
-      <div><span class="status-badge success">Confirmée</span></div>
-      <div class="table-actions">
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:eye" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-        <div class="action-btn" data-media-type="banani-button"><iconify-icon icon="lucide:more-horizontal" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
-      </div>
-    </div>
-  </div>
+              <div class="table-row" data-media-type="banani-button">
+                <img
+                  class="thumb"
+                  data-aspect-ratio="1:1"
+                  data-query="luxury apartment senegal ocean view modern high rise real estate"
+                  alt="Bien"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/6ad0d477-82e8-4baa-998e-4f387d061258.jpg"
+                />
+                <div class="cell-main">
+                  <div class="cell-texts">
+                    <div class="cell-title">Appartement vue mer Almadies</div>
+                    <div class="cell-sub">Dakar, SN · Vente · 145 M FCFA</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F2"
+                    class="person-avatar"
+                    alt="Dem"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Ibrahima Mbaye</div>
+                    <div class="person-sub">Particulier</div>
+                  </div>
+                </div>
+                <div class="person-cell">
+                  <img
+                    src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F8"
+                    class="person-avatar"
+                    alt="Agent"
+                  />
+                  <div class="person-texts">
+                    <div class="person-name">Serge Diallo</div>
+                    <div class="person-sub">Agent senior</div>
+                  </div>
+                </div>
+                <div class="schedule-cell">
+                  <div class="schedule-main">Sam 19 juil.</div>
+                  <div class="schedule-sub">09:30 – 10:30</div>
+                </div>
+                <div><span class="status-badge success">Confirmée</span></div>
+                <div class="table-actions">
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:eye"
+                      style="font-size: 14px; color: var(--foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="action-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:more-horizontal"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-  <div class="pagination-bar">
-    <div class="page-info">Affichage 1–6 sur 62 visites</div>
-    <div class="page-btns">
-      <div class="page-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-left" style="font-size:14px;"></iconify-icon></div>
-      <div class="page-btn active" data-media-type="banani-button">1</div>
-      <div class="page-btn" data-media-type="banani-button">2</div>
-      <div class="page-btn" data-media-type="banani-button">3</div>
-      <div style="font-size:13px;color:var(--muted-foreground);padding:0 4px;">…</div>
-      <div class="page-btn" data-media-type="banani-button">7</div>
-      <div class="page-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-right" style="font-size:14px;"></iconify-icon></div>
-    </div>
-  </div>
-</div>
+            <div class="pagination-bar">
+              <div class="page-info">Affichage 1–6 sur 62 visites</div>
+              <div class="page-btns">
+                <div class="page-btn" data-media-type="banani-button">
+                  <iconify-icon icon="lucide:chevron-left" style="font-size: 14px"></iconify-icon>
+                </div>
+                <div class="page-btn active" data-media-type="banani-button">1</div>
+                <div class="page-btn" data-media-type="banani-button">2</div>
+                <div class="page-btn" data-media-type="banani-button">3</div>
+                <div style="font-size: 13px; color: var(--muted-foreground); padding: 0 4px">…</div>
+                <div class="page-btn" data-media-type="banani-button">7</div>
+                <div class="page-btn" data-media-type="banani-button">
+                  <iconify-icon icon="lucide:chevron-right" style="font-size: 14px"></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- MINI CALENDAR PREVIEW -->
           <div class="cal-card" id="calendar-preview">
             <div class="cal-header">
               <div class="cal-title">Vue calendrier · Semaine du 14 – 20 juillet 2025</div>
-              <div style="display:flex;align-items:center;gap:10px;">
+              <div style="display: flex; align-items: center; gap: 10px">
                 <div class="cal-nav">
-                  <div class="cal-nav-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-left" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
-                  <div class="cal-nav-btn" data-media-type="banani-button"><iconify-icon icon="lucide:chevron-right" style="font-size:14px;color:var(--foreground);"></iconify-icon></div>
+                  <div class="cal-nav-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:chevron-left"
+                      style="font-size: 14px; color: var(--foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <div class="cal-nav-btn" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:chevron-right"
+                      style="font-size: 14px; color: var(--foreground)"
+                    ></iconify-icon>
+                  </div>
                 </div>
-                <div class="button secondary" style="height:32px;font-size:12px;" data-media-type="banani-button">Aujourd'hui</div>
+                <div
+                  class="button secondary"
+                  style="height: 32px; font-size: 12px"
+                  data-media-type="banani-button"
+                >
+                  Aujourd'hui
+                </div>
               </div>
             </div>
             <div class="cal-week-grid">
-              <div class="cal-day-head" style="border-left:none;"></div>
+              <div class="cal-day-head" style="border-left: none"></div>
               <div class="cal-day-head">Lun 14</div>
               <div class="cal-day-head today">Mar 15</div>
               <div class="cal-day-head">Mer 16</div>
@@ -834,56 +1866,164 @@
                 <div class="cal-time-slot">16:00</div>
               </div>
               <!-- Lundi -->
-              <div class="cal-day-col" style="position:relative;">
+              <div class="cal-day-col" style="position: relative">
                 <div class="cal-slot"></div>
-                <div class="cal-event confirmed" style="top:4px;height:52px;">Villa Cocody<br><span style="font-weight:400;opacity:0.8;">10:00</span></div>
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
+                <div class="cal-event confirmed" style="top: 4px; height: 52px">
+                  Villa Cocody<br /><span style="font-weight: 400; opacity: 0.8">10:00</span>
+                </div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
               </div>
               <!-- Mardi -->
-              <div class="cal-day-col" style="position:relative;">
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
-                <div class="cal-event pending" style="top:228px;height:52px;">Appt Plateau<br><span style="font-weight:400;opacity:0.8;">14:30</span></div>
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
+              <div class="cal-day-col" style="position: relative">
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-event pending" style="top: 228px; height: 52px">
+                  Appt Plateau<br /><span style="font-weight: 400; opacity: 0.8">14:30</span>
+                </div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
               </div>
               <!-- Mercredi -->
-              <div class="cal-day-col" style="position:relative;">
-                <div class="cal-event done" style="top:4px;height:52px;">Bureaux Lomé<br><span style="font-weight:400;opacity:0.8;">09:00</span></div>
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
+              <div class="cal-day-col" style="position: relative">
+                <div class="cal-event done" style="top: 4px; height: 52px">
+                  Bureaux Lomé<br /><span style="font-weight: 400; opacity: 0.8">09:00</span>
+                </div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
               </div>
               <!-- Jeudi -->
-              <div class="cal-day-col" style="position:relative;">
-                <div class="cal-slot"></div><div class="cal-slot"></div>
-                <div class="cal-event cancelled" style="top:116px;height:52px;">Terrain BJ<br><span style="font-weight:400;opacity:0.8;">11:00</span></div>
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
+              <div class="cal-day-col" style="position: relative">
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-event cancelled" style="top: 116px; height: 52px">
+                  Terrain BJ<br /><span style="font-weight: 400; opacity: 0.8">11:00</span>
+                </div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
               </div>
               <!-- Vendredi -->
-              <div class="cal-day-col" style="position:relative;">
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
-                <div class="cal-event pending" style="top:340px;height:52px;">Villa Marcory<br><span style="font-weight:400;opacity:0.8;">16:00</span></div>
+              <div class="cal-day-col" style="position: relative">
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-event pending" style="top: 340px; height: 52px">
+                  Villa Marcory<br /><span style="font-weight: 400; opacity: 0.8">16:00</span>
+                </div>
               </div>
               <!-- Samedi -->
-              <div class="cal-day-col" style="position:relative;">
-                <div class="cal-event confirmed" style="top:4px;height:52px;">Appt Almadies<br><span style="font-weight:400;opacity:0.8;">09:30</span></div>
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
+              <div class="cal-day-col" style="position: relative">
+                <div class="cal-event confirmed" style="top: 4px; height: 52px">
+                  Appt Almadies<br /><span style="font-weight: 400; opacity: 0.8">09:30</span>
+                </div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
               </div>
               <!-- Dimanche -->
               <div class="cal-day-col">
-                <div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div><div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
+                <div class="cal-slot"></div>
               </div>
             </div>
             <!-- Calendar legend -->
-            <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--secondary-foreground);">
-                <div style="width:10px;height:10px;border-radius:3px;background:#DCFCE7;"></div>Confirmée
+            <div
+              style="
+                padding: 12px 20px;
+                border-top: 1px solid var(--border);
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                flex-wrap: wrap;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 12px;
+                  color: var(--secondary-foreground);
+                "
+              >
+                <div
+                  style="width: 10px; height: 10px; border-radius: 3px; background: #dcfce7"
+                ></div>
+                Confirmée
               </div>
-              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--secondary-foreground);">
-                <div style="width:10px;height:10px;border-radius:3px;background:#FEF3C7;"></div>En attente
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 12px;
+                  color: var(--secondary-foreground);
+                "
+              >
+                <div
+                  style="width: 10px; height: 10px; border-radius: 3px; background: #fef3c7"
+                ></div>
+                En attente
               </div>
-              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--secondary-foreground);">
-                <div style="width:10px;height:10px;border-radius:3px;background:var(--sidebar-primary);"></div>Réalisée
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 12px;
+                  color: var(--secondary-foreground);
+                "
+              >
+                <div
+                  style="
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 3px;
+                    background: var(--sidebar-primary);
+                  "
+                ></div>
+                Réalisée
               </div>
-              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--secondary-foreground);">
-                <div style="width:10px;height:10px;border-radius:3px;background:#FEE2E2;"></div>Annulée
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 12px;
+                  color: var(--secondary-foreground);
+                "
+              >
+                <div
+                  style="width: 10px; height: 10px; border-radius: 3px; background: #fee2e2"
+                ></div>
+                Annulée
               </div>
             </div>
           </div>
@@ -897,43 +2037,76 @@
               <div class="drawer-sub">Réf. VR-3042 · Visite réalisée</div>
             </div>
             <div class="drawer-close" data-media-type="banani-button">
-              <iconify-icon icon="lucide:x" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:x"
+                style="font-size: 16px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
           </div>
 
-          <img class="drawer-thumb" data-aspect-ratio="16:9" data-query="modern office interior west africa lomé business district premium real estate" alt="Bien photo" src="https://storage.googleapis.com/banani-generated-images/generated-images/174c5355-da80-4cbf-8c1b-9c4c3cfc3f16.jpg">
+          <img
+            class="drawer-thumb"
+            data-aspect-ratio="16:9"
+            data-query="modern office interior west africa lomé business district premium real estate"
+            alt="Bien photo"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/174c5355-da80-4cbf-8c1b-9c4c3cfc3f16.jpg"
+          />
 
           <div class="drawer-section">
             <div class="drawer-section-title">Infos du bien</div>
-            <div class="info-row"><span class="info-label">Titre</span><span class="info-value">Plateau bureaux Lomé Affaires</span></div>
-            <div class="info-row"><span class="info-label">Adresse</span><span class="info-value">Bd du 13 Janvier, Lomé, TG</span></div>
-            <div class="info-row"><span class="info-label">Type</span><span class="info-value">Bureau · Location</span></div>
-            <div class="info-row"><span class="info-label">Prix</span><span class="info-value" style="color:var(--primary);">3,8 M FCFA / mois</span></div>
+            <div class="info-row">
+              <span class="info-label">Titre</span
+              ><span class="info-value">Plateau bureaux Lomé Affaires</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Adresse</span
+              ><span class="info-value">Bd du 13 Janvier, Lomé, TG</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Type</span><span class="info-value">Bureau · Location</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Prix</span
+              ><span class="info-value" style="color: var(--primary)">3,8 M FCFA / mois</span>
+            </div>
           </div>
 
           <div class="drawer-section">
             <div class="drawer-section-title">Demandeur</div>
             <div class="agent-row">
-              <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F4" class="agent-avatar" alt="Dem">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F4"
+                class="agent-avatar"
+                alt="Dem"
+              />
               <div>
                 <div class="agent-name">Fatou Ndiaye</div>
                 <div class="agent-role">Agence Prestige · Dakar</div>
               </div>
             </div>
-            <div class="info-row"><span class="info-label">Tél.</span><span class="info-value">+221 77 456 89 01</span></div>
-            <div class="info-row"><span class="info-label">Email</span><span class="info-value">f.ndiaye@agence.sn</span></div>
+            <div class="info-row">
+              <span class="info-label">Tél.</span><span class="info-value">+221 77 456 89 01</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Email</span
+              ><span class="info-value">f.ndiaye@agence.sn</span>
+            </div>
           </div>
 
           <div class="drawer-section">
             <div class="drawer-section-title">Agent assigné</div>
             <div class="agent-row">
-              <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F7" class="agent-avatar" alt="Agent">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F7"
+                class="agent-avatar"
+                alt="Agent"
+              />
               <div>
                 <div class="agent-name">Nadia Toure</div>
                 <div class="agent-role">Agent junior · Lomé, TG</div>
               </div>
               <div class="agent-reassign" data-media-type="banani-button">
-                <iconify-icon icon="lucide:refresh-cw" style="font-size:12px;"></iconify-icon>
+                <iconify-icon icon="lucide:refresh-cw" style="font-size: 12px"></iconify-icon>
                 Réassigner
               </div>
             </div>
@@ -941,14 +2114,24 @@
 
           <div class="drawer-section">
             <div class="drawer-section-title">Planification</div>
-            <div class="info-row"><span class="info-label">Date</span><span class="info-value">Mercredi 16 juillet 2025</span></div>
-            <div class="info-row"><span class="info-label">Heure</span><span class="info-value">09:00 – 10:00</span></div>
-            <div class="info-row"><span class="info-label">Durée</span><span class="info-value">60 min</span></div>
-            <div class="info-row"><span class="info-label">Statut actuel</span>
+            <div class="info-row">
+              <span class="info-label">Date</span
+              ><span class="info-value">Mercredi 16 juillet 2025</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Heure</span><span class="info-value">09:00 – 10:00</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Durée</span><span class="info-value">60 min</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Statut actuel</span>
               <span class="status-badge primary">Réalisée</span>
             </div>
             <div>
-              <div style="font-size:12px;color:var(--muted-foreground);margin-bottom:8px;">Changer le statut :</div>
+              <div style="font-size: 12px; color: var(--muted-foreground); margin-bottom: 8px">
+                Changer le statut :
+              </div>
               <div class="status-select">
                 <div class="status-chip inactive" data-media-type="banani-button">En attente</div>
                 <div class="status-chip inactive" data-media-type="banani-button">Confirmée</div>
@@ -960,24 +2143,31 @@
 
           <div class="drawer-section">
             <div class="drawer-section-title">Notes internes</div>
-            <div class="notes-box">Le client a demandé une visite de suivi pour le plateau du 3e étage. Vérifier la disponibilité avec l'agence locale avant de confirmer.</div>
-            <div class="button secondary" style="width:100%;justify-content:center;gap:6px;margin-top:4px;" data-media-type="banani-button">
-              <iconify-icon icon="lucide:pencil" style="font-size:14px;"></iconify-icon>
+            <div class="notes-box">
+              Le client a demandé une visite de suivi pour le plateau du 3e étage. Vérifier la
+              disponibilité avec l'agence locale avant de confirmer.
+            </div>
+            <div
+              class="button secondary"
+              style="width: 100%; justify-content: center; gap: 6px; margin-top: 4px"
+              data-media-type="banani-button"
+            >
+              <iconify-icon icon="lucide:pencil" style="font-size: 14px"></iconify-icon>
               Modifier les notes
             </div>
           </div>
 
           <div class="drawer-actions">
             <div class="drawer-btn reschedule" data-media-type="banani-button">
-              <iconify-icon icon="lucide:calendar-clock" style="font-size:16px;"></iconify-icon>
+              <iconify-icon icon="lucide:calendar-clock" style="font-size: 16px"></iconify-icon>
               Reporter la visite
             </div>
             <div class="drawer-btn assign" data-media-type="banani-button">
-              <iconify-icon icon="lucide:user-plus" style="font-size:16px;"></iconify-icon>
+              <iconify-icon icon="lucide:user-plus" style="font-size: 16px"></iconify-icon>
               Assigner un autre agent
             </div>
             <div class="drawer-btn cancel" data-media-type="banani-button">
-              <iconify-icon icon="lucide:x-circle" style="font-size:16px;"></iconify-icon>
+              <iconify-icon icon="lucide:x-circle" style="font-size: 16px"></iconify-icon>
               Annuler cette visite
             </div>
           </div>
@@ -985,6 +2175,4 @@
       </div>
     </main>
   </div>
-
-
 </body>

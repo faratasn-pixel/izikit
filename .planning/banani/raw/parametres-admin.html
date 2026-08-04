@@ -1,42 +1,44 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Habitat-Afrik — Paramètres Admin</title>
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
 
   <style id="base-styles">
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       min-height: 812px;
-      background: #F5F6F8;
-      color: #1A1A1A;
+      background: #f5f6f8;
+      color: #1a1a1a;
       font-size: 14px;
     }
     :root {
-      --background: #F5F6F8;
-      --foreground: #1A1A1A;
-      --border: #E5E7EB;
-      --input: #F5F6F8;
-      --primary: #0EA5E9;
-      --primary-foreground: #FFFFFF;
-      --secondary: #F5F6F8;
+      --background: #f5f6f8;
+      --foreground: #1a1a1a;
+      --border: #e5e7eb;
+      --input: #f5f6f8;
+      --primary: #0ea5e9;
+      --primary-foreground: #ffffff;
+      --secondary: #f5f6f8;
       --secondary-foreground: #374151;
-      --muted: #F3F4F6;
-      --muted-foreground: #6B7280;
-      --success: #22C55E;
-      --success-foreground: #FFFFFF;
-      --accent: #E0F2FE;
-      --accent-foreground: #0EA5E9;
-      --destructive: #EF4444;
-      --destructive-foreground: #FFFFFF;
-      --warning: #F59E0B;
-      --warning-foreground: #FFFFFF;
-      --card: #FFFFFF;
-      --card-foreground: #1A1A1A;
-      --sidebar: #FFFFFF;
-      --sidebar-foreground: #1A1A1A;
-      --sidebar-primary: #E0F2FE;
-      --sidebar-primary-foreground: #0EA5E9;
+      --muted: #f3f4f6;
+      --muted-foreground: #6b7280;
+      --success: #22c55e;
+      --success-foreground: #ffffff;
+      --accent: #e0f2fe;
+      --accent-foreground: #0ea5e9;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --warning: #f59e0b;
+      --warning-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #1a1a1a;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #1a1a1a;
+      --sidebar-primary: #e0f2fe;
+      --sidebar-primary-foreground: #0ea5e9;
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
@@ -48,9 +50,22 @@
       position: relative;
       background: var(--secondary);
     }
-    .icon-wrap { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .icon-wrap.sm { width: 16px; height: 16px; }
-    .icon-wrap.lg { width: 20px; height: 20px; }
+    .icon-wrap {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-wrap.sm {
+      width: 16px;
+      height: 16px;
+    }
+    .icon-wrap.lg {
+      width: 20px;
+      height: 20px;
+    }
   </style>
 
   <style id="sidebar-styles">
@@ -65,585 +80,1263 @@
       flex-direction: column;
       gap: 20px;
     }
-    .brand-block { display: flex; align-items: center; gap: 12px; padding: 8px 8px 4px 8px; }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 8px 4px 8px;
+    }
     .brand-mark {
-      width: 40px; height: 40px;
+      width: 40px;
+      height: 40px;
       border-radius: var(--radius-lg);
       background: var(--sidebar-primary);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
-    .brand-title { font-size: 16px; font-weight: 700; color: var(--foreground); line-height: 1.2; }
-    .brand-subtitle { font-size: 12px; color: var(--muted-foreground); line-height: 1.2; }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      line-height: 1.2;
+    }
     .country-switcher {
-      background: var(--secondary); border-radius: var(--radius-xl);
-      padding: 10px 12px; display: flex; align-items: center;
-      justify-content: space-between; gap: 10px;
+      background: var(--secondary);
+      border-radius: var(--radius-xl);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
-    .country-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .country-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
     .country-avatar {
-      width: 32px; height: 32px; border-radius: 999px;
-      background: var(--card); color: var(--primary);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
-    .country-label { font-size: 11px; color: var(--muted-foreground); margin-bottom: 2px; }
-    .country-value { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sidebar-section { display: flex; flex-direction: column; gap: 8px; }
-    .sidebar-section-title { font-size: 11px; font-weight: 600; color: var(--muted-foreground); padding: 0 8px; }
-    .country-pills { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 8px; }
+    .country-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 2px;
+    }
+    .country-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 8px;
+    }
+    .country-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 8px;
+    }
     .cpill {
-      height: 32px; padding: 0 12px; border-radius: 999px;
-      background: var(--secondary); color: var(--muted-foreground);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 600; white-space: nowrap;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .cpill.active { background: var(--sidebar-primary); color: var(--sidebar-primary-foreground); }
-    .nav-list { display: flex; flex-direction: column; gap: 4px; }
+    .cpill.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
     .nav-item {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; padding: 12px; border-radius: 12px;
-      text-decoration: none; background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      background: transparent;
     }
-    .nav-item-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .nav-item-label { font-size: 14px; font-weight: 500; color: var(--sidebar-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .nav-item.active { background: var(--sidebar-primary); }
-    .nav-item.active .nav-item-label { color: var(--sidebar-primary-foreground); font-weight: 600; }
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-item-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+    }
+    .nav-item.active .nav-item-label {
+      color: var(--sidebar-primary-foreground);
+      font-weight: 600;
+    }
     .nav-count {
-      min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px;
-      background: var(--secondary); color: var(--muted-foreground);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; white-space: nowrap;
+      min-width: 24px;
+      height: 24px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
     }
-    .nav-item.active .nav-count { background: var(--card); color: var(--primary); }
-    .sidebar-spacer { flex: 1; }
-    .logout-item { background: #FEF2F2; }
-    .logout-item .nav-item-label { color: var(--destructive); font-weight: 600; }
+    .nav-item.active .nav-count {
+      background: var(--card);
+      color: var(--primary);
+    }
+    .sidebar-spacer {
+      flex: 1;
+    }
+    .logout-item {
+      background: #fef2f2;
+    }
+    .logout-item .nav-item-label {
+      color: var(--destructive);
+      font-weight: 600;
+    }
   </style>
 
   <style id="topbar-styles">
-    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
     .topbar {
-      height: 76px; background: var(--card);
+      height: 76px;
+      background: var(--card);
       border-bottom: 1px solid var(--border);
-      padding: 0 28px; display: flex; align-items: center;
-      justify-content: space-between; gap: 20px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
     .searchbar {
-      width: 420px; max-width: 100%; height: 44px;
-      border-radius: 12px; background: var(--secondary);
-      display: flex; align-items: center; gap: 10px; padding: 0 14px;
+      width: 420px;
+      max-width: 100%;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
       color: var(--muted-foreground);
     }
-    .searchbar-text { font-size: 14px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .topbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .searchbar-text {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
     .icon-btn {
-      width: 42px; height: 42px; border-radius: 12px;
-      background: var(--secondary); display: flex; align-items: center;
-      justify-content: center; position: relative;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
     .notif-dot {
-      position: absolute; top: 10px; right: 10px;
-      width: 8px; height: 8px; border-radius: 999px; background: var(--destructive);
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--destructive);
     }
     .admin-pill {
-      height: 42px; padding: 0 12px; border-radius: 12px;
-      background: var(--secondary); display: flex; align-items: center; gap: 10px; min-width: 0;
+      height: 42px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
     }
-    .admin-avatar { width: 30px; height: 30px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .admin-name { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; }
-    .admin-role { font-size: 11px; color: var(--muted-foreground); white-space: nowrap; }
+    .admin-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .admin-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .admin-role {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
   </style>
 
   <style id="page-styles">
     .page {
-      flex: 1; min-width: 0; padding: 28px;
-      display: flex; flex-direction: column; gap: 24px;
+      flex: 1;
+      min-width: 0;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
     .page-header {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
-    .page-title-block { display: flex; flex-direction: column; gap: 4px; }
-    .page-eyebrow { font-size: 12px; font-weight: 600; color: var(--primary); }
-    .page-title { margin: 0; font-size: 24px; font-weight: 700; color: var(--foreground); line-height: 1.2; }
+    .page-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .page-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
     .settings-layout {
-      display: flex; gap: 24px; align-items: flex-start;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
     }
     .settings-tabs {
-      width: 220px; min-width: 220px;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 10px; display: flex;
-      flex-direction: column; gap: 2px; flex-shrink: 0;
+      width: 220px;
+      min-width: 220px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-shrink: 0;
     }
     .stab-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 12px; border-radius: 10px;
-      font-size: 14px; font-weight: 500; color: var(--muted-foreground);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .stab-item.active {
-      background: var(--sidebar-primary); color: var(--primary); font-weight: 600;
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-weight: 600;
     }
-    .stab-item.active iconify-icon { color: var(--primary) !important; }
-    .settings-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+    .stab-item.active iconify-icon {
+      color: var(--primary) !important;
+    }
+    .settings-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
     .section-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
     }
     .section-head {
       padding: 18px 20px 14px 20px;
       border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
-    .section-title { font-size: 15px; font-weight: 700; color: var(--foreground); }
-    .section-desc { font-size: 12px; color: var(--muted-foreground); margin-top: 2px; }
-    .section-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
-    .field-row { display: flex; flex-direction: column; gap: 6px; }
-    .field-label { font-size: 12px; font-weight: 600; color: var(--foreground); }
-    .field-hint { font-size: 11px; color: var(--muted-foreground); margin-top: 2px; }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+    .section-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .section-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .field-hint {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
     .field-input {
-      height: 40px; padding: 0 12px; border-radius: 10px;
-      background: var(--secondary); border: 1px solid var(--border);
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: var(--foreground); white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 10px;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .field-input.muted { color: var(--muted-foreground); }
-    .field-row-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .field-row-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .field-input.muted {
+      color: var(--muted-foreground);
+    }
+    .field-row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .field-row-3col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
     .upload-box {
-      height: 80px; border-radius: 10px;
-      background: var(--secondary); border: 2px dashed var(--border);
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      color: var(--muted-foreground); font-size: 13px;
+      height: 80px;
+      border-radius: 10px;
+      background: var(--secondary);
+      border: 2px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted-foreground);
+      font-size: 13px;
     }
     .btn {
-      height: 40px; padding: 0 16px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; font-size: 14px; font-weight: 600; white-space: nowrap;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .btn.primary { background: var(--primary); color: var(--primary-foreground); }
-    .btn.secondary { background: var(--card); color: var(--foreground); border: 1px solid var(--border); }
-    .btn.danger { background: #FEF2F2; color: var(--destructive); border: 1px solid #FECACA; }
-    .btn.success { background: #F0FDF4; color: var(--success); border: 1px solid #BBF7D0; }
-    .btn.small { height: 34px; padding: 0 12px; font-size: 13px; border-radius: 8px; }
+    .btn.primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .btn.secondary {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .btn.danger {
+      background: #fef2f2;
+      color: var(--destructive);
+      border: 1px solid #fecaca;
+    }
+    .btn.success {
+      background: #f0fdf4;
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+    }
+    .btn.small {
+      height: 34px;
+      padding: 0 12px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
     .section-footer {
-      padding: 14px 20px; border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
     }
-    .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .toggle {
-      width: 38px; height: 22px; border-radius: 999px;
-      background: #E5E7EB; position: relative; flex-shrink: 0;
+      width: 38px;
+      height: 22px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      position: relative;
+      flex-shrink: 0;
     }
-    .toggle.on { background: var(--primary); }
+    .toggle.on {
+      background: var(--primary);
+    }
     .toggle-knob {
-      width: 18px; height: 18px; border-radius: 999px;
-      background: #FFFFFF; position: absolute; top: 2px; left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #ffffff;
+      position: absolute;
+      top: 2px;
+      left: 2px;
     }
-    .toggle.on .toggle-knob { left: 18px; }
-    .toggle-label { font-size: 13px; font-weight: 500; color: var(--foreground); }
+    .toggle.on .toggle-knob {
+      left: 18px;
+    }
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
     .badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      height: 22px; padding: 0 8px; border-radius: 999px;
-      font-size: 11px; font-weight: 700; white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
     }
-    .badge-primary { background: #E0F2FE; color: var(--primary); }
-    .badge-success { background: #F0FDF4; color: var(--success); }
-    .badge-warning { background: #FFFBEB; color: #D97706; }
-    .badge-danger { background: #FEF2F2; color: var(--destructive); }
-    .badge-gray { background: #F3F4F6; color: #6B7280; }
+    .badge-primary {
+      background: #e0f2fe;
+      color: var(--primary);
+    }
+    .badge-success {
+      background: #f0fdf4;
+      color: var(--success);
+    }
+    .badge-warning {
+      background: #fffbeb;
+      color: #d97706;
+    }
+    .badge-danger {
+      background: #fef2f2;
+      color: var(--destructive);
+    }
+    .badge-gray {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
   </style>
 
   <style id="table-styles">
-    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
     .data-table th {
-      background: #F8FAFC; padding: 10px 14px;
-      font-size: 11px; font-weight: 700; color: #6B7280;
-      text-align: left; letter-spacing: 0.02em;
+      background: #f8fafc;
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      text-align: left;
+      letter-spacing: 0.02em;
       border-bottom: 1px solid var(--border);
     }
     .data-table td {
-      padding: 12px 14px; font-size: 13px; color: var(--foreground);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--foreground);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       vertical-align: middle;
     }
-    .data-table tr.alt td { background: #FCFDFE; }
-    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr.alt td {
+      background: #fcfdfe;
+    }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
     .editable-val {
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .editable-field {
-      height: 32px; padding: 0 10px; border-radius: 8px;
-      background: var(--secondary); border: 1px solid var(--border);
-      font-size: 13px; color: var(--foreground);
-      display: flex; align-items: center; min-width: 0;
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 8px;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      min-width: 0;
     }
     .notif-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 20px; border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       gap: 12px;
     }
-    .notif-row:last-child { border-bottom: none; }
-    .notif-row-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-    .notif-row-label { font-size: 13px; font-weight: 600; color: var(--foreground); }
-    .notif-row-desc { font-size: 12px; color: var(--muted-foreground); }
-    .notif-toggles { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
-    .notif-toggle-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .notif-toggle-col-label { font-size: 11px; font-weight: 600; color: var(--muted-foreground); }
-    .permission-matrix { overflow: auto; }
-    .perm-table { width: 100%; border-collapse: collapse; }
-    .perm-table th {
-      background: #F8FAFC; padding: 10px 14px;
-      font-size: 11px; font-weight: 700; color: #6B7280;
-      text-align: center; border-bottom: 1px solid var(--border);
+    .notif-row:last-child {
+      border-bottom: none;
     }
-    .perm-table th:first-child { text-align: left; }
+    .notif-row-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+    .notif-row-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .notif-row-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .notif-toggles {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .notif-toggle-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .notif-toggle-col-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+    }
+    .permission-matrix {
+      overflow: auto;
+    }
+    .perm-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .perm-table th {
+      background: #f8fafc;
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .perm-table th:first-child {
+      text-align: left;
+    }
     .perm-table td {
-      padding: 12px 14px; font-size: 13px; color: var(--foreground);
-      border-bottom: 1px solid rgba(0,0,0,0.05); text-align: center;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--foreground);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      text-align: center;
       vertical-align: middle;
     }
-    .perm-table td:first-child { text-align: left; font-weight: 600; }
-    .perm-table tr.alt td { background: #FCFDFE; }
-    .perm-table tr:last-child td { border-bottom: none; }
+    .perm-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+    .perm-table tr.alt td {
+      background: #fcfdfe;
+    }
+    .perm-table tr:last-child td {
+      border-bottom: none;
+    }
     .checkbox-sim {
-      width: 18px; height: 18px; border-radius: 5px;
-      border: 2px solid #D1D5DB; background: var(--card);
-      display: flex; align-items: center; justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      border: 2px solid #d1d5db;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 0 auto;
     }
-    .checkbox-sim.checked { background: var(--primary); border-color: var(--primary); }
-    .checkbox-sim.partial { background: var(--secondary); border-color: #9CA3AF; }
+    .checkbox-sim.checked {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    .checkbox-sim.partial {
+      background: var(--secondary);
+      border-color: #9ca3af;
+    }
     .admin-user-row {
-      display: flex; align-items: center; gap: 12px;
-      padding: 12px 20px; border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
-    .admin-user-row:last-child { border-bottom: none; }
-    .admin-avatar { width: 36px; height: 36px; border-radius: 999px; object-fit: cover; flex-shrink: 0; }
-    .admin-info { flex: 1; min-width: 0; }
-    .admin-name-txt { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .admin-email { font-size: 12px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .admin-user-row:last-child {
+      border-bottom: none;
+    }
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .admin-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .admin-name-txt {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .admin-email {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .history-row {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 12px 20px; border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
-    .history-row:last-child { border-bottom: none; }
-    .history-dot { width: 8px; height: 8px; border-radius: 999px; background: #E5E7EB; margin-top: 5px; flex-shrink: 0; }
-    .history-dot.blue { background: var(--primary); }
-    .history-text { font-size: 13px; color: #374151; line-height: 1.45; }
-    .history-time { font-size: 11px; color: var(--muted-foreground); margin-top: 3px; }
-    .social-row { display: flex; align-items: center; gap: 10px; }
-    .social-icon-label { display: flex; align-items: center; gap: 6px; width: 100px; flex-shrink: 0; font-size: 13px; font-weight: 500; color: var(--muted-foreground); }
+    .history-row:last-child {
+      border-bottom: none;
+    }
+    .history-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .history-dot.blue {
+      background: var(--primary);
+    }
+    .history-text {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.45;
+    }
+    .history-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 3px;
+    }
+    .social-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .social-icon-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100px;
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
     .country-row-item {
-      display: flex; align-items: center; gap: 14px;
-      padding: 12px 20px; border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
-    .country-row-item:last-child { border-bottom: none; }
+    .country-row-item:last-child {
+      border-bottom: none;
+    }
     .country-flag {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--secondary); display: flex; align-items: center;
-      justify-content: center; font-size: 18px; flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
     }
-    .country-info { flex: 1; min-width: 0; }
-    .country-name { font-size: 13px; font-weight: 600; color: var(--foreground); }
-    .country-meta { font-size: 12px; color: var(--muted-foreground); }
-    .country-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .country-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .country-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .country-meta {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .country-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
   </style>
-</head><body>
-<div class="screen-wrap" id="screen-wrap">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand-block">
-      <div class="brand-mark">
-        <div class="icon-wrap lg"><iconify-icon icon="lucide:building-2" style="font-size:20px;color:var(--primary);"></iconify-icon></div>
-      </div>
-      <div>
-        <div class="brand-title">Habitat-Afrik</div>
-        <div class="brand-subtitle">Administration</div>
-      </div>
-    </div>
-
-    <div class="country-switcher" data-media-type="banani-button">
-      <div class="country-left">
-        <div class="country-avatar">AF</div>
+</head>
+<body>
+  <div class="screen-wrap" id="screen-wrap">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">
+          <div class="icon-wrap lg">
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+        </div>
         <div>
-          <div class="country-label">Vue active</div>
-          <div class="country-value">Multi-pays agrégée</div>
+          <div class="brand-title">Habitat-Afrik</div>
+          <div class="brand-subtitle">Administration</div>
         </div>
       </div>
-      <div class="icon-wrap sm"><iconify-icon icon="lucide:chevron-down" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-    </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Pays</div>
-      <div class="country-pills">
-        <div class="cpill active" data-media-type="banani-button">BJ</div>
-        <div class="cpill" data-media-type="banani-button">TG</div>
-        <div class="cpill" data-media-type="banani-button">CI</div>
-        <div class="cpill" data-media-type="banani-button">SN</div>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Navigation</div>
-      <div class="nav-list">
-        <a class="nav-item" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:layout-dashboard" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Tableau de bord</span>
-          </div>
-        </a>
-        <a class="nav-item" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:clipboard-list" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Gestion des annonces</span>
-          </div>
-          <span class="nav-count">128</span>
-        </a>
-        <a class="nav-item" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:users" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Utilisateurs</span>
-          </div>
-        </a>
-        <a class="nav-item" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:wallet" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Finances &amp; jetons</span>
-          </div>
-        </a>
-        <a class="nav-item" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:video" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Visites virtuelles</span>
-          </div>
-        </a>
-        <a class="nav-item" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:shield-alert" style="font-size:18px;color:var(--muted-foreground);"></iconify-icon></div>
-            <span class="nav-item-label">Modération &amp; support</span>
-          </div>
-          <span class="nav-count">19</span>
-        </a>
-        <a class="nav-item active" data-media-type="banani-button">
-          <div class="nav-item-left">
-            <div class="icon-wrap"><iconify-icon icon="lucide:settings-2" style="font-size:18px;color:var(--primary);"></iconify-icon></div>
-            <span class="nav-item-label">Paramètres</span>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="sidebar-spacer"></div>
-    <a class="nav-item logout-item" data-media-type="banani-button">
-      <div class="nav-item-left">
-        <div class="icon-wrap"><iconify-icon icon="lucide:log-out" style="font-size:18px;color:var(--destructive);"></iconify-icon></div>
-        <span class="nav-item-label">Déconnexion</span>
-      </div>
-    </a>
-  </aside>
-
-  <!-- MAIN -->
-  <div class="main" id="main-content">
-    <div class="topbar" id="topbar">
-      <div class="searchbar" data-media-type="banani-button">
-        <div class="icon-wrap"><iconify-icon icon="lucide:search" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-        <span class="searchbar-text">Rechercher une annonce, un utilisateur, un paiement…</span>
-      </div>
-      <div class="topbar-right">
-        <div class="icon-btn" data-media-type="banani-button">
-          <iconify-icon icon="lucide:bell" style="font-size:18px;color:var(--foreground);"></iconify-icon>
-          <span class="notif-dot"></span>
-        </div>
-        <div class="admin-pill" data-media-type="banani-button">
-          <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Admin" class="admin-avatar">
+      <div class="country-switcher" data-media-type="banani-button">
+        <div class="country-left">
+          <div class="country-avatar">AF</div>
           <div>
-            <div class="admin-name">Kofi Mensah</div>
-            <div class="admin-role">Admin plateforme</div>
+            <div class="country-label">Vue active</div>
+            <div class="country-value">Multi-pays agrégée</div>
           </div>
-          <div class="icon-wrap sm"><iconify-icon icon="lucide:chevrons-up-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon></div>
         </div>
-      </div>
-    </div>
-
-    <div class="page" id="page">
-      <div class="page-header">
-        <div class="page-title-block">
-          <div class="page-eyebrow">Administration · Multi-pays agrégée</div>
-          <h1 class="page-title">Paramètres</h1>
+        <div class="icon-wrap sm">
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 16px; color: var(--muted-foreground)"
+          ></iconify-icon>
         </div>
       </div>
 
-      <div class="settings-layout" id="settings-layout">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Pays</div>
+        <div class="country-pills">
+          <div class="cpill active" data-media-type="banani-button">BJ</div>
+          <div class="cpill" data-media-type="banani-button">TG</div>
+          <div class="cpill" data-media-type="banani-button">CI</div>
+          <div class="cpill" data-media-type="banani-button">SN</div>
+        </div>
+      </div>
 
-        <!-- LEFT TABS -->
-        <div class="settings-tabs" id="settings-tabs">
-          <div class="stab-item active" data-media-type="banani-button">
-            <div class="icon-wrap"><iconify-icon icon="lucide:settings" style="font-size:16px;color:var(--primary);"></iconify-icon></div>
-            Général
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <div class="nav-list">
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:layout-dashboard"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Tableau de bord</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:clipboard-list"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Gestion des annonces</span>
+            </div>
+            <span class="nav-count">128</span>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Utilisateurs</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:wallet"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Finances &amp; jetons</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:video"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Visites virtuelles</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-alert"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Modération &amp; support</span>
+            </div>
+            <span class="nav-count">19</span>
+          </a>
+          <a class="nav-item active" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings-2"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Paramètres</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-spacer"></div>
+      <a class="nav-item logout-item" data-media-type="banani-button">
+        <div class="nav-item-left">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 18px; color: var(--destructive)"
+            ></iconify-icon>
           </div>
-          <div class="stab-item" data-media-type="banani-button">
-            <div class="icon-wrap"><iconify-icon icon="lucide:globe" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-            Pays &amp; devises
+          <span class="nav-item-label">Déconnexion</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main" id="main-content">
+      <div class="topbar" id="topbar">
+        <div class="searchbar" data-media-type="banani-button">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 16px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
-          <div class="stab-item" data-media-type="banani-button">
-            <div class="icon-wrap"><iconify-icon icon="lucide:coins" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-            Tarification
+          <span class="searchbar-text">Rechercher une annonce, un utilisateur, un paiement…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="icon-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--foreground)"
+            ></iconify-icon>
+            <span class="notif-dot"></span>
           </div>
-          <div class="stab-item" data-media-type="banani-button">
-            <div class="icon-wrap"><iconify-icon icon="lucide:shield-check" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-            Rôles &amp; permissions
+          <div class="admin-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Admin"
+              class="admin-avatar"
+            />
+            <div>
+              <div class="admin-name">Kofi Mensah</div>
+              <div class="admin-role">Admin plateforme</div>
+            </div>
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:chevrons-up-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
           </div>
-          <div class="stab-item" data-media-type="banani-button">
-            <div class="icon-wrap"><iconify-icon icon="lucide:bell-dot" style="font-size:16px;color:var(--muted-foreground);"></iconify-icon></div>
-            Notifications
+        </div>
+      </div>
+
+      <div class="page" id="page">
+        <div class="page-header">
+          <div class="page-title-block">
+            <div class="page-eyebrow">Administration · Multi-pays agrégée</div>
+            <h1 class="page-title">Paramètres</h1>
           </div>
         </div>
 
-        <!-- RIGHT CONTENT: GÉNÉRAL -->
-        <div class="settings-content" id="settings-content">
-
-          <!-- Identité de la plateforme -->
-          <div class="section-card">
-            <div class="section-head">
-              <div>
-                <div class="section-title">Identité de la plateforme</div>
-                <div class="section-desc">Informations générales affichées sur la plateforme</div>
+        <div class="settings-layout" id="settings-layout">
+          <!-- LEFT TABS -->
+          <div class="settings-tabs" id="settings-tabs">
+            <div class="stab-item active" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
               </div>
+              Général
             </div>
-            <div class="section-body">
-              <div class="field-row">
-                <div class="field-label">Nom de la plateforme</div>
-                <div class="field-input">Habitat-Afrik</div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:globe"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
               </div>
-              <div class="field-row-2col">
+              Pays &amp; devises
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:coins"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Tarification
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-check"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Rôles &amp; permissions
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:bell-dot"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Notifications
+            </div>
+          </div>
+
+          <!-- RIGHT CONTENT: GÉNÉRAL -->
+          <div class="settings-content" id="settings-content">
+            <!-- Identité de la plateforme -->
+            <div class="section-card">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Identité de la plateforme</div>
+                  <div class="section-desc">Informations générales affichées sur la plateforme</div>
+                </div>
+              </div>
+              <div class="section-body">
                 <div class="field-row">
-                  <div class="field-label">Logo principal</div>
-                  <div class="upload-box" data-media-type="banani-button">
-                    <div class="icon-wrap lg"><iconify-icon icon="lucide:upload-cloud" style="font-size:20px;color:var(--muted-foreground);"></iconify-icon></div>
-                    <span>Charger un fichier PNG/SVG</span>
+                  <div class="field-label">Nom de la plateforme</div>
+                  <div class="field-input">Habitat-Afrik</div>
+                </div>
+                <div class="field-row-2col">
+                  <div class="field-row">
+                    <div class="field-label">Logo principal</div>
+                    <div class="upload-box" data-media-type="banani-button">
+                      <div class="icon-wrap lg">
+                        <iconify-icon
+                          icon="lucide:upload-cloud"
+                          style="font-size: 20px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                      <span>Charger un fichier PNG/SVG</span>
+                    </div>
+                  </div>
+                  <div class="field-row">
+                    <div class="field-label">Favicon</div>
+                    <div class="upload-box" data-media-type="banani-button">
+                      <div class="icon-wrap lg">
+                        <iconify-icon
+                          icon="lucide:image"
+                          style="font-size: 20px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                      <span>Charger un fichier ICO/PNG</span>
+                    </div>
                   </div>
                 </div>
                 <div class="field-row">
-                  <div class="field-label">Favicon</div>
-                  <div class="upload-box" data-media-type="banani-button">
-                    <div class="icon-wrap lg"><iconify-icon icon="lucide:image" style="font-size:20px;color:var(--muted-foreground);"></iconify-icon></div>
-                    <span>Charger un fichier ICO/PNG</span>
+                  <div class="field-label">Email de contact</div>
+                  <div class="field-input">contact@habitat-afrik.com</div>
+                </div>
+                <div class="field-row">
+                  <div class="field-label">URL du site</div>
+                  <div class="field-input">https://www.habitat-afrik.com</div>
+                </div>
+              </div>
+              <div class="section-footer">
+                <div class="btn secondary small" data-media-type="banani-button">Annuler</div>
+                <div class="btn primary small" data-media-type="banani-button">
+                  <div class="icon-wrap sm">
+                    <iconify-icon
+                      icon="lucide:save"
+                      style="font-size: 13px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Enregistrer les modifications
+                </div>
+              </div>
+            </div>
+
+            <!-- Réseaux sociaux -->
+            <div class="section-card">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Réseaux sociaux</div>
+                  <div class="section-desc">Liens vers les pages officielles de la plateforme</div>
+                </div>
+              </div>
+              <div class="section-body">
+                <div class="social-row">
+                  <div class="social-icon-label">
+                    <div class="icon-wrap">
+                      <iconify-icon
+                        icon="lucide:facebook"
+                        style="font-size: 16px; color: #1877f2"
+                      ></iconify-icon>
+                    </div>
+                    Facebook
+                  </div>
+                  <div class="field-input" style="flex: 1">https://facebook.com/habitatafrik</div>
+                </div>
+                <div class="social-row">
+                  <div class="social-icon-label">
+                    <div class="icon-wrap">
+                      <iconify-icon
+                        icon="lucide:instagram"
+                        style="font-size: 16px; color: #e1306c"
+                      ></iconify-icon>
+                    </div>
+                    Instagram
+                  </div>
+                  <div class="field-input" style="flex: 1">https://instagram.com/habitatafrik</div>
+                </div>
+                <div class="social-row">
+                  <div class="social-icon-label">
+                    <div class="icon-wrap">
+                      <iconify-icon
+                        icon="lucide:twitter"
+                        style="font-size: 16px; color: #1da1f2"
+                      ></iconify-icon>
+                    </div>
+                    Twitter / X
+                  </div>
+                  <div class="field-input muted" style="flex: 1">Non renseigné</div>
+                </div>
+                <div class="social-row">
+                  <div class="social-icon-label">
+                    <div class="icon-wrap">
+                      <iconify-icon
+                        icon="lucide:linkedin"
+                        style="font-size: 16px; color: #0a66c2"
+                      ></iconify-icon>
+                    </div>
+                    LinkedIn
+                  </div>
+                  <div class="field-input muted" style="flex: 1">Non renseigné</div>
+                </div>
+              </div>
+              <div class="section-footer">
+                <div class="btn secondary small" data-media-type="banani-button">Annuler</div>
+                <div class="btn primary small" data-media-type="banani-button">
+                  <div class="icon-wrap sm">
+                    <iconify-icon
+                      icon="lucide:save"
+                      style="font-size: 13px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Enregistrer les modifications
+                </div>
+              </div>
+            </div>
+
+            <!-- Maintenance -->
+            <div class="section-card">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Mode maintenance &amp; accès</div>
+                  <div class="section-desc">Contrôlez l'état public de la plateforme</div>
+                </div>
+              </div>
+              <div class="section-body">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+                  "
+                >
+                  <div>
+                    <div class="field-label">Mode maintenance</div>
+                    <div class="field-hint">
+                      La plateforme sera inaccessible aux utilisateurs publics
+                    </div>
+                  </div>
+                  <div class="toggle" data-media-type="banani-button">
+                    <div class="toggle-knob"></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+                  "
+                >
+                  <div>
+                    <div class="field-label">Inscription ouverte</div>
+                    <div class="field-hint">
+                      Autoriser les nouveaux utilisateurs à créer un compte
+                    </div>
+                  </div>
+                  <div class="toggle on" data-media-type="banani-button">
+                    <div class="toggle-knob"></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+                  "
+                >
+                  <div>
+                    <div class="field-label">Vérification KYC obligatoire pour les agences</div>
+                    <div class="field-hint">
+                      Les agences doivent soumettre leurs documents avant de publier
+                    </div>
+                  </div>
+                  <div class="toggle on" data-media-type="banani-button">
+                    <div class="toggle-knob"></div>
                   </div>
                 </div>
               </div>
-              <div class="field-row">
-                <div class="field-label">Email de contact</div>
-                <div class="field-input">contact@habitat-afrik.com</div>
-              </div>
-              <div class="field-row">
-                <div class="field-label">URL du site</div>
-                <div class="field-input">https://www.habitat-afrik.com</div>
-              </div>
-            </div>
-            <div class="section-footer">
-              <div class="btn secondary small" data-media-type="banani-button">Annuler</div>
-              <div class="btn primary small" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:save" style="font-size:13px;color:#fff;"></iconify-icon></div>
-                Enregistrer les modifications
+              <div class="section-footer">
+                <div class="btn primary small" data-media-type="banani-button">
+                  <div class="icon-wrap sm">
+                    <iconify-icon
+                      icon="lucide:save"
+                      style="font-size: 13px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Enregistrer les modifications
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- Réseaux sociaux -->
-          <div class="section-card">
-            <div class="section-head">
-              <div>
-                <div class="section-title">Réseaux sociaux</div>
-                <div class="section-desc">Liens vers les pages officielles de la plateforme</div>
-              </div>
-            </div>
-            <div class="section-body">
-              <div class="social-row">
-                <div class="social-icon-label">
-                  <div class="icon-wrap"><iconify-icon icon="lucide:facebook" style="font-size:16px;color:#1877F2;"></iconify-icon></div>
-                  Facebook
-                </div>
-                <div class="field-input" style="flex:1;">https://facebook.com/habitatafrik</div>
-              </div>
-              <div class="social-row">
-                <div class="social-icon-label">
-                  <div class="icon-wrap"><iconify-icon icon="lucide:instagram" style="font-size:16px;color:#E1306C;"></iconify-icon></div>
-                  Instagram
-                </div>
-                <div class="field-input" style="flex:1;">https://instagram.com/habitatafrik</div>
-              </div>
-              <div class="social-row">
-                <div class="social-icon-label">
-                  <div class="icon-wrap"><iconify-icon icon="lucide:twitter" style="font-size:16px;color:#1DA1F2;"></iconify-icon></div>
-                  Twitter / X
-                </div>
-                <div class="field-input muted" style="flex:1;">Non renseigné</div>
-              </div>
-              <div class="social-row">
-                <div class="social-icon-label">
-                  <div class="icon-wrap"><iconify-icon icon="lucide:linkedin" style="font-size:16px;color:#0A66C2;"></iconify-icon></div>
-                  LinkedIn
-                </div>
-                <div class="field-input muted" style="flex:1;">Non renseigné</div>
-              </div>
-            </div>
-            <div class="section-footer">
-              <div class="btn secondary small" data-media-type="banani-button">Annuler</div>
-              <div class="btn primary small" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:save" style="font-size:13px;color:#fff;"></iconify-icon></div>
-                Enregistrer les modifications
-              </div>
-            </div>
-          </div>
-
-          <!-- Maintenance -->
-          <div class="section-card">
-            <div class="section-head">
-              <div>
-                <div class="section-title">Mode maintenance &amp; accès</div>
-                <div class="section-desc">Contrôlez l'état public de la plateforme</div>
-              </div>
-            </div>
-            <div class="section-body">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-                <div>
-                  <div class="field-label">Mode maintenance</div>
-                  <div class="field-hint">La plateforme sera inaccessible aux utilisateurs publics</div>
-                </div>
-                <div class="toggle" data-media-type="banani-button"><div class="toggle-knob"></div></div>
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-                <div>
-                  <div class="field-label">Inscription ouverte</div>
-                  <div class="field-hint">Autoriser les nouveaux utilisateurs à créer un compte</div>
-                </div>
-                <div class="toggle on" data-media-type="banani-button"><div class="toggle-knob"></div></div>
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-                <div>
-                  <div class="field-label">Vérification KYC obligatoire pour les agences</div>
-                  <div class="field-hint">Les agences doivent soumettre leurs documents avant de publier</div>
-                </div>
-                <div class="toggle on" data-media-type="banani-button"><div class="toggle-knob"></div></div>
-              </div>
-            </div>
-            <div class="section-footer">
-              <div class="btn primary small" data-media-type="banani-button">
-                <div class="icon-wrap sm"><iconify-icon icon="lucide:save" style="font-size:13px;color:#fff;"></iconify-icon></div>
-                Enregistrer les modifications
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
   </div>
-
-</div>
-
-
 </body>

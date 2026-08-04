@@ -1,11 +1,18 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>HABITAT-AFRIK — Nouvelle Demande — Budget</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
 
   <style id="reset-base">
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 
   <style id="layout-styles">
@@ -93,7 +100,9 @@
       overflow-y: auto;
       padding: 8px 0;
     }
-    .nav-group { margin-bottom: 8px; }
+    .nav-group {
+      margin-bottom: 8px;
+    }
     .nav-group-label {
       padding: 10px 20px 6px;
       font-size: 10px;
@@ -135,7 +144,9 @@
       padding: 12px 8px 18px;
       border-top: 1px solid var(--border);
     }
-    .danger { color: var(--destructive); }
+    .danger {
+      color: var(--destructive);
+    }
   </style>
 
   <style id="topbar-styles">
@@ -239,7 +250,9 @@
       font-weight: 500;
       text-decoration: none;
     }
-    .breadcrumb-sep, .breadcrumb-current, .page-sub {
+    .breadcrumb-sep,
+    .breadcrumb-current,
+    .page-sub {
       color: var(--muted-foreground);
       font-size: 13px;
     }
@@ -249,7 +262,10 @@
       color: var(--foreground);
       margin-bottom: 4px;
     }
-    .btn-outline, .btn-primary, .btn-success, .btn-danger {
+    .btn-outline,
+    .btn-primary,
+    .btn-success,
+    .btn-danger {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -298,7 +314,9 @@
       gap: 10px;
       min-width: 0;
     }
-    .step-item:last-child { flex: none; }
+    .step-item:last-child {
+      flex: none;
+    }
     .step-circle {
       width: 34px;
       height: 34px;
@@ -313,7 +331,8 @@
       background: var(--card);
       color: var(--muted-foreground);
     }
-    .step-circle.done, .step-circle.active {
+    .step-circle.done,
+    .step-circle.active {
       border-color: var(--primary);
       background: var(--primary);
       color: var(--primary-foreground);
@@ -321,17 +340,36 @@
     .step-circle.active {
       box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 12%, white);
     }
-    .step-label-col { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-    .step-number { font-size: 10.5px; color: var(--muted-foreground); font-weight: 500; }
-    .step-name { font-size: 13px; font-weight: 600; color: var(--foreground); white-space: nowrap; }
-    .step-name.muted { color: var(--muted-foreground); font-weight: 500; }
+    .step-label-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .step-number {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+    .step-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .step-name.muted {
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
     .step-connector {
       flex: 1;
       height: 2px;
       background: var(--border);
       margin: 0 12px;
     }
-    .step-connector.done { background: var(--primary); }
+    .step-connector.done {
+      background: var(--primary);
+    }
   </style>
 
   <style id="form-styles">
@@ -379,7 +417,9 @@
       grid-template-columns: 1fr 1fr 1fr;
       gap: 18px;
     }
-    .form-full { grid-column: 1 / -1; }
+    .form-full {
+      grid-column: 1 / -1;
+    }
     .form-group {
       display: flex;
       flex-direction: column;
@@ -392,15 +432,20 @@
       color: var(--secondary-foreground);
       white-space: nowrap;
     }
-    .req { color: var(--destructive); }
-    .form-input, .form-select, .form-textarea {
+    .req {
+      color: var(--destructive);
+    }
+    .form-input,
+    .form-select,
+    .form-textarea {
       width: 100%;
       background: var(--input);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       color: var(--foreground);
     }
-    .form-input, .form-select {
+    .form-input,
+    .form-select {
       min-height: 40px;
       padding: 0 12px;
       display: flex;
@@ -415,7 +460,9 @@
       min-width: 0;
       overflow: hidden;
     }
-    .placeholder, .hint, .soft-text {
+    .placeholder,
+    .hint,
+    .soft-text {
       color: var(--muted-foreground);
     }
     .placeholder {
@@ -491,7 +538,11 @@
       padding: 18px;
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
-      background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 4%, white) 0%, var(--card) 100%);
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--primary) 4%, white) 0%,
+        var(--card) 100%
+      );
     }
     .summary-kicker {
       font-size: 11px;
@@ -568,7 +619,8 @@
       justify-content: space-between;
       gap: 16px;
     }
-    .footer-left, .footer-right {
+    .footer-left,
+    .footer-right {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -582,17 +634,34 @@
       gap: 6px;
     }
   </style>
-</head><body>
+</head>
+<body>
   <div class="app-shell" id="app-shell">
     <aside class="sidebar" id="sidebar">
       <a href="#" class="sidebar-logo" id="sidebar-logo" data-media-type="banani-button">
-        <div class="logo-mark"><iconify-icon icon="lucide:home" style="font-size:18px;color:var(--primary-foreground);"></iconify-icon></div>
+        <div class="logo-mark">
+          <iconify-icon
+            icon="lucide:home"
+            style="font-size: 18px; color: var(--primary-foreground)"
+          ></iconify-icon>
+        </div>
         <span class="logo-text">HABITAT-AFRIK</span>
       </a>
 
       <div class="sidebar-search" id="sidebar-search" data-media-type="banani-button">
-        <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-          <iconify-icon icon="lucide:search" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
         </div>
         <span>Recherche globale...</span>
       </div>
@@ -600,54 +669,275 @@
       <nav class="sidebar-nav" id="sidebar-nav">
         <div class="nav-group" id="nav-group-main">
           <p class="nav-group-label">Navigation</p>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:layout-dashboard" style="font-size:17px;color:currentColor;"></iconify-icon></div>Tableau de bord</a>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:message-circle" style="font-size:17px;color:currentColor;"></iconify-icon></div>Messages<span class="nav-badge">5</span></a>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:settings" style="font-size:17px;color:currentColor;"></iconify-icon></div>Paramètres</a>
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Tableau de bord</a
+          >
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Messages<span class="nav-badge">5</span></a
+          >
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Paramètres</a
+          >
         </div>
 
         <div class="nav-group" id="nav-group-gestion">
           <p class="nav-group-label">Gestion</p>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:building-2" style="font-size:17px;color:currentColor;"></iconify-icon></div>Mes annonces</a>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:map-pinned" style="font-size:17px;color:currentColor;"></iconify-icon></div>Alerte secteur</a>
-          <a href="#" class="nav-item active" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:file-search" style="font-size:17px;color:currentColor;"></iconify-icon></div>Demande immobilière</a>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:users" style="font-size:17px;color:currentColor;"></iconify-icon></div>Contacts reçus</a>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:calendar-check" style="font-size:17px;color:currentColor;"></iconify-icon></div>Visites programmées</a>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:coins" style="font-size:17px;color:currentColor;"></iconify-icon></div>Jetons &amp; visites VR</a>
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Mes annonces</a
+          >
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:map-pinned"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Alerte secteur</a
+          >
+          <a href="#" class="nav-item active" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:file-search"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Demande immobilière</a
+          >
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Contacts reçus</a
+          >
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Visites programmées</a
+          >
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR</a
+          >
         </div>
 
         <div class="nav-group" id="nav-group-tools">
           <p class="nav-group-label">Outils</p>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:bar-chart-2" style="font-size:17px;color:currentColor;"></iconify-icon></div>Statistiques</a>
-          <a href="#" class="nav-item" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:life-buoy" style="font-size:17px;color:currentColor;"></iconify-icon></div>Centre d'aide</a>
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Statistiques</a
+          >
+          <a href="#" class="nav-item" data-media-type="banani-button"
+            ><div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: currentColor"
+              ></iconify-icon>
+            </div>
+            Centre d'aide</a
+          >
         </div>
       </nav>
 
       <div class="sidebar-bottom" id="sidebar-bottom">
-        <a href="#" class="nav-item danger" data-media-type="banani-button"><div style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;"><iconify-icon icon="lucide:log-out" style="font-size:17px;color:currentColor;"></iconify-icon></div>Déconnexion</a>
+        <a href="#" class="nav-item danger" data-media-type="banani-button"
+          ><div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: currentColor"
+            ></iconify-icon>
+          </div>
+          Déconnexion</a
+        >
       </div>
     </aside>
 
     <div class="main-area" id="main-area">
       <div class="topbar" id="topbar">
         <div class="topbar-search" data-media-type="banani-button">
-          <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-            <iconify-icon icon="lucide:search" style="font-size:15px;color:var(--muted-foreground);"></iconify-icon>
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
           </div>
           <span>Rechercher une annonce, un contact...</span>
         </div>
         <div class="topbar-right">
           <div class="notif-btn" data-media-type="banani-button">
-            <iconify-icon icon="lucide:bell" style="font-size:18px;color:var(--secondary-foreground);"></iconify-icon>
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
             <span class="notif-badge"></span>
           </div>
           <div class="user-pill" data-media-type="banani-button">
-            <img src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3" alt="Kofi Mensah" class="user-avatar">
-            <div style="display:flex;flex-direction:column;gap:2px;">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div style="display: flex; flex-direction: column; gap: 2px">
               <span class="user-name">Kofi Mensah</span>
               <span class="role-badge">Agent</span>
             </div>
-            <div style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;">
-              <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
             </div>
           </div>
         </div>
@@ -657,22 +947,34 @@
         <div class="page-header" id="page-header">
           <div>
             <div class="breadcrumb" id="breadcrumb">
-              <a href="#" class="breadcrumb-link" data-media-type="banani-button">Demande immobilière</a>
+              <a href="#" class="breadcrumb-link" data-media-type="banani-button"
+                >Demande immobilière</a
+              >
               <span class="breadcrumb-sep">/</span>
               <span class="breadcrumb-current">Nouvelle demande</span>
             </div>
             <div class="page-title">Nouvelle demande</div>
-            <div class="page-sub">Définissez l'enveloppe budgétaire et les préférences financières du client.</div>
+            <div class="page-sub">
+              Définissez l'enveloppe budgétaire et les préférences financières du client.
+            </div>
           </div>
           <a href="#" class="btn-outline" data-media-type="banani-button">
-            <iconify-icon icon="lucide:x" style="font-size:14px;color:currentColor;"></iconify-icon>
+            <iconify-icon
+              icon="lucide:x"
+              style="font-size: 14px; color: currentColor"
+            ></iconify-icon>
             Annuler
           </a>
         </div>
 
         <div class="stepper-bar" id="stepper-bar">
           <div class="step-item">
-            <div class="step-circle done"><iconify-icon icon="lucide:check" style="font-size:15px;color:var(--primary-foreground);"></iconify-icon></div>
+            <div class="step-circle done">
+              <iconify-icon
+                icon="lucide:check"
+                style="font-size: 15px; color: var(--primary-foreground)"
+              ></iconify-icon>
+            </div>
             <div class="step-label-col">
               <span class="step-number">Étape 1</span>
               <span class="step-name">Informations du bien</span>
@@ -700,7 +1002,9 @@
           <div class="section-head">
             <div>
               <div class="form-card-title">Budget recherché</div>
-              <div class="form-card-sub">Renseignez la fourchette cible et la marge de négociation acceptable.</div>
+              <div class="form-card-sub">
+                Renseignez la fourchette cible et la marge de négociation acceptable.
+              </div>
             </div>
             <div class="helper-badge">FCFA</div>
           </div>
@@ -712,7 +1016,10 @@
                 <div class="form-group">
                   <div class="form-input">
                     <div class="form-input-left">
-                      <iconify-icon icon="lucide:banknote" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+                      <iconify-icon
+                        icon="lucide:banknote"
+                        style="font-size: 14px; color: var(--muted-foreground)"
+                      ></iconify-icon>
                       <span class="filled">25 000 000 FCFA</span>
                     </div>
                   </div>
@@ -722,7 +1029,10 @@
                 <div class="form-group">
                   <div class="form-input">
                     <div class="form-input-left">
-                      <iconify-icon icon="lucide:banknote" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+                      <iconify-icon
+                        icon="lucide:banknote"
+                        style="font-size: 14px; color: var(--muted-foreground)"
+                      ></iconify-icon>
                       <span class="filled">45 000 000 FCFA</span>
                     </div>
                   </div>
@@ -735,7 +1045,9 @@
               <div class="form-label">Flexibilité du budget</div>
               <div class="pill-row">
                 <div class="choice-pill" data-media-type="banani-button">Strict</div>
-                <div class="choice-pill selected" data-media-type="banani-button">Négociable ±10%</div>
+                <div class="choice-pill selected" data-media-type="banani-button">
+                  Négociable ±10%
+                </div>
                 <div class="choice-pill" data-media-type="banani-button">Très flexible</div>
               </div>
             </div>
@@ -744,7 +1056,10 @@
               <div class="form-label">Délai d'achat souhaité <span class="req">*</span></div>
               <div class="form-select" data-media-type="banani-button">
                 <span class="filled">Sous 30 jours</span>
-                <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
               </div>
             </div>
           </div>
@@ -752,14 +1067,19 @@
 
         <div class="form-card" id="financing-card">
           <div class="form-card-title">Mode de financement</div>
-          <div class="form-card-sub">Précisez la capacité d'achat et la source principale de financement.</div>
+          <div class="form-card-sub">
+            Précisez la capacité d'achat et la source principale de financement.
+          </div>
 
           <div class="form-grid-3">
             <div class="form-group">
               <div class="form-label">Source de financement <span class="req">*</span></div>
               <div class="form-select" data-media-type="banani-button">
                 <span class="filled">Financement mixte</span>
-                <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
               </div>
               <span class="hint">Apport personnel + prêt bancaire</span>
             </div>
@@ -768,7 +1088,10 @@
               <div class="form-label">Apport disponible</div>
               <div class="form-input">
                 <div class="form-input-left">
-                  <iconify-icon icon="lucide:wallet" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+                  <iconify-icon
+                    icon="lucide:wallet"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
                   <span class="filled">12 000 000 FCFA</span>
                 </div>
               </div>
@@ -787,7 +1110,10 @@
               <div class="form-label">Mensualité maximale</div>
               <div class="form-input">
                 <div class="form-input-left">
-                  <iconify-icon icon="lucide:calendar-range" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+                  <iconify-icon
+                    icon="lucide:calendar-range"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
                   <span class="filled">650 000 FCFA / mois</span>
                 </div>
               </div>
@@ -797,7 +1123,10 @@
               <div class="form-label">Durée de financement</div>
               <div class="form-select" data-media-type="banani-button">
                 <span class="filled">10 à 15 ans</span>
-                <iconify-icon icon="lucide:chevron-down" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
               </div>
             </div>
 
@@ -814,7 +1143,9 @@
 
         <div class="form-card" id="strategy-card">
           <div class="form-card-title">Résumé financier &amp; stratégie de recherche</div>
-          <div class="form-card-sub">Une vue rapide pour prioriser les annonces les plus pertinentes.</div>
+          <div class="form-card-sub">
+            Une vue rapide pour prioriser les annonces les plus pertinentes.
+          </div>
 
           <div class="summary-grid">
             <div class="summary-box" id="summary-box">
@@ -823,17 +1154,23 @@
               <div class="summary-meta">
                 <span class="mini-badge success">Financement crédible</span>
                 <span class="mini-badge warning">Marge faible sur travaux</span>
-                <span class="soft-text" style="font-size:12.5px;">Profil prioritaire pour villas 3 pièces à Abidjan</span>
+                <span class="soft-text" style="font-size: 12.5px"
+                  >Profil prioritaire pour villas 3 pièces à Abidjan</span
+                >
               </div>
               <div class="form-divider"></div>
               <div class="form-grid-2">
                 <div class="form-group">
                   <div class="form-label">Budget travaux estimé</div>
-                  <div class="form-input"><div class="form-input-left"><span class="filled">3 500 000 FCFA</span></div></div>
+                  <div class="form-input">
+                    <div class="form-input-left"><span class="filled">3 500 000 FCFA</span></div>
+                  </div>
                 </div>
                 <div class="form-group">
                   <div class="form-label">Commission agence cible</div>
-                  <div class="form-input"><div class="form-input-left"><span class="filled">5%</span></div></div>
+                  <div class="form-input">
+                    <div class="form-input-left"><span class="filled">5%</span></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -841,9 +1178,35 @@
             <div class="recommend-card" id="recommend-card">
               <div class="recommend-title">Recommandations automatiques</div>
               <div class="check-list">
-                <div class="check-item"><iconify-icon icon="lucide:check-circle-2" style="font-size:15px;color:var(--primary);margin-top:1px;"></iconify-icon><span>Cibler les biens entre <strong>28M et 42M FCFA</strong> pour garder une marge de négociation.</span></div>
-                <div class="check-item"><iconify-icon icon="lucide:check-circle-2" style="font-size:15px;color:var(--primary);margin-top:1px;"></iconify-icon><span>Prioriser les vendeurs acceptant un acompte rapide et une signature sous 30 jours.</span></div>
-                <div class="check-item"><iconify-icon icon="lucide:check-circle-2" style="font-size:15px;color:var(--primary);margin-top:1px;"></iconify-icon><span>Exclure les annonces nécessitant des travaux lourds au-delà de 4M FCFA.</span></div>
+                <div class="check-item">
+                  <iconify-icon
+                    icon="lucide:check-circle-2"
+                    style="font-size: 15px; color: var(--primary); margin-top: 1px"
+                  ></iconify-icon
+                  ><span
+                    >Cibler les biens entre <strong>28M et 42M FCFA</strong> pour garder une marge
+                    de négociation.</span
+                  >
+                </div>
+                <div class="check-item">
+                  <iconify-icon
+                    icon="lucide:check-circle-2"
+                    style="font-size: 15px; color: var(--primary); margin-top: 1px"
+                  ></iconify-icon
+                  ><span
+                    >Prioriser les vendeurs acceptant un acompte rapide et une signature sous 30
+                    jours.</span
+                  >
+                </div>
+                <div class="check-item">
+                  <iconify-icon
+                    icon="lucide:check-circle-2"
+                    style="font-size: 15px; color: var(--primary); margin-top: 1px"
+                  ></iconify-icon
+                  ><span
+                    >Exclure les annonces nécessitant des travaux lourds au-delà de 4M FCFA.</span
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -851,10 +1214,16 @@
 
         <div class="form-card" id="notes-card">
           <div class="form-card-title">Contraintes complémentaires</div>
-          <div class="form-card-sub">Ajoutez les points financiers ou contractuels à surveiller lors des visites.</div>
+          <div class="form-card-sub">
+            Ajoutez les points financiers ou contractuels à surveiller lors des visites.
+          </div>
           <div class="form-group">
             <div class="form-label">Notes internes</div>
-            <div class="form-textarea">Client ouvert à une négociation rapide si stationnement inclus. Souhaite éviter les copropriétés avec charges élevées. Vérifier la possibilité de paiement échelonné sur 2 tranches.</div>
+            <div class="form-textarea">
+              Client ouvert à une négociation rapide si stationnement inclus. Souhaite éviter les
+              copropriétés avec charges élevées. Vérifier la possibilité de paiement échelonné sur 2
+              tranches.
+            </div>
             <span class="hint">Ces notes sont visibles uniquement par vous et votre équipe.</span>
           </div>
         </div>
@@ -862,19 +1231,30 @@
         <div class="form-footer-bar" id="form-footer-bar">
           <div class="footer-left">
             <div class="footer-note">
-              <iconify-icon icon="lucide:info" style="font-size:14px;color:var(--muted-foreground);"></iconify-icon>
+              <iconify-icon
+                icon="lucide:info"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
               <span>Étape 2 sur 3 — vérifiez la cohérence entre budget, délai et financement.</span>
             </div>
           </div>
           <div class="footer-right">
             <a href="#" class="btn-outline" data-media-type="banani-button">
-              <iconify-icon icon="lucide:arrow-left" style="font-size:14px;color:currentColor;"></iconify-icon>
+              <iconify-icon
+                icon="lucide:arrow-left"
+                style="font-size: 14px; color: currentColor"
+              ></iconify-icon>
               Retour
             </a>
-            <a href="#" class="btn-outline" data-media-type="banani-button">Enregistrer en brouillon</a>
+            <a href="#" class="btn-outline" data-media-type="banani-button"
+              >Enregistrer en brouillon</a
+            >
             <a href="#" class="btn-primary" data-media-type="banani-button">
               Continuer — Contact
-              <iconify-icon icon="lucide:arrow-right" style="font-size:14px;color:currentColor;"></iconify-icon>
+              <iconify-icon
+                icon="lucide:arrow-right"
+                style="font-size: 14px; color: currentColor"
+              ></iconify-icon>
             </a>
           </div>
         </div>

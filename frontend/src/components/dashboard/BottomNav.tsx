@@ -18,7 +18,7 @@ interface BottomNavEntry {
 // more mapping logic than just declaring both directly.
 const BOTTOM_NAV: BottomNavEntry[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
-  { key: 'messages', label: 'Messages', icon: MessageCircle },
+  { key: 'messages', label: 'Messages', icon: MessageCircle, href: '/messages' },
   { key: 'listings', label: 'Annonces', icon: Building2, href: '/listings' },
   { key: 'alerts', label: 'Alerte secteur', icon: BellRing },
   { key: 'settings', label: 'Paramètres', icon: Settings, href: '/settings' },
