@@ -1,80 +1,16 @@
 'use client';
 
-import { type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import Link from 'next/link';
-import {
-  Home,
-  Search,
-  LayoutDashboard,
-  MessageCircle,
-  Settings,
-  Building2,
-  MapPinned,
-  FileSearch,
-  Users,
-  CalendarCheck,
-  Coins,
-  BarChart2,
-  LifeBuoy,
-  LogOut,
-  Bell,
-  ChevronDown,
-} from 'lucide-react';
+import { Home, Search, LogOut, Bell, ChevronDown } from 'lucide-react';
 import { useUser, useAuth } from '@/contexts/AuthContext';
 import { useApi } from '@/lib/useApi';
 import { InitialsAvatar } from './InitialsAvatar';
 import { MobileTopbar } from './MobileTopbar';
+import { MobileNavDrawer } from './MobileNavDrawer';
 import { BottomNav } from './BottomNav';
 import { cn } from '@/lib/utils';
-
-type NavKey =
-  | 'dashboard'
-  | 'messages'
-  | 'settings'
-  | 'listings'
-  | 'alerts'
-  | 'requests'
-  | 'contacts'
-  | 'visits'
-  | 'tokens'
-  | 'stats'
-  | 'help';
-
-interface NavEntry {
-  key: NavKey;
-  label: string;
-  icon: typeof Home;
-  href?: string; // omitted = not built yet, renders inert with a "Bientôt" tag
-}
-
-const NAV_GROUPS: { label: string; items: NavEntry[] }[] = [
-  {
-    label: 'Navigation',
-    items: [
-      { key: 'dashboard', label: 'Tableau de bord', icon: LayoutDashboard, href: '/dashboard' },
-      { key: 'messages', label: 'Messages', icon: MessageCircle, href: '/messages' },
-      { key: 'settings', label: 'Paramètres', icon: Settings, href: '/settings' },
-    ],
-  },
-  {
-    label: 'Gestion',
-    items: [
-      { key: 'listings', label: 'Mes annonces', icon: Building2, href: '/listings' },
-      { key: 'alerts', label: 'Alerte secteur', icon: MapPinned, href: '/alertes' },
-      { key: 'requests', label: 'Demande immobilière', icon: FileSearch, href: '/demandes' },
-      { key: 'contacts', label: 'Contacts reçus', icon: Users, href: '/contacts' },
-      { key: 'visits', label: 'Visites programmées', icon: CalendarCheck, href: '/visites' },
-      { key: 'tokens', label: 'Jetons & visites VR', icon: Coins, href: '/jetons' },
-    ],
-  },
-  {
-    label: 'Outils',
-    items: [
-      { key: 'stats', label: 'Statistiques', icon: BarChart2, href: '/statistiques' },
-      { key: 'help', label: "Centre d'aide", icon: LifeBuoy },
-    ],
-  },
-];
+import { NAV_GROUPS, type NavEntry, type NavKey } from './nav-config';
 
 const ROLE_LABEL: Record<string, string> = {
   OWNER_AGENT: 'Agent',
@@ -141,6 +77,7 @@ export function DashboardShell({
   const user = useUser();
   const { logout } = useAuth();
   const { data: notif } = useApi<{ count: number }>('/api/notifications/count');
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   if (!user) return null;
   const roleLabel = ROLE_LABEL[user.accountType] ?? user.accountType;
@@ -229,8 +166,10 @@ export function DashboardShell({
 
         {/* Mobile topbar — hidden at lg: and up */}
         <div className="lg:hidden">
-          <MobileTopbar user={user} unreadCount={unread} />
+          <MobileTopbar user={user} unreadCount={unread} onMenuClick={() => setDrawerOpen(true)} />
         </div>
+
+        <MobileNavDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} active={active} />
 
         <div className="flex flex-1 flex-col gap-5 overflow-y-auto p-4 pb-[88px] lg:p-7 lg:pb-7">
           {children}
