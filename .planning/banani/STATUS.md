@@ -1,6 +1,201 @@
 # Banani implementation status
 
-Last updated: 2026-08-03
+Last updated: 2026-08-06
+
+## 2026-08-06 — Mobile hamburger menu added to the public site
+
+User reported: on mobile, the public pages (landing, annonces, agents,
+demande-immobilière…) had no way to reach the nav links — `PublicNavbar`'s
+`NAV_LINKS` were `hidden lg:flex`, with nothing replacing them below `lg`.
+This mirrors the dashboard's earlier mobile-nav gap (see the
+`MobileNavDrawer`/`MobileTopbar` work from 2026-08-05), but the public site
+had never gotten its own equivalent.
+
+- `frontend/src/components/public/PublicMobileDrawer.tsx` (new): off-canvas
+  drawer modeled on the dashboard's `MobileNavDrawer` — dark overlay,
+  slide-in panel (`translate-x-0`/`-translate-x-full`), locks
+  `document.body.style.overflow` while open, closes on overlay click / X
+  button / link click. Renders `NAV_LINKS` (imported from `PublicNavbar`,
+  now exported) as real links or an inert "Bientôt" row for entries with no
+  `href` (currently just "Comment ça marche"); footer of the drawer has a
+  real "Connexion" link and an inert "Publier une annonce" button.
+- `PublicNavbar.tsx`: exported `NAV_LINKS`; added `drawerOpen` state and a
+  hamburger button (`lg:hidden`, `bg-gray-50` background to match the
+  dashboard's mobile topbar icon-button style) that opens the new drawer;
+  "Connexion" text link is now `hidden lg:inline` since it moved into the
+  drawer's footer on mobile.
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean.
+
+## 2026-08-05 — Internal navigation wired between today's public screens
+
+User asked to "câbler" today's screens. Clarified scope first (asked): real
+Next.js `<Link>` navigation between the already-built static pages, not a
+backend (no Prisma models / API routes — stays "front-end only, static
+data" per every plan file this session).
+
+Changes:
+- `PublicNavbar.tsx`: `NAV_LINKS` now carries an optional `href`; Accueil/
+  Annonces/Agents/Demande are real `Link`s (`/`, `/annonces`, `/agents`,
+  `/demande-immobiliere`); "Comment ça marche" stays inert (no page built
+  for it).
+- `PublicFooter.tsx`: "Parcourir les annonces" → real `Link` to `/annonces`;
+  the rest of `PLATFORM_LINKS`/`COUNTRY_LINKS`/`HELP_LINKS` stay inert (no
+  target pages).
+- `app/page.tsx` (landing): listing cards "Voir →" → `/annonces/[id]`;
+  "Voir toutes les annonces" → `/annonces`; "Découvrir tous les agents" and
+  agent cards "Voir le profil →" → `/agents` (no per-agent detail page yet,
+  so both point at the directory); country cards "Explorer le {pays}" →
+  `/annonces` (no per-country filtered route yet); CTA band "Explorer les
+  annonces" → `/annonces`. Hero search panel, country pills, and "Publier
+  une annonce" stay inert (no matching feature/page).
+- `app/annonces/page.tsx`: grid "Voir →" and list "Voir le détail" → real
+  `Link` to `/annonces/[id]` (id passed but the detail page still ignores
+  it and always renders the one literal villa — documented limitation).
+- `app/demande-immobiliere/page.tsx`: all 3 "Déposer une demande"/"Déposer
+  ma demande" CTAs (hero, table header, bottom band) → real `Link` to
+  `/demande-immobiliere/nouvelle`; bottom-band "Voir les annonces" →
+  `/annonces`. "Voir mes demandes" stays inert (needs auth, doesn't exist).
+- `app/annonces/[id]/page.tsx`: gave `SIMILAR` listings stable `id`s, cards
+  now real `Link`s to `/annonces/[id]` (self-referential to the same
+  literal detail page, same documented limitation as above).
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean across every touched file.
+
+## 2026-08-05 — Annonces List View merged into the existing Annonces page
+
+No new route. Source: "Projet Propré" flow (`m2kVFGxniJZl`), screen
+"Annonces List View" (`PGdhOWL77jzK`). First fetch attempt returned
+"Annonce Detail Alt" again (the previous screen) — flagged to the user,
+they re-selected, re-fetch confirmed the correct screen.
+
+This screen turned out to be the literal "list view" state of the already-
+built `frontend/src/app/annonces/page.tsx` (same header, filter bar,
+sidebar filters, pill tabs, pagination — all already implemented from the
+earlier `annonces-listing` screen) but with a richer list-card design than
+what that page's `view === 'list'` mode currently rendered (which reused
+the grid card layout). Rather than duplicate a second route, enriched the
+existing page in place:
+- Added `photoCount`/`publishedDate` fields to the `Listing` type and to
+  all 9 `LISTINGS`. 6 of the 9 (a1/a2/a3/a4/a6/a7) matched this screen's
+  cards 1:1 by title/agent — their literal photoCount/publishedDate/extra
+  features (Garage+Piscine, Vue mer, Jardin, Terrain plat+Électricité,
+  Piscine, Fibre) came straight from the fetch. The other 3 (Studio, F3
+  Yopougon, Terrain Dakar Parcelles — not shown in this particular mock)
+  got authored values in the same style, disclosed as authored not literal.
+- `view === 'list'` now renders a dedicated card: 220px image with a
+  bottom-right photo-count pill, up to 5 feature icons (vs 3 in grid mode),
+  and a bottom row with agent+verified+"Publié le" on the left and
+  heart/Contacter/Voir le détail pill buttons on the right — matching the
+  fetched screen. `view === 'grid'` keeps the original 3-feature card
+  unchanged (still literal to the earlier `annonces-listing` mock).
+- Toggle default stays `'grid'` (unchanged) — both view states are now
+  fully literal to their respective Banani screens, real toggle switches
+  between them.
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean.
+
+## 2026-08-05 — Annonce Detail Alt (public listing detail) built
+
+Route: `frontend/src/app/annonces/[id]/page.tsx` (dynamic segment present
+for a future model swap, currently ignored — always renders the one
+literal villa). Front-end only, static data — no `Listing`/`Agent` model.
+
+Source: "Projet Propré" flow (`m2kVFGxniJZl`), screen "Annonce Detail Alt"
+(`cPiety0AK_J3`). Fetched clean on first attempt.
+
+Scope: **REUSE** `PublicNavbar` (`active="annonces"`), `PublicFooter` — kept
+as-is even though the mock's navbar/footer link sets differ slightly
+(4 vs 5 nav links, 3 vs 4 footer "Plateforme" links), per this session's
+site-wide component-consistency convention. Full-bleed hero gallery, title
+block (price/badges/stats), 8-item caractéristiques grid, 12-item
+équipements grid, 2-paragraph description, static map + address, 3 similar
+listing cards, sidebar (agent contact card, quick-message form, meta info
+card).
+
+Real interactivity: heart/save toggle on the hero (fills red, label
+switches), "Lire la suite" expands/collapses the second description
+paragraph, quick-message sidebar form is fully controlled. Everything else
+stays inert: share, gallery photo counters, similar-listing cards (no
+per-listing route yet), contacter/appeler l'agent, visite VR, signaler,
+"Envoyer" on the message form.
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean on the new file. Plan file:
+`.planning/banani/annonce-detail-alt.md`.
+
+## 2026-08-05 — Agents Certifiés (public directory) built
+
+Route: `frontend/src/app/agents/page.tsx`. Front-end only, static data — no
+`Agent` directory model, no matching/contact backend.
+
+Source: "Projet Propré" flow (`m2kVFGxniJZl`), screen "Agents Certifiés"
+(`EnFqXjtGOcU9`). Fetched clean on first attempt — no mismatch this time.
+
+Scope: **REUSE** `PublicNavbar` (`active="agents"`), `PublicFooter` (content
+matched exactly, no changes needed). Gradient hero (4-stat row + avatar
+cluster), sticky filter bar (search + 4 filter chips + transaction
+pill-tabs), 2-col layout (sidebar filters + agents grid), 1 featured
+full-width card + 7 regular agent cards — all 8 agents literal from the
+fetched screen, pagination.
+
+Real interactivity: search input filters by name/role/bio; sidebar country
+rows filter the grid (literal count badges kept, per the `annonces-listing`
+convention); transaction pill-tabs (Tous/Vente/Location/Terrain) filter by a
+per-agent `transaction` tag — disclosed as inferred from each bio since the
+mock didn't expose that field literally. Results counts recompute live from
+the filtered array. Empty state added (not in the mock) since filters are
+now real. Sidebar specialité/note/disponibilité, top-bar filter chips, sort
+select, and all Profil/Contacter/pagination controls stay inert.
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean on the new file. Plan file:
+`.planning/banani/agents-certifies.md`.
+
+## 2026-08-05 — Nouvelle Demande (public 3-step wizard) built
+
+Route: `frontend/src/app/demande-immobiliere/nouvelle/page.tsx`. Front-end
+only, static data, no `PropertyRequest` model — same convention as every
+screen this session.
+
+Source: "Projet Propré" flow (`m2kVFGxniJZl`), screens "Nouvelle Demande
+setup 1" (`10PsPLg0QaiJ`, step 1 — Bien recherché) and "Nouvelle Demande
+setup 2" (`xCJUEvMz6nSD`, step 2 — Budget). First fetch attempt for "setup 1"
+returned "setup 2" instead — flagged to the user, they re-selected, re-fetch
+confirmed the correct screen. The mis-fetched "setup 2" was kept and reused
+as the literal step-2 screen rather than discarded, since it's genuine
+Banani data for the correct flow, just fetched one step early.
+
+Scope:
+- **REUSE** `PublicNavbar` (`active="demande"`), `PublicFooter`.
+- **Step 1 — Bien recherché** (literal): transaction pills (Achat/Location),
+  property-type pills (Villa/Appartement/Terrain/Bureau/Commerce), pays+ville
+  selects, quartier input, superficie min/max, pièces/chambres min. selects,
+  6 équipements checkboxes, description textarea.
+- **Step 2 — Budget** (literal): budget min/max, financement pills (Fonds
+  propres/Crédit bancaire/Mixte), budget idéal + flexibilité selects,
+  calendrier pills (Immédiat/1-3/3-6/6+ mois), frais checkboxes,
+  préférences textarea, "Conseil Habitat-Afrik" info banner.
+- **Step 3 — Contact**: **not fetched for this flow** — authored to match
+  the visual language of the fetched screens (prénom/nom/email/téléphone,
+  pays/ville selects, disponibilité select, canal de contact préféré ×4,
+  agent-connu toggle ×2, notes, 2 consent checkboxes). Disclosed as authored,
+  not literal Banani data for this flow.
+- Sidebar: "Résumé de votre demande" summary card, rows derived **live**
+  from actual field state per step; "Conseils" tips card swaps content per
+  step (literal tips for steps 1–2, authored for step 3).
+
+Real interactivity: gated 3-step wizard (`step` state), full field state for
+every input across all 3 steps, "Étape suivante"/"Retour" real
+(advance/rewind), "Annuler" (step 1) real `Link` back to
+`/demande-immobiliere`. Step 3 "Envoyer ma demande" stays inert (`disabled`
++ `title="Bientôt disponible"`) — no model to submit to.
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean on the new file.
 
 ## 2026-08-03 — 29 new screens archived, subscription expires 2026-08-04
 
@@ -335,6 +530,33 @@ decisions when actually implementing, don't just copy blindly):
   - Literal mockup data across 8 chart cards: 4 KPI cards (vues/contacts/visites/conversion, each with a trend badge), line chart "Évolution des vues" (static inline SVG path + area fill, 5 x-axis labels), donut "Répartition des annonces" (Vérifié/En attente/Vendu, `stroke-dasharray` circles, same technique as the Jetons VR donut), bar chart "Contacts reçus" (7 daily bars Lun–Dim), progress list "Suivi des documents" (4 items), ranking "Top annonces" (5 items, medal emojis for top 3), "Sources de trafic" (4-item progress list), "Répartition géographique" (6-city progress list).
   - Real interaction: the 7 jours/30 jours/3 mois/1 an period toggle (`useState`) switches the active pill only — chart data stays static since Banani only shipped the "30 jours" state (disclosed simplification, same pattern as prior screens' single-fetched-state charts). "Exporter" and every per-chart "Ce mois"/"Cette semaine" select are inert `disabled` + "Bientôt disponible". All charts are static inline SVG/CSS — no charting library.
   - `pnpm typecheck` and `pnpm lint` both clean. `pnpm format` run. No dev-server/browser breakpoint verification this pass — ask the user to eyeball `/statistiques` at 375/768/1280px.
+
+- [x] Landing Page — `landing-page` (screenId `YKST5vLCMORh`, page title "Habitat-Afrik — Accueil", fetched live via MCP 2026-08-05) → `frontend/src/app/page.tsx`. Plan: `landing-page.md`. Commit: (uncommitted).
+  - **Flow mismatch caught before building**: first fetch attempt returned "Nouvelle Demande" (step 3, contact) from a *different* Banani flow ("Ulrich Projet 2") than requested — flagged to the user instead of building the wrong screen; user re-selected in Banani and the re-fetch confirmed `screenName: "Landing Page"`. This confirms the "always fetch the exact screen, never improvise" convention paid off again.
+  - **Different flow than every other screen this session**: "Ulrich Projet 2" (`E_uHv0vTnPhR`) vs. the "HABITATAFRIK EQUIPE" flow used for the agent dashboard screens — this is the **public marketing homepage**, not part of the back-office. Same brand/colors, separate design source.
+  - **Replaces** the existing `redirect('/login')` in `frontend/src/app/page.tsx` (not the CLAUDE.md-documented `return null` stub — the repo had already been customized to redirect). Not wrapped in `DashboardShell` (public unauthenticated page, own navbar + footer).
+  - 9 sections built from the literal Banani mockup: navbar, hero (full-bleed image + 4-country pill strip + floating search panel), brand-colored stats band (3 stats), premium listings (6 literal cards + 5 filter pills), destinations-by-country (4 literal cards: Bénin/Togo/Côte d'Ivoire/Sénégal), agents (1 featured editorial card + 3 compact cards, literal names/bios/stats), how-it-works (3 steps), CTA gradient band, 4-column footer. All images use the literal Banani-hosted URLs (`storage.googleapis.com/banani-generated-images/...`, `banani-avatars/...`) via plain `<img>`, same convention as prior avatar-heavy screens.
+  - **Real interaction**: listing pill-tabs (Toutes/Maisons/Appartements/Terrains/Location) — real client-side filter (`useState`) over the 6 static cards; category/transaction tags per card were inferred from each listing's title/badges (disclosed, Banani's cards don't carry explicit filter-category data). "Connexion" is a real `Link` to `/login` (existing route).
+  - Everything else (search panel fields/button, all other nav links, every "Voir →"/"Voir toutes les annonces"/"Explorer"/"Voir le profil"/"Découvrir tous les agents"/CTA actions, footer links, social icons) renders as a non-interactive styled `<span>` (`InertLink` helper, `cursor-not-allowed` + `title="Bientôt disponible"`) rather than a dead `<a href="#">` — no public listings-search, signup, or agent-profile routes exist yet.
+  - **Substitution**: `lucide-react`'s `Facebook`/`Instagram`/`Twitter` icons don't exist in the installed version (`TS2305`, caught by typecheck) — swapped the 3 footer social buttons for plain bold-letter labels (`f`/`in`/`x`) instead of icons.
+  - `pnpm typecheck` and `pnpm lint` both clean. `pnpm format` run. No dev-server/browser breakpoint verification this pass — ask the user to eyeball `/` at 375/768/1280px, especially the floating search panel (desktop-only per the mockup, hidden below `lg:`) and the hero image legibility over the gradient overlay.
+
+- [x] Annonces Listing — `annonces-listing` (screenId `wK7wVS2Vnz1J`, page title "Habitat-Afrik — Toutes les annonces", fetched live via MCP 2026-08-05) → `frontend/src/app/annonces/page.tsx`. Plan: `annonces-listing.md`. Commit: (uncommitted).
+  - Same "front-end only, static data" scope repeated across every screen this session. Same public flow ("Ulrich Projet 2") as `landing-page` — no public listings-search backend, no `Listing` public API.
+  - **Refactor**: extracted the navbar and footer — identical markup on both `landing-page` and this screen — into shared `frontend/src/components/public/PublicNavbar.tsx` (`active` prop) and `PublicFooter.tsx`. `page.tsx` (landing) updated to consume both instead of its inline copies; dropped its now-unused `Home`/`Link` imports. Normalized the navbar to the landing page's fuller 5-link set (`Accueil/Annonces/Agents/Demande/Comment ça marche`) even though this screen's Banani fetch only shipped 4 (no "Demande") — disclosed simplification for public-site nav consistency.
+  - Page header (breadcrumb, title, "128 annonces trouvées" result count — literal Banani copy, not derived from the 9 rendered mock cards), sticky filter bar (pays/villes/type/transaction/prix pills + "Plus de filtres" + tri), 260px sidebar filters (type de bien/transaction/prix range mock/pays/surface, all with literal counts from the mockup), 9 literal listing cards (title/location/agent name+avatar/features/price/badges), pagination (1/2/3/4/…/15).
+  - Real interactions: grid/list view toggle (list renders the same 9 cards in a denser single-column row layout — disclosed interpretation, Banani only shipped the grid state) and the 6-pill type-tabs row (Toutes/Maisons/Appartements/Terrains/Bureaux/Location) filtering the 9 mock cards client-side, same convention as the landing page's listing filter.
+  - Everything else (sidebar filter checkboxes/price slider/pays/surface, top filter-bar pills, sort select, "Réinitialiser"/"Appliquer les filtres", every card's "Voir →", pagination numbers) is inert via the same `InertPill`/non-interactive-span convention used on the landing page — no public search backend exists.
+  - **Disclosed gap**: no mobile off-canvas filter drawer built this pass — the 260px sidebar is `hidden` below `lg:` with no replacement, same "not everything fetched gets full mobile treatment" pattern flagged on other screens.
+  - `pnpm typecheck` and `pnpm lint` both clean. `pnpm format` run. No dev-server/browser breakpoint verification this pass — ask the user to eyeball `/annonces` at 375/768/1280px, and confirm the missing mobile sidebar-filters gap is acceptable for now.
+
+- [x] Demande Immobilière (public) — `demande-immobiliere` (screenId `2NroFS5QcFFJ`, page title "Habitat-Afrik — Demande Immobilière", fetched live via MCP 2026-08-05) → `frontend/src/app/demande-immobiliere/page.tsx`. Plan: `demande-immobiliere.md`. Commit: (uncommitted).
+  - Same "front-end only, static data" scope repeated across every screen this session. No `PropertyRequest` public model, no matching/notification backend.
+  - **Third distinct Banani flow this session**: "Projet Propré" (`m2kVFGxniJZl`) — different from both "HABITATAFRIK EQUIPE" (agent dashboard) and "Ulrich Projet 2" (`landing-page`/`annonces-listing`). Visually consistent with the public site though — its navbar links (Accueil/Annonces/Agents/Demande active/Comment ça marche) match `PublicNavbar` exactly, so it reuses `PublicNavbar`/`PublicFooter` directly with no changes needed to those shared components.
+  - Route intentionally **not** `/demandes` (that's the existing authenticated agent-dashboard route from earlier this session) — this is the buyer-facing public marketing page for the "Demande Immobilière" feature, a different persona.
+  - Sections built from the literal Banani mockup: gradient hero (sky-blue, distinct one-off gradient from the brand-blue CTA gradient, matches the mockup's dedicated hero color) with a frosted stats card (320+ demandes/94% correspondance/48h délai), "Comment ça marche" 4-step grid, "Demandes en cours" anonymized public table (6 literal rows: type/localisation/transaction/budget/superficie/statut/correspondances/date, with type badges Villa=brand/Appartement=violet/Terrain=amber/Bureau=emerald and status badges Active=emerald/En attente=amber/Clôturée=gray), FAQ 2×2 grid (4 literal Q/A), CTA gradient band.
+  - Pure marketing/informational page — no real interactivity in the fetched mockup (no filters/toggles). Every action ("Déposer une demande" ×2, "Voir mes demandes", "Voir les annonces", table-header "Déposer ma demande") renders as an inert `InertLink` span — no authenticated buyer-request flow exists yet at a public route.
+  - `pnpm typecheck` and `pnpm lint` both clean. `pnpm format` run. No dev-server/browser breakpoint verification this pass — ask the user to eyeball `/demande-immobiliere` at 375/768/1280px, especially the table's `overflow-x-auto` wrap on mobile.
 
 - [x] Mes Annonces — `mes-annonces` (screenId `V9hOWu9LzoGk`, fetched live via MCP 2026-07-31) → rebuilt `frontend/src/app/listings/page.tsx`. Plan: `mes-annonces.md`. Commit: (uncommitted). Supersedes an earlier generic `/listings` draft built the same day from a non-Banani spec (`docs/superpowers/specs/2026-07-31-listings-page-design.md`, `docs/superpowers/plans/2026-07-31-listings-page.md`) *before* the user pointed to the actual selected Banani screen — the user caught the mismatch on review ("tu n'as pas respecté exactement le design"). Only that earlier pass's `frontend/src/lib/listings.ts` extraction survived; the page itself was rebuilt from scratch against the real mockup.
   - **8 scope decisions, all "go with your recommendations"** (full rationale in `mes-annonces.md`): (1) new `Listing.transactionType: SALE | RENT` field drives the Type pill + "/ mois" price suffix — `propertyType` isn't shown on this screen; (2) photo thumbnails are a neutral placeholder (no Cloudinary listing-photo feature yet); (3) Contacts column shows `—` (no `Contact` model, no fabricated numbers); (4) ref code `#ANN-{year}-{id suffix}` derived, not a real sequence; (5) row checkboxes are decorative (no bulk actions/backend); (6) true numbered pagination built on top of the existing cursor API via client-side sequential prefetch-and-cache (no backend contract break); (7) the 4 stats-bar cards are REAL (`counts` field, not illustrative like the Agent Dashboard's KPIs); (8) dropped the redundant "Filtrer" button (Ville/Type selects + status tabs already cover it).
