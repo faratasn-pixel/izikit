@@ -30,6 +30,15 @@ const config: NextConfig = {
   // into .next/standalone — required by the Docker runtime image (frontend/Dockerfile).
   // Has no impact on `next dev` / `next start` workflows.
   output: 'standalone',
+  eslint: {
+    // Lint already runs via the husky pre-commit hook (lint-staged) and
+    // `pnpm lint` in CI. Next's build-time lint step loads the repo-root
+    // flat config (eslint.config.mjs), whose deps (@eslint/js,
+    // typescript-eslint, globals) live only in the root package.json —
+    // unreachable from a Vercel build scoped to the `frontend` Root
+    // Directory, which breaks `next build` with ERR_MODULE_NOT_FOUND.
+    ignoreDuringBuilds: true,
+  },
   async headers() {
     return [
       {
