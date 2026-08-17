@@ -590,7 +590,8 @@ model AlertMatch {
   propertyRequestId String
   propertyRequest   PropertyRequest @relation(fields: [propertyRequestId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  viewedAt  DateTime?
 
   @@unique([alertId, propertyRequestId])
   @@index([alertId, createdAt])
