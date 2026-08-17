@@ -103,11 +103,11 @@ de l'alerte — toujours une seule ville côté `PropertyRequest`).
 
 ## Tests
 
-- `matching.ts` a déjà une suite de tests (vérifier
-  `frontend/src/lib/server/alerts/*.test.ts` si présent) — adapter les cas
-  city-based existants pour couvrir : alerte avec plusieurs villes matche une
-  demande sur n'importe laquelle d'entre elles ; alerte avec une seule ville
-  garde le comportement actuel.
+- Aucun fichier de test n'existe encore pour `matching.ts` — en ajouter un
+  (`frontend/src/lib/server/alerts/matching.test.ts`) couvrant au moins :
+  alerte avec plusieurs villes matche une demande sur n'importe laquelle
+  d'entre elles ; alerte avec une seule ville garde le comportement actuel ;
+  alerte ne matche pas une ville absente de `cities`.
 - Vérifier qu'aucun autre test (`route.test.ts` sous `api/alerts`,
   `api/requests`) ne référence `city` sur un payload/`select` d'`Alert`.
 
