@@ -85,6 +85,8 @@ model User {
   oauthAccounts     OAuthAccount[]
   adminActions      AdminAction[]
   listings          Listing[]
+  propertyRequests  PropertyRequest[]
+  alerts            Alert[]
 
   // Multi-tenancy is opt-in per project: by default no resource is org-scoped.
   // Apps that need it (marketplace, B2B SaaS, classifieds) wire owner relations
@@ -460,8 +462,8 @@ model Listing {
   title           String
   city            String
   country         String
-  propertyType    String // VILLA | APARTMENT | LAND | DUPLEX | OFFICE | WAREHOUSE
-  transactionType String @default("SALE") // SALE | RENT | SHORT_RENT
+  propertyType    String // VILLA | APPARTEMENT | PARCELLE | DOMAINE | MAISON | BOUTIQUE | BUREAU | SALLE_FETE | SALLE_CONFERENCE | IMMEUBLE
+  transactionType String @default("VENTE") // VENTE | LOCATION | SEJOUR | AUBERGE
   price           Int // smallest currency unit (FCFA = no decimals); for RENT/SHORT_RENT this is the per-month price
   currency        String @default("XOF")
   status          String @default("PENDING") // DRAFT | PENDING | VERIFIED | SOLD
@@ -470,12 +472,15 @@ model Listing {
   // All nullable — a DRAFT listing may have none of them filled in yet;
   // required-for-publish validation happens at the API layer, not here.
   description String?
+  landmark    String? // free-text point de repère ("non loin de la pharmacie X…")
   surfaceM2   Int?
+  capacity    Int? // nombre de places (salle de fête / salle de conférence)
   yearBuilt   Int?
   standing    String? // BASIC | MID | HIGH
   roomsTotal  Int?
   bedrooms    Int?
   bathrooms   Int?
+  kitchens    Int?
   amenities   Json    @default("[]") // string[] of amenity keys, e.g. ["POOL","PARKING"]
 
   photos    ListingPhoto[]
@@ -486,6 +491,109 @@ model Listing {
 
   @@index([userId, createdAt])
   @@index([status])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Property search request ("demande immobilière") — an agent records a
+// client/prospect's search criteria (frontend/src/app/demandes/new/page.tsx).
+// Unlike Listing, this is a single-shot create (no draft/photo-upload
+// flow), so every field is captured on the one POST that creates the row.
+// ───────────────────────────────────────────────────────────────────────
+model PropertyRequest {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactionType String // VENTE | LOCATION | SEJOUR | AUBERGE
+  propertyType    String // VILLA | APPARTEMENT | PARCELLE | DOMAINE | MAISON | BOUTIQUE | BUREAU | SALLE_FETE | SALLE_CONFERENCE | IMMEUBLE
+  country         String
+  city            String
+
+  // Only the field(s) relevant to propertyType are populated by the client
+  // (see LAND_/HALL_PROPERTY_TYPES in the form) — all nullable here since
+  // which ones apply depends on propertyType.
+  bedrooms  String? // e.g. "2 chambres"
+  salons    String? // e.g. "1 salon"
+  surfaceM2 Int?
+  capacity  Int? // nombre de places (salle de fête / salle de conférence)
+
+  amenities Json   @default("[]") // string[] of amenity keys, e.g. ["POOL","PARKING"]
+  priority  String @default("Normale") // Urgent | Normale | Basse
+
+  budgetMin Int?
+  budgetMax Int?
+  financing String // Comptant | Crédit | Les deux
+  delay     String // Immédiat | 1–3 mois | 3–6 mois | Flexible
+
+  clientName  String
+  clientPhone String
+  clientEmail String?
+  clientType  String  @default("Particulier") // Particulier | Entreprise
+  source      String?
+
+  status String @default("EN_ATTENTE") // EN_ATTENTE | EN_COURS | CLOTUREE
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matchedByAlerts AlertMatch[]
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Sector alert ("alerte secteur") — a saved search that notifies the user
+// when a matching PropertyRequest ("demande immobilière") is created, or
+// vice versa. See frontend/src/lib/server/alerts/matching.ts.
+// Single-shot create, same pattern as PropertyRequest.
+// ───────────────────────────────────────────────────────────────────────
+model Alert {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name            String
+  transactionType String // VENTE | LOCATION | SEJOUR | AUBERGE
+  propertyTypes   Json // string[] of PROPERTY_TYPE_LABEL keys, e.g. ["VILLA","APPARTEMENT"]
+  country         String
+  cities          Json // string[] of city names, e.g. ["Cotonou","Porto-Novo"]
+
+  priceMin Int?
+  priceMax Int?
+
+  frequency     String  @default("QUOTIDIENNE") // QUOTIDIENNE | HEBDOMADAIRE
+  notifWhatsapp Boolean @default(true)
+  notifEmail    Boolean @default(true)
+  notifSms      Boolean @default(false)
+
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matches AlertMatch[]
+
+  @@index([userId, createdAt])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Alert ↔ PropertyRequest match. Created by frontend/src/lib/server/alerts/matching.ts
+// when a newly-created Alert or PropertyRequest satisfies the other side's
+// criteria. The @@unique is the anti-duplicate-notification lock — also the
+// data source for the "Correspondances" section on /alertes/[id].
+// ───────────────────────────────────────────────────────────────────────
+model AlertMatch {
+  id                String          @id @default(cuid())
+  alertId           String
+  alert             Alert           @relation(fields: [alertId], references: [id], onDelete: Cascade)
+  propertyRequestId String
+  propertyRequest   PropertyRequest @relation(fields: [propertyRequestId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([alertId, propertyRequestId])
+  @@index([alertId, createdAt])
 }
 
 // One row per uploaded photo for a listing being published. `isPrimary`
