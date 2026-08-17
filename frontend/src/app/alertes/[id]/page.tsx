@@ -1,7 +1,8 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ChevronRight,
   ChevronLeft,
@@ -24,24 +25,137 @@ import {
   MoreHorizontal,
   LayoutList,
   LayoutGrid,
+  Loader2,
+  FileSearch,
 } from 'lucide-react';
 import { useUser } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { api, ApiError } from '@/lib/api';
 import { DashboardShell } from '@/components/dashboard/DashboardShell';
 import { cn } from '@/lib/utils';
-import { MOCK_ALERTS, TRANSACTION_BADGE } from '@/lib/alerts-data';
+import {
+  MOCK_ALERTS,
+  TRANSACTION_BADGE,
+  type AlertCriterion,
+  type AlertMatch,
+} from '@/lib/alerts-data';
+import { PROPERTY_TYPE_LABEL, TRANSACTION_TYPE_LABEL } from '@/lib/listings';
+import {
+  COUNTRY_FLAG,
+  FREQUENCY_LABEL,
+  formatBudget,
+  formatDate,
+  isMatchToday,
+  type AlertDetail,
+  type AlertMatchItem,
+  type Frequency,
+} from '@/lib/alerts';
 
 const PAGE_SIZE = 6;
 
+interface DisplayAlert {
+  title: string;
+  flag: string;
+  country: string;
+  transactionLabel: string;
+  criteria: AlertCriterion[];
+  createdLabel: string;
+  frequencyLabel: string;
+  stats: { newToday: number; totalMatches: number; viewed: number; saved: number };
+  mockMatches: AlertMatch[];
+  realMatches: AlertMatchItem[];
+  isReal: boolean;
+}
+
 export default function AlerteDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = useUser();
+  const router = useRouter();
+  const { toast } = useToast();
   const { id } = use(params);
-  const [active, setActive] = useState(true);
 
-  const alert = MOCK_ALERTS.find((a) => a.id === id);
+  const mockAlert = MOCK_ALERTS.find((a) => a.id === id);
+
+  const [apiAlert, setApiAlert] = useState<AlertDetail | null>(null);
+  const [apiLoading, setApiLoading] = useState(!mockAlert);
+  const [apiNotFound, setApiNotFound] = useState(false);
+  const [active, setActive] = useState(mockAlert?.active ?? true);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    if (!user || mockAlert) return;
+    let cancelled = false;
+    setApiLoading(true);
+    api<{ alert: AlertDetail }>(`/api/alerts/${id}`)
+      .then((res) => {
+        if (cancelled) return;
+        setApiAlert(res.alert);
+        setActive(res.alert.active);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setApiNotFound(true);
+      })
+      .finally(() => {
+        if (!cancelled) setApiLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user, id, mockAlert]);
 
   if (!user) return null;
 
-  if (!alert) {
+  if (!mockAlert && apiLoading) {
+    return (
+      <DashboardShell active="alerts" searchPlaceholder="Rechercher une annonce, un contact…">
+        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white p-14 text-center">
+          <Loader2 className="h-6 w-6 animate-spin text-gray-300" aria-hidden />
+          <p className="text-xs text-gray-400">Chargement de l&apos;alerte…</p>
+        </div>
+      </DashboardShell>
+    );
+  }
+
+  const display: DisplayAlert | null = mockAlert
+    ? {
+        title: mockAlert.title,
+        flag: mockAlert.flag,
+        country: mockAlert.country,
+        transactionLabel: TRANSACTION_BADGE[mockAlert.transaction].label,
+        criteria: mockAlert.criteria,
+        createdLabel: mockAlert.createdLabel,
+        frequencyLabel: mockAlert.frequencyLabel,
+        stats: mockAlert.stats,
+        mockMatches: mockAlert.matches,
+        realMatches: [],
+        isReal: false,
+      }
+    : apiAlert
+      ? {
+          title: apiAlert.name,
+          flag: COUNTRY_FLAG[apiAlert.country] ?? '',
+          country: apiAlert.country,
+          transactionLabel:
+            TRANSACTION_TYPE_LABEL[apiAlert.transactionType] ?? apiAlert.transactionType,
+          criteria: [
+            ...apiAlert.propertyTypes.map((t) => ({ label: PROPERTY_TYPE_LABEL[t] ?? t })),
+            { label: formatBudget(apiAlert.priceMin, apiAlert.priceMax), highlight: true },
+          ],
+          createdLabel: `Créée le ${formatDate(apiAlert.createdAt)}`,
+          frequencyLabel: FREQUENCY_LABEL[apiAlert.frequency as Frequency] ?? apiAlert.frequency,
+          stats: {
+            newToday: apiAlert.matches.filter((m) => isMatchToday(m.createdAt)).length,
+            totalMatches: apiAlert.matches.length,
+            viewed: apiAlert.matches.filter((m) => m.viewedAt !== null).length,
+            saved: 0,
+          },
+          mockMatches: [],
+          realMatches: apiAlert.matches,
+          isReal: true,
+        }
+      : null;
+
+  if (!display || apiNotFound) {
     return (
       <DashboardShell active="alerts" searchPlaceholder="Rechercher une annonce, un contact…">
         <div className="flex flex-col items-center justify-center gap-3 rounded-2xl bg-white p-12 text-center">
@@ -57,8 +171,47 @@ export default function AlerteDetailPage({ params }: { params: Promise<{ id: str
     );
   }
 
-  const shownMatches = alert.matches.slice(0, PAGE_SIZE);
-  const newCount = alert.matches.filter((m) => m.isNew).length;
+  const alert = display;
+
+  async function toggleActive() {
+    const next = !active;
+    setActive(next);
+    if (!alert!.isReal) return;
+    try {
+      await api(`/api/alerts/${id}`, { method: 'PATCH', body: { active: next } });
+    } catch (e) {
+      setActive(!next);
+      toast(e instanceof ApiError ? e.message : "Impossible de mettre à jour l'alerte.", 'error');
+    }
+  }
+
+  async function handleDelete() {
+    setDeleting(true);
+    try {
+      await api(`/api/alerts/${id}`, { method: 'DELETE' });
+      toast('Alerte supprimée.', 'success');
+      router.push('/alertes');
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message : "Impossible de supprimer l'alerte.", 'error');
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  function markMatchViewed(matchId: string) {
+    if (!alert!.isReal) return;
+    void api(`/api/alerts/${id}/matches/${matchId}`, {
+      method: 'PATCH',
+      body: { viewed: true },
+    }).catch(() => {
+      // best-effort — never blocks navigation to the request detail page
+    });
+  }
+
+  const shownMockMatches = alert.mockMatches.slice(0, PAGE_SIZE);
+  const shownRealMatches = alert.realMatches.slice(0, PAGE_SIZE);
+  const shownMatchesCount = alert.isReal ? shownRealMatches.length : shownMockMatches.length;
+  const newCount = alert.stats.newToday;
   const totalPages = Math.max(1, Math.ceil(alert.stats.totalMatches / PAGE_SIZE));
 
   return (
@@ -83,7 +236,7 @@ export default function AlerteDetailPage({ params }: { params: Promise<{ id: str
             <span className="text-gray-200">•</span>
             <span className="flex items-center gap-1">
               <Tag className="h-3 w-3" aria-hidden />
-              {TRANSACTION_BADGE[alert.transaction].label}
+              {alert.transactionLabel}
             </span>
             <span className="text-gray-200">•</span>
             <span className="flex items-center gap-1">
@@ -124,7 +277,7 @@ export default function AlerteDetailPage({ params }: { params: Promise<{ id: str
             </span>
             <button
               type="button"
-              onClick={() => setActive((v) => !v)}
+              onClick={() => void toggleActive()}
               aria-pressed={active}
               aria-label="Activer/Désactiver l'alerte"
               className={cn(
@@ -158,15 +311,31 @@ export default function AlerteDetailPage({ params }: { params: Promise<{ id: str
               <Pencil className="h-[13px] w-[13px]" aria-hidden />
               Modifier
             </button>
-            <button
-              type="button"
-              disabled
-              title="Bientôt disponible"
-              className="flex cursor-not-allowed items-center gap-1.5 rounded-lg border border-red-200 bg-red-50/60 px-4 py-2 text-[13px] font-semibold text-red-300"
-            >
-              <Trash2 className="h-[13px] w-[13px]" aria-hidden />
-              Supprimer
-            </button>
+            {alert.isReal ? (
+              <button
+                type="button"
+                onClick={() => void handleDelete()}
+                disabled={deleting}
+                className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50/60 px-4 py-2 text-[13px] font-semibold text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {deleting ? (
+                  <Loader2 className="h-[13px] w-[13px] animate-spin" aria-hidden />
+                ) : (
+                  <Trash2 className="h-[13px] w-[13px]" aria-hidden />
+                )}
+                Supprimer
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled
+                title="Bientôt disponible"
+                className="flex cursor-not-allowed items-center gap-1.5 rounded-lg border border-red-200 bg-red-50/60 px-4 py-2 text-[13px] font-semibold text-red-300"
+              >
+                <Trash2 className="h-[13px] w-[13px]" aria-hidden />
+                Supprimer
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -195,7 +364,7 @@ export default function AlerteDetailPage({ params }: { params: Promise<{ id: str
             iconBg: 'bg-amber-100',
             iconColor: 'text-amber-700',
             value: alert.stats.viewed,
-            label: 'Annonces consultées',
+            label: 'Demandes consultées',
             trend:
               alert.stats.totalMatches > 0
                 ? `${Math.round((alert.stats.viewed / alert.stats.totalMatches) * 100)}% des matches`
@@ -292,18 +461,79 @@ export default function AlerteDetailPage({ params }: { params: Promise<{ id: str
           </div>
         </div>
 
-        {shownMatches.length === 0 ? (
+        {shownMatchesCount === 0 ? (
           <div className="px-5 py-14 text-center">
             <p className="text-[13.5px] font-medium text-neutral-700">
               Aucune correspondance pour le moment
             </p>
             <p className="mt-1 text-xs text-gray-400">
-              Vous serez notifié dès qu&apos;une annonce correspondra à vos critères.
+              Vous serez notifié dès qu&apos;une demande immobilière correspondra à vos critères.
             </p>
+          </div>
+        ) : alert.isReal ? (
+          <div>
+            {shownRealMatches.map((m, i) => {
+              const r = m.propertyRequest;
+              const transactionLabel =
+                TRANSACTION_TYPE_LABEL[r.transactionType] ?? r.transactionType;
+              const propertyLabel = PROPERTY_TYPE_LABEL[r.propertyType] ?? r.propertyType;
+              return (
+                <div
+                  key={m.id}
+                  className={cn(
+                    'flex flex-wrap items-center gap-3.5 border-t border-black/[0.06] px-5 py-3.5 first:border-t-0 lg:flex-nowrap',
+                    i % 2 === 1 && 'bg-[#FAFBFD]',
+                  )}
+                >
+                  <div className="flex h-[52px] w-16 flex-shrink-0 items-center justify-center rounded-lg bg-brand/10">
+                    <FileSearch className="h-5 w-5 text-brand" aria-hidden />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[13.5px] font-semibold text-neutral-900">
+                      Demande de {r.clientName}
+                    </p>
+                    <div className="mt-1 flex flex-wrap items-center gap-2.5 text-xs text-gray-400">
+                      <span className="flex items-center gap-1 whitespace-nowrap">
+                        <MapPin className="h-2.5 w-2.5" aria-hidden />
+                        {r.city}
+                      </span>
+                      <span className="whitespace-nowrap">{propertyLabel}</span>
+                      <span className="flex items-center gap-1 whitespace-nowrap">
+                        <Clock className="h-2.5 w-2.5" aria-hidden />
+                        {formatDate(m.createdAt)}
+                      </span>
+                      {isMatchToday(m.createdAt) && (
+                        <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10.5px] font-semibold whitespace-nowrap text-brand">
+                          Nouvelle
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-shrink-0 flex-col items-end gap-1.5">
+                    <span className="font-sora text-sm font-semibold whitespace-nowrap text-neutral-900">
+                      {formatBudget(r.budgetMin, r.budgetMax)}
+                    </span>
+                    <span className="rounded-full bg-brand/10 px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap text-brand">
+                      {transactionLabel}
+                    </span>
+                  </div>
+                  <div className="flex flex-shrink-0 items-center gap-1.5">
+                    <Link
+                      href={`/demandes/${r.id}`}
+                      title="Voir la demande"
+                      onClick={() => markMatchViewed(m.id)}
+                      className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-black/[0.08] bg-gray-50 text-neutral-700"
+                    >
+                      <Eye className="h-[13px] w-[13px]" aria-hidden />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div>
-            {shownMatches.map((m, i) => (
+            {shownMockMatches.map((m, i) => (
               <div
                 key={m.id}
                 className={cn(
@@ -393,7 +623,7 @@ export default function AlerteDetailPage({ params }: { params: Promise<{ id: str
         {alert.stats.totalMatches > 0 && (
           <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-black/[0.06] px-5 py-3.5">
             <span className="text-[12.5px] text-gray-400">
-              1–{shownMatches.length} sur {alert.stats.totalMatches} correspondances
+              1–{shownMatchesCount} sur {alert.stats.totalMatches} correspondances
             </span>
             <div className="flex items-center gap-1">
               <button
