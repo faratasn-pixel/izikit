@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import {
   Plus,
   Settings2,
@@ -8,114 +9,100 @@ import {
   Sparkles,
   List,
   LayoutGrid,
-  Maximize2,
   MapPin,
-  Bookmark,
-  MoreHorizontal,
   Clock,
   ArrowRight,
   Download,
+  Loader2,
+  BellPlus,
+  FileSearch,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useUser } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { api, ApiError } from '@/lib/api';
 import { DashboardShell } from '@/components/dashboard/DashboardShell';
 import { cn } from '@/lib/utils';
-import { MOCK_ALERTS, TRANSACTION_BADGE, type Transaction } from '@/lib/alerts-data';
+import { PROPERTY_TYPE_LABEL, TRANSACTION_TYPE_LABEL } from '@/lib/listings';
+import {
+  COUNTRY_FLAG,
+  FREQUENCY_LABEL,
+  formatBudget,
+  formatDate,
+  isMatchToday,
+  type AlertListItem,
+  type Frequency,
+  type RecentAlertMatch,
+} from '@/lib/alerts';
 
-interface RecentMatch {
-  id: string;
-  imageUrl: string;
-  title: string;
-  zoneFlag: string;
-  zone: string;
-  size: string;
-  detail: string;
-  timeLabel: string;
-  isNew: boolean;
-  price: string;
-  transaction: Transaction;
+interface Counts {
+  total: number;
+  active: number;
+  inactive: number;
 }
-
-const MOCK_MATCHES: RecentMatch[] = [
-  {
-    id: 'm1',
-    imageUrl:
-      'https://storage.googleapis.com/banani-generated-images/generated-images/20210aed-ed54-4b80-9467-2e6370d287bb.jpg',
-    title: 'Belle villa 5 pièces avec piscine – Cocody Danga',
-    zoneFlag: '🇨🇮',
-    zone: 'Cocody, Abidjan',
-    size: '280 m²',
-    detail: '5 pièces',
-    timeLabel: 'Il y a 2h',
-    isNew: true,
-    price: '145 000 000 FCFA',
-    transaction: 'VENTE',
-  },
-  {
-    id: 'm2',
-    imageUrl:
-      'https://storage.googleapis.com/banani-generated-images/generated-images/8cc29858-d03e-447b-a0ab-bb26f1479c62.jpg',
-    title: 'Appartement meublé 3 pièces – Almadies Dakar',
-    zoneFlag: '🇸🇳',
-    zone: 'Almadies, Dakar',
-    size: '95 m²',
-    detail: '3 pièces',
-    timeLabel: 'Il y a 5h',
-    isNew: true,
-    price: '28 000 000 FCFA',
-    transaction: 'LOCATION',
-  },
-  {
-    id: 'm3',
-    imageUrl:
-      'https://storage.googleapis.com/banani-generated-images/generated-images/cdae6458-9b12-4e4e-979f-cfdfb3b92f3b.jpg',
-    title: 'Terrain titré 800m² viabilisé – Bè, Lomé',
-    zoneFlag: '🇹🇬',
-    zone: 'Bè, Lomé',
-    size: '800 m²',
-    detail: 'Titré',
-    timeLabel: 'Hier',
-    isNew: false,
-    price: '55 000 000 FCFA',
-    transaction: 'VENTE',
-  },
-  {
-    id: 'm4',
-    imageUrl:
-      'https://storage.googleapis.com/banani-generated-images/generated-images/3cde2648-74f4-4739-827b-ab9b6ab5e152.jpg',
-    title: 'Villa sécurisée 4 ch. avec jardin – Marcory',
-    zoneFlag: '🇨🇮',
-    zone: 'Marcory, Abidjan',
-    size: '220 m²',
-    detail: '4 chambres',
-    timeLabel: 'Hier',
-    isNew: false,
-    price: '98 000 000 FCFA',
-    transaction: 'VENTE',
-  },
-  {
-    id: 'm5',
-    imageUrl:
-      'https://storage.googleapis.com/banani-generated-images/generated-images/169d3a9b-854c-4c6b-8728-cc537f9f0364.jpg',
-    title: 'Appartement 3P lumineux vue mer – Mermoz',
-    zoneFlag: '🇸🇳',
-    zone: 'Mermoz, Dakar',
-    size: '88 m²',
-    detail: '3 pièces',
-    timeLabel: '2 jan.',
-    isNew: false,
-    price: '22 000 000 FCFA',
-    transaction: 'LOCATION',
-  },
-];
 
 export default function AlertesPage() {
   const user = useUser();
+  const { toast } = useToast();
 
-  const activeCount = MOCK_ALERTS.filter((a) => a.active).length;
-  const inactiveCount = MOCK_ALERTS.filter((a) => !a.active).length;
-  const monthlyMatches = 14;
-  const viewedListings = 38;
+  const [items, setItems] = useState<AlertListItem[]>([]);
+  const [counts, setCounts] = useState<Counts>({ total: 0, active: 0, inactive: 0 });
+  const [loading, setLoading] = useState(true);
+
+  const [recentItems, setRecentItems] = useState<RecentAlertMatch[]>([]);
+  const [monthlyCount, setMonthlyCount] = useState(0);
+  const [viewedCount, setViewedCount] = useState(0);
+
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    setLoading(true);
+    api<{ items: AlertListItem[]; counts: Counts }>('/api/alerts?limit=50')
+      .then((res) => {
+        if (cancelled) return;
+        setItems(res.items);
+        setCounts(res.counts);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        toast(e instanceof ApiError ? e.message : 'Impossible de charger les alertes.', 'error');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    api<{ items: RecentAlertMatch[]; monthlyCount: number; viewedCount: number }>(
+      '/api/alerts/matches/recent?limit=5',
+    )
+      .then((res) => {
+        if (cancelled) return;
+        setRecentItems(res.items);
+        setMonthlyCount(res.monthlyCount);
+        setViewedCount(res.viewedCount);
+      })
+      .catch(() => {
+        // best-effort — the rest of the page still works without this section
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
+  function markMatchViewed(alertId: string, matchId: string) {
+    void api(`/api/alerts/${alertId}/matches/${matchId}`, {
+      method: 'PATCH',
+      body: { viewed: true },
+    }).catch(() => {
+      // best-effort — never blocks navigation to the request detail page
+    });
+  }
 
   if (!user) return null;
 
@@ -157,7 +144,7 @@ export default function AlertesPage() {
         {[
           {
             label: 'Alertes actives',
-            value: activeCount,
+            value: counts.active,
             dot: '#376BFF',
             sub: (
               <span className="flex items-center gap-1">
@@ -168,7 +155,7 @@ export default function AlertesPage() {
           },
           {
             label: 'Correspondances ce mois',
-            value: monthlyMatches,
+            value: monthlyCount,
             dot: '#F59E0B',
             sub: (
               <span className="flex items-center gap-1 text-brand">
@@ -178,17 +165,17 @@ export default function AlertesPage() {
             ),
           },
           {
-            label: 'Annonces consultées',
-            value: viewedListings,
+            label: 'Demandes consultées',
+            value: viewedCount,
             dot: '#10B981',
             sub: (
               <span className="flex items-center gap-1">
                 <TrendingUp className="h-3 w-3 text-emerald-500" aria-hidden />
-                +5 ce mois
+                Total
               </span>
             ),
           },
-          { label: 'Alertes désactivées', value: inactiveCount, dot: '#EF4444', sub: '—' },
+          { label: 'Alertes désactivées', value: counts.inactive, dot: '#EF4444', sub: '—' },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl bg-white p-5">
             <p className="mb-2 text-xs font-medium text-gray-400">{s.label}</p>
@@ -235,112 +222,128 @@ export default function AlertesPage() {
       </div>
 
       {/* ALERT CARDS GRID */}
-      <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2 lg:grid-cols-3">
-        {MOCK_ALERTS.map((alert) => (
-          <Link
-            key={alert.id}
-            href={`/alertes/${alert.id}`}
-            className="flex flex-col gap-3.5 rounded-2xl bg-white p-5 transition-shadow hover:shadow-md"
-          >
-            <div className="flex items-start justify-between gap-2.5">
-              <div>
-                <p className="text-sm font-semibold text-neutral-900">{alert.title}</p>
-                <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-gray-400">
-                  <span>{alert.flag}</span>
-                  <span>{alert.country}</span>
-                  <span className="text-gray-200">•</span>
-                  <span>{TRANSACTION_BADGE[alert.transaction].label}</span>
-                </p>
-              </div>
-              <span
-                className={cn(
-                  'flex-shrink-0 rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
-                  alert.active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-200 text-gray-700',
-                )}
+      {loading ? (
+        <div className="flex flex-col items-center gap-2 rounded-2xl bg-white py-14 text-center">
+          <Loader2 className="h-6 w-6 animate-spin text-gray-300" aria-hidden />
+          <p className="text-xs text-gray-400">Chargement des alertes…</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((alert) => {
+            const transactionLabel =
+              TRANSACTION_TYPE_LABEL[alert.transactionType] ?? alert.transactionType;
+            const frequencyLabel = FREQUENCY_LABEL[alert.frequency as Frequency] ?? alert.frequency;
+            const criteria: { label: string; highlight?: boolean }[] = [
+              ...alert.propertyTypes.map((t) => ({ label: PROPERTY_TYPE_LABEL[t] ?? t })),
+              { label: formatBudget(alert.priceMin, alert.priceMax), highlight: true },
+            ];
+            return (
+              <Link
+                key={alert.id}
+                href={`/alertes/${alert.id}`}
+                className="flex flex-col gap-3.5 rounded-2xl bg-white p-5 transition-shadow hover:shadow-md"
               >
-                {alert.active ? 'Active' : 'Inactive'}
-              </span>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5">
-              {alert.criteria.map((c, i) => (
-                <span
-                  key={i}
-                  className={cn(
-                    'inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11.5px] font-medium whitespace-nowrap',
-                    c.highlight
-                      ? 'bg-brand/10 text-brand'
-                      : c.muted
-                        ? 'bg-gray-100 text-gray-300'
-                        : 'bg-gray-100 text-neutral-700',
-                  )}
-                >
-                  {c.icon && <c.icon className="h-2.5 w-2.5" aria-hidden />}
-                  {c.label}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-xs text-gray-400">
-                Dernière correspondance :{' '}
-                <span
-                  className={cn(
-                    'font-semibold',
-                    alert.lastMatch === 'Aucune' ? 'text-gray-400 font-medium' : 'text-brand',
-                  )}
-                >
-                  {alert.lastMatch}
-                </span>
-              </p>
-              <div className="flex flex-shrink-0 items-center gap-1.5">
-                <span
-                  className={cn(
-                    'relative inline-block h-[18px] w-8 rounded-full',
-                    alert.active ? 'bg-brand' : 'bg-gray-300',
-                  )}
-                  aria-hidden
-                >
+                <div className="flex items-start justify-between gap-2.5">
+                  <div>
+                    <p className="text-sm font-semibold text-neutral-900">{alert.name}</p>
+                    <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-gray-400">
+                      <span>{COUNTRY_FLAG[alert.country] ?? ''}</span>
+                      <span>{alert.country}</span>
+                      <span className="text-gray-200">•</span>
+                      <span>{transactionLabel}</span>
+                    </p>
+                  </div>
                   <span
                     className={cn(
-                      'absolute top-[3px] h-3 w-3 rounded-full bg-white',
-                      alert.active ? 'right-[3px]' : 'left-[3px]',
+                      'flex-shrink-0 rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
+                      alert.active
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-gray-200 text-gray-700',
                     )}
-                  />
-                </span>
-                <span
-                  className={cn(
-                    'text-xs whitespace-nowrap',
-                    alert.active ? 'text-emerald-700' : 'text-gray-400',
-                  )}
-                >
-                  {alert.active ? 'Activée' : 'Désactivée'}
-                </span>
-              </div>
-            </div>
+                  >
+                    {alert.active ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
 
-            <p className="text-[11.5px] text-gray-400">
-              {alert.createdLabel} · Fréquence : {alert.frequencyLabel}
+                <div className="flex flex-wrap gap-1.5">
+                  {criteria.map((c, i) => (
+                    <span
+                      key={i}
+                      className={cn(
+                        'inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11.5px] font-medium whitespace-nowrap',
+                        c.highlight ? 'bg-brand/10 text-brand' : 'bg-gray-100 text-neutral-700',
+                      )}
+                    >
+                      {c.label}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs text-gray-400">
+                    Dernière correspondance :{' '}
+                    <span className="font-medium text-gray-400">Aucune</span>
+                  </p>
+                  <div className="flex flex-shrink-0 items-center gap-1.5">
+                    <span
+                      className={cn(
+                        'relative inline-block h-[18px] w-8 rounded-full',
+                        alert.active ? 'bg-brand' : 'bg-gray-300',
+                      )}
+                      aria-hidden
+                    >
+                      <span
+                        className={cn(
+                          'absolute top-[3px] h-3 w-3 rounded-full bg-white',
+                          alert.active ? 'right-[3px]' : 'left-[3px]',
+                        )}
+                      />
+                    </span>
+                    <span
+                      className={cn(
+                        'text-xs whitespace-nowrap',
+                        alert.active ? 'text-emerald-700' : 'text-gray-400',
+                      )}
+                    >
+                      {alert.active ? 'Activée' : 'Désactivée'}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-[11.5px] text-gray-400">
+                  Créée le {formatDate(alert.createdAt)} · Fréquence : {frequencyLabel}
+                </p>
+              </Link>
+            );
+          })}
+
+          {items.length === 0 && (
+            <div className="flex min-h-[170px] flex-col items-center justify-center gap-2 rounded-2xl bg-white p-6 text-center md:col-span-2 lg:col-span-2">
+              <BellPlus className="mb-1 h-7 w-7 text-gray-300" aria-hidden />
+              <p className="text-sm font-medium text-neutral-700">Aucune alerte pour le moment</p>
+              <p className="max-w-xs text-xs text-gray-400">
+                Créez votre première alerte secteur pour être notifié des nouvelles opportunités.
+              </p>
+            </div>
+          )}
+
+          {/* New alert card */}
+          <Link
+            href="/alertes/new"
+            className="flex min-h-[170px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-black/[0.08] bg-white p-6"
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10">
+              <Plus className="h-5 w-5 text-brand" aria-hidden />
+            </div>
+            <p className="text-[13.5px] font-semibold text-brand">Créer une nouvelle alerte</p>
+            <p className="text-center text-xs text-gray-400">
+              Définissez vos critères et recevez
+              <br />
+              des correspondances en temps réel.
             </p>
           </Link>
-        ))}
-
-        {/* New alert card */}
-        <Link
-          href="/alertes/new"
-          className="flex min-h-[170px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-black/[0.08] bg-white p-6"
-        >
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10">
-            <Plus className="h-5 w-5 text-brand" aria-hidden />
-          </div>
-          <p className="text-[13.5px] font-semibold text-brand">Créer une nouvelle alerte</p>
-          <p className="text-center text-xs text-gray-400">
-            Définissez vos critères et recevez
-            <br />
-            des correspondances en temps réel.
-          </p>
-        </Link>
-      </div>
+        </div>
+      )}
 
       {/* RECENT MATCHES */}
       <div className="rounded-2xl bg-white">
@@ -350,8 +353,8 @@ export default function AlertesPage() {
               Correspondances récentes
             </span>
             <span className="text-[12.5px] text-gray-400">
-              {monthlyMatches} ce mois · {MOCK_MATCHES.filter((m) => m.isNew).length} nouvelles
-              aujourd&apos;hui
+              {monthlyCount} ce mois · {recentItems.filter((m) => isMatchToday(m.createdAt)).length}{' '}
+              nouvelles aujourd&apos;hui
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -376,83 +379,70 @@ export default function AlertesPage() {
         </div>
 
         <div>
-          {MOCK_MATCHES.map((m, i) => (
-            <div
-              key={m.id}
-              className={cn(
-                'flex flex-wrap items-center gap-3.5 border-t border-black/[0.06] px-5 py-3.5 lg:flex-nowrap',
-                i % 2 === 1 && 'bg-[#FAFBFD]',
-              )}
-            >
-              <img
-                src={m.imageUrl}
-                alt={m.title}
-                className="h-12 w-14 flex-shrink-0 rounded-lg object-cover"
-              />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[13.5px] font-semibold text-neutral-900">{m.title}</p>
-                <div className="mt-1 flex flex-wrap items-center gap-2.5 text-xs text-gray-400">
-                  <span className="flex items-center gap-1 whitespace-nowrap">
-                    <MapPin className="h-2.5 w-2.5" aria-hidden />
-                    {m.zoneFlag} {m.zone}
-                  </span>
-                  <span className="flex items-center gap-1 whitespace-nowrap">
-                    <Maximize2 className="h-2.5 w-2.5" aria-hidden />
-                    {m.size}
-                  </span>
-                  <span className="whitespace-nowrap">{m.detail}</span>
-                  <span className="flex items-center gap-1 whitespace-nowrap">
-                    <Clock className="h-2.5 w-2.5" aria-hidden />
-                    {m.timeLabel}
-                  </span>
-                  {m.isNew && (
-                    <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10.5px] font-semibold whitespace-nowrap text-brand">
-                      Nouvelle
+          {recentItems.map((m, i) => {
+            const r = m.propertyRequest;
+            const transactionLabel = TRANSACTION_TYPE_LABEL[r.transactionType] ?? r.transactionType;
+            const propertyLabel = PROPERTY_TYPE_LABEL[r.propertyType] ?? r.propertyType;
+            const isNew = isMatchToday(m.createdAt);
+            return (
+              <div
+                key={m.id}
+                className={cn(
+                  'flex flex-wrap items-center gap-3.5 border-t border-black/[0.06] px-5 py-3.5 lg:flex-nowrap',
+                  i % 2 === 1 && 'bg-[#FAFBFD]',
+                )}
+              >
+                <div className="flex h-12 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-brand/10">
+                  <FileSearch className="h-5 w-5 text-brand" aria-hidden />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[13.5px] font-semibold text-neutral-900">
+                    Demande de {r.clientName}
+                  </p>
+                  <div className="mt-1 flex flex-wrap items-center gap-2.5 text-xs text-gray-400">
+                    <span className="flex items-center gap-1 whitespace-nowrap">
+                      <MapPin className="h-2.5 w-2.5" aria-hidden />
+                      {r.city}
                     </span>
-                  )}
+                    <span className="whitespace-nowrap">{propertyLabel}</span>
+                    <span className="flex items-center gap-1 whitespace-nowrap">
+                      <Clock className="h-2.5 w-2.5" aria-hidden />
+                      {formatDate(m.createdAt)}
+                    </span>
+                    {isNew && (
+                      <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10.5px] font-semibold whitespace-nowrap text-brand">
+                        Nouvelle
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-shrink-0 flex-col items-end gap-1.5">
+                  <span className="font-sora text-sm font-semibold whitespace-nowrap text-neutral-900">
+                    {formatBudget(r.budgetMin, r.budgetMax)}
+                  </span>
+                  <span className="rounded-full bg-brand/10 px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap text-brand">
+                    {transactionLabel}
+                  </span>
+                </div>
+                <div className="flex flex-shrink-0 items-center gap-1.5">
+                  <Link
+                    href={`/demandes/${r.id}`}
+                    title="Voir la demande"
+                    onClick={() => markMatchViewed(m.alertId, m.id)}
+                    className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-black/[0.08] bg-gray-50 text-neutral-700"
+                  >
+                    <Eye className="h-[13px] w-[13px]" aria-hidden />
+                  </Link>
                 </div>
               </div>
-              <div className="flex flex-shrink-0 flex-col items-end gap-1.5">
-                <span className="font-sora text-sm font-semibold whitespace-nowrap text-neutral-900">
-                  {m.price}
-                </span>
-                <span
-                  className={cn(
-                    'rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
-                    TRANSACTION_BADGE[m.transaction].className,
-                  )}
-                >
-                  {TRANSACTION_BADGE[m.transaction].label}
-                </span>
-              </div>
-              <div className="flex flex-shrink-0 items-center gap-1.5">
-                <button
-                  type="button"
-                  disabled
-                  title="Bientôt disponible"
-                  className="flex h-[30px] w-[30px] cursor-not-allowed items-center justify-center rounded-md border border-black/[0.08] bg-gray-50 text-gray-400"
-                >
-                  <Eye className="h-[13px] w-[13px]" aria-hidden />
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  title="Bientôt disponible"
-                  className="flex h-[30px] w-[30px] cursor-not-allowed items-center justify-center rounded-md border border-black/[0.08] bg-gray-50 text-gray-400"
-                >
-                  <Bookmark className="h-[13px] w-[13px]" aria-hidden />
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  title="Bientôt disponible"
-                  className="flex h-[30px] w-[30px] cursor-not-allowed items-center justify-center rounded-md border border-black/[0.08] bg-gray-50 text-gray-400"
-                >
-                  <MoreHorizontal className="h-[13px] w-[13px]" aria-hidden />
-                </button>
-              </div>
+            );
+          })}
+
+          {recentItems.length === 0 && (
+            <div className="px-5 py-10 text-center text-xs text-gray-400">
+              Aucune correspondance pour le moment.
             </div>
-          ))}
+          )}
         </div>
 
         <div className="border-t border-black/[0.06] px-5 py-4 text-center">
