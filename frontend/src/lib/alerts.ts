@@ -43,7 +43,13 @@ export interface AlertMatchRequest {
 export interface AlertMatchItem {
   id: string;
   createdAt: string;
+  viewedAt: string | null;
   propertyRequest: AlertMatchRequest;
+}
+
+export interface RecentAlertMatch extends AlertMatchItem {
+  alertId: string;
+  alertName: string;
 }
 
 export interface AlertDetail extends AlertListItem {
@@ -89,4 +95,14 @@ export function formatDate(iso: string): string {
     month: 'short',
     year: 'numeric',
   });
+}
+
+export function isMatchToday(iso: string): boolean {
+  const d = new Date(iso);
+  const now = new Date();
+  return (
+    d.getFullYear() === now.getFullYear() &&
+    d.getMonth() === now.getMonth() &&
+    d.getDate() === now.getDate()
+  );
 }
