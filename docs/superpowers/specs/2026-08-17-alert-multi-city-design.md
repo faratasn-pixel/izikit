@@ -32,21 +32,27 @@ scope.
 
 ### 1. Schéma Prisma
 
+**Correction post-review :** `propertyTypes` (le seul autre champ "tableau"
+du modèle `Alert`) est stocké en `Json` (colonne `JSONB`), pas en tableau
+Postgres natif (`String[]`) — convention du codebase, probablement pour
+rester cohérent avec le pattern "parse défensif" déjà utilisé
+(`Array.isArray(alert.propertyTypes) ? ... : []` dans `matching.ts`). On
+suit la même convention pour `cities`, pas `String[]`.
+
 `frontend/prisma/schema.prisma`, modèle `Alert` (ligne ~560) :
 
 ```prisma
 // avant
 city            String
 // après
-cities          String[]
+cities          Json // string[] of city names, e.g. ["Cotonou","Porto-Novo"]
 ```
 
 Migration versionnée (`prisma/migrations/<ts>_alert_cities/migration.sql`) :
-1. `ALTER TABLE "Alert" ADD COLUMN "cities" TEXT[] NOT NULL DEFAULT '{}';`
-2. `UPDATE "Alert" SET "cities" = ARRAY["city"] WHERE "city" IS NOT NULL;`
-3. `ALTER TABLE "Alert" DROP COLUMN "city";`
-4. Drop le `DEFAULT '{}'` après backfill (garder `NOT NULL`) pour forcer
-   l'appli à toujours fournir au moins une ville sur les futures créations.
+1. `ALTER TABLE "Alert" ADD COLUMN "cities" JSONB;`
+2. `UPDATE "Alert" SET "cities" = to_jsonb(ARRAY["city"]) WHERE "city" IS NOT NULL;`
+3. `ALTER TABLE "Alert" ALTER COLUMN "cities" SET NOT NULL;`
+4. `ALTER TABLE "Alert" DROP COLUMN "city";`
 
 ### 2. API `/api/alerts`
 
@@ -58,16 +64,32 @@ connue au-delà).
 `GET /api/alerts` et `GET /api/alerts/[id]` : `ALERT_SELECT`/`ALERT_WITH_MATCHES_SELECT`
 remplacent `city: true` par `cities: true`.
 
-`prisma.alert.create({ data: { ..., cities: data.cities } })`.
+`prisma.alert.create({ data: { ..., cities: data.cities } })` — Prisma
+accepte directement un `string[]` JS pour une colonne `Json`.
 
 ### 3. Moteur de matching (`matching.ts`)
 
-- `AlertForMatching` : `'city'` → `'cities'` dans le `Pick<Alert, ...>`.
-- `matchesAlert` : `alert.city !== request.city` → `!alert.cities.includes(request.city)`.
-- `findMatchingRequestsForAlert` : `where: { ..., city: alert.city }` →
-  `where: { ..., city: { in: alert.cities } }`.
-- `findMatchingAlertsForRequest` : `where: { ..., city: request.city }` →
-  `where: { ..., cities: { has: request.city } }`.
+- `AlertForMatching` : `'city'` → `'cities'` dans le `Pick<Alert, ...>` (type
+  `Json` côté Prisma — caster en `string[]` avec le même garde défensif que
+  `propertyTypes` : `Array.isArray(alert.cities) ? (alert.cities as string[]) : []`).
+- `matchesAlert` : remplacer la comparaison directe `alert.city !== request.city`
+  par une variable locale `const cities = Array.isArray(alert.cities) ? (alert.cities as string[]) : [];`
+  puis `if (alert.country !== request.country || !cities.includes(request.city)) return false;`.
+- `findMatchingRequestsForAlert` : la table interrogée est `PropertyRequest`
+  (`city` y reste une colonne `String` normale) — le filtre SQL devient
+  `where: { transactionType: alert.transactionType, country: alert.country, city: { in: citiesOf(alert) } }`
+  où `citiesOf(alert)` applique le même garde `Array.isArray` ci-dessus. Le
+  filtre `in` sur une colonne `String` fonctionne normalement, qu'importe
+  que le tableau source vienne d'un champ JSON côté appelant.
+- `findMatchingAlertsForRequest` : ici c'est `Alert.cities` (JSONB) qui doit
+  être filtré, et Prisma ne supporte pas de filtre `has`/`in` fiable sur
+  JSONB de cette forme. **Retirer `city`/`cities` du `where` Prisma** — ne
+  garder que `{ active: true, transactionType: request.transactionType, country: request.country }`
+  — et laisser le filtre `matchesAlert(...)` (déjà appliqué en JS après la
+  requête) éliminer les alertes dont `cities` ne contient pas
+  `request.city`. C'est exactement le même pattern déjà utilisé pour
+  `propertyTypes` dans cette fonction — aucun filtre SQL dessus non plus,
+  tout est filtré en JS via `matchesAlert`.
 
 Comportement inchangé pour les alertes à une seule ville (liste à un élément).
 
