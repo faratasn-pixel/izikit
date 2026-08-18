@@ -23,12 +23,17 @@ export function InitialsAvatar({
   name,
   email,
   avatarUrl,
+  seed,
   size = 34,
   className,
 }: {
   name: string | null;
   email: string;
   avatarUrl?: string | null;
+  // Optional hue source that does NOT need to be a real email — pass this
+  // on pages (e.g. public /annonces) that must never receive or render a
+  // user's email address. Falls back to `email` when omitted.
+  seed?: string;
   size?: number;
   className?: string;
 }) {
@@ -42,7 +47,7 @@ export function InitialsAvatar({
       />
     );
   }
-  const hue = hueFrom(email);
+  const hue = hueFrom(seed ?? email);
   return (
     <div
       className={cn(
