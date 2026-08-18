@@ -485,12 +485,53 @@ model Listing {
 
   photos    ListingPhoto[]
   documents ListingDocument[]
+  inquiries ListingInquiry[]
+  reports   ListingReport[]
+
+  viewCount Int @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId, createdAt])
   @@index([status])
+}
+
+// A single inbound lead from the public listing-detail page — either a
+// general contact message or a VR-visit request. Anonymous (no userId):
+// the visitor is never required to be logged in. Not a conversation
+// thread — see frontend/src/app/messages/page.tsx for the (currently
+// fully mocked, separately-scoped) rich inbox this may eventually feed.
+model ListingInquiry {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  type    String // MESSAGE | VR_VISIT
+  name    String
+  phone   String
+  email   String?
+  message String
+
+  createdAt DateTime @default(now())
+
+  @@index([listingId, createdAt])
+}
+
+// A visitor-submitted flag on a listing, queued for admin moderation.
+// Anonymous, matching ListingInquiry — no reporter identity captured.
+model ListingReport {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  reason String // FAKE | SOLD | INCORRECT_INFO | SCAM | OTHER
+  detail String?
+  status String @default("PENDING") // PENDING | REVIEWED | DISMISSED
+
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
 }
 
 // ───────────────────────────────────────────────────────────────────────
