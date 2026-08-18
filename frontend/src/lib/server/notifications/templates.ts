@@ -50,3 +50,49 @@ export function paymentReceived(
     dedupeKey: `payment-received:${orderId}`,
   };
 }
+
+/**
+ * Dispatched to an Alert's owner when a PropertyRequest matches its
+ * criteria (either direction — see lib/server/alerts/matching.ts).
+ */
+export function alertMatchNotification(
+  userId: string,
+  alertId: string,
+  alertName: string,
+  requestId: string,
+  requestSummary: string,
+): CreateNotificationInput {
+  return {
+    userId,
+    type: 'ALERT_MATCH',
+    title: `Nouvelle correspondance — ${alertName}`,
+    body: requestSummary,
+    data: { alertId, requestId },
+    dedupeKey: `alert-match:${alertId}:${requestId}`,
+  };
+}
+
+/**
+ * Dispatched to a Listing's owner when a visitor submits the public
+ * detail page's contact form (a general message or a VR-visit request).
+ */
+export function listingInquiryNotification(
+  userId: string,
+  listingId: string,
+  listingTitle: string,
+  inquiryId: string,
+  inquiryType: 'MESSAGE' | 'VR_VISIT',
+  fromName: string,
+): CreateNotificationInput {
+  return {
+    userId,
+    type: 'LISTING_INQUIRY',
+    title:
+      inquiryType === 'VR_VISIT'
+        ? `Demande de visite VR — ${listingTitle}`
+        : `Nouveau message — ${listingTitle}`,
+    body: `${fromName} s'intéresse à « ${listingTitle} ».`,
+    data: { listingId, inquiryId },
+    dedupeKey: `listing-inquiry:${inquiryId}`,
+  };
+}
