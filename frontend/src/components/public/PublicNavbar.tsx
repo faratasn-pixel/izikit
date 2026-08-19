@@ -6,14 +6,15 @@ import { Home, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PublicMobileDrawer } from './PublicMobileDrawer';
 
-export type PublicNavKey = 'accueil' | 'annonces' | 'agents' | 'demande' | 'comment';
+export type PublicNavKey = 'accueil' | 'annonces' | 'agents' | 'demande' | 'blog' | 'contact';
 
 export const NAV_LINKS: { key: PublicNavKey; label: string; href: string | null }[] = [
   { key: 'accueil', label: 'Accueil', href: '/' },
   { key: 'annonces', label: 'Annonces', href: '/annonces' },
   { key: 'agents', label: 'Agents', href: '/agents' },
   { key: 'demande', label: 'Demande', href: '/demande-immobiliere' },
-  { key: 'comment', label: 'Comment ça marche', href: null },
+  { key: 'blog', label: 'Blog', href: '/blog' },
+  { key: 'contact', label: 'Contact', href: '/contact' },
 ];
 
 function InertNavLink({ children, className }: { children: React.ReactNode; className?: string }) {

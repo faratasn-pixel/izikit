@@ -527,7 +527,7 @@ model ListingReport {
 
   reason String // FAKE | SOLD | INCORRECT_INFO | SCAM | OTHER
   detail String?
-  status String @default("PENDING") // PENDING | REVIEWED | DISMISSED
+  status String  @default("PENDING") // PENDING | REVIEWED | DISMISSED
 
   createdAt DateTime @default(now())
 
@@ -679,4 +679,25 @@ model ListingDocument {
   updatedAt DateTime @updatedAt
 
   @@unique([listingId, type])
+}
+
+// Public "/contact" page submission — anonymous, no listing/user relation.
+// Reviewed by admins via GET/PATCH /api/admin/contact-messages, mirroring
+// the ListingReport moderation-queue pattern (API only, no admin UI).
+model ContactMessage {
+  id        String  @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  country   String?
+
+  subject String // GENERAL | SUPPORT | PARTNERSHIP | AGENT | PRESS | OTHER
+  message String
+
+  status String @default("NEW") // NEW | READ | ARCHIVED
+
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
 }

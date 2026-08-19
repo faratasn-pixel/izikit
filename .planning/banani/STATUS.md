@@ -1,6 +1,145 @@
 # Banani implementation status
 
-Last updated: 2026-08-06
+Last updated: 2026-08-19
+
+## 2026-08-19 — Contact Page built (real backend)
+
+Route: `frontend/src/app/contact/page.tsx`. Unlike most Banani screens this
+session, the form is **real** (backend-wired), not decorative — explicit
+user request.
+
+Source: flow `HABITATAFRIK EQUIPE` (`DRXBZMH20_G8`), screen "Contact Page"
+(`5XF5Cxqenlfc`).
+
+Scope: **REUSE** `PublicNavbar` (`active="contact"`), `PublicFooter`.
+Gradient hero, 4-column info bar (Email général/Téléphone/Siège social/
+Horaires — literal), 2-col main: form card (6 subject chips single-select,
+prénom/nom, email/téléphone, pays `<select>` using `COUNTRY_FLAG` from
+`@/lib/alerts`, message, submit) + sidebar (Bureaux par pays ×4 — literal,
+Réseaux sociaux ×5 — inert letter badges since `lucide-react` v1 dropped
+brand icons, Questions fréquentes ×4 — inert, "Devenir agent" promo —
+inert). File-attachment row from the mock **dropped** per explicit user
+scope decision.
+
+Nav change: **replaced** `{ key: 'comment', label: 'Comment ça marche',
+href: null }` with `{ key: 'contact', label: 'Contact', href: '/contact' }`
+in `PublicNavbar.tsx`'s `NAV_LINKS` (`PublicNavKey` union updated too) —
+resolves the standing gap noted in the 2026-08-07 blog entry below.
+`PublicFooter.tsx`'s `HELP_LINKS` upgraded from a plain string array to
+`{label, href}` objects so "Contact" is now a real `/contact` link; the
+other 3 stay inert.
+
+Backend: new `ContactMessage` Prisma model (status NEW/READ/ARCHIVED) +
+migration `20260819060000_add_contact_message` + `POST /api/public/contact`
+(unauthenticated, no CSRF — same pre-session carve-out as the listing
+inquiry/report routes, per-IP rate limit via `createEmailLimiter`, 5/hour,
+best-effort email to optional `CONTACT_INBOX_EMAIL`) +
+`GET`/`PATCH /api/admin/contact-messages(/[id])` (mirrors
+`listing-reports` exactly — `requireAdmin('ADMIN')`, cursor pagination,
+`logAdminAction` action `contact-message.resolve`). API only, no admin UI
+— same precedent as `listing-reports`.
+
+Verification: `pnpm format && lint && typecheck` all clean; full Vitest
+suite 822/823 (the 1 failure is the pre-existing unrelated `surfaceM2`
+gap in `listings/[id]/route.test.ts`, out of scope). **Migration not yet
+applied to the live Neon DB** — the direct-connection endpoint
+(`ep-long-bar-axecxyit...neon.tech:5432`) was unreachable from this
+machine for the entire session (`prisma migrate deploy` → P1001) despite
+successful raw TCP connectivity (`Test-NetConnection` succeeded) —
+environmental/Neon-side, not a code defect. Apply
+`pnpm db:migrate:deploy` once the DB is reachable again; `prisma generate`
+was already re-run locally so the `ContactMessage` client types exist and
+typecheck passes. Dev-server smoke test also deferred for the same
+reason (POST would 500 against a table that doesn't exist yet on the live
+DB) — page rendering/compile was not blocked by this.
+
+## 2026-08-07 — Blog Habitat (public listing page) built
+
+Route: `frontend/src/app/blog/page.tsx`. Front-end only, static data — no
+`Article`/`Author` model, no CMS.
+
+Source: flow `HABITATAFRIK EQUIPE` (`DRXBZMH20_G8`), screen "Blog Habitat"
+(`AJtmwyzNUKon`) — fetched directly by ID (lesson from the Agent Profile
+mix-ups earlier this session), correct screen on the first try.
+
+Scope: **REUSE** `PublicNavbar` (`active="blog"`), `PublicFooter`. Gradient
+hero (eyebrow/title/sub + inert search bar), category tabs bar, featured
+article (pinned), "Derniers articles" 3-card grid, "Plus d'articles" 4-item
+list, inert pagination. Sidebar: newsletter card, "Articles populaires"
+top-5, tags cloud, promo card (real `Link` to `/annonces`).
+
+Nav change: added `{ key: 'blog', label: 'Blog', href: '/blog' }` to
+`PublicNavbar.tsx`'s `NAV_LINKS` (project-wide, real link) — same pattern
+as when `annonces`/`agents`/`demande` were added. Did not add "Contact"
+(shown in the Banani mock but no target page exists/in scope).
+
+Real interactivity: category tabs (Tous/Marché/Conseils acheteurs/
+Juridique & Foncier/Investissement/Agents & Pros) filter the grid + list by
+each article's literal category (taken from the Banani markup's per-card
+class, not inferred); featured article stays pinned regardless of tab
+(authored UX choice — it's an editorial "hero" slot, not part of the
+filtered set); empty state added for zero-match categories. Tab count
+badges (48/14/11/9/8/6) stay literal from the mock, per this session's
+convention. Everything else inert: hero search, newsletter form, popular
+list, tag chips, pagination, all article/"Lire l'article" links (no
+article-detail route/model this session).
+
+Known gap: the featured article's Banani `<img>` had a `data-query`
+(image-gen prompt) but no literal `src` this time — rendered a gradient
+placeholder block with a label instead of guessing a stock photo URL.
+Disclosed in `blog.md`, not silently invented.
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean. Dev server smoke-tested via `curl` (200, article
+titles render server-side, "Blog" nav link present on other public pages).
+No headless-browser tool available to capture 375/768/1280px screenshots —
+same disclosed gap as the Agent Profile page; structural mobile-first
+classes follow the plan in `blog.md` but are not visually verified.
+
+Plan file: `.planning/banani/blog.md`.
+
+## 2026-08-07 — Agent Profile (public detail page) built
+
+Route: `frontend/src/app/agents/[id]/page.tsx`. Front-end only, static data
+— no `Agent` detail model, no reviews/listings backend.
+
+Source: flow `HABITATAFRIK EQUIPE` (`DRXBZMH20_G8`), screen "Agent Profile"
+(`iDJ4_lMctP6I`). First two fetch attempts got the wrong screen — a no-arg
+selection call returned "Account Settings" (different flow/theme
+entirely — "Artisana" marketplace), then a mis-copied screen ID
+(`gGnzftxGBVCh`) returned "Contact Mobile" (already-built demande wizard,
+mobile state). Both flagged to the user; third attempt using the ID from
+the Banani editor's URL bar (`?activeScreenId=...`) confirmed the correct
+screen.
+
+Scope: **REUSE** `PublicNavbar` (`active="agents"`), `PublicFooter`. Gradient
+hero (avatar+online dot, cert badge, name/role/location, rating, 4-badge
+row, call/message CTAs, 6-stat row), sticky tabs bar (À propos active, 3
+other tabs inert — the Banani screen is a single static state), left column
+(about + 6 specialty chips, 4-stat card, 4 "Annonces récentes" cards, 3
+"Avis clients récents" reviews), right sidebar (contact card, info card,
+rating breakdown, map placeholder card) — all literal from the fetched
+screen (agent: Kofi Atta, same person as the featured card on `/agents`).
+
+Route has a dynamic `[id]` segment that is **ignored** — always renders the
+one literal profile, same documented limitation as `annonces/[id]`
+(building distinct full profiles for the other 7 agents in the directory
+would mean fabricating bio/reviews/listings Banani never provided).
+
+Wiring: `agents/page.tsx`'s "Profil"/"Voir le profil" buttons (previously
+inert on both the featured card and the 7 regular cards) are now real
+`Link`s to `/agents/${agent.id}`.
+
+Verified: `pnpm exec tsc --noEmit`, `pnpm exec eslint`, `pnpm exec prettier
+--write` all pass/clean. Dev server smoke-tested via `curl` (200, name/role
+render server-side, all 8 "Profil" links point at the new route) —
+no headless-browser tool was available in this environment to capture
+375/768/1280px screenshots, so pixel-parity at each breakpoint is
+**not visually verified**, only structurally (Tailwind classes follow the
+mobile-first plan in `agent-profile.md`). Flagged as a gap, not silently
+skipped.
+
+Plan file: `.planning/banani/agent-profile.md`.
 
 ## 2026-08-06 — Mobile hamburger menu added to the public site
 

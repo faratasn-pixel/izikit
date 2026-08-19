@@ -22,7 +22,12 @@ const PLATFORM_LINKS: { label: string; href: string | null }[] = [
   { label: 'Nos services', href: null },
 ];
 const COUNTRY_LINKS = ['Bénin', 'Togo', "Côte d'Ivoire", 'Sénégal'];
-const HELP_LINKS = ["Centre d'aide", 'FAQ', 'Politique de confidentialité', 'Contact'];
+const HELP_LINKS: { label: string; href: string | null }[] = [
+  { label: "Centre d'aide", href: null },
+  { label: 'FAQ', href: null },
+  { label: 'Politique de confidentialité', href: null },
+  { label: 'Contact', href: '/contact' },
+];
 
 export function PublicFooter() {
   return (
@@ -79,9 +84,15 @@ export function PublicFooter() {
           <div>
             <p className="mb-3.5 text-xs tracking-[0.12em] text-white/52 uppercase">Aide</p>
             <div className="flex flex-col gap-2.5">
-              {HELP_LINKS.map((l) => (
-                <InertFooterLink key={l}>{l}</InertFooterLink>
-              ))}
+              {HELP_LINKS.map((l) =>
+                l.href ? (
+                  <Link key={l.label} href={l.href} className="text-sm text-white/86">
+                    {l.label}
+                  </Link>
+                ) : (
+                  <InertFooterLink key={l.label}>{l.label}</InertFooterLink>
+                ),
+              )}
             </div>
           </div>
         </div>
