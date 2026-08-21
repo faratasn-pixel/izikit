@@ -8,9 +8,7 @@ import {
   Check,
   ChevronDown,
   ChevronRight,
-  FileText,
-  Info,
-  Lightbulb,
+  Loader2,
   MapPin,
   MoveHorizontal,
   Tag,
@@ -32,10 +30,13 @@ import {
   Calendar,
   MessageSquare,
   Users,
+  Send,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { api, ApiError } from '@/lib/api';
 import { PublicNavbar } from '@/components/public/PublicNavbar';
 import { PublicFooter } from '@/components/public/PublicFooter';
+import { COUNTRIES } from '@/lib/countries';
 
 type Step = 1 | 2 | 3;
 type Transaction = 'achat' | 'location';
@@ -43,6 +44,32 @@ type PropertyType = 'villa' | 'appartement' | 'terrain' | 'bureau' | 'commerce';
 type Financement = 'fonds-propres' | 'credit' | 'mixte';
 type Calendrier = 'immediat' | '1-3' | '3-6' | '6+';
 type Canal = 'telephone' | 'email' | 'whatsapp' | 'sms';
+
+const TRANSACTION_TYPE: Record<Transaction, string> = { achat: 'VENTE', location: 'LOCATION' };
+const PROPERTY_TYPE_KEY: Record<PropertyType, string> = {
+  villa: 'VILLA',
+  appartement: 'APPARTEMENT',
+  terrain: 'PARCELLE',
+  bureau: 'BUREAU',
+  commerce: 'BOUTIQUE',
+};
+const FINANCEMENT_LABEL: Record<Financement, string> = {
+  'fonds-propres': 'Comptant',
+  credit: 'Crédit',
+  mixte: 'Les deux',
+};
+const CALENDRIER_LABEL: Record<Calendrier, string> = {
+  immediat: 'Immédiat',
+  '1-3': '1–3 mois',
+  '3-6': '3–6 mois',
+  '6+': 'Flexible',
+};
+const CANAL_LABEL: Record<Canal, string> = {
+  telephone: 'Téléphone',
+  email: 'Email',
+  whatsapp: 'WhatsApp',
+  sms: 'SMS',
+};
 
 const PROPERTY_TYPES: { key: PropertyType; label: string; icon: typeof Home }[] = [
   { key: 'villa', label: 'Villa', icon: Home },
@@ -52,14 +79,16 @@ const PROPERTY_TYPES: { key: PropertyType; label: string; icon: typeof Home }[] 
   { key: 'commerce', label: 'Commerce', icon: Store },
 ];
 
-const EQUIPEMENTS = [
-  'Piscine',
-  'Parking',
-  'Gardiennage',
-  'Climatisation',
-  'Jardin',
-  'Groupe électrogène',
+const EQUIPEMENTS: { key: string; label: string }[] = [
+  { key: 'POOL', label: 'Piscine' },
+  { key: 'PARKING', label: 'Parking' },
+  { key: 'SECURITY', label: 'Gardiennage' },
+  { key: 'AC', label: 'Climatisation' },
+  { key: 'GARDEN', label: 'Jardin' },
+  { key: 'GENERATOR', label: 'Groupe électrogène' },
 ];
+
+const BEDROOMS_OPTIONS = ['1 chambre', '2 chambres', '3 chambres', '4 chambres et plus'];
 
 const FINANCEMENTS: { key: Financement; label: string; icon: typeof BadgeDollarSign }[] = [
   { key: 'fonds-propres', label: 'Fonds propres', icon: BadgeDollarSign },
@@ -172,11 +201,28 @@ function FieldLabel({ children, required }: { children: React.ReactNode; require
   );
 }
 
-function SelectMock({ value }: { value: string }) {
+function Select({
+  value,
+  onChange,
+  children,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="flex w-full items-center justify-between rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5 text-sm">
-      <span>{value}</span>
-      <ChevronDown className="h-3.5 w-3.5 text-gray-400" aria-hidden />
+    <div className="relative">
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full appearance-none rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5 text-sm outline-none"
+      >
+        {children}
+      </select>
+      <ChevronDown
+        className="pointer-events-none absolute top-1/2 right-3.5 h-3.5 w-3.5 -translate-y-1/2 text-gray-400"
+        aria-hidden
+      />
     </div>
   );
 }
@@ -187,44 +233,45 @@ export default function NouvelleDemandePage() {
   // Step 1
   const [transaction, setTransaction] = useState<Transaction>('achat');
   const [propertyType, setPropertyType] = useState<PropertyType>('villa');
-  const [pays] = useState("Côte d'Ivoire");
-  const [ville] = useState('Abidjan');
-  const [quartier, setQuartier] = useState('Cocody, Riviera');
-  const [surfaceMin, setSurfaceMin] = useState('150');
-  const [surfaceMax, setSurfaceMax] = useState('350');
-  const [pieces] = useState('4 pièces');
-  const [chambres] = useState('3 chambres');
-  const [equipements, setEquipements] = useState<string[]>(['Piscine', 'Parking', 'Jardin']);
-  const [description, setDescription] = useState(
-    'Recherche villa standing dans secteur résidentiel calme, proximité école internationale et axes principaux. Préférence pour duplex avec vue dégagée.',
-  );
+  const [pays, setPays] = useState("Côte d'Ivoire");
+  const [ville, setVille] = useState('Abidjan');
+  const [quartier, setQuartier] = useState('');
+  const [surfaceMin, setSurfaceMin] = useState('');
+  const [surfaceMax, setSurfaceMax] = useState('');
+  const [chambres, setChambres] = useState(BEDROOMS_OPTIONS[1]!);
+  const [equipements, setEquipements] = useState<string[]>(['POOL', 'PARKING']);
+  const [description, setDescription] = useState('');
 
   // Step 2
-  const [budgetMin, setBudgetMin] = useState('80M FCFA');
-  const [budgetMax, setBudgetMax] = useState('200M FCFA');
+  const [budgetMin, setBudgetMin] = useState('');
+  const [budgetMax, setBudgetMax] = useState('');
   const [financement, setFinancement] = useState<Financement>('fonds-propres');
-  const [budgetIdeal] = useState('150M FCFA');
-  const [flexibilite] = useState("Jusqu'à +10%");
   const [calendrier, setCalendrier] = useState<Calendrier>('1-3');
-  const [frais, setFrais] = useState<string[]>([
-    "Inclure frais d'agence",
-    'Inclure frais notariaux',
-  ]);
-  const [preferences, setPreferences] = useState(
-    'Je privilégie les biens prêts à habiter. Je peux ajuster mon budget si la localisation et la qualité du bien correspondent parfaitement à mes attentes.',
-  );
+  const [frais, setFrais] = useState<string[]>([]);
+  const [preferences, setPreferences] = useState('');
 
   // Step 3
   const [prenom, setPrenom] = useState('');
   const [nom, setNom] = useState('');
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
-  const [disponibilite] = useState('Journée (9h - 18h)');
   const [canal, setCanal] = useState<Canal>('telephone');
   const [agentConnu, setAgentConnu] = useState<'oui' | 'non'>('non');
   const [notes, setNotes] = useState('');
   const [consentContact, setConsentContact] = useState(false);
   const [consentData, setConsentData] = useState(false);
+
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  const availableCities = COUNTRIES.find((c) => c.name === pays)?.cities ?? [];
+
+  function handleCountryChange(value: string) {
+    setPays(value);
+    const cities = COUNTRIES.find((c) => c.name === value)?.cities ?? [];
+    if (!cities.includes(ville)) setVille(cities[0] ?? '');
+  }
 
   function toggleFrom(list: string[], setList: (v: string[]) => void, value: string) {
     setList(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
@@ -236,9 +283,67 @@ export default function NouvelleDemandePage() {
     return 'pending';
   }
 
-  const selectedType = PROPERTY_TYPES.find((t) => t.key === propertyType);
-  const selectedFinancement = FINANCEMENTS.find((f) => f.key === financement);
-  const selectedCalendrier = CALENDRIERS.find((c) => c.key === calendrier);
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!consentContact || !consentData) return;
+
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const surfaceMinNum = Number(surfaceMin);
+      const surfaceMaxNum = Number(surfaceMax);
+      const budgetMinNum = Number(budgetMin);
+      const budgetMaxNum = Number(budgetMax);
+
+      const notesParts: string[] = [];
+      if (description.trim()) notesParts.push(`Description : ${description.trim()}`);
+      if (frais.length) notesParts.push(`Frais à prendre en compte : ${frais.join(', ')}`);
+      if (preferences.trim()) notesParts.push(`Préférences budget : ${preferences.trim()}`);
+      notesParts.push(`Canal de contact préféré : ${CANAL_LABEL[canal]}`);
+      if (agentConnu === 'oui') notesParts.push('Déjà en contact avec un agent.');
+      if (notes.trim()) notesParts.push(`Notes : ${notes.trim()}`);
+
+      await api('/api/public/property-requests', {
+        method: 'POST',
+        body: {
+          transactionType: TRANSACTION_TYPE[transaction],
+          propertyType: PROPERTY_TYPE_KEY[propertyType],
+          country: pays,
+          city: ville,
+          ...(quartier.trim() && { landmark: quartier.trim() }),
+          bedrooms: chambres,
+          ...(surfaceMin &&
+            Number.isFinite(surfaceMinNum) &&
+            surfaceMinNum > 0 && { surfaceMin: Math.round(surfaceMinNum) }),
+          ...(surfaceMax &&
+            Number.isFinite(surfaceMaxNum) &&
+            surfaceMaxNum > 0 && { surfaceMax: Math.round(surfaceMaxNum) }),
+          amenities: equipements,
+          ...(budgetMin &&
+            Number.isFinite(budgetMinNum) &&
+            budgetMinNum >= 0 && { budgetMin: Math.round(budgetMinNum) }),
+          ...(budgetMax &&
+            Number.isFinite(budgetMaxNum) &&
+            budgetMaxNum >= 0 && { budgetMax: Math.round(budgetMaxNum) }),
+          financing: FINANCEMENT_LABEL[financement],
+          delay: CALENDRIER_LABEL[calendrier],
+          clientName: `${prenom} ${nom}`.trim(),
+          clientPhone: telephone.trim(),
+          ...(email.trim() && { clientEmail: email.trim() }),
+          notes: notesParts.join('\n\n'),
+        },
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof ApiError && err.status === 429
+          ? 'Trop de demandes envoyées. Réessayez plus tard.'
+          : "Échec de l'envoi. Réessayez.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <div className="bg-white text-neutral-900">
@@ -307,739 +412,590 @@ export default function NouvelleDemandePage() {
           ))}
         </div>
 
-        {/* GRID */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
+        {/* FORM (centered, no sidebar) */}
+        <div className="mx-auto max-w-[760px]">
           {/* FORM CARD */}
           <div className="rounded-2xl border border-black/[0.06] bg-white p-6 lg:p-9">
-            {step === 1 && (
+            {submitted ? (
+              <div className="flex flex-col items-center gap-3 py-16 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50">
+                  <Send className="h-5 w-5 text-emerald-600" aria-hidden />
+                </div>
+                <p className="text-base font-bold">Demande envoyée !</p>
+                <p className="max-w-[360px] text-sm text-gray-500">
+                  Merci, votre demande a bien été enregistrée. Un agent certifié Habitat-Afrik vous
+                  contactera sous 48h.
+                </p>
+                <Link href="/" className="mt-2 text-sm font-semibold text-brand">
+                  Retour à l&apos;accueil
+                </Link>
+              </div>
+            ) : (
               <>
-                <h2 className="font-sora mb-1.5 text-[22px] font-extrabold tracking-[-0.03em]">
-                  Étape 1 — Décrivez le bien recherché
-                </h2>
-                <p className="mb-8 text-sm text-gray-500">
-                  Précisez le type de bien, la localisation et vos critères essentiels.
-                </p>
-
-                <div className="mb-6">
-                  <FieldLabel required>Type de transaction</FieldLabel>
-                  <div className="flex flex-wrap gap-2.5">
-                    <Pill
-                      selected={transaction === 'achat'}
-                      onClick={() => setTransaction('achat')}
-                      icon={Tag}
-                    >
-                      Achat
-                    </Pill>
-                    <Pill
-                      selected={transaction === 'location'}
-                      onClick={() => setTransaction('location')}
-                      icon={Key}
-                    >
-                      Location
-                    </Pill>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel required>Type de bien</FieldLabel>
-                  <div className="flex flex-wrap gap-2.5">
-                    {PROPERTY_TYPES.map((t) => (
-                      <Pill
-                        key={t.key}
-                        selected={propertyType === t.key}
-                        onClick={() => setPropertyType(t.key)}
-                        icon={t.icon}
-                      >
-                        {t.label}
-                      </Pill>
-                    ))}
-                  </div>
-                </div>
-
-                <hr className="my-7 border-black/[0.06]" />
-
-                <div className="mb-6">
-                  <FieldLabel required>Pays</FieldLabel>
-                  <div className="grid grid-cols-1 gap-4.5 sm:grid-cols-2">
-                    <SelectMock value={`🇨🇮 ${pays}`} />
-                    <SelectMock value={ville} />
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel>Quartier / Zone souhaitée</FieldLabel>
-                  <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-brand bg-brand/[0.04] px-3.5 py-2.5">
-                    <MapPin className="h-4 w-4 flex-shrink-0 text-brand" aria-hidden />
-                    <input
-                      value={quartier}
-                      onChange={(e) => setQuartier(e.target.value)}
-                      className="w-full bg-transparent text-sm font-medium outline-none"
-                    />
-                  </div>
-                  <p className="mt-1.5 text-xs text-gray-500">
-                    Indiquez un ou plusieurs quartiers séparés par une virgule.
-                  </p>
-                </div>
-
-                <hr className="my-7 border-black/[0.06]" />
-
-                <div className="mb-6">
-                  <FieldLabel>Superficie souhaitée (m²)</FieldLabel>
-                  <div className="flex items-center gap-4">
-                    <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <MoveHorizontal className="h-[15px] w-[15px] text-gray-400" aria-hidden />
-                      <span className="text-sm text-gray-500">Min</span>
-                      <input
-                        value={surfaceMin}
-                        onChange={(e) => setSurfaceMin(e.target.value)}
-                        className="ml-1 w-full bg-transparent text-sm font-semibold outline-none"
-                      />
-                    </div>
-                    <span className="text-sm text-gray-400">—</span>
-                    <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <MoveHorizontal className="h-[15px] w-[15px] text-gray-400" aria-hidden />
-                      <span className="text-sm text-gray-500">Max</span>
-                      <input
-                        value={surfaceMax}
-                        onChange={(e) => setSurfaceMax(e.target.value)}
-                        className="ml-1 w-full bg-transparent text-sm font-semibold outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
-                  <div>
-                    <FieldLabel>Nombre de pièces min.</FieldLabel>
-                    <SelectMock value={pieces} />
-                  </div>
-                  <div>
-                    <FieldLabel>Chambres min.</FieldLabel>
-                    <SelectMock value={chambres} />
-                  </div>
-                </div>
-
-                <hr className="my-7 border-black/[0.06]" />
-
-                <div className="mb-6">
-                  <FieldLabel>Équipements souhaités</FieldLabel>
-                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
-                    {EQUIPEMENTS.map((eq) => (
-                      <CheckOption
-                        key={eq}
-                        checked={equipements.includes(eq)}
-                        onClick={() => toggleFrom(equipements, setEquipements, eq)}
-                      >
-                        {eq}
-                      </CheckOption>
-                    ))}
-                  </div>
-                </div>
-
-                <hr className="my-7 border-black/[0.06]" />
-
-                <div className="mb-2">
-                  <FieldLabel>Description complémentaire</FieldLabel>
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    rows={4}
-                    className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none"
-                  />
-                  <p className="mt-1.5 text-xs text-gray-500">
-                    Précisez tout critère important non listé ci-dessus (orientation, étage,
-                    proximité d&apos;un lieu…)
-                  </p>
-                </div>
-
-                <div className="mt-8 flex items-center justify-between gap-4">
-                  <Link
-                    href="/demande-immobiliere"
-                    className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-black/[0.1] px-[22px] py-2.5 text-sm font-semibold"
-                  >
-                    <ArrowLeft className="h-[15px] w-[15px]" aria-hidden />
-                    Annuler
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white"
-                  >
-                    Étape suivante : Budget
-                    <ArrowRight className="h-[15px] w-[15px]" aria-hidden />
-                  </button>
-                </div>
-              </>
-            )}
-
-            {step === 2 && (
-              <>
-                <h2 className="font-sora mb-1.5 text-[22px] font-extrabold tracking-[-0.03em]">
-                  Étape 2 — Définissez votre budget
-                </h2>
-                <p className="mb-8 text-sm text-gray-500">
-                  Indiquez votre enveloppe, votre niveau de flexibilité et votre calendrier
-                  d&apos;acquisition.
-                </p>
-
-                <div className="mb-6">
-                  <FieldLabel required>Quel est votre budget global ?</FieldLabel>
-                  <div className="flex items-center gap-4">
-                    <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <Wallet className="h-[15px] w-[15px] text-gray-400" aria-hidden />
-                      <span className="text-sm text-gray-500">Min</span>
-                      <input
-                        value={budgetMin}
-                        onChange={(e) => setBudgetMin(e.target.value)}
-                        className="ml-1 w-full bg-transparent text-sm font-semibold outline-none"
-                      />
-                    </div>
-                    <span className="text-sm text-gray-400">—</span>
-                    <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <WalletCards className="h-[15px] w-[15px] text-gray-400" aria-hidden />
-                      <span className="text-sm text-gray-500">Max</span>
-                      <input
-                        value={budgetMax}
-                        onChange={(e) => setBudgetMax(e.target.value)}
-                        className="ml-1 w-full bg-transparent text-sm font-semibold outline-none"
-                      />
-                    </div>
-                  </div>
-                  <p className="mt-1.5 text-xs text-gray-500">
-                    Utilisez un format simple et réaliste pour accélérer la mise en relation.
-                  </p>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel required>Type de financement</FieldLabel>
-                  <div className="flex flex-wrap gap-2.5">
-                    {FINANCEMENTS.map((f) => (
-                      <Pill
-                        key={f.key}
-                        selected={financement === f.key}
-                        onClick={() => setFinancement(f.key)}
-                        icon={f.icon}
-                      >
-                        {f.label}
-                      </Pill>
-                    ))}
-                  </div>
-                </div>
-
-                <hr className="my-7 border-black/[0.06]" />
-
-                <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
-                  <div>
-                    <FieldLabel>Budget idéal</FieldLabel>
-                    <SelectMock value={budgetIdeal} />
-                  </div>
-                  <div>
-                    <FieldLabel>Marge de flexibilité</FieldLabel>
-                    <SelectMock value={flexibilite} />
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel required>Votre projet est prévu pour quand ?</FieldLabel>
-                  <div className="flex flex-wrap gap-2.5">
-                    {CALENDRIERS.map((c) => (
-                      <Pill
-                        key={c.key}
-                        selected={calendrier === c.key}
-                        onClick={() => setCalendrier(c.key)}
-                      >
-                        {c.label}
-                      </Pill>
-                    ))}
-                  </div>
-                </div>
-
-                <hr className="my-7 border-black/[0.06]" />
-
-                <div className="mb-6">
-                  <FieldLabel>Frais à prendre en compte</FieldLabel>
-                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                    {FRAIS.map((f) => (
-                      <CheckOption
-                        key={f}
-                        checked={frais.includes(f)}
-                        onClick={() => toggleFrom(frais, setFrais, f)}
-                      >
-                        {f}
-                      </CheckOption>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel>Préférences complémentaires</FieldLabel>
-                  <textarea
-                    value={preferences}
-                    onChange={(e) => setPreferences(e.target.value)}
-                    rows={4}
-                    className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none"
-                  />
-                  <p className="mt-1.5 text-xs text-gray-500">
-                    Vous pouvez préciser ici votre souplesse, vos priorités ou vos contraintes de
-                    financement.
-                  </p>
-                </div>
-
-                <div className="mb-2 flex gap-4 rounded-xl border border-brand/[0.18] bg-brand/[0.06] px-5 py-4.5">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand/[0.14]">
-                    <ShieldCheck className="h-4 w-4 text-brand" aria-hidden />
-                  </div>
-                  <div>
-                    <p className="mb-1 text-sm font-bold">Conseil Habitat-Afrik</p>
-                    <p className="text-[13px] leading-relaxed text-gray-500">
-                      Une fourchette claire aide les agents à filtrer rapidement les biens hors
-                      budget et à proposer des alternatives pertinentes.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-8 flex items-center justify-between gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setStep(1)}
-                    className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-black/[0.1] px-[22px] py-2.5 text-sm font-semibold"
-                  >
-                    <ArrowLeft className="h-[15px] w-[15px]" aria-hidden />
-                    Retour : Bien recherché
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setStep(3)}
-                    className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white"
-                  >
-                    Étape suivante : Contact
-                    <ArrowRight className="h-[15px] w-[15px]" aria-hidden />
-                  </button>
-                </div>
-              </>
-            )}
-
-            {step === 3 && (
-              <>
-                <h2 className="font-sora mb-1.5 text-[22px] font-extrabold tracking-[-0.03em]">
-                  Étape 3 — Vos coordonnées
-                </h2>
-                <p className="mb-8 text-sm text-gray-500">
-                  Ces informations restent privées et ne sont partagées qu&apos;avec les agents
-                  certifiés.
-                </p>
-
-                <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
-                  <div>
-                    <FieldLabel required>Prénom</FieldLabel>
-                    <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <User className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
-                      <input
-                        value={prenom}
-                        onChange={(e) => setPrenom(e.target.value)}
-                        placeholder="Votre prénom"
-                        className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <FieldLabel required>Nom</FieldLabel>
-                    <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <User className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
-                      <input
-                        value={nom}
-                        onChange={(e) => setNom(e.target.value)}
-                        placeholder="Votre nom"
-                        className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
-                  <div>
-                    <FieldLabel required>Email</FieldLabel>
-                    <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <Mail className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="vous@email.com"
-                        className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <FieldLabel required>Téléphone</FieldLabel>
-                    <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                      <Phone className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
-                      <input
-                        value={telephone}
-                        onChange={(e) => setTelephone(e.target.value)}
-                        placeholder="+225 07 00 00 00 00"
-                        className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
-                  <div>
-                    <FieldLabel>Pays</FieldLabel>
-                    <SelectMock value={`🇨🇮 ${pays}`} />
-                  </div>
-                  <div>
-                    <FieldLabel>Ville</FieldLabel>
-                    <SelectMock value={ville} />
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel>Disponibilité pour être contacté</FieldLabel>
-                  <SelectMock value={disponibilite} />
-                </div>
-
-                <hr className="my-7 border-black/[0.06]" />
-
-                <div className="mb-6">
-                  <FieldLabel required>Canal de contact préféré</FieldLabel>
-                  <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                    {CANAUX.map((c) => (
-                      <button
-                        key={c.key}
-                        type="button"
-                        onClick={() => setCanal(c.key)}
-                        className={cn(
-                          'flex flex-col items-center gap-2 rounded-xl border-[1.5px] px-3 py-4 text-center',
-                          canal === c.key
-                            ? 'border-brand bg-brand/[0.06]'
-                            : 'border-black/[0.1] bg-white',
-                        )}
-                      >
-                        <c.icon
-                          className={cn(
-                            'h-5 w-5',
-                            canal === c.key ? 'text-brand' : 'text-gray-400',
-                          )}
-                          aria-hidden
-                        />
-                        <span
-                          className={cn(
-                            'text-[13px] font-semibold',
-                            canal === c.key ? 'text-brand' : 'text-neutral-900',
-                          )}
-                        >
-                          {c.label}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel>Êtes-vous déjà en contact avec un agent ?</FieldLabel>
-                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                    <button
-                      type="button"
-                      onClick={() => setAgentConnu('non')}
-                      className={cn(
-                        'flex items-center gap-3 rounded-xl border-[1.5px] px-4 py-3.5 text-left',
-                        agentConnu === 'non'
-                          ? 'border-brand bg-brand/[0.06]'
-                          : 'border-black/[0.1] bg-white',
-                      )}
-                    >
-                      <Users
-                        className={cn(
-                          'h-4 w-4 flex-shrink-0',
-                          agentConnu === 'non' ? 'text-brand' : 'text-gray-400',
-                        )}
-                        aria-hidden
-                      />
-                      <div>
-                        <p
-                          className={cn(
-                            'text-sm font-semibold',
-                            agentConnu === 'non' && 'text-brand',
-                          )}
-                        >
-                          Non, pas encore
-                        </p>
-                        <p className="text-xs text-gray-500">Un agent disponible me contactera</p>
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setAgentConnu('oui')}
-                      className={cn(
-                        'flex items-center gap-3 rounded-xl border-[1.5px] px-4 py-3.5 text-left',
-                        agentConnu === 'oui'
-                          ? 'border-brand bg-brand/[0.06]'
-                          : 'border-black/[0.1] bg-white',
-                      )}
-                    >
-                      <Calendar
-                        className={cn(
-                          'h-4 w-4 flex-shrink-0',
-                          agentConnu === 'oui' ? 'text-brand' : 'text-gray-400',
-                        )}
-                        aria-hidden
-                      />
-                      <div>
-                        <p
-                          className={cn(
-                            'text-sm font-semibold',
-                            agentConnu === 'oui' && 'text-brand',
-                          )}
-                        >
-                          Oui, un agent m&apos;accompagne déjà
-                        </p>
-                        <p className="text-xs text-gray-500">Précisez-le en note ci-dessous</p>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <FieldLabel>Notes complémentaires</FieldLabel>
-                  <textarea
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    rows={3}
-                    placeholder="Un détail que les agents devraient connaître ?"
-                    className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none placeholder:text-gray-400"
-                  />
-                </div>
-
-                <div className="mb-2 flex flex-col gap-3">
-                  <label className="flex items-start gap-2.5 text-[13px] text-gray-500">
-                    <input
-                      type="checkbox"
-                      checked={consentContact}
-                      onChange={(e) => setConsentContact(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 flex-shrink-0 accent-brand"
-                    />
-                    J&apos;accepte d&apos;être contacté(e) par un agent certifié Habitat-Afrik au
-                    sujet de ma demande.
-                  </label>
-                  <label className="flex items-start gap-2.5 text-[13px] text-gray-500">
-                    <input
-                      type="checkbox"
-                      checked={consentData}
-                      onChange={(e) => setConsentData(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 flex-shrink-0 accent-brand"
-                    />
-                    J&apos;accepte la politique de confidentialité et le traitement de mes données
-                    personnelles.
-                  </label>
-                </div>
-
-                <div className="mt-8 flex items-center justify-between gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-black/[0.1] px-[22px] py-2.5 text-sm font-semibold"
-                  >
-                    <ArrowLeft className="h-[15px] w-[15px]" aria-hidden />
-                    Retour : Budget
-                  </button>
-                  <button
-                    type="button"
-                    disabled
-                    title="Bientôt disponible"
-                    className="inline-flex cursor-not-allowed items-center gap-2 rounded-full bg-brand/40 px-7 py-3 text-sm font-bold text-white"
-                  >
-                    Envoyer ma demande
-                    <ArrowRight className="h-[15px] w-[15px]" aria-hidden />
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* SIDEBAR */}
-          <div className="flex flex-col gap-4.5 lg:sticky lg:top-6">
-            <div className="rounded-2xl border border-black/[0.06] bg-white p-6">
-              <div className="mb-4.5 flex items-center gap-2.5 text-[15px] font-bold">
-                <FileText className="h-[18px] w-[18px] text-brand" aria-hidden />
-                Résumé de votre demande
-              </div>
-
-              {/* Step 1 summary */}
-              <div className="mb-4.5">
-                <div className="mb-2.5 flex items-center gap-2.5">
-                  <StepCircle state={stepState(1)} num={1} />
-                  <span
-                    className={cn(
-                      'text-[13px] font-semibold',
-                      stepState(1) === 'active' && 'text-brand',
-                    )}
-                  >
-                    Bien recherché
-                  </span>
-                </div>
-                <div className="flex flex-col gap-2 pl-[34px]">
-                  <SummaryRow
-                    label="Transaction"
-                    value={transaction === 'achat' ? 'Achat' : 'Location'}
-                  />
-                  <SummaryRow label="Type" value={selectedType?.label ?? ''} />
-                  <SummaryRow label="Localisation" value={`🇨🇮 ${ville}, ${quartier}`} />
-                  <SummaryRow label="Superficie" value={`${surfaceMin} – ${surfaceMax} m²`} />
-                  <SummaryRow label="Pièces min." value={pieces} />
-                  <SummaryRow
-                    label="Équipements"
-                    value={equipements.length ? equipements.join(', ') : '—'}
-                  />
-                </div>
-              </div>
-
-              <hr className="my-3.5 border-black/[0.06]" />
-
-              {/* Step 2 summary */}
-              <div className="mb-4.5">
-                <div className="mb-2.5 flex items-center gap-2.5">
-                  <StepCircle state={stepState(2)} num={2} />
-                  <span
-                    className={cn(
-                      'text-[13px] font-semibold text-gray-400',
-                      stepState(2) === 'active' && 'text-brand',
-                    )}
-                  >
-                    Budget
-                  </span>
-                </div>
-                <div className="flex flex-col gap-2 pl-[34px]">
-                  {step >= 2 ? (
-                    <>
-                      <SummaryRow label="Fourchette" value={`${budgetMin} – ${budgetMax}`} />
-                      <SummaryRow label="Budget idéal" value={budgetIdeal} />
-                      <SummaryRow label="Financement" value={selectedFinancement?.label ?? ''} />
-                      <SummaryRow label="Calendrier" value={selectedCalendrier?.label ?? ''} />
-                    </>
-                  ) : (
-                    <span className="text-xs text-gray-400 italic">À compléter</span>
-                  )}
-                </div>
-              </div>
-
-              <hr className="my-3.5 border-black/[0.06]" />
-
-              {/* Step 3 summary */}
-              <div>
-                <div className="mb-2.5 flex items-center gap-2.5">
-                  <StepCircle state={stepState(3)} num={3} />
-                  <span
-                    className={cn(
-                      'text-[13px] font-semibold text-gray-400',
-                      stepState(3) === 'active' && 'text-brand',
-                    )}
-                  >
-                    Contact
-                  </span>
-                </div>
-                <div className="flex flex-col gap-2 pl-[34px]">
-                  {step >= 3 && (prenom || nom || email) ? (
-                    <>
-                      <SummaryRow label="Nom" value={`${prenom} ${nom}`.trim() || '—'} />
-                      <SummaryRow label="Email" value={email || '—'} />
-                      <SummaryRow
-                        label="Canal"
-                        value={CANAUX.find((c) => c.key === canal)?.label ?? ''}
-                      />
-                    </>
-                  ) : (
-                    <span className="text-xs text-gray-400 italic">À compléter</span>
-                  )}
-                </div>
-              </div>
-
-              <div className="mt-4.5 flex items-start gap-2.5 rounded-lg bg-brand/[0.06] p-3.5">
-                <Info className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand" aria-hidden />
-                <p className="text-xs leading-relaxed">
-                  Vos coordonnées restent <strong>privées</strong>. Seuls les agents certifiés
-                  Habitat-Afrik y auront accès.
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-brand/[0.18] bg-brand/[0.06] p-5.5">
-              <div className="mb-3 flex items-center gap-2 text-[13px] font-bold text-brand">
-                <Lightbulb className="h-[15px] w-[15px]" aria-hidden />
-                {step === 1 && 'Conseils pour une bonne demande'}
-                {step === 2 && 'Conseils pour le budget'}
-                {step === 3 && 'Conseils pour le contact'}
-              </div>
-              <div className="flex flex-col gap-2.5 text-[13px] leading-relaxed">
                 {step === 1 && (
                   <>
-                    <TipItem>
-                      Soyez précis sur la localisation pour recevoir des offres vraiment
-                      pertinentes.
-                    </TipItem>
-                    <TipItem>
-                      Indiquez une fourchette de budget réaliste pour maximiser les correspondances.
-                    </TipItem>
-                    <TipItem>
-                      La description libre aide les agents à trouver des biens hors-marché.
-                    </TipItem>
+                    <h2 className="font-sora mb-1.5 text-[22px] font-extrabold tracking-[-0.03em]">
+                      Étape 1 — Décrivez le bien recherché
+                    </h2>
+                    <p className="mb-8 text-sm text-gray-500">
+                      Précisez le type de bien, la localisation et vos critères essentiels.
+                    </p>
+
+                    <div className="mb-6">
+                      <FieldLabel required>Type de transaction</FieldLabel>
+                      <div className="flex flex-wrap gap-2.5">
+                        <Pill
+                          selected={transaction === 'achat'}
+                          onClick={() => setTransaction('achat')}
+                          icon={Tag}
+                        >
+                          Achat
+                        </Pill>
+                        <Pill
+                          selected={transaction === 'location'}
+                          onClick={() => setTransaction('location')}
+                          icon={Key}
+                        >
+                          Location
+                        </Pill>
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <FieldLabel required>Type de bien</FieldLabel>
+                      <div className="flex flex-wrap gap-2.5">
+                        {PROPERTY_TYPES.map((t) => (
+                          <Pill
+                            key={t.key}
+                            selected={propertyType === t.key}
+                            onClick={() => setPropertyType(t.key)}
+                            icon={t.icon}
+                          >
+                            {t.label}
+                          </Pill>
+                        ))}
+                      </div>
+                    </div>
+
+                    <hr className="my-7 border-black/[0.06]" />
+
+                    <div className="mb-6">
+                      <FieldLabel required>Pays</FieldLabel>
+                      <div className="grid grid-cols-1 gap-4.5 sm:grid-cols-2">
+                        <Select value={pays} onChange={handleCountryChange}>
+                          {COUNTRIES.map((c) => (
+                            <option key={c.name} value={c.name}>
+                              {c.flag} {c.name}
+                            </option>
+                          ))}
+                        </Select>
+                        <Select value={ville} onChange={setVille}>
+                          {availableCities.map((c) => (
+                            <option key={c} value={c}>
+                              {c}
+                            </option>
+                          ))}
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <FieldLabel>Quartier / Zone souhaitée</FieldLabel>
+                      <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-brand bg-brand/[0.04] px-3.5 py-2.5">
+                        <MapPin className="h-4 w-4 flex-shrink-0 text-brand" aria-hidden />
+                        <input
+                          value={quartier}
+                          onChange={(e) => setQuartier(e.target.value)}
+                          placeholder="Ex : Cocody, Riviera"
+                          className="w-full bg-transparent text-sm font-medium outline-none placeholder:text-gray-400"
+                        />
+                      </div>
+                      <p className="mt-1.5 text-xs text-gray-500">
+                        Indiquez un ou plusieurs quartiers séparés par une virgule.
+                      </p>
+                    </div>
+
+                    <hr className="my-7 border-black/[0.06]" />
+
+                    <div className="mb-6">
+                      <FieldLabel>Superficie souhaitée (m²)</FieldLabel>
+                      <div className="flex items-center gap-4">
+                        <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <MoveHorizontal className="h-[15px] w-[15px] text-gray-400" aria-hidden />
+                          <span className="text-sm text-gray-500">Min</span>
+                          <input
+                            type="number"
+                            min="0"
+                            value={surfaceMin}
+                            onChange={(e) => setSurfaceMin(e.target.value)}
+                            placeholder="150"
+                            className="ml-1 w-full bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-gray-400"
+                          />
+                        </div>
+                        <span className="text-sm text-gray-400">—</span>
+                        <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <MoveHorizontal className="h-[15px] w-[15px] text-gray-400" aria-hidden />
+                          <span className="text-sm text-gray-500">Max</span>
+                          <input
+                            type="number"
+                            min="0"
+                            value={surfaceMax}
+                            onChange={(e) => setSurfaceMax(e.target.value)}
+                            placeholder="350"
+                            className="ml-1 w-full bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <FieldLabel>Chambres min.</FieldLabel>
+                      <Select value={chambres} onChange={setChambres}>
+                        {BEDROOMS_OPTIONS.map((o) => (
+                          <option key={o} value={o}>
+                            {o}
+                          </option>
+                        ))}
+                      </Select>
+                    </div>
+
+                    <hr className="my-7 border-black/[0.06]" />
+
+                    <div className="mb-6">
+                      <FieldLabel>Équipements souhaités</FieldLabel>
+                      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+                        {EQUIPEMENTS.map((eq) => (
+                          <CheckOption
+                            key={eq.key}
+                            checked={equipements.includes(eq.key)}
+                            onClick={() => toggleFrom(equipements, setEquipements, eq.key)}
+                          >
+                            {eq.label}
+                          </CheckOption>
+                        ))}
+                      </div>
+                    </div>
+
+                    <hr className="my-7 border-black/[0.06]" />
+
+                    <div className="mb-2">
+                      <FieldLabel>Description complémentaire</FieldLabel>
+                      <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        rows={4}
+                        placeholder="Décrivez le bien que vous recherchez…"
+                        className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none placeholder:text-gray-400"
+                      />
+                      <p className="mt-1.5 text-xs text-gray-500">
+                        Précisez tout critère important non listé ci-dessus (orientation, étage,
+                        proximité d&apos;un lieu…)
+                      </p>
+                    </div>
+
+                    <div className="mt-8 flex items-center justify-between gap-4">
+                      <Link
+                        href="/demande-immobiliere"
+                        className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-black/[0.1] px-[22px] py-2.5 text-sm font-semibold"
+                      >
+                        <ArrowLeft className="h-[15px] w-[15px]" aria-hidden />
+                        Annuler
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setStep(2)}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white"
+                      >
+                        Étape suivante : Budget
+                        <ArrowRight className="h-[15px] w-[15px]" aria-hidden />
+                      </button>
+                    </div>
                   </>
                 )}
+
                 {step === 2 && (
                   <>
-                    <TipItem>
-                      Ajoutez une marge si vous visez un quartier très demandé comme Cocody ou
-                      Riviera.
-                    </TipItem>
-                    <TipItem>
-                      Pensez aux frais annexes pour éviter les écarts entre budget affiché et budget
-                      réel.
-                    </TipItem>
-                    <TipItem>
-                      Un délai d&apos;achat clair aide les agents à prioriser les biens disponibles
-                      immédiatement.
-                    </TipItem>
+                    <h2 className="font-sora mb-1.5 text-[22px] font-extrabold tracking-[-0.03em]">
+                      Étape 2 — Définissez votre budget
+                    </h2>
+                    <p className="mb-8 text-sm text-gray-500">
+                      Indiquez votre enveloppe, votre niveau de flexibilité et votre calendrier
+                      d&apos;acquisition.
+                    </p>
+
+                    <div className="mb-6">
+                      <FieldLabel required>Quel est votre budget global ? (FCFA)</FieldLabel>
+                      <div className="flex items-center gap-4">
+                        <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <Wallet className="h-[15px] w-[15px] text-gray-400" aria-hidden />
+                          <span className="text-sm text-gray-500">Min</span>
+                          <input
+                            type="number"
+                            min="0"
+                            value={budgetMin}
+                            onChange={(e) => setBudgetMin(e.target.value)}
+                            placeholder="80000000"
+                            className="ml-1 w-full bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-gray-400"
+                          />
+                        </div>
+                        <span className="text-sm text-gray-400">—</span>
+                        <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <WalletCards className="h-[15px] w-[15px] text-gray-400" aria-hidden />
+                          <span className="text-sm text-gray-500">Max</span>
+                          <input
+                            type="number"
+                            min="0"
+                            value={budgetMax}
+                            onChange={(e) => setBudgetMax(e.target.value)}
+                            placeholder="200000000"
+                            className="ml-1 w-full bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                      <p className="mt-1.5 text-xs text-gray-500">
+                        Montants en FCFA, sans espace ni abréviation (ex : 80000000).
+                      </p>
+                    </div>
+
+                    <div className="mb-6">
+                      <FieldLabel required>Type de financement</FieldLabel>
+                      <div className="flex flex-wrap gap-2.5">
+                        {FINANCEMENTS.map((f) => (
+                          <Pill
+                            key={f.key}
+                            selected={financement === f.key}
+                            onClick={() => setFinancement(f.key)}
+                            icon={f.icon}
+                          >
+                            {f.label}
+                          </Pill>
+                        ))}
+                      </div>
+                    </div>
+
+                    <hr className="my-7 border-black/[0.06]" />
+
+                    <div className="mb-6">
+                      <FieldLabel required>Votre projet est prévu pour quand ?</FieldLabel>
+                      <div className="flex flex-wrap gap-2.5">
+                        {CALENDRIERS.map((c) => (
+                          <Pill
+                            key={c.key}
+                            selected={calendrier === c.key}
+                            onClick={() => setCalendrier(c.key)}
+                          >
+                            {c.label}
+                          </Pill>
+                        ))}
+                      </div>
+                    </div>
+
+                    <hr className="my-7 border-black/[0.06]" />
+
+                    <div className="mb-6">
+                      <FieldLabel>Frais à prendre en compte</FieldLabel>
+                      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                        {FRAIS.map((f) => (
+                          <CheckOption
+                            key={f}
+                            checked={frais.includes(f)}
+                            onClick={() => toggleFrom(frais, setFrais, f)}
+                          >
+                            {f}
+                          </CheckOption>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <FieldLabel>Préférences complémentaires</FieldLabel>
+                      <textarea
+                        value={preferences}
+                        onChange={(e) => setPreferences(e.target.value)}
+                        rows={4}
+                        placeholder="Votre souplesse, vos priorités, vos contraintes de financement…"
+                        className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none placeholder:text-gray-400"
+                      />
+                      <p className="mt-1.5 text-xs text-gray-500">
+                        Vous pouvez préciser ici votre souplesse, vos priorités ou vos contraintes
+                        de financement.
+                      </p>
+                    </div>
+
+                    <div className="mb-2 flex gap-4 rounded-xl border border-brand/[0.18] bg-brand/[0.06] px-5 py-4.5">
+                      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand/[0.14]">
+                        <ShieldCheck className="h-4 w-4 text-brand" aria-hidden />
+                      </div>
+                      <div>
+                        <p className="mb-1 text-sm font-bold">Conseil Habitat-Afrik</p>
+                        <p className="text-[13px] leading-relaxed text-gray-500">
+                          Une fourchette claire aide les agents à filtrer rapidement les biens hors
+                          budget et à proposer des alternatives pertinentes.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-8 flex items-center justify-between gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setStep(1)}
+                        className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-black/[0.1] px-[22px] py-2.5 text-sm font-semibold"
+                      >
+                        <ArrowLeft className="h-[15px] w-[15px]" aria-hidden />
+                        Retour : Bien recherché
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStep(3)}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white"
+                      >
+                        Étape suivante : Contact
+                        <ArrowRight className="h-[15px] w-[15px]" aria-hidden />
+                      </button>
+                    </div>
                   </>
                 )}
+
                 {step === 3 && (
-                  <>
-                    <TipItem>
-                      Un numéro joignable accélère la prise de contact par les agents disponibles.
-                    </TipItem>
-                    <TipItem>
-                      Choisissez le canal que vous consultez le plus souvent pour ne rien manquer.
-                    </TipItem>
-                    <TipItem>
-                      Vos données restent confidentielles et ne sont jamais revendues à des tiers.
-                    </TipItem>
-                  </>
+                  <form onSubmit={submit}>
+                    <h2 className="font-sora mb-1.5 text-[22px] font-extrabold tracking-[-0.03em]">
+                      Étape 3 — Vos coordonnées
+                    </h2>
+                    <p className="mb-8 text-sm text-gray-500">
+                      Ces informations restent privées et ne sont partagées qu&apos;avec les agents
+                      certifiés.
+                    </p>
+
+                    <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
+                      <div>
+                        <FieldLabel required>Prénom</FieldLabel>
+                        <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <User className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
+                          <input
+                            required
+                            value={prenom}
+                            onChange={(e) => setPrenom(e.target.value)}
+                            placeholder="Votre prénom"
+                            className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <FieldLabel required>Nom</FieldLabel>
+                        <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <User className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
+                          <input
+                            required
+                            value={nom}
+                            onChange={(e) => setNom(e.target.value)}
+                            placeholder="Votre nom"
+                            className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
+                      <div>
+                        <FieldLabel>Email</FieldLabel>
+                        <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <Mail className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
+                          <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="vous@email.com"
+                            className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <FieldLabel required>Téléphone</FieldLabel>
+                        <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <Phone className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
+                          <input
+                            required
+                            value={telephone}
+                            onChange={(e) => setTelephone(e.target.value)}
+                            placeholder="+225 07 00 00 00 00"
+                            className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr className="my-7 border-black/[0.06]" />
+
+                    <div className="mb-6">
+                      <FieldLabel required>Canal de contact préféré</FieldLabel>
+                      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+                        {CANAUX.map((c) => (
+                          <button
+                            key={c.key}
+                            type="button"
+                            onClick={() => setCanal(c.key)}
+                            className={cn(
+                              'flex flex-col items-center gap-2 rounded-xl border-[1.5px] px-3 py-4 text-center',
+                              canal === c.key
+                                ? 'border-brand bg-brand/[0.06]'
+                                : 'border-black/[0.1] bg-white',
+                            )}
+                          >
+                            <c.icon
+                              className={cn(
+                                'h-5 w-5',
+                                canal === c.key ? 'text-brand' : 'text-gray-400',
+                              )}
+                              aria-hidden
+                            />
+                            <span
+                              className={cn(
+                                'text-[13px] font-semibold',
+                                canal === c.key ? 'text-brand' : 'text-neutral-900',
+                              )}
+                            >
+                              {c.label}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <FieldLabel>Êtes-vous déjà en contact avec un agent ?</FieldLabel>
+                      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                        <button
+                          type="button"
+                          onClick={() => setAgentConnu('non')}
+                          className={cn(
+                            'flex items-center gap-3 rounded-xl border-[1.5px] px-4 py-3.5 text-left',
+                            agentConnu === 'non'
+                              ? 'border-brand bg-brand/[0.06]'
+                              : 'border-black/[0.1] bg-white',
+                          )}
+                        >
+                          <Users
+                            className={cn(
+                              'h-4 w-4 flex-shrink-0',
+                              agentConnu === 'non' ? 'text-brand' : 'text-gray-400',
+                            )}
+                            aria-hidden
+                          />
+                          <div>
+                            <p
+                              className={cn(
+                                'text-sm font-semibold',
+                                agentConnu === 'non' && 'text-brand',
+                              )}
+                            >
+                              Non, pas encore
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Un agent disponible me contactera
+                            </p>
+                          </div>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setAgentConnu('oui')}
+                          className={cn(
+                            'flex items-center gap-3 rounded-xl border-[1.5px] px-4 py-3.5 text-left',
+                            agentConnu === 'oui'
+                              ? 'border-brand bg-brand/[0.06]'
+                              : 'border-black/[0.1] bg-white',
+                          )}
+                        >
+                          <Calendar
+                            className={cn(
+                              'h-4 w-4 flex-shrink-0',
+                              agentConnu === 'oui' ? 'text-brand' : 'text-gray-400',
+                            )}
+                            aria-hidden
+                          />
+                          <div>
+                            <p
+                              className={cn(
+                                'text-sm font-semibold',
+                                agentConnu === 'oui' && 'text-brand',
+                              )}
+                            >
+                              Oui, un agent m&apos;accompagne déjà
+                            </p>
+                            <p className="text-xs text-gray-500">Précisez-le en note ci-dessous</p>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <FieldLabel>Notes complémentaires</FieldLabel>
+                      <textarea
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        rows={3}
+                        placeholder="Un détail que les agents devraient connaître ?"
+                        className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none placeholder:text-gray-400"
+                      />
+                    </div>
+
+                    <div className="mb-2 flex flex-col gap-3">
+                      <label className="flex items-start gap-2.5 text-[13px] text-gray-500">
+                        <input
+                          type="checkbox"
+                          required
+                          checked={consentContact}
+                          onChange={(e) => setConsentContact(e.target.checked)}
+                          className="mt-0.5 h-4 w-4 flex-shrink-0 accent-brand"
+                        />
+                        J&apos;accepte d&apos;être contacté(e) par un agent certifié Habitat-Afrik
+                        au sujet de ma demande.
+                      </label>
+                      <label className="flex items-start gap-2.5 text-[13px] text-gray-500">
+                        <input
+                          type="checkbox"
+                          required
+                          checked={consentData}
+                          onChange={(e) => setConsentData(e.target.checked)}
+                          className="mt-0.5 h-4 w-4 flex-shrink-0 accent-brand"
+                        />
+                        J&apos;accepte la politique de confidentialité et le traitement de mes
+                        données personnelles.
+                      </label>
+                    </div>
+
+                    {submitError && <p className="mb-4 text-xs text-red-500">{submitError}</p>}
+
+                    <div className="mt-8 flex items-center justify-between gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setStep(2)}
+                        className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-black/[0.1] px-[22px] py-2.5 text-sm font-semibold"
+                      >
+                        <ArrowLeft className="h-[15px] w-[15px]" aria-hidden />
+                        Retour : Budget
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white disabled:opacity-50"
+                      >
+                        {submitting ? (
+                          <Loader2 className="h-[15px] w-[15px] animate-spin" aria-hidden />
+                        ) : (
+                          <Send className="h-[15px] w-[15px]" aria-hidden />
+                        )}
+                        {submitting ? 'Envoi…' : 'Envoyer ma demande'}
+                      </button>
+                    </div>
+                  </form>
                 )}
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </div>
       </div>
 
       <PublicFooter />
-    </div>
-  );
-}
-
-function SummaryRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-start justify-between gap-3">
-      <span className="text-xs whitespace-nowrap text-gray-500">{label}</span>
-      <span className="text-right text-xs font-semibold">{value}</span>
-    </div>
-  );
-}
-
-function TipItem({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-start gap-2">
-      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
-      <span>{children}</span>
     </div>
   );
 }

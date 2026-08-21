@@ -541,14 +541,19 @@ model ListingReport {
 // flow), so every field is captured on the one POST that creates the row.
 // ───────────────────────────────────────────────────────────────────────
 model PropertyRequest {
-  id     String @id @default(cuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String  @id @default(cuid())
+  // Nullable: agent-entered requests (POST /api/requests) set this to the
+  // authoring agent. Public anonymous submissions (POST
+  // /api/public/property-requests) leave it null — unowned, pending an
+  // agent to pick up. See frontend/src/app/demande-immobiliere/nouvelle.
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   transactionType String // VENTE | LOCATION | SEJOUR | AUBERGE
   propertyType    String // VILLA | APPARTEMENT | PARCELLE | DOMAINE | MAISON | BOUTIQUE | BUREAU | SALLE_FETE | SALLE_CONFERENCE | IMMEUBLE
   country         String
   city            String
+  landmark        String? // quartier / zone souhaitée (free text)
 
   // Only the field(s) relevant to propertyType are populated by the client
   // (see LAND_/HALL_PROPERTY_TYPES in the form) — all nullable here since
@@ -571,6 +576,10 @@ model PropertyRequest {
   clientEmail String?
   clientType  String  @default("Particulier") // Particulier | Entreprise
   source      String?
+  // Free-form notes — on the public wizard this consolidates description,
+  // budget/contact preferences and extra context into one field rather
+  // than growing the schema with one-off columns for a single form.
+  notes       String?
 
   status String @default("EN_ATTENTE") // EN_ATTENTE | EN_COURS | CLOTUREE
 
