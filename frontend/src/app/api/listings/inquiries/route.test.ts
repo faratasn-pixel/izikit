@@ -102,6 +102,20 @@ describe('GET /api/listings/inquiries', () => {
     expect(args?.take).toBe(6);
   });
 
+  it('applies the eligibleForVisit filter (status != VISITE_PLANIFIEE and no linked visit)', async () => {
+    await GET(makeGet('?eligibleForVisit=true'));
+    const args = prismaMock.listingInquiry.findMany.mock.calls[0]?.[0];
+    expect(args?.where?.status).toEqual({ not: 'VISITE_PLANIFIEE' });
+    expect(args?.where?.visit).toBeNull();
+  });
+
+  it('does not apply the eligibleForVisit filter by default', async () => {
+    await GET(makeGet());
+    const args = prismaMock.listingInquiry.findMany.mock.calls[0]?.[0];
+    expect(args?.where?.status).toBeUndefined();
+    expect(args?.where?.visit).toBeUndefined();
+  });
+
   it('computes stats from count queries scoped to the same user', async () => {
     prismaMock.listingInquiry.count
       .mockResolvedValueOnce(40 as never) // total

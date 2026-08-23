@@ -29,9 +29,18 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const scope = { listing: { userId: auth.user.sub } } as const;
     const sevenDaysAgo = new Date(Date.now() - SEVEN_DAYS_MS);
 
+    // Used by the "Planifier une visite" picker on /visites — an inquiry
+    // that already has a linked Visit, or is already marked
+    // VISITE_PLANIFIEE, can't be converted a second time (Visit.inquiryId
+    // is unique).
+    const eligibleForVisit = url.searchParams.get('eligibleForVisit') === 'true';
+    const eligibleFilter = eligibleForVisit
+      ? { status: { not: 'VISITE_PLANIFIEE' as const }, visit: null }
+      : {};
+
     const [rows, total, nouveaux7j, enAttente, visitePlanifiee] = await Promise.all([
       prisma.listingInquiry.findMany({
-        where: { ...scope, ...cursorWhere(cursor) },
+        where: { ...scope, ...eligibleFilter, ...cursorWhere(cursor) },
         orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
         take: limit + 1,
         select: {
