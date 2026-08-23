@@ -40,6 +40,7 @@ import {
   type VisitStats,
   type VisitStatus,
   type VisitsCalendarResponse,
+  type EligibleInquiry,
 } from '@/lib/visits';
 
 type View = 'CALENDRIER' | 'LISTE';
@@ -70,6 +71,15 @@ export default function VisitesPage() {
   const [calendarData, setCalendarData] = useState<VisitsCalendarResponse | null>(null);
   const [loadingCalendar, setLoadingCalendar] = useState(true);
   const [todayFilter, setTodayFilter] = useState<'TOUTES' | 'CONFIRMEE' | 'EN_ATTENTE'>('TOUTES');
+
+  const [createOpen, setCreateOpen] = useState(false);
+  const [eligibleInquiries, setEligibleInquiries] = useState<EligibleInquiry[]>([]);
+  const [loadingEligible, setLoadingEligible] = useState(false);
+  const [createInquiryId, setCreateInquiryId] = useState('');
+  const [createDate, setCreateDate] = useState('');
+  const [createTime, setCreateTime] = useState('');
+  const [createType, setCreateType] = useState<'PRESENTIEL' | 'VIRTUELLE'>('PRESENTIEL');
+  const [creating, setCreating] = useState(false);
 
   async function refetchTable(currentSearch: string) {
     setLoadingTable(true);
@@ -143,6 +153,50 @@ export default function VisitesPage() {
       toast(e instanceof ApiError ? e.message : 'Impossible de mettre à jour la visite.', 'error');
     } finally {
       setSaving(false);
+    }
+  }
+
+  useEffect(() => {
+    function open() {
+      setCreateOpen(true);
+      setCreateInquiryId('');
+      setCreateDate('');
+      setCreateTime('');
+      setCreateType('PRESENTIEL');
+      setLoadingEligible(true);
+      api<{ items: EligibleInquiry[] }>('/api/listings/inquiries?eligibleForVisit=true&limit=50')
+        .then((res) => setEligibleInquiries(res.items))
+        .catch((e) => {
+          toast(
+            e instanceof ApiError ? e.message : 'Impossible de charger les contacts disponibles.',
+            'error',
+          );
+        })
+        .finally(() => setLoadingEligible(false));
+    }
+    window.addEventListener('visits:open-create', open);
+    return () => window.removeEventListener('visits:open-create', open);
+  }, []);
+
+  async function handleCreate() {
+    if (!createInquiryId || !createDate || !createTime) return;
+    setCreating(true);
+    try {
+      await api('/api/visits', {
+        method: 'POST',
+        body: {
+          inquiryId: createInquiryId,
+          scheduledAt: new Date(`${createDate}T${createTime}:00`).toISOString(),
+          type: createType,
+        },
+      });
+      toast('Visite planifiée.', 'success');
+      setCreateOpen(false);
+      await Promise.all([refetchTable(search), refetchCalendar()]);
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message : 'Impossible de planifier la visite.', 'error');
+    } finally {
+      setCreating(false);
     }
   }
 
@@ -812,6 +866,86 @@ export default function VisitesPage() {
                 {saving ? 'Enregistrement…' : 'Enregistrer'}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* CREATE MODAL */}
+      {createOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <p className="font-sora text-[15px] font-semibold text-neutral-900">
+                Planifier une visite
+              </p>
+              <button type="button" onClick={() => setCreateOpen(false)} className="text-gray-400">
+                <X className="h-4 w-4" aria-hidden />
+              </button>
+            </div>
+            {loadingEligible ? (
+              <div className="flex flex-col items-center gap-2 py-8 text-center">
+                <Loader2 className="h-6 w-6 animate-spin text-gray-300" aria-hidden />
+              </div>
+            ) : eligibleInquiries.length === 0 ? (
+              <p className="py-8 text-center text-[13px] text-gray-400">
+                Aucun contact disponible à convertir en visite pour l&apos;instant.
+              </p>
+            ) : (
+              <div className="flex flex-col gap-3">
+                <label className="text-[12.5px] font-medium text-gray-400">
+                  Contact
+                  <select
+                    value={createInquiryId}
+                    onChange={(e) => setCreateInquiryId(e.target.value)}
+                    className="mt-1 w-full rounded-lg border border-black/[0.08] px-3 py-2 text-[13px] text-neutral-900"
+                  >
+                    <option value="">Sélectionner un contact…</option>
+                    {eligibleInquiries.map((inq) => (
+                      <option key={inq.id} value={inq.id}>
+                        {inq.name} — {inq.listing.title}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="text-[12.5px] font-medium text-gray-400">
+                  Date
+                  <input
+                    type="date"
+                    value={createDate}
+                    onChange={(e) => setCreateDate(e.target.value)}
+                    className="mt-1 w-full rounded-lg border border-black/[0.08] px-3 py-2 text-[13px] text-neutral-900"
+                  />
+                </label>
+                <label className="text-[12.5px] font-medium text-gray-400">
+                  Heure
+                  <input
+                    type="time"
+                    value={createTime}
+                    onChange={(e) => setCreateTime(e.target.value)}
+                    className="mt-1 w-full rounded-lg border border-black/[0.08] px-3 py-2 text-[13px] text-neutral-900"
+                  />
+                </label>
+                <label className="text-[12.5px] font-medium text-gray-400">
+                  Type
+                  <select
+                    value={createType}
+                    onChange={(e) => setCreateType(e.target.value as 'PRESENTIEL' | 'VIRTUELLE')}
+                    className="mt-1 w-full rounded-lg border border-black/[0.08] px-3 py-2 text-[13px] text-neutral-900"
+                  >
+                    <option value="PRESENTIEL">Présentiel</option>
+                    <option value="VIRTUELLE">Virtuelle</option>
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  onClick={handleCreate}
+                  disabled={creating || !createInquiryId || !createDate || !createTime}
+                  className="mt-2 rounded-lg bg-brand px-4 py-2.5 text-[13px] font-semibold text-white disabled:cursor-not-allowed disabled:bg-brand/40"
+                >
+                  {creating ? 'Planification…' : 'Planifier'}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
