@@ -518,8 +518,33 @@ model ListingInquiry {
 
   createdAt DateTime @default(now())
 
+  // One inquiry converts into at most one scheduled visit — see Visit below.
+  visit Visit?
+
   @@index([listingId, createdAt])
   @@index([status, createdAt])
+}
+
+// A scheduled property visit — always created by converting an existing
+// ListingInquiry (see frontend/src/app/api/visits/route.ts POST). No
+// client/listing fields are duplicated here; they're read through
+// `inquiry.name/phone/email` and `inquiry.listing`. Creating a Visit also
+// flips the source ListingInquiry.status to VISITE_PLANIFIEE.
+model Visit {
+  id        String         @id @default(cuid())
+  inquiryId String         @unique
+  inquiry   ListingInquiry @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+
+  scheduledAt DateTime
+  type        String  @default("PRESENTIEL") // PRESENTIEL | VIRTUELLE
+  status      String  @default("EN_ATTENTE") // CONFIRMEE | EN_ATTENTE | ANNULEE
+  notes       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([scheduledAt])
+  @@index([status])
 }
 
 // A visitor-submitted flag on a listing, queued for admin moderation.
