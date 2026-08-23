@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Download,
   Plus,
@@ -17,6 +17,8 @@ import {
   Pencil,
   X,
   Loader2,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { useUser } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -28,10 +30,16 @@ import {
   STATUS_BADGE_CLASS,
   TYPE_LABEL,
   TYPE_BADGE_CLASS,
+  DATE_BLOCK_STYLE,
   formatVisitDateTime,
+  formatVisitTime,
+  formatVisitDayMonth,
+  formatDateKey,
+  buildCalendarGrid,
   type Visit,
   type VisitStats,
   type VisitStatus,
+  type VisitsCalendarResponse,
 } from '@/lib/visits';
 
 type View = 'CALENDRIER' | 'LISTE';
@@ -57,6 +65,12 @@ export default function VisitesPage() {
   const [saving, setSaving] = useState(false);
   const [cancelingId, setCancelingId] = useState<string | null>(null);
 
+  const [calendarYear, setCalendarYear] = useState(() => new Date().getFullYear());
+  const [calendarMonth, setCalendarMonth] = useState(() => new Date().getMonth() + 1);
+  const [calendarData, setCalendarData] = useState<VisitsCalendarResponse | null>(null);
+  const [loadingCalendar, setLoadingCalendar] = useState(true);
+  const [todayFilter, setTodayFilter] = useState<'TOUTES' | 'CONFIRMEE' | 'EN_ATTENTE'>('TOUTES');
+
   async function refetchTable(currentSearch: string) {
     setLoadingTable(true);
     try {
@@ -79,6 +93,25 @@ export default function VisitesPage() {
     }, 300);
     return () => clearTimeout(handle);
   }, [user, search]);
+
+  async function refetchCalendar() {
+    setLoadingCalendar(true);
+    try {
+      const res = await api<VisitsCalendarResponse>(
+        `/api/visits/calendar?year=${calendarYear}&month=${calendarMonth}`,
+      );
+      setCalendarData(res);
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message : 'Impossible de charger le calendrier.', 'error');
+    } finally {
+      setLoadingCalendar(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!user) return;
+    refetchCalendar();
+  }, [user, calendarYear, calendarMonth]);
 
   useEffect(() => {
     setEditDate('');
@@ -126,6 +159,43 @@ export default function VisitesPage() {
       setCancelingId(null);
     }
   }
+
+  const eventsByDate = useMemo(() => {
+    const map: Record<string, VisitsCalendarResponse['days'][number]['events']> = {};
+    for (const d of calendarData?.days ?? []) map[d.date] = d.events;
+    return map;
+  }, [calendarData]);
+
+  const calendarCells = useMemo(
+    () => buildCalendarGrid(calendarYear, calendarMonth, eventsByDate),
+    [calendarYear, calendarMonth, eventsByDate],
+  );
+
+  const todayStr = formatDateKey(new Date());
+
+  const filteredToday = useMemo(() => {
+    const rows = calendarData?.today ?? [];
+    return todayFilter === 'TOUTES' ? rows : rows.filter((v) => v.status === todayFilter);
+  }, [calendarData, todayFilter]);
+
+  function goToMonth(delta: number) {
+    let year = calendarYear;
+    let month = calendarMonth + delta;
+    if (month < 1) {
+      month = 12;
+      year -= 1;
+    } else if (month > 12) {
+      month = 1;
+      year += 1;
+    }
+    setCalendarYear(year);
+    setCalendarMonth(month);
+  }
+
+  const MONTH_LABEL = new Date(calendarYear, calendarMonth - 1, 1).toLocaleDateString('fr-FR', {
+    month: 'long',
+    year: 'numeric',
+  });
 
   if (!user) return null;
 
@@ -232,6 +302,236 @@ export default function VisitesPage() {
           Calendrier
         </button>
       </div>
+
+      {view === 'CALENDRIER' && (
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_320px]">
+          {/* CALENDAR */}
+          <div className="rounded-2xl bg-white">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] p-5">
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => goToMonth(-1)}
+                  className="flex h-8 w-8 items-center justify-center rounded-md border border-black/[0.08] bg-[#F9FAFB] text-neutral-700"
+                >
+                  <ChevronLeft className="h-[15px] w-[15px]" aria-hidden />
+                </button>
+                <span className="font-sora min-w-[140px] text-center text-base font-semibold text-neutral-900 capitalize">
+                  {MONTH_LABEL}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => goToMonth(1)}
+                  className="flex h-8 w-8 items-center justify-center rounded-md border border-black/[0.08] bg-[#F9FAFB] text-neutral-700"
+                >
+                  <ChevronRight className="h-[15px] w-[15px]" aria-hidden />
+                </button>
+              </div>
+            </div>
+
+            <div className="p-5">
+              <div className="mb-1.5 grid grid-cols-7">
+                {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map((w) => (
+                  <div
+                    key={w}
+                    className="py-1.5 text-center text-[11.5px] font-semibold tracking-wide text-gray-400 uppercase"
+                  >
+                    {w}
+                  </div>
+                ))}
+              </div>
+              {loadingCalendar ? (
+                <div className="flex flex-col items-center gap-2 py-10 text-center">
+                  <Loader2 className="h-6 w-6 animate-spin text-gray-300" aria-hidden />
+                </div>
+              ) : (
+                <div className="grid grid-cols-7 gap-1">
+                  {calendarCells.map((cell) => (
+                    <div
+                      key={cell.dateStr}
+                      className={cn(
+                        'min-h-14 rounded-lg p-1.5 lg:min-h-20 lg:p-2',
+                        cell.otherMonth && 'opacity-35',
+                        cell.dateStr === todayStr && 'bg-[#EEF3FF]',
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          'mb-1 text-[13px] font-medium text-neutral-900',
+                          cell.dateStr === todayStr &&
+                            'flex h-6 w-6 items-center justify-center rounded-full bg-brand text-[12px] font-bold text-white',
+                        )}
+                      >
+                        {cell.day}
+                      </div>
+                      {cell.events.slice(0, 2).map((e) => (
+                        <div
+                          key={e.id}
+                          className={cn(
+                            'mb-0.5 truncate rounded-sm px-1.5 py-0.5 text-[10px] font-medium lg:text-[10.5px]',
+                            STATUS_BADGE_CLASS[e.status],
+                          )}
+                        >
+                          {e.label}
+                        </div>
+                      ))}
+                      {cell.events.length > 2 && (
+                        <div className="text-[10px] text-gray-400">
+                          +{cell.events.length - 2} autre
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* SIDE PANEL */}
+          <div className="flex flex-col gap-5">
+            {/* Today's visits */}
+            <div className="rounded-2xl bg-white">
+              <div className="border-b border-black/[0.06] p-4">
+                <p className="font-sora text-sm font-semibold text-neutral-900">Visites du jour</p>
+              </div>
+              <div className="flex items-center gap-1.5 border-b border-black/[0.06] px-4 py-3">
+                {(
+                  [
+                    { key: 'TOUTES', label: 'Toutes' },
+                    { key: 'CONFIRMEE', label: 'Confirmées' },
+                    { key: 'EN_ATTENTE', label: 'En attente' },
+                  ] as const
+                ).map((f) => (
+                  <button
+                    key={f.key}
+                    type="button"
+                    onClick={() => setTodayFilter(f.key)}
+                    className={cn(
+                      'rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
+                      todayFilter === f.key ? 'bg-brand text-white' : 'bg-gray-100 text-gray-400',
+                    )}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+              {filteredToday.length === 0 ? (
+                <p className="px-4 py-6 text-center text-xs text-gray-400">
+                  Aucune visite pour ce filtre.
+                </p>
+              ) : (
+                filteredToday.map((v, i) => {
+                  const { day, month } = formatVisitDayMonth(v.scheduledAt);
+                  return (
+                    <div
+                      key={v.id}
+                      className={cn(
+                        'flex gap-3 p-4',
+                        i < filteredToday.length - 1 && 'border-b border-black/[0.06]',
+                      )}
+                    >
+                      <div className="flex h-[46px] w-[42px] flex-shrink-0 flex-col items-center justify-center rounded-lg bg-[#EEF3FF]">
+                        <span className="font-sora text-[17px] leading-none font-semibold text-brand">
+                          {day}
+                        </span>
+                        <span className="text-[9.5px] font-semibold tracking-wide text-brand uppercase">
+                          {month}
+                        </span>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="mb-0.5 truncate text-[13px] font-semibold text-neutral-900">
+                          {v.listingTitle}
+                        </p>
+                        <p className="flex flex-wrap items-center gap-1.5 text-[11.5px] text-gray-400">
+                          <Clock className="h-[11px] w-[11px]" aria-hidden />
+                          {formatVisitTime(v.scheduledAt)} · {v.clientName}
+                        </p>
+                        <span
+                          className={cn(
+                            'mt-1 inline-block rounded-full px-2 py-0.5 text-[10.5px] font-semibold',
+                            STATUS_BADGE_CLASS[v.status],
+                          )}
+                        >
+                          {STATUS_LABEL[v.status]}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Upcoming */}
+            <div className="rounded-2xl bg-white">
+              <div className="border-b border-black/[0.06] p-4">
+                <p className="font-sora text-sm font-semibold text-neutral-900">
+                  Prochaines visites
+                </p>
+              </div>
+              {(calendarData?.upcoming ?? []).length === 0 ? (
+                <p className="px-4 py-6 text-center text-xs text-gray-400">
+                  Aucune visite à venir.
+                </p>
+              ) : (
+                (calendarData?.upcoming ?? []).map((v, i, arr) => {
+                  const { day, month } = formatVisitDayMonth(v.scheduledAt);
+                  const block = DATE_BLOCK_STYLE[v.status];
+                  return (
+                    <div
+                      key={v.id}
+                      className={cn(
+                        'flex gap-3 p-4',
+                        i < arr.length - 1 && 'border-b border-black/[0.06]',
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          'flex h-[46px] w-[42px] flex-shrink-0 flex-col items-center justify-center rounded-lg',
+                          block.bg,
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            'font-sora text-[17px] leading-none font-semibold',
+                            block.text,
+                          )}
+                        >
+                          {day}
+                        </span>
+                        <span
+                          className={cn(
+                            'text-[9.5px] font-semibold tracking-wide uppercase',
+                            block.text,
+                          )}
+                        >
+                          {month}
+                        </span>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="mb-0.5 truncate text-[13px] font-semibold text-neutral-900">
+                          {v.listingTitle}
+                        </p>
+                        <p className="flex items-center gap-1.5 text-[11.5px] text-gray-400">
+                          <Clock className="h-[11px] w-[11px]" aria-hidden />
+                          {formatVisitTime(v.scheduledAt)} · {v.clientName}
+                        </p>
+                        <span
+                          className={cn(
+                            'mt-1 inline-block rounded-full px-2 py-0.5 text-[10.5px] font-semibold',
+                            STATUS_BADGE_CLASS[v.status],
+                          )}
+                        >
+                          {STATUS_LABEL[v.status]}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* VISITS TABLE */}
       <div className="rounded-2xl bg-white">
