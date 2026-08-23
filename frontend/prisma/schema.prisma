@@ -513,9 +513,13 @@ model ListingInquiry {
   email   String?
   message String
 
+  status String  @default("EN_ATTENTE") // EN_ATTENTE | REPONDU | VISITE_PLANIFIEE | NON_QUALIFIE
+  notes  String?
+
   createdAt DateTime @default(now())
 
   @@index([listingId, createdAt])
+  @@index([status, createdAt])
 }
 
 // A visitor-submitted flag on a listing, queued for admin moderation.
