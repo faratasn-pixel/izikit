@@ -31,6 +31,7 @@ import { bictorysWebhookProvider } from '@/lib/server/webhook/bictorys';
 import { enqueueOutbox } from '@/lib/server/outbox';
 import { prisma } from '@/lib/server/prisma';
 import { isPlanKey } from '@/lib/subscription-plans';
+import { TOKEN_PACK_CATALOG, isTokenPackKey } from '@/lib/token-packs';
 
 const SUBSCRIPTION_PERIOD_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -65,7 +66,11 @@ export const POST = createWebhookHandler({
     // is confirmed. No renewal cron exists yet (see
     // .planning/banani/abonnement-paiement.md) — currentPeriodEnd is
     // informational only.
-    const meta = (order.metadata ?? null) as { kind?: unknown; planKey?: unknown } | null;
+    const meta = (order.metadata ?? null) as {
+      kind?: unknown;
+      planKey?: unknown;
+      packKey?: unknown;
+    } | null;
     if (order.userId && meta?.kind === 'subscription_plan_change' && isPlanKey(meta.planKey)) {
       await tx.subscription.upsert({
         where: { userId: order.userId },
@@ -80,6 +85,31 @@ export const POST = createWebhookHandler({
           status: 'ACTIVE',
           currentPeriodEnd: new Date(Date.now() + SUBSCRIPTION_PERIOD_MS),
           canceledAt: null,
+        },
+      });
+    }
+
+    // "Acheter des jetons" rides the same Order/Bictorys one-time-charge
+    // pipeline as the subscription upgrade above — POST /api/orders is
+    // called directly with this metadata tag from the /jetons page. Credit
+    // the wallet here, inside the same Serializable tx, once payment is
+    // confirmed: this is core financial state, not a side-effect, so it
+    // does NOT go through the outbox.
+    if (order.userId && meta?.kind === 'token_purchase' && isTokenPackKey(meta.packKey)) {
+      const pack = TOKEN_PACK_CATALOG[meta.packKey];
+      const wallet = await tx.tokenWallet.upsert({
+        where: { userId: order.userId },
+        create: { userId: order.userId, balance: pack.tokens },
+        update: { balance: { increment: pack.tokens } },
+      });
+      await tx.tokenTransaction.create({
+        data: {
+          userId: order.userId,
+          type: 'PURCHASE',
+          amount: pack.tokens,
+          balanceAfter: wallet.balance,
+          description: `Achat pack ${pack.label}`,
+          orderId: order.id,
         },
       });
     }
