@@ -87,6 +87,8 @@ model User {
   listings          Listing[]
   propertyRequests  PropertyRequest[]
   alerts            Alert[]
+  tokenWallet       TokenWallet?
+  tokenTransactions TokenTransaction[]
 
   // Multi-tenancy is opt-in per project: by default no resource is org-scoped.
   // Apps that need it (marketplace, B2B SaaS, classifieds) wire owner relations
@@ -447,6 +449,27 @@ model Withdrawal {
   @@index([userId, requestedAt])
   @@index([status, requestedAt])
   @@index([provider, providerPayoutId])
+}
+
+model TokenWallet {
+  userId    String   @id
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  balance   Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model TokenTransaction {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         String // PURCHASE | USAGE | BONUS
+  amount       Int // signed: +tokens (purchase/bonus) or -tokens (usage)
+  balanceAfter Int
+  description  String
+  orderId      String?  @unique // links a PURCHASE row back to its Order
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 // ───────────────────────────────────────────────────────────────────────
