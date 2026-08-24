@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Download,
   Coins,
@@ -15,35 +15,14 @@ import {
 } from 'lucide-react';
 import { DashboardShell } from '@/components/dashboard/DashboardShell';
 import { cn } from '@/lib/utils';
-
-interface TokenPack {
-  id: string;
-  name: string;
-  tokens: number;
-  price: string;
-  perToken: string;
-  popular?: boolean;
-}
-
-const TOKEN_PACKS: TokenPack[] = [
-  { id: 'starter', name: 'Starter', tokens: 50, price: '15 000 FCFA', perToken: '300 FCFA/jeton' },
-  {
-    id: 'standard',
-    name: 'Standard',
-    tokens: 150,
-    price: '40 000 FCFA',
-    perToken: '267 FCFA/jeton',
-    popular: true,
-  },
-  { id: 'pro', name: 'Pro', tokens: 350, price: '85 000 FCFA', perToken: '243 FCFA/jeton' },
-  {
-    id: 'entreprise',
-    name: 'Entreprise',
-    tokens: 1000,
-    price: '220 000 FCFA',
-    perToken: '220 FCFA/jeton',
-  },
-];
+import { api, ApiError } from '@/lib/api';
+import { useToast } from '@/contexts/ToastContext';
+import {
+  TOKEN_PACK_CATALOG,
+  TOKEN_PACK_KEYS,
+  TOKEN_PURCHASE_CURRENCY,
+  type TokenPackKey,
+} from '@/lib/token-packs';
 
 type VrStatus = 'active' | 'pending';
 
@@ -113,48 +92,11 @@ interface Transaction {
   balance: number;
 }
 
-const TRANSACTIONS: Transaction[] = [
-  {
-    id: 't1',
-    date: '2 août 2025',
-    description: 'Achat pack Standard',
-    type: 'achat',
-    amount: 150,
-    balance: 240,
-  },
-  {
-    id: 't2',
-    date: '30 juillet 2025',
-    description: 'Visite VR — Villa moderne F5, Cocody',
-    type: 'utilisation',
-    amount: -12,
-    balance: 90,
-  },
-  {
-    id: 't3',
-    date: '28 juillet 2025',
-    description: 'Boost annonce — Duplex F6, Riviera Golf',
-    type: 'utilisation',
-    amount: -15,
-    balance: 102,
-  },
-  {
-    id: 't4',
-    date: '20 juillet 2025',
-    description: 'Bonus fidélité — 6 mois d’abonnement',
-    type: 'bonus',
-    amount: 20,
-    balance: 117,
-  },
-  {
-    id: 't5',
-    date: '15 juillet 2025',
-    description: 'Visite VR — Appartement F3, Lomé-Bè',
-    type: 'utilisation',
-    amount: -8,
-    balance: 97,
-  },
-];
+function mapTxType(apiType: string): TxType {
+  if (apiType === 'PURCHASE') return 'achat';
+  if (apiType === 'USAGE') return 'utilisation';
+  return 'bonus';
+}
 
 const TX_STYLE: Record<TxType, { label: string; className: string; icon: typeof ArrowUpRight }> = {
   achat: { label: 'Achat', className: 'bg-emerald-50 text-emerald-700', icon: ArrowUpRight },
@@ -179,8 +121,66 @@ function donutSegments(data: { pct: number; color: string }[]) {
 }
 
 export default function JetonsPage() {
-  const [selectedPack, setSelectedPack] = useState<string>('standard');
+  const { toast } = useToast();
+  const [selectedPack, setSelectedPack] = useState<TokenPackKey>('STANDARD');
+  const [balance, setBalance] = useState<number | null>(null);
+  const [usedThisMonth, setUsedThisMonth] = useState<number | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [buying, setBuying] = useState(false);
   const segments = donutSegments(USAGE_BREAKDOWN);
+
+  useEffect(() => {
+    let cancelled = false;
+    api<{ balance: number }>('/api/tokens/wallet')
+      .then((res) => {
+        if (!cancelled) setBalance(res.balance);
+      })
+      .catch(() => undefined);
+    api<{ used: number }>('/api/tokens/usage-this-month')
+      .then((res) => {
+        if (!cancelled) setUsedThisMonth(res.used);
+      })
+      .catch(() => undefined);
+    api<{
+      items: {
+        id: string;
+        date: string;
+        description: string;
+        type: string;
+        amount: number;
+        balance: number;
+      }[];
+    }>('/api/tokens/transactions')
+      .then((res) => {
+        if (!cancelled) {
+          setTransactions(res.items.map((tx) => ({ ...tx, type: mapTxType(tx.type) })));
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  async function buyTokens() {
+    const pack = TOKEN_PACK_CATALOG[selectedPack];
+    setBuying(true);
+    try {
+      const res = await api<{ paymentUrl: string }>('/api/orders', {
+        method: 'POST',
+        headers: { 'Idempotency-Key': crypto.randomUUID() },
+        body: {
+          amount: pack.priceFcfa,
+          currency: TOKEN_PURCHASE_CURRENCY,
+          metadata: { kind: 'token_purchase', packKey: pack.key },
+        },
+      });
+      window.location.href = res.paymentUrl;
+    } catch (err) {
+      toast(err instanceof ApiError ? err.message : 'Erreur réseau. Réessaie.', 'error');
+      setBuying(false);
+    }
+  }
 
   return (
     <DashboardShell active="tokens" searchPlaceholder="Rechercher une annonce, un contact…">
@@ -206,13 +206,15 @@ export default function JetonsPage() {
           </button>
           <button
             type="button"
-            disabled
-            title="Bientôt disponible"
-            className="flex cursor-not-allowed items-center gap-1.5 rounded-lg bg-brand/40 px-4 py-2.5 text-[13px] font-semibold text-white"
+            disabled={buying}
+            onClick={() => void buyTokens()}
+            className="flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-brand/90 disabled:opacity-50"
           >
             <Coins className="h-[15px] w-[15px]" aria-hidden />
-            <span className="lg:hidden">Acheter</span>
-            <span className="hidden lg:inline">Acheter des jetons</span>
+            <span className="lg:hidden">{buying ? '…' : 'Acheter'}</span>
+            <span className="hidden lg:inline">
+              {buying ? 'Traitement…' : 'Acheter des jetons'}
+            </span>
           </button>
         </div>
       </div>
@@ -226,7 +228,7 @@ export default function JetonsPage() {
               <Coins className="h-4 w-4 text-white" aria-hidden />
             </span>
           </div>
-          <p className="font-sora mb-1.5 text-3xl font-semibold">240</p>
+          <p className="font-sora mb-1.5 text-3xl font-semibold">{balance ?? '—'}</p>
           <p className="text-xs text-white/70">Jetons disponibles</p>
         </div>
 
@@ -248,10 +250,9 @@ export default function JetonsPage() {
               <Zap className="h-4 w-4 text-amber-600" aria-hidden />
             </span>
           </div>
-          <p className="font-sora mb-1.5 text-2xl font-semibold text-neutral-900">60 / 300</p>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
-            <div className="h-full rounded-full bg-amber-500" style={{ width: '20%' }} />
-          </div>
+          <p className="font-sora mb-1.5 text-2xl font-semibold text-neutral-900">
+            {usedThisMonth ?? '—'}
+          </p>
         </div>
       </div>
 
@@ -261,13 +262,16 @@ export default function JetonsPage() {
           Recharger votre solde
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {TOKEN_PACKS.map((pack) => {
-            const active = selectedPack === pack.id;
+          {TOKEN_PACK_KEYS.map((key) => {
+            const pack = TOKEN_PACK_CATALOG[key];
+            const active = selectedPack === key;
+            const priceLabel = `${pack.priceFcfa.toLocaleString('fr-FR')} FCFA`;
+            const perTokenLabel = `${Math.round(pack.priceFcfa / pack.tokens).toLocaleString('fr-FR')} FCFA/jeton`;
             return (
               <button
-                key={pack.id}
+                key={pack.key}
                 type="button"
-                onClick={() => setSelectedPack(pack.id)}
+                onClick={() => setSelectedPack(pack.key)}
                 className={cn(
                   'relative flex flex-col rounded-xl border p-4 text-left transition-colors',
                   active
@@ -275,21 +279,21 @@ export default function JetonsPage() {
                     : 'border-black/[0.08] hover:border-black/[0.16]',
                 )}
               >
-                {pack.popular && (
+                {pack.key === 'STANDARD' && (
                   <span className="absolute -top-2.5 right-4 flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-semibold text-white">
                     <Star className="h-2.5 w-2.5 fill-white" aria-hidden />
                     Populaire
                   </span>
                 )}
                 <p className="font-sora text-[13.5px] font-semibold text-neutral-900">
-                  {pack.name}
+                  {pack.label}
                 </p>
                 <p className="font-sora mt-2 text-2xl font-semibold text-neutral-900">
                   {pack.tokens}
                   <span className="ml-1 text-xs font-normal text-gray-400">jetons</span>
                 </p>
-                <p className="mt-1 text-[13px] font-semibold text-brand">{pack.price}</p>
-                <p className="mt-0.5 text-[11.5px] text-gray-400">{pack.perToken}</p>
+                <p className="mt-1 text-[13px] font-semibold text-brand">{priceLabel}</p>
+                <p className="mt-0.5 text-[11.5px] text-gray-400">{perTokenLabel}</p>
                 <div
                   className={cn(
                     'mt-3.5 flex items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-semibold',
@@ -424,13 +428,17 @@ export default function JetonsPage() {
               </tr>
             </thead>
             <tbody>
-              {TRANSACTIONS.map((tx) => {
+              {transactions.map((tx) => {
                 const style = TX_STYLE[tx.type];
                 const Icon = style.icon;
                 return (
                   <tr key={tx.id} className="border-b border-black/[0.04] last:border-0">
                     <td className="px-5 py-3.5 text-[13px] whitespace-nowrap text-gray-400">
-                      {tx.date}
+                      {new Date(tx.date).toLocaleDateString('fr-FR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
                     </td>
                     <td className="px-5 py-3.5 text-[13.5px] text-neutral-900">{tx.description}</td>
                     <td className="px-5 py-3.5">
