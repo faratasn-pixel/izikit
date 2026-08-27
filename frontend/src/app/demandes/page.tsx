@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Search,
   Plus,
@@ -18,24 +18,32 @@ import {
   XCircle,
   Clock,
   FileSearch,
+  Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useUser } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { api, ApiError } from '@/lib/api';
 import { DashboardShell } from '@/components/dashboard/DashboardShell';
 import { cn } from '@/lib/utils';
+import { PROPERTY_TYPE_LABEL, TRANSACTION_TYPE_LABEL } from '@/lib/listings';
 import {
-  MOCK_REQUESTS,
   PROPERTY_TYPE_ICON,
   PRIORITY_STYLE,
-  TRANSACTION_BADGE,
-  type Transaction,
+  STATUS_LABEL,
+  STATUS_BADGE_CLASS,
+  COUNTRY_FLAG,
+  formatBudget,
+  formatDate,
   type Status,
-} from '@/lib/requests-data';
+  type Priority,
+  type PropertyRequestListItem,
+} from '@/lib/requests';
 
-const STATUS_BADGE: Record<Status, { label: string; icon: typeof Clock; className: string }> = {
-  EN_ATTENTE: { label: 'En attente', icon: Clock, className: 'bg-amber-100 text-amber-800' },
-  EN_COURS: { label: 'En cours', icon: CheckCircle2, className: 'bg-emerald-100 text-emerald-800' },
-  CLOTUREE: { label: 'Clôturée', icon: XCircle, className: 'bg-gray-200 text-gray-700' },
+const STATUS_ICON: Record<Status, typeof Clock> = {
+  EN_ATTENTE: Clock,
+  EN_COURS: CheckCircle2,
+  CLOTUREE: XCircle,
 };
 
 const STATUS_TABS: { value: Status | ''; label: string }[] = [
@@ -45,50 +53,87 @@ const STATUS_TABS: { value: Status | ''; label: string }[] = [
   { value: 'CLOTUREE', label: 'Clôturées' },
 ];
 
+interface Counts {
+  total: number;
+  enAttente: number;
+  enCours: number;
+  cloturee: number;
+  enAttenteUrgent: number;
+}
+
+function initials(name: string): string {
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '')
+    .join('');
+}
+
 export default function DemandesPage() {
   const user = useUser();
+  const { toast } = useToast();
+
+  const [items, setItems] = useState<PropertyRequestListItem[]>([]);
+  const [counts, setCounts] = useState<Counts>({
+    total: 0,
+    enAttente: 0,
+    enCours: 0,
+    cloturee: 0,
+    enAttenteUrgent: 0,
+  });
+  const [loading, setLoading] = useState(true);
 
   const [statusFilter, setStatusFilter] = useState<Status | ''>('');
   const [search, setSearch] = useState('');
   const [countryFilter, setCountryFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
-  const [transactionFilter, setTransactionFilter] = useState<Transaction | ''>('');
+  const [transactionFilter, setTransactionFilter] = useState('');
+
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    setLoading(true);
+    api<{ items: PropertyRequestListItem[]; counts: Counts }>('/api/requests?limit=50')
+      .then((res) => {
+        if (cancelled) return;
+        setItems(res.items);
+        setCounts(res.counts);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        toast(e instanceof ApiError ? e.message : 'Impossible de charger les demandes.', 'error');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   const countryOptions = useMemo(
-    () => Array.from(new Set(MOCK_REQUESTS.map((r) => r.country))).sort(),
-    [],
+    () => Array.from(new Set(items.map((r) => r.country))).sort(),
+    [items],
   );
   const typeOptions = useMemo(
-    () => Array.from(new Set(MOCK_REQUESTS.map((r) => r.propertyType))).sort(),
-    [],
-  );
-
-  const counts = useMemo(
-    () => ({
-      total: MOCK_REQUESTS.length,
-      pending: MOCK_REQUESTS.filter((r) => r.status === 'EN_ATTENTE').length,
-      pendingUrgent: MOCK_REQUESTS.filter(
-        (r) => r.status === 'EN_ATTENTE' && r.priority === 'URGENT',
-      ).length,
-      inProgress: MOCK_REQUESTS.filter((r) => r.status === 'EN_COURS').length,
-      closed: MOCK_REQUESTS.filter((r) => r.status === 'CLOTUREE').length,
-    }),
-    [],
+    () => Array.from(new Set(items.map((r) => r.propertyType))).sort(),
+    [items],
   );
 
   const filteredItems = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return MOCK_REQUESTS.filter((r) => {
+    return items.filter((r) => {
       if (statusFilter && r.status !== statusFilter) return false;
       if (countryFilter && r.country !== countryFilter) return false;
       if (typeFilter && r.propertyType !== typeFilter) return false;
-      if (transactionFilter && r.transaction !== transactionFilter) return false;
-      if (q && !(r.clientName.toLowerCase().includes(q) || r.zone.toLowerCase().includes(q))) {
+      if (transactionFilter && r.transactionType !== transactionFilter) return false;
+      if (q && !(r.clientName.toLowerCase().includes(q) || r.city.toLowerCase().includes(q))) {
         return false;
       }
       return true;
     });
-  }, [statusFilter, countryFilter, typeFilter, transactionFilter, search]);
+  }, [items, statusFilter, countryFilter, typeFilter, transactionFilter, search]);
 
   const filtersActive = Boolean(search || countryFilter || typeFilter || transactionFilter);
 
@@ -144,33 +189,33 @@ export default function DemandesPage() {
             sub: (
               <span className="flex items-center gap-1">
                 <TrendingUp className="h-3 w-3 text-emerald-500" aria-hidden />
-                +4 ce mois
+                Toutes périodes
               </span>
             ),
           },
           {
             label: 'En attente de traitement',
-            value: counts.pending,
+            value: counts.enAttente,
             dot: '#F59E0B',
             sub: (
               <span className="flex items-center gap-1">
                 <AlertCircle className="h-3 w-3 text-amber-500" aria-hidden />
-                {counts.pendingUrgent} urgentes
+                {counts.enAttenteUrgent} urgentes
               </span>
             ),
           },
           {
-            label: 'Demandes traitées',
-            value: counts.inProgress,
+            label: 'Demandes en cours',
+            value: counts.enCours,
             dot: '#10B981',
             sub: (
               <span className="flex items-center gap-1">
                 <TrendingUp className="h-3 w-3 text-emerald-500" aria-hidden />
-                +2 ce mois
+                En traitement
               </span>
             ),
           },
-          { label: 'Demandes clôturées', value: counts.closed, dot: '#EF4444', sub: '—' },
+          { label: 'Demandes clôturées', value: counts.cloturee, dot: '#EF4444', sub: '—' },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl bg-white p-5">
             <p className="mb-2 text-xs font-medium text-gray-400">{s.label}</p>
@@ -217,18 +262,21 @@ export default function DemandesPage() {
             <option value="">Type de bien</option>
             {typeOptions.map((t) => (
               <option key={t} value={t}>
-                {t}
+                {PROPERTY_TYPE_LABEL[t] ?? t}
               </option>
             ))}
           </select>
           <select
             value={transactionFilter}
-            onChange={(e) => setTransactionFilter(e.target.value as Transaction | '')}
+            onChange={(e) => setTransactionFilter(e.target.value)}
             className="rounded-lg border border-black/[0.08] bg-gray-50 px-3 py-2 text-[12.5px] text-neutral-700"
           >
             <option value="">Transaction</option>
-            <option value="VENTE">Vente</option>
-            <option value="LOCATION">Location</option>
+            {Object.entries(TRANSACTION_TYPE_LABEL).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
 
           <div className="hidden h-5 w-px bg-black/[0.08] lg:block" aria-hidden />
@@ -280,9 +328,7 @@ export default function DemandesPage() {
         <div className="flex items-center gap-1 overflow-x-auto border-t border-b border-black/[0.06] px-5">
           {STATUS_TABS.map((tab) => {
             const tabCount =
-              tab.value === ''
-                ? MOCK_REQUESTS.length
-                : MOCK_REQUESTS.filter((r) => r.status === tab.value).length;
+              tab.value === '' ? items.length : items.filter((r) => r.status === tab.value).length;
             return (
               <button
                 key={tab.value || 'all'}
@@ -311,12 +357,23 @@ export default function DemandesPage() {
           })}
         </div>
 
-        {filteredItems.length === 0 ? (
+        {loading ? (
+          <div className="flex flex-col items-center gap-2 py-14 text-center">
+            <Loader2 className="h-6 w-6 animate-spin text-gray-300" aria-hidden />
+            <p className="text-xs text-gray-400">Chargement des demandes…</p>
+          </div>
+        ) : filteredItems.length === 0 ? (
           <div className="flex flex-col items-center gap-1.5 py-10 text-center">
             <FileSearch className="mb-1 h-8 w-8 text-gray-300" aria-hidden />
-            <p className="text-sm font-medium text-neutral-700">Aucun résultat pour ces critères</p>
+            <p className="text-sm font-medium text-neutral-700">
+              {items.length === 0
+                ? 'Aucune demande pour le moment'
+                : 'Aucun résultat pour ces critères'}
+            </p>
             <p className="max-w-xs text-xs text-gray-400">
-              Modifiez ou réinitialisez les filtres pour voir d&apos;autres demandes.
+              {items.length === 0
+                ? 'Créez votre première demande pour un client ou prospect.'
+                : "Modifiez ou réinitialisez les filtres pour voir d'autres demandes."}
             </p>
           </div>
         ) : (
@@ -356,11 +413,12 @@ export default function DemandesPage() {
               </thead>
               <tbody>
                 {filteredItems.map((r) => {
-                  const TypeIcon = PROPERTY_TYPE_ICON[r.propertyType];
-                  const priority = PRIORITY_STYLE[r.priority];
-                  const status = STATUS_BADGE[r.status];
-                  const StatusIcon = status.icon;
-                  const transaction = TRANSACTION_BADGE[r.transaction];
+                  const TypeIcon = PROPERTY_TYPE_ICON[r.propertyType] ?? PROPERTY_TYPE_ICON.VILLA!;
+                  const priority = PRIORITY_STYLE[r.priority as Priority];
+                  const status = r.status as Status;
+                  const StatusIcon = STATUS_ICON[status];
+                  const transactionLabel =
+                    TRANSACTION_TYPE_LABEL[r.transactionType] ?? r.transactionType;
                   return (
                     <tr key={r.id} className="border-b border-black/[0.06] last:border-0">
                       <td className="px-5 py-4">
@@ -371,11 +429,9 @@ export default function DemandesPage() {
                       </td>
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2.5">
-                          <img
-                            src={r.avatarUrl}
-                            alt={r.clientName}
-                            className="h-7 w-7 flex-shrink-0 rounded-full object-cover"
-                          />
+                          <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-brand/10 text-[11px] font-semibold text-brand">
+                            {initials(r.clientName)}
+                          </span>
                           <div>
                             <p className="text-[13px] font-medium whitespace-nowrap text-neutral-900">
                               {r.clientName}
@@ -389,30 +445,25 @@ export default function DemandesPage() {
                       <td className="hidden px-5 py-4 lg:table-cell">
                         <span className="inline-flex items-center gap-1 rounded-md bg-gray-100 px-2 py-1 text-[11.5px] font-medium whitespace-nowrap text-neutral-700">
                           <TypeIcon className="h-3 w-3" aria-hidden />
-                          {r.propertyType}
+                          {PROPERTY_TYPE_LABEL[r.propertyType] ?? r.propertyType}
                         </span>
                       </td>
                       <td className="px-5 py-4 text-[13px] whitespace-nowrap text-neutral-700">
-                        <span>{r.flag}</span> {r.zone}
+                        <span>{COUNTRY_FLAG[r.country] ?? ''}</span> {r.city}
                       </td>
                       <td className="px-5 py-4 text-[13px] font-medium whitespace-nowrap text-neutral-900">
-                        {r.budget}
+                        {formatBudget(r.budgetMin, r.budgetMax)}
                       </td>
                       <td className="hidden px-5 py-4 lg:table-cell">
-                        <span
-                          className={cn(
-                            'inline-flex rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
-                            transaction.className,
-                          )}
-                        >
-                          {transaction.label}
+                        <span className="inline-flex rounded-full bg-brand/10 px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap text-brand">
+                          {transactionLabel}
                         </span>
                       </td>
                       <td className="hidden px-5 py-4 lg:table-cell">
                         <div className="flex items-center gap-1.5 whitespace-nowrap">
                           <span className={cn('h-2 w-2 rounded-full', priority.dot)} aria-hidden />
                           <span className={cn('text-[12px] font-medium', priority.text)}>
-                            {priority.label}
+                            {r.priority}
                           </span>
                         </div>
                       </td>
@@ -420,15 +471,15 @@ export default function DemandesPage() {
                         <span
                           className={cn(
                             'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
-                            status.className,
+                            STATUS_BADGE_CLASS[status],
                           )}
                         >
                           <StatusIcon className="h-2.5 w-2.5" aria-hidden />
-                          {status.label}
+                          {STATUS_LABEL[status]}
                         </span>
                       </td>
                       <td className="hidden px-5 py-4 text-[12.5px] whitespace-nowrap text-gray-400 lg:table-cell">
-                        {r.date}
+                        {formatDate(r.createdAt)}
                       </td>
                       <td className="px-5 py-4">
                         <div className="flex items-center justify-center gap-1.5">
@@ -465,14 +516,14 @@ export default function DemandesPage() {
 
             {filtersActive && (
               <p className="border-t border-black/[0.06] px-5 py-2 text-center text-[11px] text-gray-400">
-                Filtres appliqués — {filteredItems.length} sur {MOCK_REQUESTS.length} demandes.
+                Filtres appliqués — {filteredItems.length} sur {items.length} demandes.
               </p>
             )}
 
-            {/* PAGINATION — inert, static dataset fits on one page */}
+            {/* PAGINATION — inert, first page only for now (no "load more" UI yet) */}
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-black/[0.06] px-5 py-3.5">
               <p className="text-[12.5px] text-gray-400">
-                Affichage 1–{filteredItems.length} sur {MOCK_REQUESTS.length} demandes
+                Affichage 1–{filteredItems.length} sur {items.length} demandes
               </p>
               <div className="flex items-center gap-1">
                 <button

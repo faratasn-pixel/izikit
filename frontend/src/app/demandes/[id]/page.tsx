@@ -1,6 +1,6 @@
 'use client';
 
-import { use } from 'react';
+import { use, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -10,7 +10,6 @@ import {
   XCircle,
   Hash,
   Calendar,
-  FileText,
   ListChecks,
   Clock,
   User,
@@ -21,28 +20,91 @@ import {
   MessageCircle,
   Activity,
   AlertTriangle,
-  StickyNote,
-  Plus,
-  Sparkles,
-  ExternalLink,
+  Loader2,
 } from 'lucide-react';
 import { useUser } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { api, ApiError } from '@/lib/api';
 import { DashboardShell } from '@/components/dashboard/DashboardShell';
 import { cn } from '@/lib/utils';
-import {
-  MOCK_REQUESTS,
-  PRIORITY_STYLE,
-  STATUS_LABEL,
-  TRANSACTION_BADGE,
-} from '@/lib/requests-data';
+import { PROPERTY_TYPE_LABEL, TRANSACTION_TYPE_LABEL, AMENITY_LABEL } from '@/lib/listings';
+import { STATUS_LABEL, COUNTRY_FLAG, formatBudget, formatDate, type Status } from '@/lib/requests';
+
+interface PropertyRequestDetail {
+  id: string;
+  transactionType: string;
+  propertyType: string;
+  country: string;
+  city: string;
+  bedrooms: string | null;
+  salons: string | null;
+  surfaceM2: number | null;
+  capacity: number | null;
+  amenities: string[];
+  priority: string;
+  budgetMin: number | null;
+  budgetMax: number | null;
+  financing: string;
+  delay: string;
+  clientName: string;
+  clientPhone: string;
+  clientEmail: string | null;
+  clientType: string;
+  source: string | null;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+function initials(name: string): string {
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '')
+    .join('');
+}
 
 export default function DemandeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const user = useUser();
+  const { toast } = useToast();
   const { id } = use(params);
 
-  const request = MOCK_REQUESTS.find((r) => r.id === id);
+  const [request, setRequest] = useState<PropertyRequestDetail | null | undefined>(undefined);
+
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    api<{ propertyRequest: PropertyRequestDetail }>(`/api/requests/${id}`)
+      .then((res) => {
+        if (!cancelled) setRequest(res.propertyRequest);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        if (e instanceof ApiError && e.status === 404) {
+          setRequest(null);
+        } else {
+          toast(e instanceof ApiError ? e.message : 'Impossible de charger la demande.', 'error');
+          setRequest(null);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user, id]);
 
   if (!user) return null;
+
+  if (request === undefined) {
+    return (
+      <DashboardShell active="requests" searchPlaceholder="Rechercher une annonce, un contact…">
+        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white p-14 text-center">
+          <Loader2 className="h-6 w-6 animate-spin text-gray-300" aria-hidden />
+          <p className="text-xs text-gray-400">Chargement de la demande…</p>
+        </div>
+      </DashboardShell>
+    );
+  }
 
   if (!request) {
     return (
@@ -60,8 +122,18 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
     );
   }
 
-  const priority = PRIORITY_STYLE[request.priority];
-  const transaction = TRANSACTION_BADGE[request.transaction];
+  const status = request.status as Status;
+  const propertyLabel = PROPERTY_TYPE_LABEL[request.propertyType] ?? request.propertyType;
+  const transactionLabel =
+    TRANSACTION_TYPE_LABEL[request.transactionType] ?? request.transactionType;
+  const shortRef = request.id.slice(-8).toUpperCase();
+
+  const characteristics = [
+    request.bedrooms && { label: 'Chambres', value: request.bedrooms },
+    request.salons && { label: 'Salon', value: request.salons },
+    request.surfaceM2 && { label: 'Superficie', value: `${request.surfaceM2} m²` },
+    request.capacity && { label: 'Nombre de places', value: `${request.capacity}` },
+  ].filter((c): c is { label: string; value: string } => Boolean(c));
 
   return (
     <DashboardShell active="requests" searchPlaceholder="Rechercher une annonce, un contact…">
@@ -76,9 +148,7 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
         <div className="flex items-center gap-1.5 text-[13px] text-gray-400">
           <span>Demande Immobilière</span>
           <ChevronRight className="h-[13px] w-[13px]" aria-hidden />
-          <span className="font-semibold text-neutral-900">
-            Détail de la demande #{request.ref}
-          </span>
+          <span className="font-semibold text-neutral-900">Détail de la demande #{shortRef}</span>
         </div>
         <div className="ml-auto flex items-center gap-2.5">
           <button
@@ -110,18 +180,18 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
             <div className="flex flex-wrap items-start justify-between gap-4 border-b border-black/[0.06] p-6">
               <div>
                 <h1 className="font-sora mb-1.5 text-lg font-semibold text-neutral-900">
-                  {request.title}
+                  Recherche {propertyLabel.toLowerCase()} à {request.city}
                 </h1>
                 <div className="flex flex-wrap items-center gap-1.5 text-[13px] text-gray-400">
                   <Hash className="h-[13px] w-[13px]" aria-hidden />
-                  {request.ref}
+                  {shortRef}
                   <span className="h-[3px] w-[3px] rounded-full bg-gray-300" />
                   <Calendar className="h-3 w-3" aria-hidden />
-                  {request.submittedLabel}
+                  Soumise le {formatDate(request.createdAt)}
                 </div>
               </div>
               <div className="flex flex-shrink-0 flex-wrap items-center gap-2">
-                {request.priority === 'URGENT' && (
+                {request.priority === 'Urgent' && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap text-red-700">
                     <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
                     Urgent
@@ -130,34 +200,33 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
                 <span
                   className={cn(
                     'rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
-                    request.status === 'EN_ATTENTE'
+                    status === 'EN_ATTENTE'
                       ? 'bg-amber-100 text-amber-800'
-                      : request.status === 'EN_COURS'
+                      : status === 'EN_COURS'
                         ? 'bg-emerald-100 text-emerald-800'
                         : 'bg-gray-200 text-gray-700',
                   )}
                 >
-                  {STATUS_LABEL[request.status]}
+                  {STATUS_LABEL[status]}
                 </span>
-                <span
-                  className={cn(
-                    'rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap',
-                    transaction.className,
-                  )}
-                >
-                  {transaction.label}
+                <span className="rounded-full bg-brand/10 px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap text-brand">
+                  {transactionLabel}
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 divide-y divide-black/[0.06] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {[
-                { label: 'Type de bien', value: request.propertyType },
-                { label: 'Budget', value: request.budget, highlight: true },
-                { label: 'Zone souhaitée', value: `${request.flag} ${request.zone}` },
-                { label: 'Transaction', value: transaction.label },
-                { label: 'Surface min.', value: request.surfaceMin },
-                { label: 'Chambres min.', value: request.bedroomsMin },
+                { label: 'Type de bien', value: propertyLabel },
+                {
+                  label: 'Budget',
+                  value: formatBudget(request.budgetMin, request.budgetMax),
+                  highlight: true,
+                },
+                {
+                  label: 'Zone souhaitée',
+                  value: `${COUNTRY_FLAG[request.country] ?? ''} ${request.city}`,
+                },
               ].map((cell) => (
                 <div key={cell.label} className="flex flex-col gap-1 px-5 py-4">
                   <span className="text-[11px] font-semibold tracking-wide text-gray-400 uppercase">
@@ -176,45 +245,53 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
-          {/* DESCRIPTION */}
-          <div className="rounded-2xl bg-white p-6">
-            <h2 className="font-sora mb-4 flex items-center gap-2 text-[14px] font-semibold text-neutral-900">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand/10">
-                <FileText className="h-3.5 w-3.5 text-brand" aria-hidden />
-              </span>
-              Description de la demande
-            </h2>
-            <p className="text-[13.5px] leading-relaxed text-neutral-700">{request.description}</p>
-          </div>
-
-          {/* CRITERIA */}
+          {/* CARACTÉRISTIQUES */}
           <div className="rounded-2xl bg-white p-6">
             <h2 className="font-sora mb-4 flex items-center gap-2 text-[14px] font-semibold text-neutral-900">
               <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-50">
                 <ListChecks className="h-3.5 w-3.5 text-emerald-800" aria-hidden />
               </span>
-              Critères recherchés
+              Caractéristiques du bien recherché
             </h2>
-            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-              {request.criteria.map((c) => (
-                <div
-                  key={c.label}
-                  className="flex items-center gap-2.5 rounded-lg bg-[#F9FAFB] p-3.5"
-                >
-                  <span
-                    className={cn(
-                      'flex h-[30px] w-[30px] flex-shrink-0 items-center justify-center rounded-md',
-                      c.iconBg,
-                    )}
+            {characteristics.length > 0 && (
+              <div className="mb-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                {characteristics.map((c) => (
+                  <div
+                    key={c.label}
+                    className="flex flex-col gap-0.5 rounded-lg bg-[#F9FAFB] p-3.5"
                   >
-                    <c.icon className={cn('h-3.5 w-3.5', c.iconColor)} aria-hidden />
-                  </span>
-                  <div className="min-w-0">
                     <p className="text-[11.5px] text-gray-400">{c.label}</p>
-                    <p className="truncate text-[13px] font-semibold text-neutral-900">{c.value}</p>
+                    <p className="text-[13px] font-semibold text-neutral-900">{c.value}</p>
                   </div>
+                ))}
+              </div>
+            )}
+            {request.amenities.length > 0 && (
+              <div className="mb-4">
+                <p className="mb-2 text-[11.5px] font-semibold text-gray-400 uppercase">
+                  Équipements souhaités
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {request.amenities.map((key) => (
+                    <span
+                      key={key}
+                      className="rounded-full border border-black/[0.08] bg-white px-3 py-1.5 text-xs font-medium text-neutral-700"
+                    >
+                      {AMENITY_LABEL[key] ?? key}
+                    </span>
+                  ))}
                 </div>
-              ))}
+              </div>
+            )}
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              <div className="flex flex-col gap-0.5 rounded-lg bg-[#F9FAFB] p-3.5">
+                <p className="text-[11.5px] text-gray-400">Financement</p>
+                <p className="text-[13px] font-semibold text-neutral-900">{request.financing}</p>
+              </div>
+              <div className="flex flex-col gap-0.5 rounded-lg bg-[#F9FAFB] p-3.5">
+                <p className="text-[11.5px] text-gray-400">Délai de recherche</p>
+                <p className="text-[13px] font-semibold text-neutral-900">{request.delay}</p>
+              </div>
             </div>
           </div>
 
@@ -224,33 +301,22 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
               <span className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-100">
                 <Clock className="h-3.5 w-3.5 text-gray-500" aria-hidden />
               </span>
-              Historique des actions
+              Historique
             </h2>
             <div className="flex flex-col">
-              {request.timeline.map((t, i) => (
-                <div key={i} className="flex gap-3.5">
+              {[
+                { event: 'Demande créée', meta: formatDate(request.createdAt) },
+                ...(request.updatedAt !== request.createdAt
+                  ? [{ event: 'Dernière mise à jour', meta: formatDate(request.updatedAt) }]
+                  : []),
+              ].map((t, i, arr) => (
+                <div key={t.event} className="flex gap-3.5">
                   <div className="flex w-6 flex-shrink-0 flex-col items-center">
-                    <span
-                      className={cn(
-                        'mt-1 h-2.5 w-2.5 flex-shrink-0 rounded-full border-2 border-brand',
-                        t.filled ? 'bg-brand' : 'bg-white',
-                      )}
-                    />
-                    {i < request.timeline.length - 1 && (
-                      <span className="mt-1 w-0.5 flex-1 bg-black/[0.08]" />
-                    )}
+                    <span className="mt-1 h-2.5 w-2.5 flex-shrink-0 rounded-full border-2 border-brand bg-brand" />
+                    {i < arr.length - 1 && <span className="mt-1 w-0.5 flex-1 bg-black/[0.08]" />}
                   </div>
-                  <div
-                    className={cn('min-w-0 flex-1', i < request.timeline.length - 1 && 'pb-4.5')}
-                  >
-                    <p
-                      className={cn(
-                        'text-[13px] font-medium',
-                        t.filled ? 'text-neutral-900' : 'text-gray-400',
-                      )}
-                    >
-                      {t.event}
-                    </p>
+                  <div className={cn('min-w-0 flex-1', i < arr.length - 1 && 'pb-4.5')}>
+                    <p className="text-[13px] font-medium text-neutral-900">{t.event}</p>
                     <p className="mt-0.5 text-[11.5px] text-gray-400">{t.meta}</p>
                   </div>
                 </div>
@@ -270,16 +336,14 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
               Informations client
             </h2>
             <div className="mb-4.5 flex items-center gap-3.5 border-b border-black/[0.06] pb-4.5">
-              <img
-                src={request.avatarUrl}
-                alt={request.clientName}
-                className="h-[52px] w-[52px] flex-shrink-0 rounded-full object-cover"
-              />
+              <span className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-full bg-brand/10 text-[15px] font-semibold text-brand">
+                {initials(request.clientName)}
+              </span>
               <div>
                 <p className="text-[15px] font-semibold text-neutral-900">{request.clientName}</p>
                 <span className="mt-0.5 inline-flex items-center gap-1 rounded-md bg-brand/10 px-2 py-0.5 text-[11px] font-semibold text-brand">
                   <UserCheck className="h-2.5 w-2.5" aria-hidden />
-                  {request.clientKind}
+                  {request.clientType}
                 </span>
               </div>
             </div>
@@ -287,14 +351,21 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
               <Phone className="h-[13px] w-[13px] flex-shrink-0 text-brand" aria-hidden />
               <span>{request.clientPhone}</span>
             </div>
-            <div className="flex items-center gap-2.5 border-b border-black/[0.06] py-2 text-[13px] text-neutral-700">
-              <Mail className="h-[13px] w-[13px] flex-shrink-0 text-brand" aria-hidden />
-              <span className="truncate">{request.clientEmail}</span>
-            </div>
+            {request.clientEmail && (
+              <div className="flex items-center gap-2.5 border-b border-black/[0.06] py-2 text-[13px] text-neutral-700">
+                <Mail className="h-[13px] w-[13px] flex-shrink-0 text-brand" aria-hidden />
+                <span className="truncate">{request.clientEmail}</span>
+              </div>
+            )}
             <div className="flex items-center gap-2.5 py-2 text-[13px] text-neutral-700">
               <MapPin className="h-[13px] w-[13px] flex-shrink-0 text-brand" aria-hidden />
-              <span>{request.clientAddress}</span>
+              <span>
+                {COUNTRY_FLAG[request.country] ?? ''} {request.city}, {request.country}
+              </span>
             </div>
+            {request.source && (
+              <p className="mt-2 text-[11.5px] text-gray-400">Connu via : {request.source}</p>
+            )}
             <div className="mt-4 flex gap-2">
               <button
                 type="button"
@@ -333,9 +404,9 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
                 <div className="flex items-center gap-2 rounded-lg bg-amber-100 px-4 py-3">
                   <Clock className="h-4 w-4 text-amber-700" aria-hidden />
                   <span className="text-[13.5px] font-semibold text-amber-900">
-                    {request.status === 'EN_ATTENTE'
+                    {status === 'EN_ATTENTE'
                       ? 'En attente de traitement'
-                      : request.status === 'EN_COURS'
+                      : status === 'EN_COURS'
                         ? 'En cours de traitement'
                         : 'Clôturée'}
                   </span>
@@ -348,23 +419,23 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
                 <div
                   className={cn(
                     'flex items-center gap-2 rounded-lg px-4 py-3',
-                    request.priority === 'URGENT' ? 'bg-red-100' : 'bg-gray-100',
+                    request.priority === 'Urgent' ? 'bg-red-100' : 'bg-gray-100',
                   )}
                 >
                   <AlertTriangle
                     className={cn(
                       'h-4 w-4',
-                      request.priority === 'URGENT' ? 'text-red-600' : 'text-gray-500',
+                      request.priority === 'Urgent' ? 'text-red-600' : 'text-gray-500',
                     )}
                     aria-hidden
                   />
                   <span
                     className={cn(
                       'text-[13.5px] font-semibold',
-                      request.priority === 'URGENT' ? 'text-red-700' : 'text-neutral-700',
+                      request.priority === 'Urgent' ? 'text-red-700' : 'text-neutral-700',
                     )}
                   >
-                    {priority.label}
+                    {request.priority}
                   </span>
                 </div>
               </div>
@@ -389,77 +460,6 @@ export default function DemandeDetailPage({ params }: { params: Promise<{ id: st
                 </button>
               </div>
             </div>
-          </div>
-
-          {/* NOTES */}
-          <div className="rounded-2xl bg-white p-6">
-            <h2 className="font-sora mb-3 flex items-center gap-2 text-[14px] font-semibold text-neutral-900">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-100">
-                <StickyNote className="h-3.5 w-3.5 text-gray-500" aria-hidden />
-              </span>
-              Notes internes
-            </h2>
-            <div className="min-h-[80px] rounded-lg border border-black/[0.08] bg-[#F9FAFB] p-3.5 text-[13px] leading-relaxed text-gray-400">
-              {request.internalNotes}
-            </div>
-            <button
-              type="button"
-              disabled
-              title="Bientôt disponible"
-              className="mt-2.5 flex w-full cursor-not-allowed items-center justify-center gap-1.5 rounded-lg border border-black/[0.08] px-4 py-2 text-[12.5px] font-semibold text-gray-400"
-            >
-              <Plus className="h-[13px] w-[13px]" aria-hidden />
-              Ajouter une note
-            </button>
-          </div>
-
-          {/* SUGGESTED LISTINGS */}
-          <div className="rounded-2xl bg-white p-6">
-            <h2 className="font-sora mb-3.5 flex items-center gap-2 text-[14px] font-semibold text-neutral-900">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand/10">
-                <Sparkles className="h-3.5 w-3.5 text-brand" aria-hidden />
-              </span>
-              Annonces proposées
-              <span className="ml-auto rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap text-brand">
-                {request.suggestedListings.length} envoyées
-              </span>
-            </h2>
-            {request.suggestedListings.length === 0 ? (
-              <p className="py-4 text-center text-xs text-gray-400">
-                Aucune annonce proposée pour le moment.
-              </p>
-            ) : (
-              <div className="flex flex-col gap-2">
-                {request.suggestedListings.map((l, i) => (
-                  <div key={i} className="flex items-center gap-2.5 rounded-lg bg-[#F9FAFB] p-2.5">
-                    <img
-                      src={l.imageUrl}
-                      alt={l.title}
-                      className="h-10 w-10 flex-shrink-0 rounded-md object-cover"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-[12.5px] font-semibold text-neutral-900">
-                        {l.title}
-                      </p>
-                      <p className="text-[11.5px] text-gray-400">{l.price}</p>
-                    </div>
-                    <ExternalLink
-                      className="h-[13px] w-[13px] flex-shrink-0 text-brand"
-                      aria-hidden
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            <button
-              type="button"
-              disabled
-              title="Bientôt disponible"
-              className="mt-2.5 flex w-full cursor-not-allowed items-center justify-center gap-1.5 rounded-lg border border-black/[0.08] px-4 py-2 text-[12.5px] font-semibold text-gray-400"
-            >
-              <Plus className="h-[13px] w-[13px]" aria-hidden />
-              Suggérer une annonce
-            </button>
           </div>
         </div>
       </div>

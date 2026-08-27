@@ -9,26 +9,29 @@ import {
   ChevronDown,
   ChevronRight,
   Loader2,
-  MapPin,
-  MoveHorizontal,
+  Ruler,
   Tag,
   Key,
+  CalendarCheck,
+  BedDouble,
   Home,
+  Building,
   Building2,
-  Map,
-  Briefcase,
+  LandPlot,
+  TreePine,
+  House,
   Store,
+  PartyPopper,
+  Presentation,
+  Landmark,
   Wallet,
   WalletCards,
-  BadgeDollarSign,
-  Building,
-  HandCoins,
-  ShieldCheck,
+  CreditCard,
+  Layers,
   Mail,
   Phone,
   User,
-  Calendar,
-  MessageSquare,
+  Briefcase,
   Users,
   Send,
 } from 'lucide-react';
@@ -37,84 +40,84 @@ import { api, ApiError } from '@/lib/api';
 import { PublicNavbar } from '@/components/public/PublicNavbar';
 import { PublicFooter } from '@/components/public/PublicFooter';
 import { COUNTRIES } from '@/lib/countries';
+import { PROPERTY_TYPE_LABEL, TRANSACTION_TYPE_LABEL, AMENITY_LABEL } from '@/lib/listings';
 
 type Step = 1 | 2 | 3;
-type Transaction = 'achat' | 'location';
-type PropertyType = 'villa' | 'appartement' | 'terrain' | 'bureau' | 'commerce';
-type Financement = 'fonds-propres' | 'credit' | 'mixte';
-type Calendrier = 'immediat' | '1-3' | '3-6' | '6+';
-type Canal = 'telephone' | 'email' | 'whatsapp' | 'sms';
+type Priority = 'Urgent' | 'Normale' | 'Basse';
+type Transaction = 'VENTE' | 'LOCATION' | 'SEJOUR' | 'AUBERGE';
+type PropertyType =
+  | 'VILLA'
+  | 'APPARTEMENT'
+  | 'PARCELLE'
+  | 'DOMAINE'
+  | 'MAISON'
+  | 'BOUTIQUE'
+  | 'BUREAU'
+  | 'SALLE_FETE'
+  | 'SALLE_CONFERENCE'
+  | 'IMMEUBLE';
+type Financing = 'Comptant' | 'Crédit' | 'Les deux';
+type Delay = 'Immédiat' | '1–3 mois' | '3–6 mois' | 'Flexible';
+type ClientType = 'Particulier' | 'Entreprise';
 
-const TRANSACTION_TYPE: Record<Transaction, string> = { achat: 'VENTE', location: 'LOCATION' };
-const PROPERTY_TYPE_KEY: Record<PropertyType, string> = {
-  villa: 'VILLA',
-  appartement: 'APPARTEMENT',
-  terrain: 'PARCELLE',
-  bureau: 'BUREAU',
-  commerce: 'BOUTIQUE',
-};
-const FINANCEMENT_LABEL: Record<Financement, string> = {
-  'fonds-propres': 'Comptant',
-  credit: 'Crédit',
-  mixte: 'Les deux',
-};
-const CALENDRIER_LABEL: Record<Calendrier, string> = {
-  immediat: 'Immédiat',
-  '1-3': '1–3 mois',
-  '3-6': '3–6 mois',
-  '6+': 'Flexible',
-};
-const CANAL_LABEL: Record<Canal, string> = {
-  telephone: 'Téléphone',
-  email: 'Email',
-  whatsapp: 'WhatsApp',
-  sms: 'SMS',
+// PARCELLE/DOMAINE: bare land — no rooms, just surface.
+const LAND_PROPERTY_TYPES = new Set<PropertyType>(['PARCELLE', 'DOMAINE']);
+// SALLE_FETE/SALLE_CONFERENCE: event halls — no rooms either.
+const HALL_PROPERTY_TYPES = new Set<PropertyType>(['SALLE_FETE', 'SALLE_CONFERENCE']);
+
+const TRANSACTION_TYPE_ICON: Record<Transaction, typeof Home> = {
+  VENTE: Tag,
+  LOCATION: Key,
+  SEJOUR: CalendarCheck,
+  AUBERGE: BedDouble,
 };
 
-const PROPERTY_TYPES: { key: PropertyType; label: string; icon: typeof Home }[] = [
-  { key: 'villa', label: 'Villa', icon: Home },
-  { key: 'appartement', label: 'Appartement', icon: Building2 },
-  { key: 'terrain', label: 'Terrain', icon: Map },
-  { key: 'bureau', label: 'Bureau', icon: Briefcase },
-  { key: 'commerce', label: 'Commerce', icon: Store },
-];
+const TRANSACTION_TYPES = (Object.keys(TRANSACTION_TYPE_ICON) as Transaction[]).map((key) => ({
+  key,
+  icon: TRANSACTION_TYPE_ICON[key],
+}));
 
-const EQUIPEMENTS: { key: string; label: string }[] = [
-  { key: 'POOL', label: 'Piscine' },
-  { key: 'PARKING', label: 'Parking' },
-  { key: 'SECURITY', label: 'Gardiennage' },
-  { key: 'AC', label: 'Climatisation' },
-  { key: 'GARDEN', label: 'Jardin' },
-  { key: 'GENERATOR', label: 'Groupe électrogène' },
-];
+const PROPERTY_TYPE_ICON: Record<PropertyType, typeof Home> = {
+  VILLA: Home,
+  APPARTEMENT: Building,
+  PARCELLE: LandPlot,
+  DOMAINE: TreePine,
+  MAISON: House,
+  BOUTIQUE: Store,
+  BUREAU: Building2,
+  SALLE_FETE: PartyPopper,
+  SALLE_CONFERENCE: Presentation,
+  IMMEUBLE: Landmark,
+};
+
+const PROPERTY_TYPES = (Object.keys(PROPERTY_TYPE_ICON) as PropertyType[]).map((key) => ({
+  key,
+  icon: PROPERTY_TYPE_ICON[key],
+}));
+
+const PRIORITY_STYLE: Record<Priority, { dot: string; selected: string }> = {
+  Urgent: { dot: 'bg-red-500', selected: 'border-red-500 bg-red-50 text-red-600' },
+  Normale: { dot: 'bg-amber-500', selected: 'border-amber-500 bg-amber-50 text-amber-600' },
+  Basse: { dot: 'bg-gray-400', selected: 'border-gray-400 bg-gray-100 text-gray-600' },
+};
 
 const BEDROOMS_OPTIONS = ['1 chambre', '2 chambres', '3 chambres', '4 chambres et plus'];
+const SALONS_OPTIONS = ['1 salon', '2 salons', '3 salons et plus'];
 
-const FINANCEMENTS: { key: Financement; label: string; icon: typeof BadgeDollarSign }[] = [
-  { key: 'fonds-propres', label: 'Fonds propres', icon: BadgeDollarSign },
-  { key: 'credit', label: 'Crédit bancaire', icon: Building },
-  { key: 'mixte', label: 'Mixte', icon: HandCoins },
+const FINANCEMENTS: { key: Financing; icon: typeof Wallet }[] = [
+  { key: 'Comptant', icon: Wallet },
+  { key: 'Crédit', icon: CreditCard },
+  { key: 'Les deux', icon: Layers },
 ];
 
-const CALENDRIERS: { key: Calendrier; label: string }[] = [
-  { key: 'immediat', label: 'Immédiat' },
-  { key: '1-3', label: '1 à 3 mois' },
-  { key: '3-6', label: '3 à 6 mois' },
-  { key: '6+', label: '6 mois et +' },
-];
+const DELAY_OPTIONS: Delay[] = ['Immédiat', '1–3 mois', '3–6 mois', 'Flexible'];
 
-const FRAIS = [
-  "Inclure frais d'agence",
-  'Inclure frais notariaux',
-  'Inclure travaux éventuels',
-  'Prévoir budget ameublement',
-];
-
-const CANAUX: { key: Canal; label: string; icon: typeof Phone }[] = [
-  { key: 'telephone', label: 'Téléphone', icon: Phone },
-  { key: 'email', label: 'Email', icon: Mail },
-  { key: 'whatsapp', label: 'WhatsApp', icon: MessageSquare },
-  { key: 'sms', label: 'SMS', icon: MessageSquare },
+const SOURCE_OPTIONS = [
+  'Réseaux sociaux',
+  'Recommandation',
+  'Site web',
+  'Visite en agence',
+  'Autre',
 ];
 
 function StepCircle({ state, num }: { state: 'done' | 'active' | 'pending'; num: number }) {
@@ -231,33 +234,29 @@ export default function NouvelleDemandePage() {
   const [step, setStep] = useState<Step>(1);
 
   // Step 1
-  const [transaction, setTransaction] = useState<Transaction>('achat');
-  const [propertyType, setPropertyType] = useState<PropertyType>('villa');
+  const [transaction, setTransaction] = useState<Transaction>('VENTE');
+  const [propertyType, setPropertyType] = useState<PropertyType>('VILLA');
   const [pays, setPays] = useState("Côte d'Ivoire");
   const [ville, setVille] = useState('Abidjan');
-  const [quartier, setQuartier] = useState('');
   const [surfaceMin, setSurfaceMin] = useState('');
-  const [surfaceMax, setSurfaceMax] = useState('');
+  const [capacity, setCapacity] = useState('');
   const [chambres, setChambres] = useState(BEDROOMS_OPTIONS[1]!);
+  const [salons, setSalons] = useState(SALONS_OPTIONS[0]!);
   const [equipements, setEquipements] = useState<string[]>(['POOL', 'PARKING']);
-  const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState<Priority>('Normale');
 
   // Step 2
   const [budgetMin, setBudgetMin] = useState('');
   const [budgetMax, setBudgetMax] = useState('');
-  const [financement, setFinancement] = useState<Financement>('fonds-propres');
-  const [calendrier, setCalendrier] = useState<Calendrier>('1-3');
-  const [frais, setFrais] = useState<string[]>([]);
-  const [preferences, setPreferences] = useState('');
+  const [financing, setFinancing] = useState<Financing>('Comptant');
+  const [delay, setDelay] = useState<Delay>('Immédiat');
 
   // Step 3
-  const [prenom, setPrenom] = useState('');
-  const [nom, setNom] = useState('');
+  const [clientName, setClientName] = useState('');
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
-  const [canal, setCanal] = useState<Canal>('telephone');
-  const [agentConnu, setAgentConnu] = useState<'oui' | 'non'>('non');
-  const [notes, setNotes] = useState('');
+  const [clientType, setClientType] = useState<ClientType>('Particulier');
+  const [source, setSource] = useState(SOURCE_OPTIONS[0]!);
   const [consentContact, setConsentContact] = useState(false);
   const [consentData, setConsentData] = useState(false);
 
@@ -266,6 +265,11 @@ export default function NouvelleDemandePage() {
   const [submitError, setSubmitError] = useState('');
 
   const availableCities = COUNTRIES.find((c) => c.name === pays)?.cities ?? [];
+  const isLandType = LAND_PROPERTY_TYPES.has(propertyType);
+  const isHallType = HALL_PROPERTY_TYPES.has(propertyType);
+  const showRoomField = !isLandType && !isHallType;
+  const showSurfaceField = isLandType;
+  const showCapacityField = isHallType;
 
   function handleCountryChange(value: string) {
     setPays(value);
@@ -291,46 +295,41 @@ export default function NouvelleDemandePage() {
     setSubmitError('');
     try {
       const surfaceMinNum = Number(surfaceMin);
-      const surfaceMaxNum = Number(surfaceMax);
+      const capacityNum = Number(capacity);
       const budgetMinNum = Number(budgetMin);
       const budgetMaxNum = Number(budgetMax);
-
-      const notesParts: string[] = [];
-      if (description.trim()) notesParts.push(`Description : ${description.trim()}`);
-      if (frais.length) notesParts.push(`Frais à prendre en compte : ${frais.join(', ')}`);
-      if (preferences.trim()) notesParts.push(`Préférences budget : ${preferences.trim()}`);
-      notesParts.push(`Canal de contact préféré : ${CANAL_LABEL[canal]}`);
-      if (agentConnu === 'oui') notesParts.push('Déjà en contact avec un agent.');
-      if (notes.trim()) notesParts.push(`Notes : ${notes.trim()}`);
 
       await api('/api/public/property-requests', {
         method: 'POST',
         body: {
-          transactionType: TRANSACTION_TYPE[transaction],
-          propertyType: PROPERTY_TYPE_KEY[propertyType],
+          transactionType: transaction,
+          propertyType,
           country: pays,
           city: ville,
-          ...(quartier.trim() && { landmark: quartier.trim() }),
-          bedrooms: chambres,
-          ...(surfaceMin &&
+          ...(showRoomField && { bedrooms: chambres, salons }),
+          ...(showSurfaceField &&
+            surfaceMin &&
             Number.isFinite(surfaceMinNum) &&
             surfaceMinNum > 0 && { surfaceMin: Math.round(surfaceMinNum) }),
-          ...(surfaceMax &&
-            Number.isFinite(surfaceMaxNum) &&
-            surfaceMaxNum > 0 && { surfaceMax: Math.round(surfaceMaxNum) }),
+          ...(showCapacityField &&
+            capacity &&
+            Number.isFinite(capacityNum) &&
+            capacityNum > 0 && { capacity: Math.round(capacityNum) }),
           amenities: equipements,
+          priority,
           ...(budgetMin &&
             Number.isFinite(budgetMinNum) &&
             budgetMinNum >= 0 && { budgetMin: Math.round(budgetMinNum) }),
           ...(budgetMax &&
             Number.isFinite(budgetMaxNum) &&
             budgetMaxNum >= 0 && { budgetMax: Math.round(budgetMaxNum) }),
-          financing: FINANCEMENT_LABEL[financement],
-          delay: CALENDRIER_LABEL[calendrier],
-          clientName: `${prenom} ${nom}`.trim(),
+          financing,
+          delay,
+          clientName: clientName.trim(),
           clientPhone: telephone.trim(),
           ...(email.trim() && { clientEmail: email.trim() }),
-          notes: notesParts.join('\n\n'),
+          clientType,
+          source,
         },
       });
       setSubmitted(true);
@@ -444,20 +443,16 @@ export default function NouvelleDemandePage() {
                     <div className="mb-6">
                       <FieldLabel required>Type de transaction</FieldLabel>
                       <div className="flex flex-wrap gap-2.5">
-                        <Pill
-                          selected={transaction === 'achat'}
-                          onClick={() => setTransaction('achat')}
-                          icon={Tag}
-                        >
-                          Achat
-                        </Pill>
-                        <Pill
-                          selected={transaction === 'location'}
-                          onClick={() => setTransaction('location')}
-                          icon={Key}
-                        >
-                          Location
-                        </Pill>
+                        {TRANSACTION_TYPES.map((t) => (
+                          <Pill
+                            key={t.key}
+                            selected={transaction === t.key}
+                            onClick={() => setTransaction(t.key)}
+                            icon={t.icon}
+                          >
+                            {TRANSACTION_TYPE_LABEL[t.key]}
+                          </Pill>
+                        ))}
                       </div>
                     </div>
 
@@ -471,7 +466,7 @@ export default function NouvelleDemandePage() {
                             onClick={() => setPropertyType(t.key)}
                             icon={t.icon}
                           >
-                            {t.label}
+                            {PROPERTY_TYPE_LABEL[t.key]}
                           </Pill>
                         ))}
                       </div>
@@ -499,78 +494,79 @@ export default function NouvelleDemandePage() {
                       </div>
                     </div>
 
-                    <div className="mb-6">
-                      <FieldLabel>Quartier / Zone souhaitée</FieldLabel>
-                      <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-brand bg-brand/[0.04] px-3.5 py-2.5">
-                        <MapPin className="h-4 w-4 flex-shrink-0 text-brand" aria-hidden />
-                        <input
-                          value={quartier}
-                          onChange={(e) => setQuartier(e.target.value)}
-                          placeholder="Ex : Cocody, Riviera"
-                          className="w-full bg-transparent text-sm font-medium outline-none placeholder:text-gray-400"
-                        />
-                      </div>
-                      <p className="mt-1.5 text-xs text-gray-500">
-                        Indiquez un ou plusieurs quartiers séparés par une virgule.
-                      </p>
-                    </div>
-
                     <hr className="my-7 border-black/[0.06]" />
 
-                    <div className="mb-6">
-                      <FieldLabel>Superficie souhaitée (m²)</FieldLabel>
-                      <div className="flex items-center gap-4">
-                        <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                          <MoveHorizontal className="h-[15px] w-[15px] text-gray-400" aria-hidden />
-                          <span className="text-sm text-gray-500">Min</span>
+                    {showSurfaceField && (
+                      <div className="mb-6">
+                        <FieldLabel>Superficie min. souhaitée (m²)</FieldLabel>
+                        <div className="flex items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <Ruler className="h-[15px] w-[15px] text-gray-400" aria-hidden />
                           <input
                             type="number"
                             min="0"
                             value={surfaceMin}
                             onChange={(e) => setSurfaceMin(e.target.value)}
-                            placeholder="150"
-                            className="ml-1 w-full bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-gray-400"
-                          />
-                        </div>
-                        <span className="text-sm text-gray-400">—</span>
-                        <div className="flex flex-1 items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                          <MoveHorizontal className="h-[15px] w-[15px] text-gray-400" aria-hidden />
-                          <span className="text-sm text-gray-500">Max</span>
-                          <input
-                            type="number"
-                            min="0"
-                            value={surfaceMax}
-                            onChange={(e) => setSurfaceMax(e.target.value)}
-                            placeholder="350"
+                            placeholder="Ex : 150"
                             className="ml-1 w-full bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-gray-400"
                           />
                         </div>
                       </div>
-                    </div>
+                    )}
 
-                    <div className="mb-6">
-                      <FieldLabel>Chambres min.</FieldLabel>
-                      <Select value={chambres} onChange={setChambres}>
-                        {BEDROOMS_OPTIONS.map((o) => (
-                          <option key={o} value={o}>
-                            {o}
-                          </option>
-                        ))}
-                      </Select>
-                    </div>
+                    {showCapacityField && (
+                      <div className="mb-6">
+                        <FieldLabel>Nombre de places</FieldLabel>
+                        <div className="flex items-center gap-2 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                          <Users className="h-[15px] w-[15px] text-gray-400" aria-hidden />
+                          <input
+                            type="number"
+                            min="0"
+                            value={capacity}
+                            onChange={(e) => setCapacity(e.target.value)}
+                            placeholder="Ex : 200"
+                            className="ml-1 w-full bg-transparent text-sm font-semibold outline-none placeholder:font-normal placeholder:text-gray-400"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {showRoomField && (
+                      <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
+                        <div>
+                          <FieldLabel>Chambres min.</FieldLabel>
+                          <Select value={chambres} onChange={setChambres}>
+                            {BEDROOMS_OPTIONS.map((o) => (
+                              <option key={o} value={o}>
+                                {o}
+                              </option>
+                            ))}
+                          </Select>
+                        </div>
+                        <div>
+                          <FieldLabel>Nombre de salon</FieldLabel>
+                          <Select value={salons} onChange={setSalons}>
+                            {SALONS_OPTIONS.map((o) => (
+                              <option key={o} value={o}>
+                                {o}
+                              </option>
+                            ))}
+                          </Select>
+                        </div>
+                      </div>
+                    )}
 
                     <hr className="my-7 border-black/[0.06]" />
 
                     <div className="mb-6">
                       <FieldLabel>Équipements souhaités</FieldLabel>
                       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
-                        {EQUIPEMENTS.map((eq) => (
+                        {Object.entries(AMENITY_LABEL).map(([key, label]) => (
                           <CheckOption
-                            key={eq.key}
-                            checked={equipements.includes(eq.key)}
-                            onClick={() => toggleFrom(equipements, setEquipements, eq.key)}
+                            key={key}
+                            checked={equipements.includes(key)}
+                            onClick={() => toggleFrom(equipements, setEquipements, key)}
                           >
-                            {eq.label}
+                            {label}
                           </CheckOption>
                         ))}
                       </div>
@@ -579,18 +575,25 @@ export default function NouvelleDemandePage() {
                     <hr className="my-7 border-black/[0.06]" />
 
                     <div className="mb-2">
-                      <FieldLabel>Description complémentaire</FieldLabel>
-                      <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        rows={4}
-                        placeholder="Décrivez le bien que vous recherchez…"
-                        className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none placeholder:text-gray-400"
-                      />
-                      <p className="mt-1.5 text-xs text-gray-500">
-                        Précisez tout critère important non listé ci-dessus (orientation, étage,
-                        proximité d&apos;un lieu…)
-                      </p>
+                      <FieldLabel required>Priorité de la demande</FieldLabel>
+                      <div className="flex flex-wrap gap-2.5">
+                        {(['Urgent', 'Normale', 'Basse'] as Priority[]).map((p) => (
+                          <button
+                            key={p}
+                            type="button"
+                            onClick={() => setPriority(p)}
+                            className={cn(
+                              'inline-flex items-center gap-1.5 rounded-full border-2 px-4 py-2 text-[13px] font-semibold',
+                              priority === p
+                                ? PRIORITY_STYLE[p].selected
+                                : 'border-black/[0.1] bg-white text-neutral-900',
+                            )}
+                          >
+                            <span className={cn('h-2 w-2 rounded-full', PRIORITY_STYLE[p].dot)} />
+                            {p}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="mt-8 flex items-center justify-between gap-4">
@@ -663,11 +666,11 @@ export default function NouvelleDemandePage() {
                         {FINANCEMENTS.map((f) => (
                           <Pill
                             key={f.key}
-                            selected={financement === f.key}
-                            onClick={() => setFinancement(f.key)}
+                            selected={financing === f.key}
+                            onClick={() => setFinancing(f.key)}
                             icon={f.icon}
                           >
-                            {f.label}
+                            {f.key}
                           </Pill>
                         ))}
                       </div>
@@ -675,64 +678,15 @@ export default function NouvelleDemandePage() {
 
                     <hr className="my-7 border-black/[0.06]" />
 
-                    <div className="mb-6">
-                      <FieldLabel required>Votre projet est prévu pour quand ?</FieldLabel>
-                      <div className="flex flex-wrap gap-2.5">
-                        {CALENDRIERS.map((c) => (
-                          <Pill
-                            key={c.key}
-                            selected={calendrier === c.key}
-                            onClick={() => setCalendrier(c.key)}
-                          >
-                            {c.label}
-                          </Pill>
+                    <div className="mb-2 max-w-[260px]">
+                      <FieldLabel>Délai de recherche souhaité</FieldLabel>
+                      <Select value={delay} onChange={(v) => setDelay(v as Delay)}>
+                        {DELAY_OPTIONS.map((d) => (
+                          <option key={d} value={d}>
+                            {d}
+                          </option>
                         ))}
-                      </div>
-                    </div>
-
-                    <hr className="my-7 border-black/[0.06]" />
-
-                    <div className="mb-6">
-                      <FieldLabel>Frais à prendre en compte</FieldLabel>
-                      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                        {FRAIS.map((f) => (
-                          <CheckOption
-                            key={f}
-                            checked={frais.includes(f)}
-                            onClick={() => toggleFrom(frais, setFrais, f)}
-                          >
-                            {f}
-                          </CheckOption>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="mb-6">
-                      <FieldLabel>Préférences complémentaires</FieldLabel>
-                      <textarea
-                        value={preferences}
-                        onChange={(e) => setPreferences(e.target.value)}
-                        rows={4}
-                        placeholder="Votre souplesse, vos priorités, vos contraintes de financement…"
-                        className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none placeholder:text-gray-400"
-                      />
-                      <p className="mt-1.5 text-xs text-gray-500">
-                        Vous pouvez préciser ici votre souplesse, vos priorités ou vos contraintes
-                        de financement.
-                      </p>
-                    </div>
-
-                    <div className="mb-2 flex gap-4 rounded-xl border border-brand/[0.18] bg-brand/[0.06] px-5 py-4.5">
-                      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand/[0.14]">
-                        <ShieldCheck className="h-4 w-4 text-brand" aria-hidden />
-                      </div>
-                      <div>
-                        <p className="mb-1 text-sm font-bold">Conseil Habitat-Afrik</p>
-                        <p className="text-[13px] leading-relaxed text-gray-500">
-                          Une fourchette claire aide les agents à filtrer rapidement les biens hors
-                          budget et à proposer des alternatives pertinentes.
-                        </p>
-                      </div>
+                      </Select>
                     </div>
 
                     <div className="mt-8 flex items-center justify-between gap-4">
@@ -766,32 +720,17 @@ export default function NouvelleDemandePage() {
                       certifiés.
                     </p>
 
-                    <div className="mb-6 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
-                      <div>
-                        <FieldLabel required>Prénom</FieldLabel>
-                        <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                          <User className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
-                          <input
-                            required
-                            value={prenom}
-                            onChange={(e) => setPrenom(e.target.value)}
-                            placeholder="Votre prénom"
-                            className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <FieldLabel required>Nom</FieldLabel>
-                        <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
-                          <User className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
-                          <input
-                            required
-                            value={nom}
-                            onChange={(e) => setNom(e.target.value)}
-                            placeholder="Votre nom"
-                            className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
-                          />
-                        </div>
+                    <div className="mb-6">
+                      <FieldLabel required>Nom du client</FieldLabel>
+                      <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 px-3.5 py-2.5">
+                        <User className="h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden />
+                        <input
+                          required
+                          value={clientName}
+                          onChange={(e) => setClientName(e.target.value)}
+                          placeholder="Ex : Aïcha Koné"
+                          className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400"
+                        />
                       </div>
                     </div>
 
@@ -827,116 +766,37 @@ export default function NouvelleDemandePage() {
                     <hr className="my-7 border-black/[0.06]" />
 
                     <div className="mb-6">
-                      <FieldLabel required>Canal de contact préféré</FieldLabel>
-                      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                        {CANAUX.map((c) => (
-                          <button
-                            key={c.key}
-                            type="button"
-                            onClick={() => setCanal(c.key)}
-                            className={cn(
-                              'flex flex-col items-center gap-2 rounded-xl border-[1.5px] px-3 py-4 text-center',
-                              canal === c.key
-                                ? 'border-brand bg-brand/[0.06]'
-                                : 'border-black/[0.1] bg-white',
-                            )}
-                          >
-                            <c.icon
-                              className={cn(
-                                'h-5 w-5',
-                                canal === c.key ? 'text-brand' : 'text-gray-400',
-                              )}
-                              aria-hidden
-                            />
-                            <span
-                              className={cn(
-                                'text-[13px] font-semibold',
-                                canal === c.key ? 'text-brand' : 'text-neutral-900',
-                              )}
-                            >
-                              {c.label}
-                            </span>
-                          </button>
+                      <FieldLabel>Type de client</FieldLabel>
+                      <div className="flex flex-wrap gap-2.5">
+                        <Pill
+                          selected={clientType === 'Particulier'}
+                          onClick={() => setClientType('Particulier')}
+                          icon={User}
+                        >
+                          Particulier
+                        </Pill>
+                        <Pill
+                          selected={clientType === 'Entreprise'}
+                          onClick={() => setClientType('Entreprise')}
+                          icon={Briefcase}
+                        >
+                          Entreprise
+                        </Pill>
+                      </div>
+                    </div>
+
+                    <div className="mb-6 max-w-[300px]">
+                      <FieldLabel>Comment nous avez-vous connu ?</FieldLabel>
+                      <Select value={source} onChange={setSource}>
+                        {SOURCE_OPTIONS.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
                         ))}
-                      </div>
+                      </Select>
                     </div>
 
-                    <div className="mb-6">
-                      <FieldLabel>Êtes-vous déjà en contact avec un agent ?</FieldLabel>
-                      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                        <button
-                          type="button"
-                          onClick={() => setAgentConnu('non')}
-                          className={cn(
-                            'flex items-center gap-3 rounded-xl border-[1.5px] px-4 py-3.5 text-left',
-                            agentConnu === 'non'
-                              ? 'border-brand bg-brand/[0.06]'
-                              : 'border-black/[0.1] bg-white',
-                          )}
-                        >
-                          <Users
-                            className={cn(
-                              'h-4 w-4 flex-shrink-0',
-                              agentConnu === 'non' ? 'text-brand' : 'text-gray-400',
-                            )}
-                            aria-hidden
-                          />
-                          <div>
-                            <p
-                              className={cn(
-                                'text-sm font-semibold',
-                                agentConnu === 'non' && 'text-brand',
-                              )}
-                            >
-                              Non, pas encore
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              Un agent disponible me contactera
-                            </p>
-                          </div>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setAgentConnu('oui')}
-                          className={cn(
-                            'flex items-center gap-3 rounded-xl border-[1.5px] px-4 py-3.5 text-left',
-                            agentConnu === 'oui'
-                              ? 'border-brand bg-brand/[0.06]'
-                              : 'border-black/[0.1] bg-white',
-                          )}
-                        >
-                          <Calendar
-                            className={cn(
-                              'h-4 w-4 flex-shrink-0',
-                              agentConnu === 'oui' ? 'text-brand' : 'text-gray-400',
-                            )}
-                            aria-hidden
-                          />
-                          <div>
-                            <p
-                              className={cn(
-                                'text-sm font-semibold',
-                                agentConnu === 'oui' && 'text-brand',
-                              )}
-                            >
-                              Oui, un agent m&apos;accompagne déjà
-                            </p>
-                            <p className="text-xs text-gray-500">Précisez-le en note ci-dessous</p>
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="mb-6">
-                      <FieldLabel>Notes complémentaires</FieldLabel>
-                      <textarea
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        rows={3}
-                        placeholder="Un détail que les agents devraient connaître ?"
-                        className="w-full rounded-lg border-[1.5px] border-black/[0.1] bg-gray-50 p-3.5 text-sm leading-relaxed outline-none placeholder:text-gray-400"
-                      />
-                    </div>
+                    <hr className="my-7 border-black/[0.06]" />
 
                     <div className="mb-2 flex flex-col gap-3">
                       <label className="flex items-start gap-2.5 text-[13px] text-gray-500">
