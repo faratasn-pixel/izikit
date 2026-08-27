@@ -510,6 +510,7 @@ model Listing {
   documents ListingDocument[]
   inquiries ListingInquiry[]
   reports   ListingReport[]
+  views     ListingView[]
 
   viewCount Int @default(0)
 
@@ -518,6 +519,25 @@ model Listing {
 
   @@index([userId, createdAt])
   @@index([status])
+}
+
+// One row per successful public-detail-page view — written best-effort
+// alongside the Listing.viewCount increment in
+// GET /api/public/listings/[id]. Feeds the "Évolution des vues" timeseries
+// and "Sources de trafic" breakdown on the /statistiques dashboard.
+// `source` is a coarse bucket derived from the Referer header — see
+// frontend/src/lib/server/analytics/classify-source.ts.
+model ListingView {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  source String // ORGANIC | SOCIAL | EMAIL | DIRECT | OTHER
+
+  createdAt DateTime @default(now())
+
+  @@index([listingId, createdAt])
+  @@index([createdAt])
 }
 
 // A single inbound lead from the public listing-detail page — either a
@@ -559,8 +579,8 @@ model Visit {
   inquiry   ListingInquiry @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
 
   scheduledAt DateTime
-  type        String  @default("PRESENTIEL") // PRESENTIEL | VIRTUELLE
-  status      String  @default("EN_ATTENTE") // CONFIRMEE | EN_ATTENTE | ANNULEE
+  type        String   @default("PRESENTIEL") // PRESENTIEL | VIRTUELLE
+  status      String   @default("EN_ATTENTE") // CONFIRMEE | EN_ATTENTE | ANNULEE
   notes       String?
 
   createdAt DateTime @default(now())
