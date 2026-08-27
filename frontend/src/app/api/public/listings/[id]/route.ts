@@ -15,6 +15,7 @@ import 'server-only';
 import { NextResponse, type NextRequest } from 'next/server';
 import { prisma } from '@/lib/server/prisma';
 import { geocodeCity } from '@/lib/server/geocode';
+import { classifySource } from '@/lib/server/analytics/classify-source';
 import { log } from '@/lib/server/observability/log';
 import { makeRequestContext, withRequestContext } from '@/lib/server/observability/request-context';
 
@@ -89,6 +90,19 @@ export async function GET(
       viewCount = updated.viewCount;
     } catch (err) {
       log.warn('listing-detail: viewCount increment failed', {
+        listingId: id,
+        err: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    const source = classifySource(
+      req.headers.get('referer'),
+      req.nextUrl.searchParams.get('utm_source'),
+    );
+    try {
+      await prisma.listingView.create({ data: { listingId: id, source } });
+    } catch (err) {
+      log.warn('listing-detail: ListingView write failed', {
         listingId: id,
         err: err instanceof Error ? err.message : String(err),
       });

@@ -54,6 +54,7 @@ beforeEach(() => {
   prismaMock.listing.findUnique.mockResolvedValue(makeListingRow() as never);
   prismaMock.listing.update.mockResolvedValue({ viewCount: 11 } as never);
   prismaMock.listing.findMany.mockResolvedValue([] as never);
+  prismaMock.listingView.create.mockResolvedValue({} as never);
 });
 
 describe('GET /api/public/listings/[id]', () => {
@@ -95,6 +96,23 @@ describe('GET /api/public/listings/[id]', () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.viewCount).toBe(10);
+  });
+
+  it('records a ListingView with a classified source', async () => {
+    const req = new NextRequest('http://test/api/public/listings/listing-1', {
+      headers: { referer: 'https://www.google.com/search?q=villa' },
+    });
+    await GET(req, { params: Promise.resolve({ id: 'listing-1' }) });
+    expect(prismaMock.listingView.create).toHaveBeenCalledWith({
+      data: { listingId: 'listing-1', source: 'ORGANIC' },
+    });
+  });
+
+  it('does not fail the request when the ListingView write throws', async () => {
+    prismaMock.listingView.create.mockRejectedValueOnce(new Error('db down'));
+    const { req, ctx } = makeGet();
+    const res = await GET(req, ctx);
+    expect(res.status).toBe(200);
   });
 
   it('maps agent fields, never including email', async () => {
