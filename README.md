@@ -255,4 +255,4 @@ Ce sont les règles que chaque session Claude doit respecter — voir [CLAUDE.md
 
 ## Licence
 
-UNLICENSED — template interne.
+Tout membre ayant obtenu légitimement accès à ce kit est autorisé, de manière non exclusive, mondiale, perpétuelle et sans redevance supplémentaire, à utiliser, copier, modifier et adapter le code afin de créer, déployer et commercialiser ses propres applications, SaaS et projets clients. Ces droits restent acquis pour les versions du kit obtenues pendant la période d’adhésion. La redistribution ou la revente du kit lui-même comme template ou produit concurrent reste interdite. 
