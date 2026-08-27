@@ -30,7 +30,7 @@ function makeDraft(overrides: Record<string, unknown> = {}) {
     city: '',
     country: '',
     propertyType: 'VILLA',
-    transactionType: 'SALE',
+    transactionType: 'VENTE',
     price: 0,
     currency: 'XOF',
     surfaceM2: null,
@@ -131,26 +131,64 @@ describe('PATCH /api/listings/[id]', () => {
   });
 
   it('publish with missing required fields returns 400 with a missing list', async () => {
+    // Default fixture propertyType is VILLA — neither a hall nor a land
+    // type, so surfaceM2/capacity aren't required for it (see the
+    // "surfaceM2 required only for land listings" / "capacity required
+    // only for hall listings" tests below for that conditional branch).
     const { req, ctx } = makePatch('l1', { publish: true });
     const res = await PATCH(req, ctx);
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toBe('PUBLISH_REQUIREMENTS_NOT_MET');
     expect(body.missing).toEqual(
-      expect.arrayContaining([
-        'title',
-        'description',
-        'price',
-        'surfaceM2',
-        'city',
-        'country',
-        'photos',
-      ]),
+      expect.arrayContaining(['title', 'description', 'price', 'city', 'country', 'photos']),
     );
+    expect(body.missing).not.toContain('surfaceM2');
+    expect(body.missing).not.toContain('capacity');
     expect(prismaMock.listing.update).not.toHaveBeenCalled();
   });
 
-  it('publish succeeds and flips status to PENDING once every requirement is met', async () => {
+  it('surfaceM2 is required only for land listings (PARCELLE/DOMAINE)', async () => {
+    prismaMock.listing.findUnique.mockResolvedValueOnce(
+      makeDraft({
+        title: 'Terrain viabilisé',
+        description: 'Beau terrain',
+        price: 25_000_000,
+        city: 'Cotonou',
+        country: 'Bénin',
+        propertyType: 'PARCELLE',
+      }) as never,
+    );
+    prismaMock.listingPhoto.count.mockResolvedValueOnce(2 as never);
+    const { req, ctx } = makePatch('l1', { publish: true });
+    const res = await PATCH(req, ctx);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.missing).toContain('surfaceM2');
+    expect(body.missing).not.toContain('capacity');
+  });
+
+  it('capacity is required only for hall listings (SALLE_FETE/SALLE_CONFERENCE)', async () => {
+    prismaMock.listing.findUnique.mockResolvedValueOnce(
+      makeDraft({
+        title: 'Salle de fête climatisée',
+        description: 'Belle salle',
+        price: 150_000,
+        city: 'Cotonou',
+        country: 'Bénin',
+        propertyType: 'SALLE_FETE',
+      }) as never,
+    );
+    prismaMock.listingPhoto.count.mockResolvedValueOnce(2 as never);
+    const { req, ctx } = makePatch('l1', { publish: true });
+    const res = await PATCH(req, ctx);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.missing).toContain('capacity');
+    expect(body.missing).not.toContain('surfaceM2');
+  });
+
+  it('publish succeeds and flips status to VERIFIED once every requirement is met', async () => {
     prismaMock.listing.findUnique.mockResolvedValueOnce(
       makeDraft({
         title: 'Villa moderne',
@@ -170,6 +208,6 @@ describe('PATCH /api/listings/[id]', () => {
     const res = await PATCH(req, ctx);
     expect(res.status).toBe(200);
     const args = prismaMock.listing.update.mock.calls[0]?.[0];
-    expect(args?.data?.status).toBe('PENDING');
+    expect(args?.data?.status).toBe('VERIFIED');
   });
 });

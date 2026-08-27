@@ -45,6 +45,9 @@ const LISTING_SELECT = {
   transactionType: true,
   price: true,
   currency: true,
+  bedrooms: true,
+  bathrooms: true,
+  surfaceM2: true,
   createdAt: true,
   photos: {
     where: { isPrimary: true },
@@ -61,6 +64,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const params = req.nextUrl.searchParams;
 
     const country = params.get('country')?.trim() || undefined;
+    const city = params.get('city')?.trim() || undefined;
     const propertyType = params.get('propertyType')?.trim() || undefined;
     const transactionType = params.get('transactionType')?.trim() || undefined;
     const priceMin = parsePositiveInt(params.get('priceMin'));
@@ -79,6 +83,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       if (country && omit !== 'country') where.country = country;
       if (propertyType && omit !== 'propertyType') where.propertyType = propertyType;
       if (transactionType && omit !== 'transactionType') where.transactionType = transactionType;
+      if (city) where.city = { contains: city, mode: 'insensitive' };
       if (priceMin !== undefined || priceMax !== undefined) {
         where.price = {
           ...(priceMin !== undefined && { gte: priceMin }),
@@ -103,6 +108,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         by: ['country'],
         where: buildWhere('country'),
         _count: { _all: true },
+        _min: { price: true },
       }),
       prisma.listing.groupBy({
         by: ['propertyType'],
@@ -125,6 +131,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       transactionType: r.transactionType,
       price: r.price,
       currency: r.currency,
+      bedrooms: r.bedrooms,
+      bathrooms: r.bathrooms,
+      surfaceM2: r.surfaceM2,
       createdAt: r.createdAt,
       primaryPhotoUrl: r.photos[0]?.url ?? null,
       photoCount: r._count.photos,
@@ -139,6 +148,10 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         }))
         .sort((a, b) => b.count - a.count);
 
+    const countries = countryFacet
+      .map((r) => ({ value: r.country, count: r._count._all, minPrice: r._min.price }))
+      .sort((a, b) => b.count - a.count);
+
     return NextResponse.json(
       {
         items,
@@ -147,7 +160,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         total,
         totalPages: Math.max(1, Math.ceil(total / limit)),
         facets: {
-          countries: toFacet(countryFacet, 'country'),
+          countries,
           propertyTypes: toFacet(propertyTypeFacet, 'propertyType'),
           transactionTypes: toFacet(transactionTypeFacet, 'transactionType'),
         },

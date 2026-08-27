@@ -41,7 +41,7 @@ function makeListing(overrides: Record<string, unknown> = {}) {
     city: 'Abidjan',
     country: "Côte d'Ivoire",
     propertyType: 'VILLA',
-    transactionType: 'SALE',
+    transactionType: 'VENTE',
     price: 185_000_000,
     currency: 'XOF',
     status: 'VERIFIED',
@@ -125,11 +125,11 @@ describe('GET /api/listings', () => {
 
   it('includes transactionType in the selected fields', async () => {
     prismaMock.listing.findMany.mockResolvedValue([
-      makeListing({ transactionType: 'RENT' }),
+      makeListing({ transactionType: 'LOCATION' }),
     ] as never);
     const res = await GET(makeGet());
     const body = await res.json();
-    expect(body.items[0]).toMatchObject({ transactionType: 'RENT' });
+    expect(body.items[0]).toMatchObject({ transactionType: 'LOCATION' });
     const args = prismaMock.listing.findMany.mock.calls[0]?.[0];
     expect(args?.select?.transactionType).toBe(true);
   });

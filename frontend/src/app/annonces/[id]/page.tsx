@@ -22,6 +22,7 @@ import {
   Loader2,
   Map,
   MapPin,
+  MessageCircle,
   MessageSquare,
   Move,
   Phone,
@@ -50,6 +51,7 @@ import {
   STANDING_LABEL,
   AMENITY_LABEL,
   formatListingPrice,
+  cloudinaryOptimize,
 } from '@/lib/listings';
 import { COUNTRY_FLAG, formatDate } from '@/lib/alerts';
 
@@ -110,6 +112,14 @@ const AMENITY_ICON: Record<string, typeof Waves> = {
   INTERCOM: Phone,
   FITTED_KITCHEN: Utensils,
 };
+
+function buildWhatsappLink(phone: string, title: string): string {
+  const digits = phone.replace(/[^\d]/g, '');
+  const text = encodeURIComponent(
+    `Bonjour, je suis intéressé(e) par l'annonce "${title}" sur Habitat-Afrik.`,
+  );
+  return `https://wa.me/${digits}?text=${text}`;
+}
 
 const REPORT_REASON_LABEL: Record<string, string> = {
   FAKE: 'Annonce factice',
@@ -304,7 +314,7 @@ export default function AnnonceDetailPage() {
           <div className="relative h-[260px] overflow-hidden lg:h-full">
             {primaryPhoto ? (
               <img
-                src={primaryPhoto.url}
+                src={cloudinaryOptimize(primaryPhoto.url, 1200)}
                 alt={listing.title}
                 className="h-full w-full object-cover"
               />
@@ -356,7 +366,11 @@ export default function AnnonceDetailPage() {
             {otherPhotos.length > 0 ? (
               otherPhotos.map((p) => (
                 <div key={p.url} className="h-[130px] overflow-hidden lg:h-full">
-                  <img src={p.url} alt={listing.title} className="h-full w-full object-cover" />
+                  <img
+                    src={cloudinaryOptimize(p.url, 700)}
+                    alt={listing.title}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               ))
             ) : (
@@ -544,7 +558,7 @@ export default function AnnonceDetailPage() {
                       <div className="relative h-[148px] bg-gray-100">
                         {s.primaryPhotoUrl ? (
                           <img
-                            src={s.primaryPhotoUrl}
+                            src={cloudinaryOptimize(s.primaryPhotoUrl, 500)}
                             alt={s.title}
                             className="h-full w-full object-cover"
                           />
@@ -623,6 +637,24 @@ export default function AnnonceDetailPage() {
                   <span className="flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-gray-50 px-3 py-3 text-sm font-semibold whitespace-nowrap">
                     <Phone className="h-[15px] w-[15px] text-emerald-500" aria-hidden />
                     Appeler l&apos;agent
+                  </span>
+                </InertRow>
+              )}
+              {listing.agent.phone ? (
+                <a
+                  href={buildWhatsappLink(listing.agent.phone, listing.title)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mb-2.5 flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-3 py-3 text-sm font-bold whitespace-nowrap text-white"
+                >
+                  <MessageCircle className="h-[15px] w-[15px]" aria-hidden />
+                  Contacter par WhatsApp
+                </a>
+              ) : (
+                <InertRow className="mb-2.5">
+                  <span className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366]/40 px-3 py-3 text-sm font-bold whitespace-nowrap text-white">
+                    <MessageCircle className="h-[15px] w-[15px]" aria-hidden />
+                    Contacter par WhatsApp
                   </span>
                 </InertRow>
               )}

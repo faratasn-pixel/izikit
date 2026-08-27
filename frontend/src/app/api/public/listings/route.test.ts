@@ -14,6 +14,9 @@ function makeRow(overrides: Record<string, unknown> = {}) {
     transactionType: 'VENTE',
     price: 185_000_000,
     currency: 'XOF',
+    bedrooms: 5,
+    bathrooms: 4,
+    surfaceM2: 320,
     createdAt: new Date('2026-08-01T00:00:00Z'),
     photos: [{ url: 'https://example.com/photo.jpg' }],
     _count: { photos: 3 },
@@ -69,6 +72,17 @@ describe('GET /api/public/listings', () => {
     );
   });
 
+  it('applies a case-insensitive contains filter on city', async () => {
+    await GET(makeGet('?city=cocody'));
+    expect(prismaMock.listing.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          city: { contains: 'cocody', mode: 'insensitive' },
+        }),
+      }),
+    );
+  });
+
   it('ignores malformed price params instead of 400ing', async () => {
     const res = await GET(makeGet('?priceMin=not-a-number'));
     expect(res.status).toBe(200);
@@ -117,6 +131,9 @@ describe('GET /api/public/listings', () => {
         transactionType: 'VENTE',
         price: 185_000_000,
         currency: 'XOF',
+        bedrooms: 5,
+        bathrooms: 4,
+        surfaceM2: 320,
         createdAt: '2026-08-01T00:00:00.000Z',
         primaryPhotoUrl: 'https://example.com/photo.jpg',
         photoCount: 3,
@@ -135,14 +152,14 @@ describe('GET /api/public/listings', () => {
 
   it('facets reflect groupBy counts, sorted by count descending', async () => {
     mockGroupBy.mockResolvedValue([
-      { country: 'Togo', _count: { _all: 2 } },
-      { country: 'Bénin', _count: { _all: 5 } },
+      { country: 'Togo', _count: { _all: 2 }, _min: { price: 28_000_000 } },
+      { country: 'Bénin', _count: { _all: 5 }, _min: { price: 18_000_000 } },
     ] as never);
     const res = await GET(makeGet());
     const body = await res.json();
     expect(body.facets.countries).toEqual([
-      { value: 'Bénin', count: 5 },
-      { value: 'Togo', count: 2 },
+      { value: 'Bénin', count: 5, minPrice: 18_000_000 },
+      { value: 'Togo', count: 2, minPrice: 28_000_000 },
     ]);
   });
 });

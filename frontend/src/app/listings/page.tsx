@@ -383,7 +383,7 @@ export default function ListingsPage() {
                       </td>
                       <td className="px-5 py-4 text-[13.5px] font-semibold whitespace-nowrap text-neutral-900">
                         {formatListingPrice(l.price, l.currency)}
-                        {l.transactionType === 'RENT' && (
+                        {l.transactionType === 'LOCATION' && (
                           <span className="font-normal text-gray-400"> / mois</span>
                         )}
                       </td>

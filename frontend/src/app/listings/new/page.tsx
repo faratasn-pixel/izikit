@@ -15,30 +15,23 @@ import {
   UploadCloud,
   FolderUp,
   X,
-  Plus,
   Check,
   Loader2,
   AlertCircle,
 } from 'lucide-react';
 import { useUser } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
-import { api, ApiError } from '@/lib/api';
+import { api, ApiError, storeCsrfToken } from '@/lib/api';
 import { API_URL, COOKIE_PREFIX } from '@/lib/constants';
 import { DashboardShell } from '@/components/dashboard/DashboardShell';
-import {
-  PROPERTY_TYPE_LABEL,
-  TRANSACTION_TYPE_LABEL,
-  STANDING_LABEL,
-  AMENITY_LABEL,
-  formatListingPrice,
-} from '@/lib/listings';
+import { PROPERTY_TYPE_LABEL, TRANSACTION_TYPE_LABEL, AMENITY_LABEL } from '@/lib/listings';
 import { cn } from '@/lib/utils';
 
-interface Photo {
+interface PendingPhoto {
   id: string;
-  url: string;
-  isPrimary: boolean;
-  position: number;
+  file: File;
+  previewUrl: string;
+  status: 'idle' | 'uploading' | 'done' | 'error';
 }
 
 const MISSING_FIELD_LABEL: Record<string, string> = {
@@ -46,6 +39,7 @@ const MISSING_FIELD_LABEL: Record<string, string> = {
   description: 'Description',
   price: 'Prix',
   surfaceM2: 'Surface',
+  capacity: 'Nombre de places',
   city: 'Ville',
   country: 'Pays',
   propertyType: 'Type de bien',
@@ -63,30 +57,38 @@ function readCsrfToken(): string {
   return match && match[1] ? decodeURIComponent(match[1]) : '';
 }
 
-async function multipartRequest<T>(path: string, form: FormData, method = 'POST'): Promise<T> {
+async function refreshSession(): Promise<boolean> {
+  const res = await fetch(`${API_URL}/api/auth/refresh`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  if (!res.ok) return false;
+  const data = await res.json().catch(() => ({}) as { csrfToken?: string });
+  if (data.csrfToken) storeCsrfToken(data.csrfToken);
+  return true;
+}
+
+async function multipartRequest<T>(
+  path: string,
+  form: FormData,
+  method = 'POST',
+  retryOn401 = true,
+): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
     method,
     credentials: 'include',
     headers: { 'x-csrf-token': readCsrfToken() },
     body: form,
   });
+  if (res.status === 401 && retryOn401 && (await refreshSession())) {
+    return multipartRequest<T>(path, form, method, false);
+  }
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new ApiError(res.status, body.message ?? `Error ${res.status}`, body);
   }
   return res.json() as Promise<T>;
-}
-
-async function deleteRequest(path: string): Promise<void> {
-  const res = await fetch(`${API_URL}${path}`, {
-    method: 'DELETE',
-    credentials: 'include',
-    headers: { 'x-csrf-token': readCsrfToken() },
-  });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new ApiError(res.status, body.message ?? `Error ${res.status}`, body);
-  }
 }
 
 function ToggleGroup<T extends string>({
@@ -164,7 +166,82 @@ function Stepper({ value, onChange }: { value: number; onChange: (v: number) => 
 }
 
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
-const MAX_PHOTOS = 20;
+const MAX_PHOTOS = 9;
+
+const LODGING_TRANSACTION_TYPES = new Set(['SEJOUR', 'AUBERGE']);
+const LODGING_PROPERTY_TYPES = ['VILLA', 'APPARTEMENT', 'MAISON'];
+
+// PARCELLE/DOMAINE: bare land — no rooms, no seating capacity, just surface.
+const LAND_PROPERTY_TYPES = new Set(['PARCELLE', 'DOMAINE']);
+// SALLE_FETE/SALLE_CONFERENCE: event halls — capacity (seats) instead of surface, no rooms.
+const HALL_PROPERTY_TYPES = new Set(['SALLE_FETE', 'SALLE_CONFERENCE']);
+
+const COUNTRIES: { name: string; flag: string; cities: string[] }[] = [
+  {
+    name: 'Bénin',
+    flag: '🇧🇯',
+    cities: [
+      'Cotonou',
+      'Porto-Novo',
+      'Parakou',
+      'Abomey-Calavi',
+      'Bohicon',
+      'Djougou',
+      'Natitingou',
+      'Ouidah',
+      'Lokossa',
+      'Abomey',
+    ],
+  },
+  {
+    name: 'Togo',
+    flag: '🇹🇬',
+    cities: [
+      'Lomé',
+      'Sokodé',
+      'Kara',
+      'Kpalimé',
+      'Atakpamé',
+      'Dapaong',
+      'Tsévié',
+      'Aného',
+      'Bassar',
+      'Notsé',
+    ],
+  },
+  {
+    name: 'Sénégal',
+    flag: '🇸🇳',
+    cities: [
+      'Dakar',
+      'Thiès',
+      'Touba',
+      'Rufisque',
+      'Saint-Louis',
+      'Mbour',
+      'Kaolack',
+      'Ziguinchor',
+      'Diourbel',
+      'Louga',
+    ],
+  },
+  {
+    name: "Côte d'Ivoire",
+    flag: '🇨🇮',
+    cities: [
+      'Abidjan',
+      'Yamoussoukro',
+      'Bouaké',
+      'San-Pédro',
+      'Korhogo',
+      'Daloa',
+      'Man',
+      'Gagnoa',
+      'Divo',
+      'Anyama',
+    ],
+  },
+];
 
 export default function PublishListingPage() {
   const user = useUser();
@@ -177,21 +254,21 @@ export default function PublishListingPage() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [landmark, setLandmark] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [propertyType, setPropertyType] = useState('VILLA');
-  const [transactionType, setTransactionType] = useState('SALE');
+  const [transactionType, setTransactionType] = useState('VENTE');
   const [price, setPrice] = useState('');
   const [surfaceM2, setSurfaceM2] = useState('');
-  const [yearBuilt, setYearBuilt] = useState('');
-  const [standing, setStanding] = useState('');
+  const [capacity, setCapacity] = useState('');
   const [roomsTotal, setRoomsTotal] = useState(0);
   const [bedrooms, setBedrooms] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
+  const [kitchens, setKitchens] = useState(0);
   const [amenities, setAmenities] = useState<string[]>([]);
 
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [pendingPhotos, setPendingPhotos] = useState<PendingPhoto[]>([]);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   const [savingDraft, setSavingDraft] = useState(false);
@@ -199,6 +276,32 @@ export default function PublishListingPage() {
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
   const [step, setStep] = useState(0);
+
+  const availablePropertyTypes = LODGING_TRANSACTION_TYPES.has(transactionType)
+    ? LODGING_PROPERTY_TYPES
+    : Object.keys(PROPERTY_TYPE_LABEL);
+
+  const isLandType = LAND_PROPERTY_TYPES.has(propertyType);
+  const isHallType = HALL_PROPERTY_TYPES.has(propertyType);
+  const showRoomFields = !isLandType && !isHallType;
+  const showSurfaceField = isLandType;
+  const showCapacityField = isHallType;
+
+  function handleTransactionTypeChange(value: string) {
+    setTransactionType(value);
+    if (LODGING_TRANSACTION_TYPES.has(value) && !LODGING_PROPERTY_TYPES.includes(propertyType)) {
+      setPropertyType(LODGING_PROPERTY_TYPES[0]!);
+    }
+  }
+
+  const selectedCountry = COUNTRIES.find((c) => c.name === country);
+  const availableCities = selectedCountry?.cities ?? [];
+
+  function handleCountryChange(value: string) {
+    setCountry(value);
+    const cities = COUNTRIES.find((c) => c.name === value)?.cities ?? [];
+    if (!cities.includes(city)) setCity('');
+  }
 
   useEffect(() => {
     if (!user || createdRef.current) return;
@@ -216,10 +319,12 @@ export default function PublishListingPage() {
       roomsTotal,
       bedrooms,
       bathrooms,
+      kitchens,
       amenities,
     };
     if (title.trim()) payload.title = title.trim();
     if (description.trim()) payload.description = description.trim();
+    if (landmark.trim()) payload.landmark = landmark.trim();
     if (city.trim()) payload.city = city.trim();
     if (country.trim()) payload.country = country.trim();
     const priceNum = Number(price);
@@ -228,9 +333,10 @@ export default function PublishListingPage() {
     if (surfaceM2 && Number.isFinite(surfaceNum) && surfaceNum > 0) {
       payload.surfaceM2 = Math.round(surfaceNum);
     }
-    const yearNum = Number(yearBuilt);
-    if (yearBuilt && Number.isFinite(yearNum)) payload.yearBuilt = Math.round(yearNum);
-    if (standing) payload.standing = standing;
+    const capacityNum = Number(capacity);
+    if (capacity && Number.isFinite(capacityNum) && capacityNum > 0) {
+      payload.capacity = Math.round(capacityNum);
+    }
     return payload;
   }
 
@@ -252,11 +358,50 @@ export default function PublishListingPage() {
     setPublishing(true);
     setMissingFields([]);
     try {
+      const PHOTO_UPLOAD_CONCURRENCY = 3;
+      const primaryId = pendingPhotos[0]?.id;
+      const toUpload = pendingPhotos.filter((p) => p.status !== 'done');
+      let aborted = false;
+
+      for (let start = 0; start < toUpload.length && !aborted; start += PHOTO_UPLOAD_CONCURRENCY) {
+        const batch = toUpload.slice(start, start + PHOTO_UPLOAD_CONCURRENCY);
+        setPendingPhotos((prev) =>
+          prev.map((x) => (batch.some((b) => b.id === x.id) ? { ...x, status: 'uploading' } : x)),
+        );
+        const results = await Promise.allSettled(
+          batch.map(async (p) => {
+            const form = new FormData();
+            form.append('file', p.file);
+            if (p.id === primaryId) form.append('isPrimary', 'true');
+            await multipartRequest(`/api/listings/${listingId}/photos`, form);
+          }),
+        );
+        results.forEach((result, idx) => {
+          const p = batch[idx]!;
+          if (result.status === 'fulfilled') {
+            setPendingPhotos((prev) =>
+              prev.map((x) => (x.id === p.id ? { ...x, status: 'done' } : x)),
+            );
+          } else {
+            aborted = true;
+            setPendingPhotos((prev) =>
+              prev.map((x) => (x.id === p.id ? { ...x, status: 'error' } : x)),
+            );
+            const e = result.reason;
+            toast(
+              e instanceof ApiError ? e.message : `Échec de l'envoi de ${p.file.name}.`,
+              'error',
+            );
+          }
+        });
+      }
+      if (aborted) return;
+
       await api(`/api/listings/${listingId}`, {
         method: 'PATCH',
         body: { ...buildFieldsPayload(), publish: true },
       });
-      toast('Annonce publiée — en attente de vérification.', 'success');
+      toast('Annonce publiée avec succès.', 'success');
       router.push('/listings');
     } catch (e) {
       if (e instanceof ApiError && e.code === 'PUBLISH_REQUIREMENTS_NOT_MET') {
@@ -271,52 +416,37 @@ export default function PublishListingPage() {
     }
   }
 
-  async function onPhotoFiles(files: FileList | null) {
-    if (!files || !listingId) return;
-    setUploadingPhoto(true);
-    let count = photos.length;
-    try {
-      for (const file of Array.from(files)) {
-        if (count >= MAX_PHOTOS) {
-          toast(`Maximum ${MAX_PHOTOS} photos.`, 'error');
-          break;
-        }
-        if (file.size > MAX_PHOTO_BYTES) {
-          toast(`${file.name} : fichier trop volumineux (max 10 Mo).`, 'error');
-          continue;
-        }
-        try {
-          const form = new FormData();
-          form.append('file', file);
-          if (count === 0) form.append('isPrimary', 'true');
-          const { photo } = await multipartRequest<{ photo: Photo }>(
-            `/api/listings/${listingId}/photos`,
-            form,
-          );
-          setPhotos((prev) => [...prev, photo]);
-          count += 1;
-        } catch (e) {
-          toast(e instanceof ApiError ? e.message : 'Échec du téléversement.', 'error');
-        }
+  function onSelectPhotoFiles(files: FileList | null) {
+    if (!files) return;
+    const next: PendingPhoto[] = [];
+    let count = pendingPhotos.length;
+    for (const file of Array.from(files)) {
+      if (count >= MAX_PHOTOS) {
+        toast(`Maximum ${MAX_PHOTOS} photos.`, 'error');
+        break;
       }
-    } finally {
-      setUploadingPhoto(false);
+      if (file.size > MAX_PHOTO_BYTES) {
+        toast(`${file.name} : fichier trop volumineux (max 10 Mo).`, 'error');
+        continue;
+      }
+      next.push({
+        id: crypto.randomUUID(),
+        file,
+        previewUrl: URL.createObjectURL(file),
+        status: 'idle',
+      });
+      count += 1;
     }
+    if (next.length > 0) setPendingPhotos((prev) => [...prev, ...next]);
   }
 
-  async function onRemovePhoto(photoId: string) {
-    if (!listingId) return;
-    try {
-      await deleteRequest(`/api/listings/${listingId}/photos/${photoId}`);
-      setPhotos((prev) => {
-        const removed = prev.find((p) => p.id === photoId);
-        const rest = prev.filter((p) => p.id !== photoId);
-        if (removed?.isPrimary && rest.length > 0) rest[0] = { ...rest[0]!, isPrimary: true };
-        return rest;
-      });
-    } catch (e) {
-      toast(e instanceof ApiError ? e.message : 'Erreur réseau. Réessayez.', 'error');
-    }
+  function onRemovePendingPhoto(id: string) {
+    setPendingPhotos((prev) => {
+      const removed = prev.find((p) => p.id === id);
+      if (!removed || removed.status === 'uploading') return prev;
+      URL.revokeObjectURL(removed.previewUrl);
+      return prev.filter((p) => p.id !== id);
+    });
   }
 
   function toggleAmenity(key: string) {
@@ -328,14 +458,13 @@ export default function PublishListingPage() {
   const infoDone = Boolean(
     title.trim() &&
     description.trim() &&
+    landmark.trim() &&
     Number(price) > 0 &&
-    Number(surfaceM2) > 0 &&
+    (isHallType ? Number(capacity) > 0 : !isLandType || Number(surfaceM2) > 0) &&
     city.trim() &&
     country.trim(),
   );
-  const photosDone = photos.length > 0;
-  const stepsDone = [true, infoDone, true, photosDone].filter(Boolean).length;
-  const progressPct = Math.round((stepsDone / 4) * 100);
+  const photosDone = pendingPhotos.length > 0;
 
   const STEPS = [
     {
@@ -359,11 +488,23 @@ export default function PublishListingPage() {
     {
       id: 'fsec-photos',
       label: 'Photos & médias',
-      sub: `${photos.length} photo${photos.length === 1 ? '' : 's'} ajoutée${photos.length === 1 ? '' : 's'}`,
+      sub: `${pendingPhotos.length} photo${pendingPhotos.length === 1 ? '' : 's'} ajoutée${pendingPhotos.length === 1 ? '' : 's'}`,
       done: photosDone,
     },
   ];
   const lastStep = STEPS.length - 1;
+
+  function canAccessStep(i: number): boolean {
+    return i <= 1 || infoDone;
+  }
+
+  function goToStep(i: number) {
+    if (!canAccessStep(i)) {
+      toast('Renseignez tous les champs de "Informations de base" avant de continuer.', 'error');
+      return;
+    }
+    setStep(i);
+  }
 
   return (
     <DashboardShell active="listings">
@@ -426,94 +567,56 @@ export default function PublishListingPage() {
           </div>
         )}
 
-        {/* MOBILE PROGRESS BAR (replaces the sidebar below lg:) */}
-        <div className="rounded-2xl bg-white p-4 lg:hidden">
-          <div className="mb-2 flex items-center justify-between text-[12px] text-gray-400">
-            <span>Progression</span>
-            <span>{progressPct}%</span>
-          </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-gray-100">
-            <div className="h-full rounded-full bg-brand" style={{ width: `${progressPct}%` }} />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-          {/* STEPPER SIDEBAR — desktop only */}
-          <aside className="hidden w-[260px] flex-shrink-0 flex-col gap-1 rounded-2xl bg-white p-5 lg:flex">
-            <p className="font-sora mb-2 text-[13px] font-semibold text-neutral-900">Étapes</p>
+        {/* HORIZONTAL STEPPER */}
+        <div className="rounded-2xl bg-white p-3 sm:p-5">
+          <div className="flex items-start">
             {STEPS.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => setStep(i)}
-                className={cn(
-                  'flex items-start gap-2.5 rounded-lg px-2 py-2 text-left hover:bg-gray-50',
-                  i === step && 'bg-brand/5',
-                )}
-              >
-                <span
-                  className={cn(
-                    'mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-[11px] font-semibold',
-                    s.done ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400',
-                  )}
+              <div key={s.id} className="flex flex-1 items-center last:flex-none">
+                <button
+                  type="button"
+                  onClick={() => goToStep(i)}
+                  className="flex flex-shrink-0 flex-col items-center gap-1.5"
                 >
-                  {s.done ? <Check className="h-3 w-3" aria-hidden /> : ''}
-                </span>
-                <span>
                   <span
                     className={cn(
-                      'block text-[13px] font-medium',
-                      i === step ? 'text-brand' : 'text-neutral-900',
+                      'flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[12px] font-semibold sm:h-8 sm:w-8 sm:text-[13px]',
+                      i === step
+                        ? 'bg-brand text-white'
+                        : s.done
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : 'bg-gray-100 text-gray-400',
+                    )}
+                  >
+                    {s.done && i !== step ? <Check className="h-3.5 w-3.5" aria-hidden /> : i + 1}
+                  </span>
+                  <span
+                    className={cn(
+                      'hidden max-w-[110px] text-center text-[11.5px] font-medium sm:block',
+                      i === step ? 'text-brand' : 'text-neutral-700',
                     )}
                   >
                     {s.label}
                   </span>
-                  <span className="block text-[11px] text-gray-400">{s.sub}</span>
-                </span>
-              </button>
+                </button>
+                {i < STEPS.length - 1 && (
+                  <div
+                    className={cn(
+                      'mx-1.5 h-0.5 flex-1 rounded-full sm:mx-2',
+                      i < step ? 'bg-brand' : 'bg-gray-100',
+                    )}
+                  />
+                )}
+              </div>
             ))}
-            <div className="mt-3 border-t border-black/[0.06] pt-3">
-              <div className="mb-1.5 flex items-center justify-between text-[12px] text-gray-400">
-                <span>Progression globale</span>
-                <span>{progressPct}%</span>
-              </div>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
-                <div
-                  className="h-full rounded-full bg-brand"
-                  style={{ width: `${progressPct}%` }}
-                />
-              </div>
-              <div className="mt-3 flex flex-col gap-1.5 text-[12px]">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Type</span>
-                  <span className="font-semibold text-neutral-900">
-                    {TRANSACTION_TYPE_LABEL[transactionType]} · {PROPERTY_TYPE_LABEL[propertyType]}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Prix</span>
-                  <span className="font-semibold text-brand">
-                    {price ? formatListingPrice(Number(price), 'XOF') : '—'}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Surface</span>
-                  <span className="font-semibold text-neutral-900">
-                    {surfaceM2 ? `${surfaceM2} m²` : '—'}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Photos</span>
-                  <span className="font-semibold text-neutral-900">
-                    {photos.length} / {MAX_PHOTOS}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </aside>
+          </div>
+          <p className="mt-2 text-center text-[11.5px] font-medium text-brand sm:hidden">
+            {STEPS[step]?.label}
+          </p>
+        </div>
 
+        <div className="flex flex-col items-center gap-4">
           {/* FORM SECTIONS */}
-          <div className="flex min-w-0 flex-1 flex-col gap-4">
+          <div className="flex w-full max-w-3xl min-w-0 flex-col gap-4">
             {/* SECTION 1: Type */}
             {step === 0 && (
               <section id="fsec-type" className="flex flex-col gap-4 rounded-2xl bg-white p-5">
@@ -537,14 +640,14 @@ export default function PublishListingPage() {
                       label,
                     }))}
                     value={transactionType}
-                    onChange={setTransactionType}
+                    onChange={handleTransactionTypeChange}
                   />
                 </Field>
                 <Field label="Type de bien">
                   <ToggleGroup
-                    options={Object.entries(PROPERTY_TYPE_LABEL).map(([value, label]) => ({
+                    options={availablePropertyTypes.map((value) => ({
                       value,
-                      label,
+                      label: PROPERTY_TYPE_LABEL[value]!,
                     }))}
                     value={propertyType}
                     onChange={setPropertyType}
@@ -584,12 +687,46 @@ export default function PublishListingPage() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={4}
-                    placeholder="Décrivez le bien : standing, équipements, environnement…"
+                    placeholder="Décrivez le bien : équipements, environnement…"
                     className={inputClass}
                   />
                 </Field>
 
-                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Pays" required>
+                    <select
+                      value={country}
+                      onChange={(e) => handleCountryChange(e.target.value)}
+                      className={inputClass}
+                    >
+                      <option value="">Sélectionner un pays</option>
+                      {COUNTRIES.map((c) => (
+                        <option key={c.name} value={c.name}>
+                          {c.flag} {c.name}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                  <Field label="Ville" required>
+                    <select
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      disabled={!country}
+                      className={cn(inputClass, !country && 'cursor-not-allowed opacity-50')}
+                    >
+                      <option value="">
+                        {country ? 'Sélectionner une ville' : "Choisissez d'abord un pays"}
+                      </option>
+                      {availableCities.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
                   <Field label="Prix (FCFA)" required>
                     <input
                       type="number"
@@ -600,78 +737,67 @@ export default function PublishListingPage() {
                       className={inputClass}
                     />
                   </Field>
-                  <Field label="Surface (m²)" required>
-                    <input
-                      type="number"
-                      min={1}
-                      value={surfaceM2}
-                      onChange={(e) => setSurfaceM2(e.target.value)}
-                      placeholder="320"
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field label="Année de construction">
-                    <input
-                      type="number"
-                      value={yearBuilt}
-                      onChange={(e) => setYearBuilt(e.target.value)}
-                      placeholder="2019"
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field label="Standing">
-                    <select
-                      value={standing}
-                      onChange={(e) => setStanding(e.target.value)}
-                      className={inputClass}
-                    >
-                      <option value="">Non précisé</option>
-                      {Object.entries(STANDING_LABEL).map(([value, label]) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                  <Field label="Ville" required>
+                  <Field label="Point de repère" required>
                     <input
                       type="text"
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      placeholder="Cotonou"
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field label="Pays" required>
-                    <input
-                      type="text"
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      placeholder="Bénin"
+                      value={landmark}
+                      onChange={(e) => setLandmark(e.target.value)}
+                      placeholder="Non loin de la pharmacie, carrefour…"
                       className={inputClass}
                     />
                   </Field>
                 </div>
 
-                <div>
-                  <p className="mb-2.5 text-[12.5px] font-semibold text-neutral-700">
-                    Nombre de pièces
-                  </p>
-                  <div className="grid grid-cols-3 gap-3">
-                    <Field label="Pièces au total">
-                      <Stepper value={roomsTotal} onChange={setRoomsTotal} />
-                    </Field>
-                    <Field label="Chambres">
-                      <Stepper value={bedrooms} onChange={setBedrooms} />
-                    </Field>
-                    <Field label="Salles de bain">
-                      <Stepper value={bathrooms} onChange={setBathrooms} />
-                    </Field>
+                {(showSurfaceField || showCapacityField) && (
+                  <div className="grid grid-cols-2 gap-3">
+                    {showSurfaceField && (
+                      <Field label="Surface (m²)" required>
+                        <input
+                          type="number"
+                          min={1}
+                          value={surfaceM2}
+                          onChange={(e) => setSurfaceM2(e.target.value)}
+                          placeholder="320"
+                          className={inputClass}
+                        />
+                      </Field>
+                    )}
+                    {showCapacityField && (
+                      <Field label="Nombre de places" required={isHallType}>
+                        <input
+                          type="number"
+                          min={1}
+                          value={capacity}
+                          onChange={(e) => setCapacity(e.target.value)}
+                          placeholder="200"
+                          className={inputClass}
+                        />
+                      </Field>
+                    )}
                   </div>
-                </div>
+                )}
+
+                {showRoomFields && (
+                  <>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Field label="Salon">
+                        <Stepper value={roomsTotal} onChange={setRoomsTotal} />
+                      </Field>
+                      <Field label="Chambre">
+                        <Stepper value={bedrooms} onChange={setBedrooms} />
+                      </Field>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <Field label="Cuisine">
+                        <Stepper value={kitchens} onChange={setKitchens} />
+                      </Field>
+                      <Field label="Toilette">
+                        <Stepper value={bathrooms} onChange={setBathrooms} />
+                      </Field>
+                    </div>
+                  </>
+                )}
               </section>
             )}
 
@@ -741,7 +867,7 @@ export default function PublishListingPage() {
                     </p>
                   </div>
                   <span className="ml-auto flex-shrink-0 rounded-full bg-brand/10 px-2.5 py-1 text-[11px] font-semibold text-brand">
-                    {photos.length} / {MAX_PHOTOS}
+                    {pendingPhotos.length} / {MAX_PHOTOS}
                   </span>
                 </div>
 
@@ -750,7 +876,7 @@ export default function PublishListingPage() {
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => {
                       e.preventDefault();
-                      void onPhotoFiles(e.dataTransfer.files);
+                      onSelectPhotoFiles(e.dataTransfer.files);
                     }}
                     className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-black/[0.1] bg-gray-50 px-4 py-8 text-center"
                   >
@@ -761,7 +887,7 @@ export default function PublishListingPage() {
                       Glissez vos photos ici
                     </p>
                     <p className="text-[11.5px] text-gray-400">
-                      ou cliquez pour parcourir vos fichiers
+                      ou cliquez pour parcourir vos fichiers · envoyées à la publication
                     </p>
                     <input
                       ref={photoInputRef}
@@ -770,57 +896,58 @@ export default function PublishListingPage() {
                       multiple
                       className="hidden"
                       onChange={(e) => {
-                        void onPhotoFiles(e.target.files);
+                        onSelectPhotoFiles(e.target.files);
                         e.target.value = '';
                       }}
                     />
                     <button
                       type="button"
-                      disabled={!listingId || uploadingPhoto}
+                      disabled={pendingPhotos.length >= MAX_PHOTOS}
                       onClick={() => photoInputRef.current?.click()}
                       className="mt-1 flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-1.5 text-[12px] font-semibold text-white disabled:opacity-50"
                     >
-                      {uploadingPhoto ? (
-                        <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
-                      ) : (
-                        <FolderUp className="h-3 w-3" aria-hidden />
-                      )}
+                      <FolderUp className="h-3 w-3" aria-hidden />
                       Parcourir
                     </button>
                   </div>
 
                   <div className="grid grid-cols-3 gap-2">
-                    {photos.map((p) => (
+                    {pendingPhotos.map((p, i) => (
                       <div
                         key={p.id}
                         className="group relative aspect-[4/3] overflow-hidden rounded-lg"
                       >
-                        <img src={p.url} alt="" className="h-full w-full object-cover" />
-                        {p.isPrimary && (
+                        <img src={p.previewUrl} alt="" className="h-full w-full object-cover" />
+                        {i === 0 && (
                           <span className="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[9px] font-semibold text-white">
                             Principale
                           </span>
                         )}
+                        {p.status === 'uploading' && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                            <Loader2 className="h-5 w-5 animate-spin text-white" aria-hidden />
+                          </div>
+                        )}
+                        {p.status === 'done' && (
+                          <span className="absolute top-1 left-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
+                            <Check className="h-3 w-3" aria-hidden />
+                          </span>
+                        )}
+                        {p.status === 'error' && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-red-600/50">
+                            <AlertCircle className="h-5 w-5 text-white" aria-hidden />
+                          </div>
+                        )}
                         <button
                           type="button"
-                          onClick={() => void onRemovePhoto(p.id)}
-                          className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white"
+                          disabled={p.status === 'uploading'}
+                          onClick={() => onRemovePendingPhoto(p.id)}
+                          className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white disabled:opacity-40"
                         >
                           <X className="h-2.5 w-2.5" aria-hidden />
                         </button>
                       </div>
                     ))}
-                    {photos.length < MAX_PHOTOS && (
-                      <button
-                        type="button"
-                        disabled={!listingId || uploadingPhoto}
-                        onClick={() => photoInputRef.current?.click()}
-                        className="flex aspect-[4/3] flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-black/[0.12] text-gray-400 disabled:opacity-50"
-                      >
-                        <Plus className="h-4 w-4" aria-hidden />
-                        <span className="text-[10px]">Ajouter</span>
-                      </button>
-                    )}
                   </div>
                 </div>
               </section>
@@ -837,18 +964,31 @@ export default function PublishListingPage() {
                 <ChevronLeft className="h-3.5 w-3.5" aria-hidden />
                 Étape précédente
               </button>
-              <span className="text-[12px] text-gray-400">
-                Étape {step + 1} / {STEPS.length}
-              </span>
-              <button
-                type="button"
-                onClick={() => setStep((s) => Math.min(lastStep, s + 1))}
-                disabled={step === lastStep}
-                className="flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Étape suivante
-                <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-              </button>
+              {step === lastStep ? (
+                <button
+                  type="button"
+                  onClick={() => void onPublish()}
+                  disabled={!listingId || publishing}
+                  className="flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {publishing ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+                  ) : (
+                    <Send className="h-3.5 w-3.5" aria-hidden />
+                  )}
+                  Publier l&apos;annonce
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => goToStep(Math.min(lastStep, step + 1))}
+                  disabled={!canAccessStep(step + 1)}
+                  className="flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Étape suivante
+                  <ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              )}
             </div>
 
             {creating && (

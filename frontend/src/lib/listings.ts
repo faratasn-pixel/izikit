@@ -18,19 +18,38 @@ export interface ListingCounts {
   sold: number;
 }
 
+/**
+ * Injects Cloudinary's f_auto,q_auto (+ optional width cap) into a
+ * delivery URL to cut bandwidth — the biggest cost driver on Cloudinary's
+ * metered plans since photos are served at upload resolution otherwise.
+ * No-ops on non-Cloudinary URLs (anything without the `/upload/` segment).
+ */
+export function cloudinaryOptimize(url: string, width?: number): string {
+  const marker = '/upload/';
+  const idx = url.indexOf(marker);
+  if (idx === -1) return url;
+  const transform = width ? `f_auto,q_auto,w_${width}` : 'f_auto,q_auto';
+  return `${url.slice(0, idx + marker.length)}${transform}/${url.slice(idx + marker.length)}`;
+}
+
 export const PROPERTY_TYPE_LABEL: Record<string, string> = {
   VILLA: 'Villa',
-  APARTMENT: 'Appartement',
-  LAND: 'Terrain',
-  DUPLEX: 'Duplex',
-  OFFICE: 'Bureau / Commerce',
-  WAREHOUSE: 'Entrepôt',
+  APPARTEMENT: 'Appartement',
+  PARCELLE: 'Parcelle',
+  DOMAINE: 'Domaine',
+  MAISON: 'Maison',
+  BOUTIQUE: 'Boutique',
+  BUREAU: 'Bureau',
+  SALLE_FETE: 'Salle de fête',
+  SALLE_CONFERENCE: 'Salle de conférence',
+  IMMEUBLE: 'Immeuble',
 };
 
 export const TRANSACTION_TYPE_LABEL: Record<string, string> = {
-  SALE: 'Vente',
-  RENT: 'Location',
-  SHORT_RENT: 'Location courte durée',
+  VENTE: 'Vente',
+  LOCATION: 'Location',
+  SEJOUR: 'Séjour',
+  AUBERGE: 'Auberge',
 };
 
 export const STANDING_LABEL: Record<string, string> = {

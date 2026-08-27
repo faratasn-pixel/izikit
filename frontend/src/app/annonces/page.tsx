@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   MapPin,
@@ -21,7 +22,12 @@ import { api } from '@/lib/api';
 import { PublicNavbar } from '@/components/public/PublicNavbar';
 import { PublicFooter } from '@/components/public/PublicFooter';
 import { InitialsAvatar } from '@/components/dashboard/InitialsAvatar';
-import { PROPERTY_TYPE_LABEL, TRANSACTION_TYPE_LABEL, formatListingPrice } from '@/lib/listings';
+import {
+  PROPERTY_TYPE_LABEL,
+  TRANSACTION_TYPE_LABEL,
+  formatListingPrice,
+  cloudinaryOptimize,
+} from '@/lib/listings';
 import { COUNTRY_FLAG, formatDate } from '@/lib/alerts';
 
 interface PublicListingItem {
@@ -74,11 +80,28 @@ function InertPill({ children, className }: { children: React.ReactNode; classNa
 }
 
 export default function AnnoncesPage() {
+  return (
+    <Suspense fallback={null}>
+      <AnnoncesPageContent />
+    </Suspense>
+  );
+}
+
+function AnnoncesPageContent() {
+  // Seeded once from the URL on first render — e.g. the homepage search
+  // bar linking in with ?country=...&city=...&propertyType=...&transactionType=.
+  // Subsequent filter changes update local state only (no URL sync back),
+  // same as every other filter here.
+  const searchParams = useSearchParams();
+
   const [view, setView] = useState<'grid' | 'list'>('grid');
 
-  const [country, setCountry] = useState('');
-  const [propertyType, setPropertyType] = useState('');
-  const [transactionType, setTransactionType] = useState('');
+  const [country, setCountry] = useState(() => searchParams.get('country') ?? '');
+  const [city, setCity] = useState(() => searchParams.get('city') ?? '');
+  const [propertyType, setPropertyType] = useState(() => searchParams.get('propertyType') ?? '');
+  const [transactionType, setTransactionType] = useState(
+    () => searchParams.get('transactionType') ?? '',
+  );
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
   const [page, setPage] = useState(1);
@@ -91,6 +114,7 @@ export default function AnnoncesPage() {
     setLoading(true);
     const params = new URLSearchParams();
     if (country) params.set('country', country);
+    if (city) params.set('city', city);
     if (propertyType) params.set('propertyType', propertyType);
     if (transactionType) params.set('transactionType', transactionType);
     if (priceMin) params.set('priceMin', priceMin);
@@ -113,10 +137,11 @@ export default function AnnoncesPage() {
     return () => {
       cancelled = true;
     };
-  }, [country, propertyType, transactionType, priceMin, priceMax, page]);
+  }, [country, city, propertyType, transactionType, priceMin, priceMax, page]);
 
   function resetFilters() {
     setCountry('');
+    setCity('');
     setPropertyType('');
     setTransactionType('');
     setPriceMin('');
@@ -132,6 +157,7 @@ export default function AnnoncesPage() {
   }
 
   const setCountryFiltered = setFilterAndResetPage(setCountry);
+  const setCityFiltered = setFilterAndResetPage(setCity);
   const setPropertyTypeFiltered = setFilterAndResetPage(setPropertyType);
   const setTransactionTypeFiltered = setFilterAndResetPage(setTransactionType);
 
@@ -207,10 +233,15 @@ export default function AnnoncesPage() {
               Tous les pays
               <ChevronDown className="h-3.5 w-3.5" aria-hidden />
             </InertPill>
-            <InertPill>
-              Toutes les villes
-              <ChevronDown className="h-3.5 w-3.5" aria-hidden />
-            </InertPill>
+            <div className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border border-black/[0.08] px-3.5 py-2 text-[13px] font-medium text-gray-500">
+              <MapPin className="h-3.5 w-3.5" aria-hidden />
+              <input
+                value={city}
+                onChange={(e) => setCityFiltered(e.target.value)}
+                placeholder="Toutes les villes"
+                className="w-[120px] bg-transparent text-neutral-900 outline-none placeholder:text-gray-500"
+              />
+            </div>
             <InertPill>
               Type de bien
               <ChevronDown className="h-3.5 w-3.5" aria-hidden />
@@ -457,7 +488,7 @@ export default function AnnoncesPage() {
                     <div className="relative h-[200px] bg-gray-100">
                       {listing.primaryPhotoUrl ? (
                         <img
-                          src={listing.primaryPhotoUrl}
+                          src={cloudinaryOptimize(listing.primaryPhotoUrl, 700)}
                           alt={listing.title}
                           className="h-full w-full object-cover"
                         />
@@ -523,7 +554,7 @@ export default function AnnoncesPage() {
                     <div className="relative h-[200px] flex-shrink-0 bg-gray-100 sm:h-auto sm:w-[220px]">
                       {listing.primaryPhotoUrl ? (
                         <img
-                          src={listing.primaryPhotoUrl}
+                          src={cloudinaryOptimize(listing.primaryPhotoUrl, 440)}
                           alt={listing.title}
                           className="h-full w-full object-cover"
                         />
