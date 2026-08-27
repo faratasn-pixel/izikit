@@ -64,6 +64,8 @@ Groupes optionnels (set les vars pour activer ; absent = inerte) :
 |---|---|---|
 | Storage (Cloudinary) | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `CLOUDINARY_UPLOAD_PRESET?` | `/api/upload` renvoie 503 ; les URLs retournées sont des `secure_url` Cloudinary servies directement par leur CDN. **⚠️ Ces URLs sont publiques — quiconque a l'URL peut lire le fichier. OK pour avatars / posts publics ; pour KYC / factures, ajoute Cloudinary signed delivery ou un proxy auth.** |
 | Email (Brevo) | `BREVO_API_KEY`, `EMAIL_FROM` | Les lignes en queue email s'accumulent mais ne partent jamais (drainage au cron suivant dès que la clé arrive) |
+| SMS (Brevo) | `BREVO_API_KEY`, `BREVO_SMS_SENDER` | Notifications de correspondance d'alerte : le canal SMS est ignoré (log `warn`), les autres canaux continuent normalement |
+| WhatsApp (Brevo) | `BREVO_API_KEY`, `BREVO_WHATSAPP_SENDER_NUMBER`, `BREVO_WHATSAPP_TEMPLATE_ID` | Idem — nécessite en plus un template WhatsApp pré-approuvé côté compte Brevo (obligatoire par WhatsApp Business, à configurer manuellement) |
 | Paiements (Bictorys) | `BICTORYS_API_KEY`, `BICTORYS_PRIVATE_KEY`, `BICTORYS_WEBHOOK_SECRET`, `BICTORYS_MERCHANT_SECRET_CODE` | `/api/orders` et `/api/webhooks/bictorys` renvoient 404 ; circuit breaker reste CLOSED |
 | Google OAuth | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` | `/api/auth/oauth/google/*` renvoient 404 |
 | Sentry | `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_TRACES_SAMPLE_RATE?`, ... | No-op silencieux (zéro coût perf) |
