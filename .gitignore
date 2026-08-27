@@ -22,3 +22,7 @@ next-env.d.ts
 amp
 node-compile-cache/
 
+# Local PostgreSQL cluster for dev (avoids burning Neon's free compute-hour
+# quota) — portable binaries + data directory, per-machine, never committed.
+.pg-local/
+
