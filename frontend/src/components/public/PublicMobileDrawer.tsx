@@ -122,12 +122,13 @@ export function PublicMobileDrawer({
           >
             Connexion
           </Link>
-          <div
-            title="Bientôt disponible"
-            className="flex cursor-not-allowed items-center justify-center rounded-full bg-brand/40 px-4 py-3 text-sm font-semibold text-white select-none"
+          <Link
+            href="/listings/new"
+            onClick={onClose}
+            className="flex items-center justify-center rounded-full bg-brand px-4 py-3 text-sm font-semibold text-white"
           >
             Publier une annonce
-          </div>
+          </Link>
         </div>
       </aside>
     </div>

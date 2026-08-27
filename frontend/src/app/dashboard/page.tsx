@@ -20,25 +20,79 @@ import { DashboardShell } from '@/components/dashboard/DashboardShell';
 import {
   type Listing,
   PROPERTY_TYPE_LABEL,
+  STATUS_LABEL,
   STATUS_STYLE,
   formatListingPrice,
 } from '@/lib/listings';
+import type { ListingStatsResponse } from '@/lib/listing-stats';
 import { cn } from '@/lib/utils';
 
-// Illustrative only — the user chose to keep these as realistic placeholders
-// for this pass (Contacts/Visites/Vérification need Contact + Visit models
-// that don't exist yet; only "Mes annonces" below is wired to real data).
-const STAT_CARDS = [
-  { icon: Users, value: '148', label: 'Contacts reçus', delta: '+12%', down: false },
-  { icon: Building2, value: '34', label: 'Annonces publiées', delta: '+3', down: false },
-  { icon: CalendarCheck, value: '21', label: 'Visites programmées', delta: '+5', down: false },
-  { icon: ShieldCheck, value: '82%', label: 'Taux de vérification', delta: '-2%', down: true },
-];
+const STATUS_DONUT_COLOR: Record<string, string> = {
+  DRAFT: '#9CA3AF',
+  PENDING: '#F59E0B',
+  VERIFIED: '#376BFF',
+  SOLD: '#10B981',
+};
+
+function donutSegments(data: { pct: number }[]) {
+  const r = 42;
+  const circumference = 2 * Math.PI * r;
+  let offset = 0;
+  return data.map((d) => {
+    const dash = (d.pct / 100) * circumference;
+    const seg = { dasharray: `${dash} ${circumference - dash}`, dashoffset: -offset };
+    offset += dash;
+    return seg;
+  });
+}
 
 export default function DashboardPage() {
   const user = useUser();
   const { data, loading } = useApi<{ items: Listing[] }>('/api/listings?limit=8');
   const listings = data?.items ?? [];
+  const { data: stats } = useApi<ListingStatsResponse>('/api/listings/stats?period=30j');
+
+  const verifiedPct = stats?.statusBreakdown.find((s) => s.status === 'VERIFIED')?.pct ?? 0;
+  const donutSegs = stats ? donutSegments(stats.statusBreakdown) : [];
+  const maxContactsDay = Math.max(1, ...(stats?.contactsByDay.map((b) => b.value) ?? [0]));
+  const contactsThisWeek = stats?.contactsByDay.reduce((sum, b) => sum + b.value, 0) ?? 0;
+  const peakDay = stats?.contactsByDay.reduce((best, b) => (b.value > best.value ? b : best), {
+    day: '—',
+    value: 0,
+  });
+
+  const statCards = stats
+    ? [
+        {
+          icon: Users,
+          value: String(stats.kpis.contacts.value),
+          label: 'Contacts reçus',
+          delta: `${stats.kpis.contacts.trendPct > 0 ? '+' : ''}${stats.kpis.contacts.trendPct}%`,
+          down: !stats.kpis.contacts.up,
+        },
+        {
+          icon: Building2,
+          value: String(stats.totalListingsCount),
+          label: 'Annonces publiées',
+          delta: `+${stats.newListingsInPeriod}`,
+          down: false,
+        },
+        {
+          icon: CalendarCheck,
+          value: String(stats.upcomingVisitsCount),
+          label: 'Visites programmées',
+          delta: null,
+          down: false,
+        },
+        {
+          icon: ShieldCheck,
+          value: `${verifiedPct}%`,
+          label: 'Taux de vérification',
+          delta: null,
+          down: false,
+        },
+      ]
+    : [];
 
   if (!user) return null;
   const firstName = (user.name ?? user.email).split(/\s+/)[0];
@@ -70,7 +124,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="relative z-10 mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {STAT_CARDS.map((s) => (
+          {statCards.map((s) => (
             <div
               key={s.label}
               className="flex flex-col gap-1.5 rounded-t-2xl border border-white/15 bg-white/10 px-4 py-3.5 backdrop-blur-sm"
@@ -79,14 +133,16 @@ export default function DashboardPage() {
                 <div className="flex h-[30px] w-[30px] items-center justify-center rounded-md bg-white/15">
                   <s.icon className="h-[15px] w-[15px] text-white" aria-hidden />
                 </div>
-                <span
-                  className={cn(
-                    'rounded-full px-1.5 py-0.5 text-[11px] font-semibold whitespace-nowrap',
-                    s.down ? 'bg-red-400/20 text-red-300' : 'bg-emerald-400/20 text-emerald-300',
-                  )}
-                >
-                  {s.delta}
-                </span>
+                {s.delta && (
+                  <span
+                    className={cn(
+                      'rounded-full px-1.5 py-0.5 text-[11px] font-semibold whitespace-nowrap',
+                      s.down ? 'bg-red-400/20 text-red-300' : 'bg-emerald-400/20 text-emerald-300',
+                    )}
+                  >
+                    {s.delta}
+                  </span>
+                )}
               </div>
               <span className="text-2xl leading-none font-semibold text-white">{s.value}</span>
               <span className="text-xs text-white/72">{s.label}</span>
@@ -95,7 +151,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* CHARTS ROW — illustrative placeholders, same note as the stat cards above */}
+      {/* CHARTS ROW — real data from /api/listings/stats */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="flex flex-col gap-3.5 rounded-2xl bg-white p-5 shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
           <div className="flex items-center justify-between">
@@ -103,66 +159,55 @@ export default function DashboardPage() {
               Performance des annonces
             </span>
             <span className="flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-[11px] font-medium text-neutral-700">
-              Ce mois <ChevronDown className="h-2.5 w-2.5" aria-hidden />
+              30 derniers jours <ChevronDown className="h-2.5 w-2.5" aria-hidden />
             </span>
           </div>
-          <div className="flex items-center gap-5">
-            <div className="relative h-[110px] w-[110px] flex-shrink-0">
-              <svg width="110" height="110" viewBox="0 0 110 110">
-                <circle cx="55" cy="55" r="42" fill="none" stroke="#F3F4F6" strokeWidth="14" />
-                <circle
-                  cx="55"
-                  cy="55"
-                  r="42"
-                  fill="none"
-                  stroke="#376BFF"
-                  strokeWidth="14"
-                  strokeDasharray="158.3 105.6"
-                  strokeDashoffset="66"
-                />
-                <circle
-                  cx="55"
-                  cy="55"
-                  r="42"
-                  fill="none"
-                  stroke="#F59E0B"
-                  strokeWidth="14"
-                  strokeDasharray="73.9 189.9"
-                  strokeDashoffset="-92.3"
-                />
-                <circle
-                  cx="55"
-                  cy="55"
-                  r="42"
-                  fill="none"
-                  stroke="#EF4444"
-                  strokeWidth="14"
-                  strokeDasharray="31.7 232.2"
-                  strokeDashoffset="-166.2"
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-xl font-semibold text-neutral-900">34</span>
-                <span className="text-[10px] text-gray-400">annonces</span>
+          {!stats || stats.statusBreakdown.length === 0 ? (
+            <p className="py-8 text-center text-xs text-gray-400">Aucune annonce publiée.</p>
+          ) : (
+            <div className="flex items-center gap-5">
+              <div className="relative h-[110px] w-[110px] flex-shrink-0">
+                <svg width="110" height="110" viewBox="0 0 110 110" className="-rotate-90">
+                  <circle cx="55" cy="55" r="42" fill="none" stroke="#F3F4F6" strokeWidth="14" />
+                  {donutSegs.map((seg, i) => (
+                    <circle
+                      key={stats.statusBreakdown[i]!.status}
+                      cx="55"
+                      cy="55"
+                      r="42"
+                      fill="none"
+                      stroke={STATUS_DONUT_COLOR[stats.statusBreakdown[i]!.status] ?? '#9CA3AF'}
+                      strokeWidth="14"
+                      strokeDasharray={seg.dasharray}
+                      strokeDashoffset={seg.dashoffset}
+                    />
+                  ))}
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-xl font-semibold text-neutral-900">
+                    {stats.totalListingsCount}
+                  </span>
+                  <span className="text-[10px] text-gray-400">annonces</span>
+                </div>
+              </div>
+              <div className="flex flex-1 flex-col gap-2.5">
+                {stats.statusBreakdown.map((s) => (
+                  <div key={s.status} className="flex items-center gap-2">
+                    <span
+                      className="h-2.5 w-2.5 flex-shrink-0 rounded-full"
+                      style={{ background: STATUS_DONUT_COLOR[s.status] ?? '#9CA3AF' }}
+                    />
+                    <span className="text-xs text-neutral-700">
+                      {STATUS_LABEL[s.status] ?? s.status}
+                    </span>
+                    <span className="ml-auto text-xs font-semibold text-neutral-900">
+                      {s.count}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="flex flex-1 flex-col gap-2.5">
-              {[
-                { color: '#376BFF', label: 'Vérifié', val: 20 },
-                { color: '#F59E0B', label: 'En attente', val: 10 },
-                { color: '#EF4444', label: 'Vendu', val: 4 },
-              ].map((l) => (
-                <div key={l.label} className="flex items-center gap-2">
-                  <span
-                    className="h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                    style={{ background: l.color }}
-                  />
-                  <span className="text-xs text-neutral-700">{l.label}</span>
-                  <span className="ml-auto text-xs font-semibold text-neutral-900">{l.val}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-3.5 rounded-2xl bg-white p-5 shadow-[0_1px_4px_rgba(0,0,0,0.06)]">
@@ -173,36 +218,29 @@ export default function DashboardPage() {
             </span>
           </div>
           <div className="flex h-[90px] items-end gap-2">
-            {[
-              { d: 'Lun', h: 45 },
-              { d: 'Mar', h: 62 },
-              { d: 'Mer', h: 38 },
-              { d: 'Jeu', h: 85, accent: true },
-              { d: 'Ven', h: 70 },
-              { d: 'Sam', h: 50 },
-              { d: 'Dim', h: 28 },
-            ].map((b) => (
-              <div key={b.d} className="flex flex-1 flex-col items-center justify-end gap-1">
+            {(stats?.contactsByDay ?? []).map((b) => (
+              <div key={b.day} className="flex flex-1 flex-col items-center justify-end gap-1">
                 <div
-                  className={cn('w-full rounded-t', b.accent ? 'bg-brand' : 'bg-brand/85')}
-                  style={{ height: `${b.h}%` }}
+                  className={cn(
+                    'w-full rounded-t',
+                    b.value === peakDay?.value && b.value > 0 ? 'bg-brand' : 'bg-brand/85',
+                  )}
+                  style={{ height: `${(b.value / maxContactsDay) * 100}%` }}
                 />
-                <span className="mt-1 text-[10px] font-medium text-gray-400">{b.d}</span>
+                <span className="mt-1 text-[10px] font-medium text-gray-400">{b.day}</span>
               </div>
             ))}
           </div>
           <div className="flex items-center gap-4 border-t border-black/[0.06] pt-2.5">
             <div className="flex flex-col gap-0.5">
-              <span className="text-base font-semibold text-neutral-900">37</span>
+              <span className="text-base font-semibold text-neutral-900">{contactsThisWeek}</span>
               <span className="text-[11px] text-gray-400">Cette semaine</span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-base font-semibold text-brand">+14%</span>
-              <span className="text-[11px] text-gray-400">vs sem. passée</span>
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-base font-semibold text-neutral-900">14</span>
-              <span className="text-[11px] text-gray-400">Pic (Jeudi)</span>
+              <span className="text-base font-semibold text-neutral-900">
+                {peakDay?.value ?? 0}
+              </span>
+              <span className="text-[11px] text-gray-400">Pic ({peakDay?.day ?? '—'})</span>
             </div>
           </div>
         </div>
@@ -212,21 +250,19 @@ export default function DashboardPage() {
             Suivi des documents
           </span>
           <div className="flex flex-col gap-3.5">
-            {[
-              { label: 'Titres fonciers validés', count: '18 annonces', pct: 53, color: '#376BFF' },
-              { label: 'En cours de vérification', count: '9 annonces', pct: 26, color: '#F59E0B' },
-              { label: 'Documents manquants', count: '4 annonces', pct: 12, color: '#EF4444' },
-              { label: 'Mandats signés', count: '22 annonces', pct: 65, color: '#10B981' },
-            ].map((p) => (
+            {(stats?.documentsProgress ?? []).map((p, i) => (
               <div key={p.label} className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[12.5px] font-medium text-neutral-700">{p.label}</span>
-                  <span className="text-xs font-semibold text-neutral-900">{p.count}</span>
+                  <span className="text-xs font-semibold text-neutral-900">{p.value}</span>
                 </div>
                 <div className="h-[7px] w-full overflow-hidden rounded-full bg-gray-100">
                   <div
                     className="h-full rounded-full"
-                    style={{ width: `${p.pct}%`, background: p.color }}
+                    style={{
+                      width: `${p.pct}%`,
+                      background: ['#10B981', '#F59E0B', '#EF4444', '#376BFF'][i],
+                    }}
                   />
                 </div>
               </div>

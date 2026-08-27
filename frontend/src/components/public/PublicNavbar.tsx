@@ -11,8 +11,8 @@ export type PublicNavKey = 'accueil' | 'annonces' | 'agents' | 'demande' | 'blog
 export const NAV_LINKS: { key: PublicNavKey; label: string; href: string | null }[] = [
   { key: 'accueil', label: 'Accueil', href: '/' },
   { key: 'annonces', label: 'Annonces', href: '/annonces' },
-  { key: 'agents', label: 'Agents', href: '/agents' },
   { key: 'demande', label: 'Demande', href: '/demande-immobiliere' },
+  { key: 'agents', label: 'Agents', href: '/agents' },
   { key: 'blog', label: 'Blog', href: '/blog' },
   { key: 'contact', label: 'Contact', href: '/contact' },
 ];
@@ -67,9 +67,12 @@ export function PublicNavbar({ active }: { active: PublicNavKey }) {
           <Link href="/login" className="hidden text-sm font-medium text-brand lg:inline">
             Connexion
           </Link>
-          <InertNavLink className="hidden rounded-full bg-brand/40 px-[18px] py-[11px] text-sm font-semibold text-white lg:inline-flex">
+          <Link
+            href="/listings/new"
+            className="hidden rounded-full bg-brand px-[18px] py-[11px] text-sm font-semibold text-white lg:inline-flex"
+          >
             Publier une annonce
-          </InertNavLink>
+          </Link>
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}

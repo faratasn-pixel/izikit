@@ -17,7 +17,7 @@ function InertFooterLink({ children }: { children: React.ReactNode }) {
 
 const PLATFORM_LINKS: { label: string; href: string | null }[] = [
   { label: 'Parcourir les annonces', href: '/annonces' },
-  { label: 'Publier une annonce', href: null },
+  { label: 'Publier une annonce', href: '/listings/new' },
   { label: 'Devenir agent', href: null },
   { label: 'Nos services', href: null },
 ];

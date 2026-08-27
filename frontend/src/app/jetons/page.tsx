@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import {
   Download,
   Coins,
-  Video,
   Zap,
   Check,
   Star,
@@ -23,63 +22,6 @@ import {
   TOKEN_PURCHASE_CURRENCY,
   type TokenPackKey,
 } from '@/lib/token-packs';
-
-type VrStatus = 'active' | 'pending';
-
-interface VrListing {
-  id: string;
-  title: string;
-  location: string;
-  imageUrl: string;
-  status: VrStatus;
-  views: number;
-  tokensSpent: number;
-}
-
-const VR_LISTINGS: VrListing[] = [
-  {
-    id: 'v1',
-    title: 'Villa moderne F5 — Cocody',
-    location: 'Abidjan, Côte d’Ivoire',
-    imageUrl: 'https://storage.googleapis.com/banani-listings/villa-cocody-1.jpg',
-    status: 'active',
-    views: 342,
-    tokensSpent: 12,
-  },
-  {
-    id: 'v2',
-    title: 'Appartement F3 — Lomé-Bè',
-    location: 'Lomé, Togo',
-    imageUrl: 'https://storage.googleapis.com/banani-listings/appart-lome-1.jpg',
-    status: 'active',
-    views: 187,
-    tokensSpent: 8,
-  },
-  {
-    id: 'v3',
-    title: 'Duplex F6 — Riviera Golf',
-    location: 'Abidjan, Côte d’Ivoire',
-    imageUrl: 'https://storage.googleapis.com/banani-listings/duplex-riviera-1.jpg',
-    status: 'pending',
-    views: 0,
-    tokensSpent: 15,
-  },
-  {
-    id: 'v4',
-    title: 'Studio meublé — Agoè',
-    location: 'Lomé, Togo',
-    imageUrl: 'https://storage.googleapis.com/banani-listings/studio-agoe-1.jpg',
-    status: 'active',
-    views: 96,
-    tokensSpent: 8,
-  },
-];
-
-const USAGE_BREAKDOWN = [
-  { label: 'Visites VR', pct: 60, color: '#5B4FE9' },
-  { label: 'Boost annonces', pct: 25, color: '#22C55E' },
-  { label: 'Mise en avant', pct: 15, color: '#F59E0B' },
-];
 
 type TxType = 'achat' | 'utilisation' | 'bonus';
 
@@ -104,22 +46,6 @@ const TX_STYLE: Record<TxType, { label: string; className: string; icon: typeof 
   bonus: { label: 'Bonus', className: 'bg-brand/10 text-brand', icon: Gift },
 };
 
-function donutSegments(data: { pct: number; color: string }[]) {
-  const r = 15.9155;
-  const circumference = 2 * Math.PI * r;
-  let offset = 0;
-  return data.map((d) => {
-    const dash = (d.pct / 100) * circumference;
-    const seg = {
-      color: d.color,
-      dasharray: `${dash} ${circumference - dash}`,
-      dashoffset: -offset,
-    };
-    offset += dash;
-    return seg;
-  });
-}
-
 export default function JetonsPage() {
   const { toast } = useToast();
   const [selectedPack, setSelectedPack] = useState<TokenPackKey>('STANDARD');
@@ -127,7 +53,6 @@ export default function JetonsPage() {
   const [usedThisMonth, setUsedThisMonth] = useState<number | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [buying, setBuying] = useState(false);
-  const segments = donutSegments(USAGE_BREAKDOWN);
 
   useEffect(() => {
     let cancelled = false;
@@ -220,7 +145,7 @@ export default function JetonsPage() {
       </div>
 
       {/* BALANCE CARDS */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="rounded-2xl bg-brand p-5 text-white">
           <div className="mb-2.5 flex items-center justify-between">
             <p className="text-xs font-medium text-white/70">Solde de jetons</p>
@@ -230,17 +155,6 @@ export default function JetonsPage() {
           </div>
           <p className="font-sora mb-1.5 text-3xl font-semibold">{balance ?? '—'}</p>
           <p className="text-xs text-white/70">Jetons disponibles</p>
-        </div>
-
-        <div className="rounded-2xl bg-white p-5">
-          <div className="mb-2.5 flex items-center justify-between">
-            <p className="text-xs font-medium text-gray-400">Visites VR actives</p>
-            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-violet-100">
-              <Video className="h-4 w-4 text-violet-600" aria-hidden />
-            </span>
-          </div>
-          <p className="font-sora mb-1.5 text-2xl font-semibold text-neutral-900">8</p>
-          <p className="text-xs text-gray-400">Annonces avec visite 360° active</p>
         </div>
 
         <div className="rounded-2xl bg-white p-5">
@@ -306,91 +220,6 @@ export default function JetonsPage() {
               </button>
             );
           })}
-        </div>
-      </div>
-
-      {/* VR LISTINGS + USAGE BREAKDOWN */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr]">
-        <div className="rounded-2xl bg-white p-5">
-          <p className="font-sora mb-3.5 text-[15px] font-semibold text-neutral-900">
-            Annonces avec visite VR active
-          </p>
-          <div className="flex flex-col gap-3">
-            {VR_LISTINGS.map((listing) => (
-              <div
-                key={listing.id}
-                className="flex items-center gap-3 rounded-xl border border-black/[0.06] p-3"
-              >
-                <div className="h-12 w-16 flex-shrink-0 rounded-lg bg-gray-100" />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13.5px] font-semibold text-neutral-900">
-                    {listing.title}
-                  </p>
-                  <p className="truncate text-xs text-gray-400">{listing.location}</p>
-                </div>
-                <div className="hidden flex-col items-end gap-0.5 sm:flex">
-                  <span
-                    className={cn(
-                      'rounded-full px-2 py-0.5 text-[10.5px] font-semibold',
-                      listing.status === 'active'
-                        ? 'bg-emerald-50 text-emerald-700'
-                        : 'bg-amber-50 text-amber-600',
-                    )}
-                  >
-                    {listing.status === 'active' ? 'Active' : 'En attente'}
-                  </span>
-                  <span className="text-[11px] text-gray-400">
-                    {listing.views} vues · {listing.tokensSpent} jetons
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-2xl bg-white p-5">
-          <p className="font-sora mb-3.5 text-[15px] font-semibold text-neutral-900">
-            Répartition d’utilisation
-          </p>
-          <div className="flex justify-center py-2">
-            <svg viewBox="0 0 36 36" className="h-36 w-36 -rotate-90">
-              {segments.map((seg, i) => (
-                <circle
-                  key={USAGE_BREAKDOWN[i]!.label}
-                  cx="18"
-                  cy="18"
-                  r="15.9155"
-                  fill="none"
-                  stroke={seg.color}
-                  strokeWidth="3.6"
-                  strokeDasharray={seg.dasharray}
-                  strokeDashoffset={seg.dashoffset}
-                />
-              ))}
-            </svg>
-          </div>
-          <div className="flex flex-col gap-2.5">
-            {USAGE_BREAKDOWN.map((item) => (
-              <div key={item.label}>
-                <div className="mb-1 flex items-center justify-between text-[12.5px]">
-                  <span className="flex items-center gap-1.5 text-neutral-700">
-                    <span
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    {item.label}
-                  </span>
-                  <span className="font-semibold text-neutral-900">{item.pct}%</span>
-                </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
-                  <div
-                    className="h-full rounded-full"
-                    style={{ width: `${item.pct}%`, backgroundColor: item.color }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 

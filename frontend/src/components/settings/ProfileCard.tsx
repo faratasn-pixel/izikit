@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
-import { Upload } from 'lucide-react';
+import { useRef, useState, type FormEvent } from 'react';
+import { ChevronDown, Upload } from 'lucide-react';
 import { api, ApiError } from '@/lib/api';
+import { API_URL, COOKIE_PREFIX } from '@/lib/constants';
+import { COUNTRIES } from '@/lib/countries';
 import { useAuth, type User } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { Button } from '@/components/ui/Button';
@@ -19,10 +21,42 @@ function splitName(name: string | null): { firstName: string; lastName: string }
   return { firstName: name.slice(0, idx), lastName: name.slice(idx + 1) };
 }
 
+const AVATAR_ACCEPT = 'image/jpeg,image/png,image/webp';
+const AVATAR_MAX_BYTES = 10 * 1024 * 1024;
+
+// Same raw-multipart convention as LegalDocumentsCard (the `api()` wrapper
+// always JSON.stringifies its body, so it can't carry a FormData upload).
+function readCsrfToken(): string {
+  if (typeof window === 'undefined') return '';
+  const name = `${COOKIE_PREFIX}-csrf`;
+  const fromStorage = localStorage.getItem(name);
+  if (fromStorage) return fromStorage;
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${escaped}=([^;]*)`));
+  return match && match[1] ? decodeURIComponent(match[1]) : '';
+}
+
+async function uploadAvatarFile(file: File): Promise<string> {
+  const form = new FormData();
+  form.append('file', file);
+  const res = await fetch(`${API_URL}/api/upload`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'x-csrf-token': readCsrfToken() },
+    body: form,
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new ApiError(res.status, body.message ?? `Error ${res.status}`, body);
+  }
+  return body.url as string;
+}
+
 export function ProfileCard({ user }: { user: User }) {
   const { refresh } = useAuth();
   const { toast } = useToast();
   const initial = splitName(user.name);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [firstName, setFirstName] = useState(initial.firstName);
   const [lastName, setLastName] = useState(initial.lastName);
@@ -31,7 +65,37 @@ export function ProfileCard({ user }: { user: User }) {
   const [country, setCountry] = useState(user.country ?? '');
   const [bio, setBio] = useState(user.bio ?? '');
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const availableCities = COUNTRIES.find((c) => c.name === country)?.cities ?? [];
+
+  function onCountryChange(value: string) {
+    setCountry(value);
+    const cities = COUNTRIES.find((c) => c.name === value)?.cities ?? [];
+    if (!cities.includes(city)) setCity('');
+  }
+
+  async function onPhotoChosen(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (file.size > AVATAR_MAX_BYTES) {
+      toast('Photo trop volumineuse (max 10 Mo).', 'error');
+      return;
+    }
+    setUploadingPhoto(true);
+    try {
+      const avatarUrl = await uploadAvatarFile(file);
+      await api('/api/auth/me', { method: 'PATCH', body: { avatarUrl } });
+      await refresh();
+      toast('Photo de profil mise à jour.', 'success');
+    } catch (err) {
+      toast(err instanceof ApiError ? err.message : 'Erreur réseau. Réessaie.', 'error');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -86,14 +150,21 @@ export function ProfileCard({ user }: { user: User }) {
             {city || country ? [city, country].filter(Boolean).join(', ') : user.email}
           </div>
         </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={AVATAR_ACCEPT}
+          className="hidden"
+          onChange={(e) => void onPhotoChosen(e)}
+        />
         <button
           type="button"
-          disabled
-          title="Bientôt disponible"
-          className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-lg border border-black/[0.08] bg-white px-3.5 py-2 text-[12.5px] font-semibold text-gray-400"
+          disabled={uploadingPhoto}
+          onClick={() => fileInputRef.current?.click()}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-black/[0.08] bg-white px-3.5 py-2 text-[12.5px] font-semibold text-neutral-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Upload className="h-3.5 w-3.5" aria-hidden />
-          Changer la photo
+          {uploadingPhoto ? 'Envoi…' : 'Changer la photo'}
         </button>
       </div>
 
@@ -121,8 +192,57 @@ export function ProfileCard({ user }: { user: User }) {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <TextField label="Ville" value={city} onChange={(e) => setCity(e.target.value)} />
-          <TextField label="Pays" value={country} onChange={(e) => setCountry(e.target.value)} />
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="profile-country" className="text-[13px] font-medium text-neutral-700">
+              Pays
+            </label>
+            <div className="relative flex min-h-12 items-center rounded-[10px] border-[1.5px] border-black/[0.08] bg-gray-50 focus-within:border-brand">
+              <select
+                id="profile-country"
+                value={country}
+                onChange={(e) => onCountryChange(e.target.value)}
+                className="h-12 w-full appearance-none bg-transparent px-3.5 pr-9 text-[15px] text-neutral-900 outline-none"
+              >
+                <option value="">Sélectionner un pays</option>
+                {COUNTRIES.map((c) => (
+                  <option key={c.name} value={c.name}>
+                    {c.flag} {c.name}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                className="pointer-events-none absolute top-1/2 right-3.5 h-3.5 w-3.5 -translate-y-1/2 text-gray-400"
+                aria-hidden
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="profile-city" className="text-[13px] font-medium text-neutral-700">
+              Ville
+            </label>
+            <div className="relative flex min-h-12 items-center rounded-[10px] border-[1.5px] border-black/[0.08] bg-gray-50 focus-within:border-brand">
+              <select
+                id="profile-city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                disabled={!country}
+                className="h-12 w-full appearance-none bg-transparent px-3.5 pr-9 text-[15px] text-neutral-900 outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="">
+                  {country ? 'Sélectionner une ville' : "Choisissez d'abord un pays"}
+                </option>
+                {availableCities.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                className="pointer-events-none absolute top-1/2 right-3.5 h-3.5 w-3.5 -translate-y-1/2 text-gray-400"
+                aria-hidden
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
