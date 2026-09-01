@@ -8,13 +8,10 @@
 // Ce wrapper se contente de normaliser l'environnement puis de déléguer.
 'use strict';
 
-// 1. Charger .env si Passenger ne l'a pas déjà injecté (défensif — le panel N0C
-//    charge .env à l'Application Root, mais pas toujours selon la config).
-try {
-  require('./node_modules/dotenv').config({ path: __dirname + '/.env' });
-} catch (_) {
-  /* dotenv absent en local hors bundle : les vars viennent alors du shell */
-}
+// Environment variables are provided by the N0C panel (Node.js app →
+// "Environment variables"), which Passenger injects into this process.
+// The Next standalone server (frontend/server.js) additionally loads
+// frontend/.env / frontend/.env.production from its own directory if present.
 
 // 2. Production par défaut.
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';

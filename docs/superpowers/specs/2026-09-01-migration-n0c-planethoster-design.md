@@ -200,12 +200,18 @@ Aucun code serveur métier n'est modifié : les 555 tests métier restent verts.
 - `README.md` — section base de données + déploiement : Neon/Vercel → N0C
 - `CLAUDE.md` — section déploiement + stratégie cron : Vercel → N0C (garder les mots-clés surveillés par `claude-md-shape.test.ts`)
 - `.gitignore` — `deploy/`, `.env` (à la racine du repo)
+- `WORKFLOW.md` — étape 3 « Déploie sur Vercel » → flux N0C (push `main` → `deploy-n0c.yml`) ; `NEXT_PUBLIC_*` en build-time
+- `.claude/skills/setup-kit/SKILL.md` — Neon → PlanetHoster N0C Postgres (provider par défaut) ; claim tripwire `env-shape.test.ts` inversée (forme N0C, interdit `neon.tech`)
+- `PRUNING.md` — étape 4 « Update vercel.json » → « Update docs/deploy/n0c-crons.md » + cross-check `n0c-crons-shape.test.ts`
+- `.planning/features.json` — refs `vercel-json-shape.test.ts` → `n0c-crons-shape.test.ts` ; refs `vercel.json` → `docs/deploy/n0c-crons.md`
+- `frontend/prisma/schema.prisma` — bloc `generator client` uniquement : ajout `binaryTargets = ["native", "rhel-openssl-3.0.x"]` (moteur de requête pour CloudLinux N0C ; `datasource` inchangé)
+- `app.js` — retrait du bloc `try/catch` dotenv mort (dotenv non installé) ; l'env vient du panel N0C
 
 **Supprimés**
 - `frontend/vercel.json`
 - `frontend/src/lib/server/observability/vercel-json-shape.test.ts` (remplacé par `n0c-crons-shape.test.ts`)
 
-**Aucun fichier protégé touché** — `auth.ts`, `crypto.ts`, `logger.ts`, `redis.ts`, `webhook/handler.ts`, `payments/circuit-breaker.ts`, `oauth/google.ts`, `outbox/dispatcher.ts`, `admin/audit.ts`, `middleware/*`, `observability/request-context.ts`, `instrumentation.ts`, `lib/api.ts` restent intacts. `schema.prisma` inchangé.
+**Aucun fichier protégé de la liste CLAUDE.md touché** — `auth.ts`, `crypto.ts`, `logger.ts`, `redis.ts`, `webhook/handler.ts`, `payments/circuit-breaker.ts`, `oauth/google.ts`, `outbox/dispatcher.ts`, `admin/audit.ts`, `middleware/*`, `observability/request-context.ts`, `instrumentation.ts`, `lib/api.ts` restent intacts. `schema.prisma` n'est touché que dans son bloc `generator client` (ajout `binaryTargets`) — le bloc `datasource` reste intact.
 
 ## Risques ouverts (à lever pendant l'implémentation)
 
@@ -214,3 +220,6 @@ Aucun code serveur métier n'est modifié : les 555 tests métier restent verts.
 3. **Limite de connexions Postgres du mutualisé** — `connection_limit=5` en point de départ, à ajuster selon le plan.
 4. **Quota d'inodes / taille disque** du plan World — vérifier que `.next/standalone` + `node_modules` Prisma tiennent dans le quota.
 5. **Fréquence cron** — si N0C bride sous 5 min ou envoie des alertes, basculer certains crons en `*/10`.
+6. **Prisma binaryTarget** — `rhel-openssl-3.0.x` supposé (CloudLinux 8/9) ; vérifier `openssl version` sur N0C au 1er déploiement et ajuster `binaryTargets` dans `frontend/prisma/schema.prisma` si le moteur de requête n'est pas trouvé.
+7. **Chemin `activate` nodevenv** (`N0C_NODE_ACTIVATE`) — dépend du nom d'app généré par le panel ; `ls ~/nodevenv/*/24/bin/activate` après création de l'app Node.js.
+8. **Fichiers gérés par le panel dans l'app root** — `ls -la $N0C_APP_PATH` avant le premier `rsync --delete` ; ajouter un `--exclude=` par entrée non produite par la CI.

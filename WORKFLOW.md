@@ -4,13 +4,13 @@
 
 > **👤 Débutant** : ouvre le repo dans Claude Code, tape **`/setup-kit`**, puis décris ce que tu veux. C'est tout.
 
-L'objectif : **vibe coding**. Tu clones, tu plug une DB Neon, tu parles à Claude, tu shippes. Pas de méthodo à apprendre, pas de slash commands à mémoriser.
+L'objectif : **vibe coding**. Tu clones, tu plug une DB PostgreSQL (PlanetHoster N0C par défaut), tu parles à Claude, tu shippes. Pas de méthodo à apprendre, pas de slash commands à mémoriser.
 
 ---
 
 ## Étape 1 — `/setup-kit`
 
-Un seul point d'entrée. La skill [.claude/skills/setup-kit/SKILL.md](.claude/skills/setup-kit/SKILL.md) audite ton environnement (Node, pnpm, gh CLI), te fait installer 2 plugins Claude Code (superpowers + context-mode — paste-ready), créer un Neon Postgres gratuit (la **seule** dépendance obligatoire — le kit est cloud-only, pas de Docker), génère les secrets, lance `pnpm install` + applique les migrations Prisma. Puis te demande d'ouvrir un second terminal pour `pnpm dev`.
+Un seul point d'entrée. La skill [.claude/skills/setup-kit/SKILL.md](.claude/skills/setup-kit/SKILL.md) audite ton environnement (Node, pnpm, gh CLI), te fait installer 2 plugins Claude Code (superpowers + context-mode — paste-ready), créer une base PostgreSQL (PlanetHoster N0C par défaut ; panel → Bases de données — c'est la **seule** dépendance obligatoire, le kit est cloud-only, pas de Docker), génère les secrets, lance `pnpm install` + applique les migrations Prisma. Puis te demande d'ouvrir un second terminal pour `pnpm dev`.
 
 Sortie : `pnpm dev` boote vert, `pnpm smoke:auth` passe.
 
@@ -30,15 +30,15 @@ Claude code à partir de ta description. Les 40 routes API du starter (auth, pai
 
 ---
 
-## Étape 3 — Déploie sur Vercel
+## Étape 3 — Déploie sur PlanetHoster N0C
 
 Quand `pnpm dev` te plaît :
 
-> *« Déploie mon app sur Vercel. »*
+> *« Déploie mon app sur N0C. »*
 
-Claude pousse sur GitHub, importe le repo dans Vercel via leur UI, te demande de coller chaque env var (jamais via terminal pour les secrets), vérifie que `DATABASE_URL` est sur `-pooler` Neon, vérifie les 5 crons dans `vercel.json`, et te donne l'URL de prod.
+Le déploiement est automatisé par [`.github/workflows/deploy-n0c.yml`](.github/workflows/deploy-n0c.yml) : tu pousses sur `main`, GitHub Actions build en `output: 'standalone'`, `rsync` le bundle vers N0C par SSH, applique `prisma migrate deploy`, puis redémarre l'app Passenger. Le provisioning **une seule fois** (créer l'app Node.js + la base Postgres dans le panel N0C, déposer le `.env`, générer la clé SSH de déploiement, renseigner les secrets GitHub) est décrit pas à pas dans [docs/deploy/n0c-setup.md](docs/deploy/n0c-setup.md). Les 6 crons se créent dans le panel N0C : [docs/deploy/n0c-crons.md](docs/deploy/n0c-crons.md).
 
-**Variables non-négociables en prod** : `DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`, `APP_URL`. Tout le reste (Brevo, Cloudinary, Bictorys, Google OAuth, Sentry, Upstash) est optionnel et inerte quand absent.
+**Variables non-négociables en prod** : `DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`, `APP_URL`. Tout le reste (Brevo, Cloudinary, Bictorys, Google OAuth, Sentry, Upstash) est optionnel et inerte quand absent. Les `NEXT_PUBLIC_*` sont inlinées au build → elles vont dans les secrets/variables GitHub (voir `docs/deploy/n0c-setup.md`), pas seulement dans le panel N0C.
 
 ---
 

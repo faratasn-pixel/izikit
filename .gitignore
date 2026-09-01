@@ -23,10 +23,8 @@ amp
 node-compile-cache/
 # Bundle de déploiement assemblé par la CI (jamais commité)
 /deploy/
-# Fichier d'env de production (déposé manuellement sur le serveur)
-/.env
 
-# Local PostgreSQL cluster for dev (avoids burning Neon's free compute-hour
+# Local PostgreSQL cluster for dev (avoids burning cloud free-tier compute-hour
 # quota) — portable binaries + data directory, per-machine, never committed.
 .pg-local/
 

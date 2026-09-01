@@ -1,5 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // native = the CI build host (ubuntu). rhel-openssl-3.0.x = PlanetHoster N0C
+  // (CloudLinux 8/9, OpenSSL 3). If the first DB call on N0C errors with
+  // "Query engine ... could not be found", run `openssl version` on the server
+  // and swap to the matching target (rhel-openssl-1.0.x / 1.1.x).
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {

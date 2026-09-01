@@ -52,7 +52,7 @@ describe('n0c-crons doc tripwire', () => {
     for (const r of rows) {
       expect(r.route, `route ≠ name pour ${r.name}`).toBe(r.name);
       expect(r.expr.split(/\s+/)).toHaveLength(5);
-      expect(r.expr, `${r.name} utilise une cadence every-minute`).not.toMatch(/\*\/1(\s|$)/);
+      expect(r.expr, `${r.name} utilise une cadence every-minute`).not.toMatch(/^\*\/1\s/);
       expect(r.expr).not.toBe('* * * * *');
     }
   });

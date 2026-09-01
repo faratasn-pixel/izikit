@@ -15,13 +15,34 @@ Remplacer `<DOMAIN>` par le domaine de production et `<CRON_SECRET>` par le secr
 | webhook-log-purge    | `0 3 * * *`   | /api/cron/webhook-log-purge    |
 | email-job-purge      | `0 3 * * *`   | /api/cron/email-job-purge      |
 
-## Commande type (à coller dans le champ « Commande » du panel)
+## Commandes (une par tâche, à coller dans le champ « Commande » du panel)
 
 ```
 curl -fsS -m 30 -H "Authorization: Bearer <CRON_SECRET>" https://<DOMAIN>/api/cron/outbox-drain >/dev/null 2>&1
+curl -fsS -m 30 -H "Authorization: Bearer <CRON_SECRET>" https://<DOMAIN>/api/cron/email-queue-drain >/dev/null 2>&1
+curl -fsS -m 30 -H "Authorization: Bearer <CRON_SECRET>" https://<DOMAIN>/api/cron/order-expiration >/dev/null 2>&1
+curl -fsS -m 30 -H "Authorization: Bearer <CRON_SECRET>" https://<DOMAIN>/api/cron/verification-cleanup >/dev/null 2>&1
+curl -fsS -m 30 -H "Authorization: Bearer <CRON_SECRET>" https://<DOMAIN>/api/cron/webhook-log-purge >/dev/null 2>&1
+curl -fsS -m 30 -H "Authorization: Bearer <CRON_SECRET>" https://<DOMAIN>/api/cron/email-job-purge >/dev/null 2>&1
 ```
 
-Répéter en changeant le dernier segment de l'URL pour chaque route.
+## Sécurité — secret exposé sur hébergement mutualisé
+
+Sur mutualisé, la commande cron complète est visible dans `ps`, dans les logs cron du
+panel et dans les e-mails d'exécution — le `CRON_SECRET` en clair y apparaît donc.
+Mitigation : mettre l'en-tête dans un fichier à permissions `600` et le référencer :
+
+```bash
+umask 077
+printf 'Authorization: Bearer <CRON_SECRET>\n' > ~/.n0c-cron-auth
+chmod 600 ~/.n0c-cron-auth
+```
+
+Puis, comme commande de tâche (l'en-tête ne transite plus par la ligne de commande) :
+
+```
+curl -fsS -m 30 -H @/home/USER/.n0c-cron-auth https://<DOMAIN>/api/cron/outbox-drain >/dev/null 2>&1
+```
 
 ## Notes
 

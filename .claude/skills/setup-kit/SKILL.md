@@ -1,6 +1,6 @@
 ---
 name: setup-kit
-description: Use when the user wants to bootstrap their dev environment for this Next.js starter from zero. Triggers — "/setup-kit", "je viens d'installer Claude Code", "je débute", "qu'est-ce que je dois installer", "setup my environment", "I just cloned the repo, what now?", "help me start", "I'm a beginner". The kit is cloud-only — there is no Docker, no local Postgres, no MinIO, no Mailpit. **Neon is the default Postgres provider** — the kit is tuned for its serverless behavior (webhook handler outbox avoids the 2s tx ceiling, `/forgot-password` timing-floor calibrated for Neon-pooler latency, `.env.example` tripwire locks the format). Alternatives (Supabase / Railway / Render / RDS) work but require user-side tuning — don't suggest them unless the user explicitly asks. Every user plugs the Neon connection strings into frontend/.env.local, then runs `pnpm dev`. The skill audits Claude Code (CLI or VS Code/Cursor/Windsurf/Antigravity extension) / Git / Node / pnpm / gh CLI / 2 plugins to install (superpowers, context-mode — `ui-ux-pro-max` is bundled in the repo) / env vars, blocks ZIP-download cases (no .git dir), auto-installs what is automatable via Bash (pnpm via Corepack, secret generation), and surfaces UI-clickable + slash-command paths for the plugins. Banani is OPTIONAL (skill asks oui/non/plus tard in Phase 5). GSD is NOT in prereqs — surfaced as level-up after the first feature, not by default. No Vercel CLI required — deploys happen via GitHub push. Beginner-friendly — assumes zero prior knowledge, explains each step, stops at every human gate with clear instructions. The pitch is **vibe coding**: clone, plug Neon, talk to Claude, ship.
+description: Use when the user wants to bootstrap their dev environment for this Next.js starter from zero. Triggers — "/setup-kit", "je viens d'installer Claude Code", "je débute", "qu'est-ce que je dois installer", "setup my environment", "I just cloned the repo, what now?", "help me start", "I'm a beginner". The kit is cloud-only — there is no Docker, no local Postgres, no MinIO, no Mailpit. **PlanetHoster N0C Postgres (panel → Bases de données) is the default provider** — it is also the documented hosting target, so DB and deploy live on the same account. The webhook handler offloads side-effects to the outbox (keeps transactions short), and `/forgot-password` has a 350ms timing-attack floor (override via `AUTH_FORGOT_TARGET_LATENCY_MS` on a slower DB). The `env-shape.test.ts` tripwire locks `.env.example` to the N0C local-Postgres shape and forbids `neon.tech`. Alternatives (Supabase / Railway / Render / RDS) work but require user-side tuning — don't suggest them unless the user explicitly asks. Every user plugs the connection string into frontend/.env.local, then runs `pnpm dev`. The skill audits Claude Code (CLI or VS Code/Cursor/Windsurf/Antigravity extension) / Git / Node / pnpm / gh CLI / 2 plugins to install (superpowers, context-mode — `ui-ux-pro-max` is bundled in the repo) / env vars, blocks ZIP-download cases (no .git dir), auto-installs what is automatable via Bash (pnpm via Corepack, secret generation), and surfaces UI-clickable + slash-command paths for the plugins. Banani is OPTIONAL (skill asks oui/non/plus tard in Phase 5). GSD is NOT in prereqs — surfaced as level-up after the first feature, not by default. Deploys happen via a GitHub Actions workflow to PlanetHoster N0C — no extra CLI to install locally. Beginner-friendly — assumes zero prior knowledge, explains each step, stops at every human gate with clear instructions. The pitch is **vibe coding**: clone, plug the N0C Postgres, talk to Claude, ship.
 ---
 
 # Skill — setup-kit
@@ -9,11 +9,11 @@ description: Use when the user wants to bootstrap their dev environment for this
 
 Take a brand-new user from **« Claude Code just installed, repo just cloned »** to **« `pnpm dev` boots green, `pnpm smoke:auth` passes »** in 5-10 minutes, with maximum hand-holding and minimum hidden assumptions.
 
-The kit is **cloud-only by design**. No Docker. No local Postgres. No MinIO. No Mailpit. The only mandatory dependency is a Postgres database — **Neon is the default provider** and the kit is **tuned for Neon's serverless behavior**: the webhook handler offloads side-effects to the outbox to fit Neon's 2s transaction ceiling, `/forgot-password` calibrates its timing-attack floor at 350ms based on Neon-pooler latency, and the `env-shape.test.ts` tripwire locks `.env.example` to the Neon `-pooler` hostname format. Alternatives (Supabase / Railway / Render / RDS / self-hosted) work — the SQL is standard — but **require user-side tuning** (timing floor, connection params); only propose them if the user explicitly insists. The 5 optional providers (Brevo / Cloudinary / Bictorys / Google OAuth / Sentry / Upstash) are env-gated and inert when absent.
+The kit is **cloud-only by design**. No Docker. No local Postgres. No MinIO. No Mailpit. The only mandatory dependency is a Postgres database — **PlanetHoster N0C Postgres (panel → Bases de données) is the default provider**, and since N0C is also the documented hosting target, the database and the deployed app live on the same account. The webhook handler offloads side-effects to the outbox to keep transactions short, `/forgot-password` calibrates its timing-attack floor at 350ms (override via `AUTH_FORGOT_TARGET_LATENCY_MS` on a slower DB), and the `env-shape.test.ts` tripwire locks `.env.example` to the N0C local-Postgres shape (`schema=public`, no pooler params) and forbids `neon.tech`. Alternatives (Supabase / Railway / Render / RDS / self-hosted) work — the SQL is standard — but **require user-side tuning** (timing floor, connection params); only propose them if the user explicitly insists. The 5 optional providers (Brevo / Cloudinary / Bictorys / Google OAuth / Sentry / Upstash) are env-gated and inert when absent.
 
-This skill exists because [WORKFLOW.md](../../../WORKFLOW.md) lists ~8 pre-requisites (Claude Code itself, Node, pnpm, gh CLI, 4 Claude Code skills, Neon account, Banani account, .mcp.json edit, .env.local creation, secret generation) and a beginner cannot reliably execute that list without guidance. Deploys go through GitHub push (Vercel imports the repo), so no Vercel CLI install is required locally.
+This skill exists because [WORKFLOW.md](../../../WORKFLOW.md) lists ~8 pre-requisites (Claude Code itself, Node, pnpm, gh CLI, 4 Claude Code skills, a PlanetHoster N0C Postgres, a Banani account, .mcp.json edit, .env.local creation, secret generation) and a beginner cannot reliably execute that list without guidance. Deploys run through the GitHub Actions workflow `.github/workflows/deploy-n0c.yml` to PlanetHoster N0C, so no extra deploy CLI is required locally.
 
-> **Not a magic button.** Several steps require human action (creating Neon + Banani accounts, copying API keys, pasting `/plugin` commands) — the AI cannot do them. The skill makes these gates **explicit, sequential, and unmissable**, instead of letting a beginner discover them via cryptic build errors.
+> **Not a magic button.** Several steps require human action (creating the PlanetHoster N0C Postgres + a Banani account, copying API keys, pasting `/plugin` commands) — the AI cannot do them. The skill makes these gates **explicit, sequential, and unmissable**, instead of letting a beginner discover them via cryptic build errors.
 
 ## When to invoke
 
@@ -51,7 +51,7 @@ Run these probes via Bash **in parallel** and build a table.
 | Repo `node_modules` | `test -d frontend/node_modules && echo EXISTS \|\| echo MISSING` | EXISTS |
 | MCP config | `test -f .mcp.json && echo EXISTS \|\| echo MISSING` | EXISTS |
 | Banani MCP configured (optional) | `node -e 'try{const j=require("./.mcp.json");console.log(Object.keys(j.mcpServers\|\|{}).length?"CONFIGURED":"EMPTY")}catch(e){console.log("MISSING")}'` | EMPTY by default (Banani optional — user opts in in Phase 5). CONFIGURED only if Phase 5 already ran. |
-| `DATABASE_URL` set | `cat frontend/.env.local frontend/.env 2>/dev/null \| grep -Eq '^DATABASE_URL="?postgresql://' && echo SET \|\| echo UNSET` | SET (Neon `-pooler` URL by default — see Phase 3; the kit is tuned for Neon, alternatives are accepted but only when the user explicitly insists). The `cat \| grep` pattern tolerates either file being absent (grep alone returns exit 2 on missing-file → false UNSET). Regex accepts both quoted `DATABASE_URL="postgresql://…"` (`.env.example` style) and unquoted. |
+| `DATABASE_URL` set | `cat frontend/.env.local frontend/.env 2>/dev/null \| grep -Eq '^DATABASE_URL="?postgresql://' && echo SET \|\| echo UNSET` | SET (PlanetHoster N0C local-Postgres URL by default — see Phase 3; alternatives are accepted but only when the user explicitly insists). The `cat \| grep` pattern tolerates either file being absent (grep alone returns exit 2 on missing-file → false UNSET). Regex accepts both quoted `DATABASE_URL="postgresql://…"` (`.env.example` style) and unquoted. |
 
 For Claude Code skills, check the system-reminder context loaded at session start — these 3 skill names must appear in the active skills list:
 - `superpowers:*` (any — e.g. `superpowers:using-superpowers`)
@@ -83,7 +83,7 @@ REPO
   ℹ️  Banani MCP (optionnel — Phase 5)
 
 COMPTES (action humaine requise)
-  🙋 Postgres (Neon recommandé)   🙋 GitHub
+  🙋 Postgres (PlanetHoster N0C)   🙋 GitHub
   ℹ️  Banani (optionnel)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -106,7 +106,7 @@ For each MISSING item, take the action below. **NEVER skip a missing one silentl
 | **pnpm** | `corepack enable && corepack prepare pnpm@latest --activate` | Aucune (Corepack ship avec Node 20). Sur Windows PowerShell, si erreur `cannot be loaded because running scripts is disabled` : exécuter dans PowerShell admin `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`, puis relancer Corepack. |
 | **gh CLI** | Sur macOS : `brew install gh` après confirmation. Sinon afficher https://cli.github.com/ | Puis `gh auth login` — interactif, choisir « GitHub.com » → « HTTPS » → ouvrir le navigateur |
 
-> **Pas de Vercel CLI requise.** Le déploiement passe par GitHub push → import du repo dans Vercel (ou autre hébergeur). Aucun outil local en plus.
+> **Pas de CLI de déploiement à installer.** Le déploiement passe par le workflow GitHub Actions `.github/workflows/deploy-n0c.yml` vers PlanetHoster N0C (provisioning décrit dans `docs/deploy/n0c-setup.md`). Aucun outil local en plus.
 
 After each install, **re-run the matching probe** to confirm. If install fails, do not proceed — explique l'erreur en français simple et propose **une seule** alternative.
 
@@ -139,36 +139,35 @@ Une fois confirmé (UI ou CLI) : « **Redémarre Claude Code** pour que les plug
 
 > **GSD intentionnellement omis ici.** GSD est un workflow procédural (~30 slash commands, plans/phases/commits atomiques) qui sert vraiment quand le projet devient gros. Pour un premier MVP en vibe coding, c'est de la cérémonie. On le surface en Phase 7 quand le user a terminé sa première feature, pas avant.
 
-### Phase 3 — Compte Neon Postgres (la SEULE dépendance obligatoire)
+### Phase 3 — Base PostgreSQL PlanetHoster N0C (la SEULE dépendance obligatoire)
 
-Le kit est **cloud-only** — pas de Postgres local. **Neon est le provider par défaut**, et le kit est **tuned pour son comportement serverless** :
+Le kit est **cloud-only** — pas de Postgres local. **PlanetHoster N0C est le provider par défaut** (c'est aussi la cible d'hébergement documentée : DB + app sur le même compte) :
 
-- Le webhook handler évite le plafond 2s de transaction de Neon en sortant les side-effects (emails, notifications) vers l'outbox post-commit.
-- La mitigation timing-attack de `/forgot-password` calibre son floor à **350ms** sur la base de la latence Neon-pooler — override via `AUTH_FORGOT_TARGET_LATENCY_MS` si tu tournes sur un Postgres plus lent.
-- Le tripwire `env-shape.test.ts` **verrouille** `.env.example` au format Neon `-pooler` (CI bloque tout changement).
-- Les query params `pgbouncer=true&connection_limit=1&pool_timeout=15&sslmode=require` sont calibrés pour Neon serverless (cold-start lent, connection limits agressives).
+- Le webhook handler sort les side-effects (emails, notifications) vers l'outbox post-commit pour garder les transactions courtes.
+- La mitigation timing-attack de `/forgot-password` calibre son floor à **350ms** — override via `AUTH_FORGOT_TARGET_LATENCY_MS` si tu tournes sur un Postgres plus lent.
+- Le tripwire `env-shape.test.ts` **verrouille** `.env.example` au format Postgres local N0C (`schema=public`, pas de params pooler) et **interdit `neon.tech`** (CI bloque tout changement).
+- Le Postgres N0C n'est **pas poolé** : `DATABASE_URL` et `DIRECT_URL` prennent la **même valeur**.
 
-**Pousse l'user vers Neon par défaut.** Si l'user demande explicitement un autre provider, c'est supporté (voir « Alternatives » plus bas) mais préviens des caveats.
+**Pousse l'user vers N0C par défaut.** Si l'user demande explicitement un autre provider, c'est supporté (voir « Alternatives » plus bas) mais préviens des caveats.
 
-**Chemin Neon (cas par défaut, 95% des users)** :
+**Chemin N0C (cas par défaut)** :
 
-1. **Inscription Neon** — « Va sur https://neon.tech, inscription gratuite (Google / GitHub OK). 30 secondes. Confirme quand c'est fait. »
-2. **Création projet** — « Dans le dashboard Neon, clique "New Project". Nomme-le comme tu veux. Sélectionne la région la plus proche. Confirme quand c'est créé. »
-3. **Copier les 2 URLs** — « Dans le dashboard du projet :
-   - `DATABASE_URL` = la version qui contient **`-pooler`** dans le hostname (pour l'app)
-   - `DIRECT_URL` = la version **SANS** `-pooler` (pour `prisma migrate`)
-   - Colle-les ici dans le chat (l'IA va les écrire dans `.env.local` pour toi). »
-4. **AI écrit `.env.local`** — `cp .env.example frontend/.env.local` puis `Edit` pour insérer les deux URLs aux bonnes lignes.
+1. **Compte N0C** — « Il te faut un plan PlanetHoster World (PostgreSQL activé, app Node.js, SSH). Panel : https://mg.n0c.com. Confirme quand tu y as accès. »
+2. **Création de la base** — « Panel N0C → Bases de données → PostgreSQL → crée une base + un utilisateur. Note user / mot de passe / nom de base. »
+3. **Construire la chaîne** — `postgresql://USER:PWD@localhost:5432/DB?schema=public&connection_limit=5`. Colle-la ici dans le chat (l'IA l'écrit dans `.env.local` pour toi) — **la même valeur** va dans `DATABASE_URL` et dans `DIRECT_URL`.
+4. **AI écrit `.env.local`** — `cp .env.example frontend/.env.local` puis `Edit` pour insérer la chaîne dans `DATABASE_URL` **et** `DIRECT_URL` (valeurs identiques).
 
-**Alternatives** (l'user insiste pour ne pas utiliser Neon — par défaut on ne propose PAS, on attend qu'il demande) :
+> En dev local avant d'avoir un plan N0C : n'importe quel Postgres accessible en `localhost` fait l'affaire pour faire tourner `pnpm dev` et les tests ; la forme N0C n'est requise que pour le déploiement (voir `docs/deploy/n0c-setup.md`).
 
-> ⚠️ Avant de pousser une alternative, préviens : *« Le kit est tuned pour Neon — sur un autre Postgres, le webhook handler reste safe (l'outbox post-commit évite le plafond 2s), mais tu devras peut-être bumper `AUTH_FORGOT_TARGET_LATENCY_MS` si la latence DB dépasse ~150ms. Si tu n'as pas de raison forte (équipe déjà sur Supabase, contraintes data residency…), reste sur Neon. »*
+**Alternatives** (l'user insiste pour ne pas utiliser N0C — par défaut on ne propose PAS, on attend qu'il demande) :
 
-- **Supabase** : Settings → Database → *Connection string*. `DATABASE_URL` = URL "Transaction pooler" (port `6543`) ; `DIRECT_URL` = URL "Session pooler" ou direct connection (port `5432`). Drop-in compatible avec les query params Neon (même PgBouncer transaction-mode).
-- **Railway / Render** : pas de pooler natif. `DATABASE_URL` = URL Postgres standard, **retirer `pgbouncer=true`** et bumper `connection_limit` à 10. `DIRECT_URL` = même URL.
-- **RDS / self-hosted** : `postgresql://user:pass@host:5432/db?sslmode=require` deux fois (sans `pgbouncer=true`). Ajoute un PgBouncer en façade plus tard si tu scale.
+> ⚠️ Avant de pousser une alternative, préviens : *« Le kit est tuned pour le Postgres N0C — sur un autre Postgres le webhook handler reste safe (l'outbox post-commit garde les transactions courtes), mais tu devras peut-être bumper `AUTH_FORGOT_TARGET_LATENCY_MS` si la latence DB dépasse ~150ms. »*
 
-> Note: le tripwire `frontend/src/lib/server/observability/env-shape.test.ts` verrouille `.env.example` au format Neon `-pooler`. C'est volontaire — il garantit que les forks par défaut restent sur Neon. Les users qui swap pour Supabase modifient leur `.env.local` (gitignored), pas `.env.example`.
+- **Supabase** : Settings → Database → *Connection string*. `DATABASE_URL` = URL "Transaction pooler" (port `6543`) ; `DIRECT_URL` = URL "Session pooler" ou direct connection (port `5432`).
+- **Railway / Render** : `DATABASE_URL` = URL Postgres standard, `connection_limit` ~10. `DIRECT_URL` = même URL.
+- **RDS / self-hosted** : `postgresql://user:pass@host:5432/db?sslmode=require` deux fois. Ajoute un PgBouncer en façade plus tard si tu scale.
+
+> Note: le tripwire `frontend/src/lib/server/observability/env-shape.test.ts` verrouille `.env.example` au format Postgres local N0C et interdit `neon.tech`. C'est volontaire — il garantit que les forks par défaut restent sur N0C. Les users qui swap pour Supabase modifient leur `.env.local` (gitignored), pas `.env.example`.
 
 ### Phase 4 — Install du repo + secrets
 
@@ -176,7 +175,7 @@ Séquentiel (chaque étape dépend de la précédente) :
 
 1. **Install dependencies** — `pnpm install` (« télécharge toutes les librairies, ~2 min la première fois »).
 2. **Génère les secrets** — pour `JWT_SECRET` / `ENCRYPTION_KEY` / `CRON_SECRET`, lance `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` une fois par clé. Confirme avec le user puis fait l'`Edit` dans `.env.local`.
-3. **Applique le schéma Prisma** — `pnpm db:migrate:deploy` (« crée toutes les tables dans ton Neon Postgres »). Vérifie que ça finit sans erreur.
+3. **Applique le schéma Prisma** — `pnpm db:migrate:deploy` (« crée toutes les tables dans ta base Postgres N0C »). Vérifie que ça finit sans erreur.
 
 Stop si une étape échoue. Lis l'erreur, explique en français simple, propose un fix.
 
@@ -244,7 +243,7 @@ Si tout vert : 🎉 imprime un récap félicitations + le hand-off vibe coding :
 >
 > *Si tu as connecté Banani en Phase 5 : sélectionne tes écrans et dis "reproduis ces écrans-là" — le skill `banani-design-implementation` prendra le relais.*
 >
-> *Pour déployer plus tard sur Vercel : dis-moi "déploie sur Vercel" quand tu es prêt. Voir [WORKFLOW.md](../../../WORKFLOW.md) — la section « Pour aller plus loin » y mentionne aussi GSD comme level-up optionnel quand le projet devient gros.*
+> *Pour déployer plus tard sur PlanetHoster N0C : dis-moi "déploie sur N0C" quand tu es prêt (push sur `main` → workflow GitHub Actions `deploy-n0c.yml`). Voir [WORKFLOW.md](../../../WORKFLOW.md) + [docs/deploy/n0c-setup.md](../../../docs/deploy/n0c-setup.md) — la section « Pour aller plus loin » de WORKFLOW.md mentionne aussi GSD comme level-up optionnel quand le projet devient gros.*
 
 Si quelque chose rouge : stop, colle l'output qui échoue, explique en français simple, propose un fix. **Ne dis jamais « tout est prêt »** tant que les 3 commandes ne sont pas vertes.
 
@@ -253,12 +252,12 @@ Si quelque chose rouge : stop, colle l'output qui échoue, explique en français
 | Symptôme | Cause probable | Réponse |
 |---|---|---|
 | `pnpm install` échoue avec EACCES | Permissions npm cassées | Suggère `corepack enable` ; ne **jamais** suggérer `sudo` (mauvaise pratique) |
-| `pnpm db:migrate:deploy` échoue avec `P1001 connection refused` | `DATABASE_URL` faux ou Neon offline | Vérifie l'URL dans `.env.local` (commence par `postgresql://`, contient `-pooler`, finit par `?sslmode=require`) ; teste Neon dashboard |
-| `pnpm db:migrate:deploy` échoue avec « prepared statement does not exist » | L'user a mis l'URL pooler dans `DIRECT_URL` au lieu de la non-pooled | Re-vérifier que `DIRECT_URL` n'a PAS `-pooler` dans le hostname |
+| `pnpm db:migrate:deploy` échoue avec `P1001 connection refused` | `DATABASE_URL` faux ou base Postgres N0C injoignable | Vérifie l'URL dans `.env.local` (commence par `postgresql://`, contient `schema=public`) ; teste la base depuis le panel N0C |
+| `pnpm db:migrate:deploy` échoue avec `env("DIRECT_URL")` manquant | `DIRECT_URL` non renseigné | Sur N0C, `DIRECT_URL` = **même valeur** que `DATABASE_URL` (Postgres non poolé) |
 | `pnpm dev` démarre mais `/api/auth/signup` renvoie 500 | `JWT_SECRET` / `ENCRYPTION_KEY` manquants ou trop courts (< 32 chars) | Re-run Phase 4 step 2 (génération de secrets) |
 | User dit « les commandes `/plugin` ne marchent pas » | Pas dans Claude Code ou marketplace pas accessible | Vérifier qu'il est dans le chat Claude Code (pas dans le terminal shell) |
 | User dit « après `/plugin install` rien ne change » | Skill chargé au prochain démarrage de session | Demande à l'user de redémarrer Claude Code — extension VS Code / Antigravity : `Cmd+Shift+P` → `Developer: Reload Window` ; CLI : `Ctrl+C` puis relance `claude` |
-| User demande « pourquoi pas de Docker ? » | Habitude des autres starters | Réponds : « Ce kit est cloud-only par design — Neon free tier remplace Postgres local en 30 sec, et tu skip 2 Go de Docker Desktop. » |
+| User demande « pourquoi pas de Docker ? » | Habitude des autres starters | Réponds : « Ce kit est cloud-only par design — une base Postgres managée (PlanetHoster N0C) remplace Postgres local, et tu skip 2 Go de Docker Desktop. » |
 
 ## Anti-patterns — ne fais JAMAIS
 

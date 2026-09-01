@@ -33,7 +33,7 @@
       "prisma_user_relations": ["orders Order[]"],
       "outbox_event_kinds": ["notification.payment_received", "email.payment_confirmation"],
       "tripwires_to_update": [
-        "frontend/src/lib/server/observability/vercel-json-shape.test.ts (remove order-expiration assertion)"
+        "frontend/src/lib/server/observability/n0c-crons-shape.test.ts (remove order-expiration assertion)"
       ]
     },
 
@@ -83,7 +83,7 @@
       "prisma_user_relations": [],
       "outbox_event_kinds": [],
       "tripwires_to_update": [
-        "frontend/src/lib/server/observability/vercel-json-shape.test.ts (remove webhook-log-purge assertion)"
+        "frontend/src/lib/server/observability/n0c-crons-shape.test.ts (remove webhook-log-purge assertion)"
       ]
     },
 
@@ -165,7 +165,7 @@
         "email.payment_confirmation"
       ],
       "tripwires_to_update": [
-        "frontend/src/lib/server/observability/vercel-json-shape.test.ts (remove email-queue-drain assertion)"
+        "frontend/src/lib/server/observability/n0c-crons-shape.test.ts (remove email-queue-drain assertion)"
       ]
     },
 
@@ -326,10 +326,10 @@
       "request-context observability",
       "outbox infrastructure (lib/server/outbox/* — the dispatcher, types, enqueue)",
       "5 cron handler shims (auth + lease + handler chassis)",
-      "vercel.json cron schedules + tripwire test",
+      "docs/deploy/n0c-crons.md cron table + tripwire test",
       "User model core fields (id, email, passwordHash, emailVerifiedAt, tokenVersion)"
     ]
   },
 
-  "$pruning_protocol": "AI agents: before pruning ANY feature, READ /PRUNING.md. It explains the order of operations (surgical_edits BEFORE deletions, cron_entries removed from vercel.json, prisma_user_relations removed from User model, tripwires updated, then `pnpm format && pnpm lint && pnpm typecheck && pnpm test && pnpm build` to validate, with rollback via `git checkout HEAD -- .` if red). Naive deletion based on `owns` only WILL break the build."
+  "$pruning_protocol": "AI agents: before pruning ANY feature, READ /PRUNING.md. It explains the order of operations (surgical_edits BEFORE deletions, cron_entries removed from docs/deploy/n0c-crons.md, prisma_user_relations removed from User model, tripwires updated, then `pnpm format && pnpm lint && pnpm typecheck && pnpm test && pnpm build` to validate, with rollback via `git checkout HEAD -- .` if red). Naive deletion based on `owns` only WILL break the build."
 }

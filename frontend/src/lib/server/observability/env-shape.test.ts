@@ -1,5 +1,6 @@
 // Source: planner-derived; covers OPS-01 + OPS-04.
-// Asserts .env.example documents the dual Neon URL contract + CRON_SECRET.
+// Asserts .env.example documents the N0C dual-URL contract (DATABASE_URL ===
+// DIRECT_URL, non-pooled local Postgres, no neon.tech) + CRON_SECRET.
 //
 // On failure, each assertion message names the offending file path so an
 // incident responder can grep a CI log without grepping the test source.
@@ -31,6 +32,14 @@ describe('.env.example shape — cible PlanetHoster N0C (OPS-01, OPS-04)', () =>
     expect(src).toMatch(/^DIRECT_URL="postgresql:\/\/[^"]+"/m);
     expect(src.toLowerCase()).toContain('migrate deploy');
     expect(src).toMatch(/identique à DATABASE_URL|même valeur que DATABASE_URL/i);
+  });
+
+  it('DATABASE_URL et DIRECT_URL ont la MÊME valeur (Postgres N0C non poolé)', () => {
+    const db = src.match(/^DATABASE_URL="([^"]+)"/m);
+    const direct = src.match(/^DIRECT_URL="([^"]+)"/m);
+    expect(db, `DATABASE_URL introuvable dans ${ENV_EXAMPLE}`).not.toBeNull();
+    expect(direct, `DIRECT_URL introuvable dans ${ENV_EXAMPLE}`).not.toBeNull();
+    expect(direct![1]).toBe(db![1]);
   });
 
   it('déclare CRON_SECRET avec défaut vide + indice openssl', () => {

@@ -129,7 +129,7 @@ Les fichiers uploadés renvoient un `secure_url` Cloudinary servi directement pa
 | ------- | ------------------------ | --------------------------------- |
 | POST    | `/api/webhooks/bictorys` | HMAC provider + replay window 60s |
 
-### Handlers cron — 5 routes (toutes `Authorization: Bearer ${CRON_SECRET}`)
+### Handlers cron — 6 routes (toutes `Authorization: Bearer ${CRON_SECRET}`)
 
 | Path                             | Schedule (panel N0C — voir [docs/deploy/n0c-crons.md](docs/deploy/n0c-crons.md)) |
 | -------------------------------- | -------------------------------------------------------------------------------- |
@@ -138,6 +138,7 @@ Les fichiers uploadés renvoient un `secure_url` Cloudinary servi directement pa
 | `/api/cron/verification-cleanup` | toutes les heures                                                                |
 | `/api/cron/order-expiration`     | `*/5 * * * *`                                                                    |
 | `/api/cron/webhook-log-purge`    | quotidien                                                                        |
+| `/api/cron/email-job-purge`      | quotidien                                                                        |
 
 ### Admin (`/api/admin/*`) — 12 routes
 

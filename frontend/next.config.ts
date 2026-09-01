@@ -2,8 +2,8 @@ import type { NextConfig } from 'next';
 import { withSentryConfig } from '@sentry/nextjs';
 
 // Static security headers applied to every response.
-// Set via next.config.ts (not middleware.ts) so Vercel's edge can serve them
-// from the CDN cache without invoking a function — zero per-request latency.
+// Set via next.config.ts (not middleware.ts) so the CDN edge can serve them
+// from cache without invoking a function — zero per-request latency.
 //
 // CSP is intentionally NOT included here. App Router pages need a per-request
 // nonce (server-rendered) for inline scripts; ship CSP via middleware.ts when
@@ -31,13 +31,18 @@ const config: NextConfig = {
   // Passenger entrypoint (repo-root app.js) requires ./frontend/server.js from
   // this bundle. No impact on `next dev` / `next start`.
   output: 'standalone',
+  // TODO(next16): Next 16 no longer reads this `eslint` key at build time
+  // (it logs "Unrecognized key 'eslint'"). Lint is already enforced by the
+  // husky pre-commit hook + `pnpm lint` in CI, so this block is inert — move
+  // to an ESLint-in-CI-only setup and delete it. Left in place for now to
+  // avoid a config change outside this migration's scope.
   eslint: {
     // Lint already runs via the husky pre-commit hook (lint-staged) and
     // `pnpm lint` in CI. Next's build-time lint step loads the repo-root
     // flat config (eslint.config.mjs), whose deps (@eslint/js,
     // typescript-eslint, globals) live only in the root package.json —
-    // unreachable from a Vercel build scoped to the `frontend` Root
-    // Directory, which breaks `next build` with ERR_MODULE_NOT_FOUND.
+    // unreachable from a build scoped to the `frontend` package, which
+    // breaks `next build` with ERR_MODULE_NOT_FOUND.
     ignoreDuringBuilds: true,
   },
   async headers() {
