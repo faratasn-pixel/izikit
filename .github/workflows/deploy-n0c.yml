@@ -83,6 +83,14 @@ jobs:
           chmod 600 ~/.ssh/id_deploy
           ssh-keyscan -p "$N0C_SSH_PORT" -H "${{ secrets.N0C_SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
 
+      - name: Ensure app root exists
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "$N0C_SSH_PORT" \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
+            "mkdir -p '${{ secrets.N0C_APP_PATH }}/frontend' '${{ secrets.N0C_APP_PATH }}/tmp' '${{ secrets.N0C_APP_PATH }}/public'"
+
       - name: Rsync to N0C
         env:
           N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
