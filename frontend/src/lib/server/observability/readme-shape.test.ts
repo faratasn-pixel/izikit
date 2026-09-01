@@ -34,9 +34,9 @@ describe('README.md doc tripwire (DOC-02) — current-state assertions', () => {
     expect(content).toMatch(/pnpm dev/);
   });
 
-  it('points users at Neon for the Postgres database (no Docker)', () => {
+  it('points users at PlanetHoster N0C for hosting + Postgres (no Docker)', () => {
     const content = readFileSync(README_PATH, 'utf8');
-    expect(content).toMatch(/neon\.tech/i);
+    expect(content).toMatch(/planethoster|N0C/i);
   });
 
   it('contains zero Docker references (Docker support removed 2026-05-13)', () => {

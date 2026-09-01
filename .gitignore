@@ -21,8 +21,10 @@ next-env.d.ts
 # Local cruft — not part of the kit
 amp
 node-compile-cache/
+# Bundle de déploiement assemblé par la CI (jamais commité)
+/deploy/
 
-# Local PostgreSQL cluster for dev (avoids burning Neon's free compute-hour
+# Local PostgreSQL cluster for dev (avoids burning cloud free-tier compute-hour
 # quota) — portable binaries + data directory, per-machine, never committed.
 .pg-local/
 

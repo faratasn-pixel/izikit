@@ -37,9 +37,9 @@ Remove every `prisma_user_relations` entry from the `User` model (and any other 
 pnpm db:migrate:dev --name prune_<feature>
 ```
 
-## Step 4 — Update vercel.json
+## Step 4 — Update docs/deploy/n0c-crons.md
 
-Remove every `cron_entries` entry from `frontend/vercel.json` (the `crons` array). The tripwire `vercel-json-shape.test.ts` cross-checks every schedule path against an existing route file — if the route is gone but the schedule remains, the test fails.
+Remove every `cron_entries` entry from the cron table in `docs/deploy/n0c-crons.md`. The tripwire `n0c-crons-shape.test.ts` cross-checks every documented cron against an existing `app/api/cron/<name>/route.ts` — if the route is gone but the table row remains, the test fails. (Also delete the cron's panel entry on the N0C server itself.)
 
 ## Step 5 — Delete owned files
 

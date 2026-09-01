@@ -1,0 +1,110 @@
+name: Deploy to PlanetHoster N0C
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-n0c
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Quality gate
+        run: |
+          pnpm format:check
+          pnpm lint
+          pnpm typecheck
+          pnpm test
+
+      - name: Build
+        # NEXT_PUBLIC_* are inlined into the client bundle at build time —
+        # GitHub Actions does not forward them automatically, so map each one
+        # explicitly here. Non-secret values come from repo/environment
+        # Variables; the Sentry DSN is kept as a Secret. NEXT_PUBLIC_COOKIE_PREFIX
+        # MUST equal the runtime COOKIE_PREFIX set in the N0C panel, otherwise
+        # the CSRF double-submit cookie name mismatches and every mutation 403s.
+        env:
+          NEXT_PUBLIC_COOKIE_PREFIX: ${{ vars.NEXT_PUBLIC_COOKIE_PREFIX }}
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+          NEXT_PUBLIC_SENTRY_ENVIRONMENT: ${{ vars.NEXT_PUBLIC_SENTRY_ENVIRONMENT }}
+          NEXT_PUBLIC_SENTRY_RELEASE: ${{ vars.NEXT_PUBLIC_SENTRY_RELEASE }}
+          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: ${{ vars.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE }}
+          NEXT_PUBLIC_SENTRY_REPLAYS_SAMPLE_RATE: ${{ vars.NEXT_PUBLIC_SENTRY_REPLAYS_SAMPLE_RATE }}
+        run: pnpm build
+
+      - name: Assemble deploy bundle
+        run: |
+          set -euo pipefail
+          rm -rf deploy && mkdir -p deploy
+          # .next/standalone conserve son sous-dossier frontend/ interne
+          cp -r frontend/.next/standalone/. deploy/
+          mkdir -p deploy/frontend/.next
+          cp -r frontend/.next/static deploy/frontend/.next/static
+          if [ -d frontend/public ]; then cp -r frontend/public deploy/frontend/public; fi
+          cp -r frontend/prisma deploy/frontend/prisma
+          cp app.js deploy/app.js
+          test -f deploy/frontend/server.js  # garde-fou layout standalone
+
+      - name: Setup SSH
+        env:
+          N0C_SSH_KEY: ${{ secrets.N0C_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          printf '%s\n' "$N0C_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "${{ secrets.N0C_SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Rsync to N0C
+        run: |
+          rsync -az --delete \
+            --exclude='.env' --exclude='tmp/' --exclude='.htaccess' \
+            -e "ssh -i ~/.ssh/id_deploy" \
+            deploy/ \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}:${{ secrets.N0C_APP_PATH }}/"
+
+      - name: Prisma migrate deploy
+        # Non-interactive SSH on CloudLinux has no node/npx in PATH until the
+        # nodevenv activate script is sourced. The app's .env lives at
+        # $N0C_APP_PATH/.env (NOT .../frontend/.env), so export it into the
+        # migrate process. Pin prisma@5.22.0 — an unpinned `npx prisma` pulls
+        # Prisma v7, incompatible with the v5 migration history.
+        # Effective command: prisma migrate deploy (via npx prisma@5.22.0).
+        run: |
+          ssh -i ~/.ssh/id_deploy \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
+            "set -euo pipefail; \
+             source '${{ secrets.N0C_NODE_ACTIVATE }}'; \
+             set -a; . '${{ secrets.N0C_APP_PATH }}/.env'; set +a; \
+             cd '${{ secrets.N0C_APP_PATH }}/frontend'; \
+             npx --yes prisma@5.22.0 migrate deploy --schema prisma/schema.prisma"
+
+      - name: Restart Passenger
+        run: |
+          ssh -i ~/.ssh/id_deploy \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
+            "cd '${{ secrets.N0C_APP_PATH }}' && mkdir -p tmp && touch tmp/restart.txt"
+
+      - name: Smoke check
+        run: |
+          sleep 15
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors --retry-connrefused "${{ secrets.N0C_DEPLOY_URL }}/" -o /dev/null
+          echo "Deploy OK"

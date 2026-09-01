@@ -1,5 +1,6 @@
 // Source: planner-derived; covers OPS-01 + OPS-04.
-// Asserts .env.example documents the dual Neon URL contract + CRON_SECRET.
+// Asserts .env.example documents the N0C dual-URL contract (DATABASE_URL ===
+// DIRECT_URL, non-pooled local Postgres, no neon.tech) + CRON_SECRET.
 //
 // On failure, each assertion message names the offending file path so an
 // incident responder can grep a CI log without grepping the test source.
@@ -14,38 +15,36 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ENV_EXAMPLE = resolve(__dirname, '../../../../../.env.example');
 
-describe('.env.example shape (OPS-01, OPS-04)', () => {
+describe('.env.example shape — cible PlanetHoster N0C (OPS-01, OPS-04)', () => {
   const src = readFileSync(ENV_EXAMPLE, 'utf8');
 
-  it(`declares DATABASE_URL using the Neon -pooler hostname (file: ${ENV_EXAMPLE})`, () => {
-    // Hostname shape: <project>-pooler.<region>.aws.neon.tech (e.g. ep-xxx-pooler.us-east-2.aws.neon.tech).
-    // Matches plan key_links pattern: `-pooler\.[a-z0-9-]+\.aws\.neon\.tech`.
-    expect(src).toMatch(/DATABASE_URL="postgresql:\/\/[^"]*-pooler\.[a-z0-9-]+\.aws\.neon\.tech/);
-  });
-
-  it('DATABASE_URL carries pgbouncer=true & connection_limit=1 & pool_timeout=15 & sslmode=require', () => {
-    // Match a single DATABASE_URL line with all four params (order-independent).
+  it(`DATABASE_URL est une URL postgres locale N0C, sans pooler Neon (file: ${ENV_EXAMPLE})`, () => {
     const m = src.match(/^DATABASE_URL="([^"]+)"/m);
-    expect(m, `DATABASE_URL line not found in ${ENV_EXAMPLE}`).not.toBeNull();
+    expect(m, `DATABASE_URL introuvable dans ${ENV_EXAMPLE}`).not.toBeNull();
     const url = m![1]!;
-    expect(url).toContain('pgbouncer=true');
-    expect(url).toContain('connection_limit=1');
-    expect(url).toContain('pool_timeout=15');
-    expect(url).toContain('sslmode=require');
+    expect(url).toMatch(/^postgresql:\/\//);
+    expect(url).not.toMatch(/neon\.tech/);
+    expect(url).not.toContain('pgbouncer=true');
+    expect(url).toContain('schema=public');
   });
 
-  it('declares DIRECT_URL for prisma migrate deploy', () => {
+  it('DIRECT_URL est présent et documenté comme identique à DATABASE_URL sur N0C', () => {
     expect(src).toMatch(/^DIRECT_URL="postgresql:\/\/[^"]+"/m);
+    expect(src.toLowerCase()).toContain('migrate deploy');
+    expect(src).toMatch(/identique à DATABASE_URL|même valeur que DATABASE_URL/i);
   });
 
-  it('declares CRON_SECRET with empty default + openssl hint', () => {
+  it('DATABASE_URL et DIRECT_URL ont la MÊME valeur (Postgres N0C non poolé)', () => {
+    const db = src.match(/^DATABASE_URL="([^"]+)"/m);
+    const direct = src.match(/^DIRECT_URL="([^"]+)"/m);
+    expect(db, `DATABASE_URL introuvable dans ${ENV_EXAMPLE}`).not.toBeNull();
+    expect(direct, `DIRECT_URL introuvable dans ${ENV_EXAMPLE}`).not.toBeNull();
+    expect(direct![1]).toBe(db![1]);
+  });
+
+  it('déclare CRON_SECRET avec défaut vide + indice openssl', () => {
     expect(src).toMatch(/^CRON_SECRET=""/m);
     expect(src).toContain('openssl rand -base64 32');
-  });
-
-  it('explains why DIRECT_URL is needed (prevents future deletion)', () => {
-    // D-03: short rationale comment near DIRECT_URL.
-    expect(src.toLowerCase()).toContain('migrate deploy');
   });
 });
 
