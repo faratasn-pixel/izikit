@@ -75,12 +75,17 @@ jobs:
           # node_modules/@prisma/client + node_modules/.prisma (seul .pnpm/ est
           # copié). frontend/server.js fait `require('@prisma/client')` en
           # dépendance externe non bundlée → il faut ces deux dossiers résolvables
-          # depuis deploy/frontend/. On déréférence les symlinks pnpm (-L).
+          # depuis deploy/frontend/. On résout via require.resolve (le suffixe
+          # de hash pnpm du dossier .pnpm n'est pas fixe) et on déréférence (-L).
+          PC_DIR="$(cd frontend && node -e 'process.stdout.write(require("path").dirname(require.resolve("@prisma/client/package.json")))')"
+          PRISMA_NM="$(dirname "$(dirname "$PC_DIR")")"   # .../node_modules (voisin de @prisma/)
+          echo "prisma client: $PC_DIR"
+          echo "prisma nm    : $PRISMA_NM"
           mkdir -p deploy/node_modules/@prisma
-          cp -RL frontend/node_modules/@prisma/client deploy/node_modules/@prisma/client
-          cp -RL node_modules/.prisma                 deploy/node_modules/.prisma
+          cp -RL "$PC_DIR"            deploy/node_modules/@prisma/client
+          cp -RL "$PRISMA_NM/.prisma" deploy/node_modules/.prisma
           test -f deploy/node_modules/.prisma/client/libquery_engine-rhel-openssl-1.1.x.so.node \
-            || { echo "::error::rhel-openssl-1.1.x query engine missing from bundle"; exit 1; }
+            || { echo "::error::rhel-openssl-1.1.x query engine missing from bundle"; ls -la deploy/node_modules/.prisma/client/ || true; exit 1; }
 
       - name: Setup SSH
         env:
