@@ -5,13 +5,41 @@
 // écoute dessus. Le serveur standalone de Next (frontend/server.js) lit
 // process.env.PORT / process.env.HOSTNAME et sert l'app + .next/static + public.
 //
-// Ce wrapper se contente de normaliser l'environnement puis de déléguer.
+// Ce wrapper charge l'environnement puis délègue.
 'use strict';
 
-// Environment variables are provided by the N0C panel (Node.js app →
-// "Environment variables"), which Passenger injects into this process.
-// The Next standalone server (frontend/server.js) additionally loads
-// frontend/.env / frontend/.env.production from its own directory if present.
+const fs = require('fs');
+const path = require('path');
+
+// 1. Charger les variables d'environnement depuis <appRoot>/.env.
+//    Le gestionnaire Node.js du panel N0C (v7.1.x) n'a pas d'UI de variables
+//    d'environnement : l'app root porte un fichier .env (hors du repo, exclu du
+//    rsync) qui est la source unique des variables runtime. Parseur minimal,
+//    zéro dépendance ; une variable déjà présente dans process.env gagne.
+try {
+  const envPath = path.join(__dirname, '.env');
+  const raw = fs.readFileSync(envPath, 'utf8');
+  for (const line of raw.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    if (!key || key in process.env) continue;
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    process.env[key] = value;
+  }
+} catch (err) {
+  if (err.code !== 'ENOENT') throw err;
+  // Pas de .env : on continue — les variables peuvent venir de l'environnement
+  // Passenger. env.ts lèvera au boot si une variable requise manque.
+}
 
 // 2. Production par défaut.
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';

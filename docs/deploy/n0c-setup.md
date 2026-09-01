@@ -23,22 +23,27 @@
 
 ## 3. Variables d'environnement de l'app (runtime)
 
-L'app en cours d'exécution lit ses variables depuis l'**UI du panel N0C** : Applications Node.js → ton app → **« Environment variables »**. C'est le mécanisme fiable — Passenger les injecte dans le process (`app.js` ne charge plus aucun `.env` lui-même).
+Le gestionnaire Node.js du panel N0C (v7.1.x) **n'a pas d'UI de variables d'environnement**. La source unique des variables runtime est un **fichier `.env` à `$N0C_APP_PATH/.env`** (PAS `.../frontend/.env`) :
+- `app.js` le charge au boot (parseur intégré, zéro dépendance) et peuple `process.env` avant de lancer le serveur Next ;
+- l'étape « Prisma migrate deploy » du workflow le source aussi (`set -a; . $N0C_APP_PATH/.env; set +a`) ;
+- il est exclu du `rsync` (`--exclude='.env'`) donc il survit aux déploiements.
 
 ```bash
-ssh USER@HOST
-mkdir -p ~/apps/habitatafriko
+ssh -p 5022 yktzqjpndr@node210-eu.n0c.com
+umask 077
+nano ~/apps/habitatafriko/.env
 ```
 
-Clés runtime à renseigner dans l'UI du panel : `DATABASE_URL`, `DIRECT_URL` (même valeur), `JWT_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`, `COOKIE_PREFIX`, `APP_URL`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `CLOUDINARY_*`, `BREVO_API_KEY`, `EMAIL_FROM`, `BICTORYS_API_KEY`, `BICTORYS_PRIVATE_KEY`, `BICTORYS_WEBHOOK_SECRET`, `BICTORYS_MERCHANT_SECRET_CODE`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` (→ nouveau domaine), `SENTRY_DSN`.
-
-> ⚠️ **`COOKIE_PREFIX` (runtime, ci-dessus) et `NEXT_PUBLIC_COOKIE_PREFIX` (build-time, cf. §4) DOIVENT avoir la même valeur.** Sinon le cookie CSRF côté serveur et côté navigateur portent des noms différents → chaque mutation renvoie 403.
-
-En plus de l'UI du panel, il faut un **fichier `.env` à `$N0C_APP_PATH/.env`** (PAS `.../frontend/.env`) : l'étape « Prisma migrate deploy » du workflow le source pour donner `DATABASE_URL` + `DIRECT_URL` au process de migration. Le garder synchronisé avec l'UI pour ces deux clés au minimum.
+Contenu — toutes les clés runtime, une par ligne `CLE="valeur"` :
+`DATABASE_URL`, `DIRECT_URL` (même valeur), `JWT_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`, `COOKIE_PREFIX`, `APP_URL`, `NODE_ENV=production`, puis (optionnels, sinon la fonctionnalité liée est inerte) `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `BREVO_API_KEY`, `EMAIL_FROM`, `BICTORYS_API_KEY`, `BICTORYS_PRIVATE_KEY`, `BICTORYS_WEBHOOK_SECRET`, `BICTORYS_MERCHANT_SECRET_CODE`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` (→ `https://<domaine>/api/auth/oauth/google/callback`), `SENTRY_DSN`.
 
 ```bash
-nano ~/apps/habitatafriko/.env      # au minimum : DATABASE_URL + DIRECT_URL (valeurs identiques)
+chmod 600 ~/apps/habitatafriko/.env
 ```
+
+> ⚠️ **`COOKIE_PREFIX` (dans le `.env`) et `NEXT_PUBLIC_COOKIE_PREFIX` (build-time, cf. §4) DOIVENT avoir la même valeur.** Sinon le cookie CSRF côté serveur et côté navigateur portent des noms différents → chaque mutation renvoie 403.
+
+> Si une future version du panel N0C expose une UI de variables d'environnement, elle peut remplacer le `.env` : `app.js` ne surcharge jamais une variable déjà présente dans `process.env`.
 
 ## 4. Clé SSH de déploiement + secrets GitHub
 ```bash
