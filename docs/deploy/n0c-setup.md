@@ -106,8 +106,15 @@ Après 48 h stables : supprimer l'ancien projet et purger ses variables d'enviro
   puis redéployer la ref antérieure.
 - Les migrations du projet sont censées être **additives** (norme du projet), donc un rollback code-seul est généralement sûr sans rollback DB.
 
-## Points à vérifier au 1er déploiement (dépendent de l'environnement N0C réel)
-- **Chemin exact du script `activate` nodevenv** (`N0C_NODE_ACTIVATE`) — dépend du nom d'app généré par le panel ; `ls ~/nodevenv/*/24/bin/activate`.
-- **Version OpenSSL du serveur** — conditionne le `binaryTargets` Prisma (`rhel-openssl-3.0.x` supposé) ; `openssl version`.
-- **Fichiers gérés par le panel dans l'app root** (`.htaccess`, symlink `node_modules`, `passenger_wsgi.py`, `tmp/`…) — `ls -la $N0C_APP_PATH` avant le premier `rsync --delete`, ajouter un `--exclude=` par entrée non produite par la CI.
-- **TCP `localhost` vs socket Unix** pour Postgres — ajuster `DATABASE_URL`/`DIRECT_URL` (cf. §1).
+## Valeurs relevées sur l'environnement actuel (node210-eu.n0c.com, compte yktzqjpndr)
+- `N0C_SSH_HOST` = `node210-eu.n0c.com` — **port SSH 5022** (le workflow lit `vars.N0C_SSH_PORT`, défaut `5022`).
+- `N0C_APP_PATH` = `/home/yktzqjpndr/apps/habitatafriko`
+- `N0C_NODE_ACTIVATE` = `/home/yktzqjpndr/nodevenv/apps/habitatafriko/24/bin/activate`
+- `N0C_DEPLOY_URL` = `https://habitatafrik.izichop.xyz`
+- **OpenSSL 1.1.1k** → `binaryTargets = ["native", "rhel-openssl-1.1.x"]` dans `frontend/prisma/schema.prisma` (déjà appliqué).
+- `.htaccess` Passenger : dans `~/habitatafrik/` (docroot du sous-domaine), **pas** dans l'app root → `rsync --delete` sur l'app root ne l'affecte pas.
+- App root géré par le panel : `app.js` (stub par défaut, écrasé par la CI), `public/` (Passenger sert le statique depuis là → `rsync` l'exclut + `mkdir -p public` au restart), `tmp/restart.txt`.
+
+## Points encore à vérifier au 1er déploiement
+- **TCP `localhost` vs socket Unix** pour Postgres — si `migrate deploy` échoue en connexion, ajouter `&host=/var/run/postgresql` à `DATABASE_URL`/`DIRECT_URL` (cf. §1), dans le `.env` **et** l'UI du panel.
+- **`node_modules` symlink** éventuellement recréé par le panel dans l'app root après un restart — `ls -la $N0C_APP_PATH` ; si présent, `--exclude='node_modules'` casserait le bundle standalone (qui embarque son propre `node_modules`), donc au contraire **laisser** la CI l'écraser.

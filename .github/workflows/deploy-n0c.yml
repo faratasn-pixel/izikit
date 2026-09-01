@@ -66,18 +66,21 @@ jobs:
       - name: Setup SSH
         env:
           N0C_SSH_KEY: ${{ secrets.N0C_SSH_KEY }}
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
         run: |
           set -euo pipefail
           mkdir -p ~/.ssh
           printf '%s\n' "$N0C_SSH_KEY" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
-          ssh-keyscan -H "${{ secrets.N0C_SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh-keyscan -p "$N0C_SSH_PORT" -H "${{ secrets.N0C_SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
 
       - name: Rsync to N0C
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
         run: |
           rsync -az --delete \
-            --exclude='.env' --exclude='tmp/' --exclude='.htaccess' \
-            -e "ssh -i ~/.ssh/id_deploy" \
+            --exclude='.env' --exclude='tmp/' --exclude='.htaccess' --exclude='public/' \
+            -e "ssh -i ~/.ssh/id_deploy -p $N0C_SSH_PORT" \
             deploy/ \
             "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}:${{ secrets.N0C_APP_PATH }}/"
 
@@ -88,8 +91,10 @@ jobs:
         # migrate process. Pin prisma@5.22.0 — an unpinned `npx prisma` pulls
         # Prisma v7, incompatible with the v5 migration history.
         # Effective command: prisma migrate deploy (via npx prisma@5.22.0).
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
         run: |
-          ssh -i ~/.ssh/id_deploy \
+          ssh -i ~/.ssh/id_deploy -p "$N0C_SSH_PORT" \
             "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
             "set -euo pipefail; \
              source '${{ secrets.N0C_NODE_ACTIVATE }}'; \
@@ -98,10 +103,12 @@ jobs:
              npx --yes prisma@5.22.0 migrate deploy --schema prisma/schema.prisma"
 
       - name: Restart Passenger
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
         run: |
-          ssh -i ~/.ssh/id_deploy \
+          ssh -i ~/.ssh/id_deploy -p "$N0C_SSH_PORT" \
             "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
-            "cd '${{ secrets.N0C_APP_PATH }}' && mkdir -p tmp && touch tmp/restart.txt"
+            "cd '${{ secrets.N0C_APP_PATH }}' && mkdir -p tmp public && touch tmp/restart.txt"
 
       - name: Smoke check
         run: |
