@@ -71,6 +71,16 @@ jobs:
           cp -r frontend/prisma deploy/frontend/prisma
           cp app.js deploy/app.js
           test -f deploy/frontend/server.js  # garde-fou layout standalone
+          # Next standalone + pnpm ne reconstruit PAS les entrées top-level
+          # node_modules/@prisma/client + node_modules/.prisma (seul .pnpm/ est
+          # copié). frontend/server.js fait `require('@prisma/client')` en
+          # dépendance externe non bundlée → il faut ces deux dossiers résolvables
+          # depuis deploy/frontend/. On déréférence les symlinks pnpm (-L).
+          mkdir -p deploy/node_modules/@prisma
+          cp -RL frontend/node_modules/@prisma/client deploy/node_modules/@prisma/client
+          cp -RL node_modules/.prisma                 deploy/node_modules/.prisma
+          test -f deploy/node_modules/.prisma/client/libquery_engine-rhel-openssl-1.1.x.so.node \
+            || { echo "::error::rhel-openssl-1.1.x query engine missing from bundle"; exit 1; }
 
       - name: Setup SSH
         env:
