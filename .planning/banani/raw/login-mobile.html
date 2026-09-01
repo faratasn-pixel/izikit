@@ -1,0 +1,550 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABITAT-AFRIK — Connexion Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #ffffff;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+      width: 375px;
+    }
+    .screen {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 375px;
+      background: var(--background);
+      overflow: hidden;
+    }
+  </style>
+
+  <style id="hero-styles">
+    .hero-section {
+      position: relative;
+      width: 375px;
+      height: 280px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .hero-section .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8, 18, 35, 0.9) 0%,
+        rgba(8, 18, 35, 0.4) 55%,
+        rgba(8, 18, 35, 0.18) 100%
+      );
+      z-index: 1;
+    }
+    .hero-top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 20px 20px 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .register-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .register-link-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+    .hero-bottom-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 0 20px 20px 20px;
+    }
+    .hero-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 26px;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .hero-title .accent-word {
+      color: var(--accent);
+    }
+    .hero-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .pagination-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+    }
+    .dot.active {
+      width: 18px;
+      border-radius: 3px;
+      background: var(--accent);
+    }
+  </style>
+
+  <style id="form-container-styles">
+    .form-container {
+      flex: 1;
+      background: var(--background);
+      padding: 28px 20px 32px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .form-header {
+      margin-bottom: 24px;
+    }
+    .form-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+      line-height: 1.25;
+      margin-bottom: 5px;
+    }
+    .form-title .accent {
+      color: var(--accent);
+    }
+    .form-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+  </style>
+
+  <style id="form-styles">
+    .form-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #374151;
+      line-height: 1.4;
+    }
+    .field-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 48px;
+    }
+    .field-wrap.focused {
+      border-color: var(--accent);
+    }
+    .field-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0 14px;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--foreground);
+      height: 48px;
+    }
+    .phone-prefix {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 10px 0 14px;
+      border-right: 1.5px solid var(--border);
+      height: 100%;
+      min-height: 48px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .phone-prefix-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+    .field-icon-btn {
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .forgot-link {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+
+  <style id="cta-styles">
+    .btn-primary {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .divider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider-text {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .social-btn-row {
+      display: flex;
+      gap: 10px;
+    }
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--background);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .social-btn-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .signup-row {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+    .signup-row a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen" id="screen">
+    <!-- HERO SECTION -->
+    <div class="hero-section" id="hero">
+      <img
+        class="bg-image"
+        data-query="modern west african architecture building low angle shot, lagos abidjan contemporary glass concrete facade, blue sky, professional photography, cinematic"
+        data-aspect-ratio="4:3"
+        alt="Architecture moderne ouest-africaine"
+        src="https://storage.googleapis.com/banani-generated-images/generated-images/50bc0301-e064-4294-be8e-6af891d06327.jpg"
+      />
+      <div class="hero-overlay"></div>
+
+      <!-- Top bar: Logo + S'inscrire -->
+      <div class="hero-top-bar">
+        <a href="#" class="logo" data-media-type="banani-button">
+          <div class="logo-mark">
+            <iconify-icon icon="lucide:home" style="font-size: 17px; color: #fff"></iconify-icon>
+          </div>
+          <span class="logo-text">HABITAT-AFRIK</span>
+        </a>
+        <a href="#" class="register-link" data-media-type="banani-button">
+          <div
+            style="
+              width: 14px;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:user-plus"
+              style="font-size: 13px; color: #fff"
+            ></iconify-icon>
+          </div>
+          <span class="register-link-text">S'inscrire</span>
+        </a>
+      </div>
+
+      <!-- Bottom: Hero text -->
+      <div class="hero-bottom-content">
+        <h1 class="hero-title">
+          Trouvez votre <span class="accent-word">chez-vous</span> en Afrique
+        </h1>
+        <p class="hero-subtitle">Des milliers de biens vérifiés. Des agents de confiance.</p>
+        <div class="pagination-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM SECTION -->
+    <div class="form-container" id="form-container">
+      <div class="form-header">
+        <h2 class="form-title">Bon retour sur<br /><span class="accent">HABITAT-AFRIK</span></h2>
+        <p class="form-subtitle">Connectez-vous à votre compte pour continuer</p>
+      </div>
+
+      <div class="form-body">
+        <!-- Téléphone -->
+        <div class="form-group">
+          <label class="form-label">Numéro de téléphone / WhatsApp</label>
+          <div class="field-wrap focused">
+            <div class="phone-prefix" data-media-type="banani-button">
+              <span style="font-size: 17px; line-height: 1">🇧🇯</span>
+              <span class="phone-prefix-text">+229</span>
+              <div
+                style="
+                  width: 13px;
+                  height: 13px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 13px; color: #9ca3af"
+                ></iconify-icon>
+              </div>
+            </div>
+            <input
+              class="field-input"
+              type="tel"
+              placeholder="67 00 00 00"
+              style="padding-left: 12px"
+            />
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <div class="field-row">
+            <label class="form-label">Mot de passe</label>
+            <a href="#" class="forgot-link" data-media-type="banani-button"
+              >Mot de passe oublié ?</a
+            >
+          </div>
+          <div class="field-wrap">
+            <input class="field-input" type="password" placeholder="Votre mot de passe" />
+            <div class="field-icon-btn" data-media-type="banani-button">
+              <div
+                style="
+                  width: 18px;
+                  height: 18px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 18px; color: #9ca3af"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="btn-primary" id="login-btn" data-media-type="banani-button">Se connecter</div>
+
+        <!-- Divider -->
+        <div class="divider-row">
+          <div class="divider-line"></div>
+          <span class="divider-text">Ou continuer avec</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- Social buttons -->
+        <div class="social-btn-row">
+          <div class="social-btn" data-media-type="banani-button">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M43.611 20.083H42V20H24V28H35.303C33.654 32.657 29.223 36 24 36C17.373 36 12 30.627 12 24C12 17.373 17.373 12 24 12C27.059 12 29.842 13.154 31.961 15.039L37.618 9.382C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24C4 35.045 12.955 44 24 44C35.045 44 44 35.045 44 24C44 22.659 43.862 21.35 43.611 20.083Z"
+                fill="#FFC107"
+              ></path>
+              <path
+                d="M6.306 14.691L12.877 19.51C14.655 15.108 18.961 12 24 12C27.059 12 29.842 13.154 31.961 15.039L37.618 9.382C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691Z"
+                fill="#FF3D00"
+              ></path>
+              <path
+                d="M24 44C29.166 44 33.86 42.023 37.409 38.808L31.219 33.57C29.211 35.092 26.715 36 24 36C18.798 36 14.381 32.683 12.717 28.054L6.195 33.079C9.505 39.556 16.227 44 24 44Z"
+                fill="#4CAF50"
+              ></path>
+              <path
+                d="M43.611 20.083H42V20H24V28H35.303C34.511 30.237 33.072 32.166 31.216 33.571L31.219 33.57L37.409 38.808C36.971 39.205 44 34 44 24C44 22.659 43.862 21.35 43.611 20.083Z"
+                fill="#1976D2"
+              ></path>
+            </svg>
+            <span class="social-btn-text">Google</span>
+          </div>
+          <div class="social-btn" id="facebook-btn" data-media-type="banani-button">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M24 12.073C24 5.404 18.627 0 12 0C5.373 0 0 5.404 0 12.073C0 18.099 4.388 23.094 10.125 24V15.563H7.078V12.073H10.125V9.413C10.125 6.387 11.917 4.715 14.658 4.715C15.97 4.715 17.344 4.95 17.344 4.95V7.922H15.83C14.339 7.922 13.875 8.853 13.875 9.808V12.073H17.203L16.671 15.563H13.875V24C19.612 23.094 24 18.099 24 12.073Z"
+                fill="#1877F2"
+              ></path>
+              <path
+                d="M16.671 15.563L17.203 12.073H13.875V9.808C13.875 8.853 14.339 7.922 15.83 7.922H17.344V4.95C17.344 4.95 15.97 4.715 14.658 4.715C11.917 4.715 10.125 6.387 10.125 9.413V12.073H7.078V15.563H10.125V24C10.736 24.097 11.363 24.146 12 24.146C12.637 24.146 13.264 24.097 13.875 24V15.563H16.671Z"
+                fill="white"
+              ></path>
+            </svg>
+            <span class="social-btn-text">Facebook</span>
+          </div>
+        </div>
+
+        <!-- Sign up link -->
+        <p class="signup-row">
+          Pas encore de compte ?
+          <a href="#" data-media-type="banani-button">S'inscrire gratuitement</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>

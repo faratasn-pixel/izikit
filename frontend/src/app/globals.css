@@ -1,1 +1,12 @@
 @import 'tailwindcss';
+
+/*
+ * Habitat Blue — token set from the Banani "HABITATAFRIK EQUIPE" flow.
+ * Reused by every screen fetched from that flow (login, signup, …).
+ */
+@theme {
+  --color-brand: #376bff;
+  --color-brand-foreground: #ffffff;
+  --radius-brand-lg: 10px;
+  --font-sora: var(--font-sora);
+}

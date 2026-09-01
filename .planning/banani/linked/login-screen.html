@@ -1,0 +1,603 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HABITAT-AFRIK — Connexion</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: var(--background);
+      --foreground: var(--foreground);
+      --border: var(--border);
+      --input: var(--input);
+      --primary: var(--primary);
+      --primary-foreground: var(--primary-foreground);
+      --secondary: var(--secondary);
+      --secondary-foreground: var(--secondary-foreground);
+      --muted: var(--muted);
+      --muted-foreground: var(--muted-foreground);
+      --accent: var(--accent);
+      --accent-foreground: var(--accent-foreground);
+      --destructive: var(--destructive);
+      --destructive-foreground: var(--destructive-foreground);
+      --warning: var(--warning);
+      --warning-foreground: var(--warning-foreground);
+      --success: var(--success);
+      --success-foreground: var(--success-foreground);
+      --card: var(--card);
+      --card-foreground: var(--card-foreground);
+      --sidebar: var(--sidebar);
+      --sidebar-foreground: var(--sidebar-foreground);
+      --sidebar-primary: var(--sidebar-primary);
+      --sidebar-primary-foreground: var(--sidebar-primary-foreground);
+      --radius-sm: var(--radius-sm);
+      --radius-md: var(--radius-md);
+      --radius-lg: var(--radius-lg);
+      --radius-xl: var(--radius-xl);
+      --font-family-body: inherit;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+      height: 100%;
+    }
+    .split-container {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="left-panel">
+    .left-panel {
+      width: 50%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 36px 40px 40px 40px;
+    }
+    .left-panel .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    .left-panel .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8, 18, 35, 0.88) 0%,
+        rgba(8, 18, 35, 0.38) 55%,
+        rgba(8, 18, 35, 0.1) 100%
+      );
+      z-index: 1;
+    }
+    .left-panel .top-bar {
+      position: relative;
+      z-index: 2;
+    }
+    .left-panel .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .left-panel .logo-mark {
+      width: 38px;
+      height: 38px;
+      background: var(--accent);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .left-panel .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .left-panel .bottom-content {
+      position: relative;
+      z-index: 2;
+    }
+    .left-panel .hero-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 48px;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      max-width: 440px;
+    }
+    .left-panel .hero-title .accent-word {
+      color: var(--accent);
+    }
+    .left-panel .hero-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+      margin-bottom: 28px;
+      max-width: 380px;
+    }
+    .pagination-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+    }
+    .dot.active {
+      width: 24px;
+      border-radius: 4px;
+      background: var(--accent);
+    }
+  </style>
+
+  <style id="right-panel">
+    .right-panel {
+      width: 50%;
+      background: var(--background);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+    }
+    .right-panel-inner {
+      padding: 36px 60px 48px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 812px;
+    }
+    .right-top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 48px;
+    }
+    .register-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--foreground);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--background);
+      cursor: pointer;
+    }
+    .form-header {
+      margin-bottom: 36px;
+    }
+    .form-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 32px;
+      color: var(--foreground);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .form-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+  </style>
+
+  <style id="form-styles">
+    .form-body {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.4;
+    }
+    .field-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 48px;
+    }
+    .field-wrap.focus-ring {
+      border-color: var(--accent);
+    }
+    .field-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--foreground);
+      height: 48px;
+      line-height: 1.5;
+    }
+    .field-input::placeholder {
+      color: var(--muted-foreground);
+      font-size: 14px;
+    }
+    .phone-prefix {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px 0 14px;
+      border-right: 1.5px solid var(--border);
+      height: 100%;
+      min-height: 48px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .phone-prefix-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--foreground);
+    }
+    .field-icon-btn {
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      color: var(--muted-foreground);
+      cursor: pointer;
+    }
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .forgot-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+
+  <style id="cta-buttons">
+    .btn-primary {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .divider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 4px 0;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .social-btn-row {
+      display: flex;
+      gap: 12px;
+    }
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 11px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--background);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .social-btn-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+    }
+    .signup-row {
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+    .signup-row a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="split-container">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <img
+        class="bg-image"
+        data-query="modern west african architecture building low angle shot, lagos abidjan contemporary glass concrete facade, blue sky, professional photography, cinematic"
+        data-aspect-ratio="9:16"
+        alt="Architecture moderne ouest-africaine"
+        src="https://storage.googleapis.com/banani-generated-images/generated-images/e38fdee5-5b44-46e2-a87d-385be6b8686a.jpg"
+      />
+      <div class="overlay"></div>
+
+      <!-- Logo -->
+      <div class="top-bar">
+        <a href="#" class="logo" data-media-type="banani-button">
+          <div class="logo-mark">
+            <iconify-icon icon="lucide:home" style="font-size: 20px; color: #fff"></iconify-icon>
+          </div>
+          <span class="logo-text">HABITAT-AFRIK</span>
+        </a>
+      </div>
+
+      <!-- Bottom Content -->
+      <div class="bottom-content">
+        <h1 class="hero-title">
+          Trouvez votre <span class="accent-word">chez-vous</span> en Afrique
+        </h1>
+        <p class="hero-subtitle">
+          Des milliers de biens vérifiés. Des agents de confiance. Une plateforme simple.
+        </p>
+        <div class="pagination-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel" id="right-panel">
+      <div class="right-panel-inner">
+        <!-- Top bar: S'inscrire -->
+        <div class="right-top-bar">
+          <a href="register-screen.html" class="register-link" data-media-type="banani-button">
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:user-plus"
+                style="font-size: 16px; color: #374151"
+              ></iconify-icon>
+            </div>
+            S'inscrire
+          </a>
+        </div>
+
+        <!-- Form Header -->
+        <div class="form-header">
+          <h2 class="form-title">
+            Bon retour sur<br /><span style="color: var(--accent)">HABITAT-AFRIK</span>
+          </h2>
+          <p class="form-subtitle">Connectez-vous à votre compte pour continuer</p>
+        </div>
+
+        <!-- Form -->
+        <div class="form-body">
+          <!-- Téléphone / WhatsApp -->
+          <div class="form-group">
+            <label class="form-label">Numéro de téléphone / WhatsApp</label>
+            <div class="field-wrap focus-ring">
+              <div class="phone-prefix" data-media-type="banani-button">
+                <span style="font-size: 18px; line-height: 1">🇧🇯</span>
+                <span class="phone-prefix-text">+229</span>
+                <div
+                  style="
+                    width: 14px;
+                    height: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 14px; color: #9ca3af"
+                  ></iconify-icon>
+                </div>
+              </div>
+              <input
+                class="field-input"
+                type="tel"
+                placeholder="67 00 00 00"
+                style="padding-left: 12px"
+              />
+            </div>
+          </div>
+
+          <!-- Mot de passe -->
+          <div class="form-group">
+            <div class="field-row">
+              <label class="form-label">Mot de passe</label>
+              <a href="password-reset.html" class="forgot-link" data-media-type="banani-button"
+                >Mot de passe oublié ?</a
+              >
+            </div>
+            <div class="field-wrap">
+              <input class="field-input" type="password" placeholder="Votre mot de passe" />
+              <div class="field-icon-btn" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 18px;
+                    height: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:eye"
+                    style="font-size: 18px; color: #9ca3af"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Se connecter CTA -->
+          <div
+            class="btn-primary"
+            id="login-btn"
+            data-media-type="banani-button"
+            onclick="location.href = 'agent-dashboard.html'"
+            style="cursor: pointer"
+          >
+            Se connecter
+          </div>
+
+          <!-- Divider -->
+          <div class="divider-row">
+            <div class="divider-line"></div>
+            <span class="divider-text">Ou continuer avec</span>
+            <div class="divider-line"></div>
+          </div>
+
+          <!-- Social buttons -->
+          <div class="social-btn-row">
+            <div
+              class="social-btn"
+              data-media-type="banani-button"
+              onclick="location.href = 'agent-dashboard.html'"
+              style="cursor: pointer"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M43.611 20.083H42V20H24V28H35.303C33.654 32.657 29.223 36 24 36C17.373 36 12 30.627 12 24C12 17.373 17.373 12 24 12C27.059 12 29.842 13.154 31.961 15.039L37.618 9.382C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24C4 35.045 12.955 44 24 44C35.045 44 44 35.045 44 24C44 22.659 43.862 21.35 43.611 20.083Z"
+                  fill="#FFC107"
+                ></path>
+                <path
+                  d="M6.306 14.691L12.877 19.51C14.655 15.108 18.961 12 24 12C27.059 12 29.842 13.154 31.961 15.039L37.618 9.382C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691Z"
+                  fill="#FF3D00"
+                ></path>
+                <path
+                  d="M24 44C29.166 44 33.86 42.023 37.409 38.808L31.219 33.57C29.211 35.092 26.715 36 24 36C18.798 36 14.381 32.683 12.717 28.054L6.195 33.079C9.505 39.556 16.227 44 24 44Z"
+                  fill="#4CAF50"
+                ></path>
+                <path
+                  d="M43.611 20.083H42V20H24V28H35.303C34.511 30.237 33.072 32.166 31.216 33.571L31.219 33.57L37.409 38.808C36.971 39.205 44 34 44 24C44 22.659 43.862 21.35 43.611 20.083Z"
+                  fill="#1976D2"
+                ></path>
+              </svg>
+              <span class="social-btn-text">Continuer avec Google</span>
+            </div>
+            <div
+              class="social-btn"
+              id="facebook-btn"
+              data-media-type="banani-button"
+              onclick="location.href = 'agent-dashboard.html'"
+              style="cursor: pointer"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M24 12.073C24 5.404 18.627 0 12 0C5.373 0 0 5.404 0 12.073C0 18.099 4.388 23.094 10.125 24V15.563H7.078V12.073H10.125V9.413C10.125 6.387 11.917 4.715 14.658 4.715C15.97 4.715 17.344 4.95 17.344 4.95V7.922H15.83C14.339 7.922 13.875 8.853 13.875 9.808V12.073H17.203L16.671 15.563H13.875V24C19.612 23.094 24 18.099 24 12.073Z"
+                  fill="#1877F2"
+                ></path>
+                <path
+                  d="M16.671 15.563L17.203 12.073H13.875V9.808C13.875 8.853 14.339 7.922 15.83 7.922H17.344V4.95C17.344 4.95 15.97 4.715 14.658 4.715C11.917 4.715 10.125 6.387 10.125 9.413V12.073H7.078V15.563H10.125V24C10.736 24.097 11.363 24.146 12 24.146C12.637 24.146 13.264 24.097 13.875 24V15.563H16.671Z"
+                  fill="white"
+                ></path></svg
+              ><span class="social-btn-text">Continuer avec Facebook</span>
+            </div>
+          </div>
+
+          <!-- No account yet -->
+          <p class="signup-row">
+            Pas encore de compte ?
+            <a href="register-screen.html" data-media-type="banani-button"
+              >S'inscrire gratuitement</a
+            >
+          </p>
+        </div>
+        <!-- /form-body -->
+      </div>
+      <!-- /right-panel-inner -->
+    </div>
+    <!-- /right-panel -->
+  </div>
+</body>

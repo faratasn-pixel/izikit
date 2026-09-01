@@ -9,6 +9,15 @@ import { COOKIE_PREFIX } from '@/lib/constants';
 export interface User {
   id: string;
   email: string;
+  phone: string | null;
+  /** Optional display name — null for email/password accounts that haven't set one. */
+  name: string | null;
+  avatarUrl: string | null;
+  city: string | null;
+  country: string | null;
+  bio: string | null;
+  /** Real-estate persona from the Register screen's "Vous êtes" selector. */
+  accountType: 'TENANT_BUYER' | 'OWNER_AGENT';
   emailVerifiedAt: string | null;
   createdAt: string;
   updatedAt: string;

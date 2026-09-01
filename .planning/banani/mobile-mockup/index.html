@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HABITAT-AFRIK — Mockup Mobile (28 écrans)</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system,
+          Segoe UI,
+          Inter,
+          sans-serif;
+        background: #0f1115;
+        color: #e6e8eb;
+      }
+      header {
+        padding: 24px 32px;
+        border-bottom: 1px solid #23262d;
+        position: sticky;
+        top: 0;
+        background: #0f1115;
+        z-index: 10;
+      }
+      header h1 {
+        margin: 0 0 4px;
+        font-size: 20px;
+      }
+      header p {
+        margin: 0;
+        color: #9aa0a8;
+        font-size: 13px;
+      }
+      main {
+        padding: 8px 32px 48px;
+      }
+      section {
+        margin-top: 32px;
+      }
+      h2 {
+        font-size: 15px;
+        color: #9aa0a8;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border-bottom: 1px solid #23262d;
+        padding-bottom: 8px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 16px;
+      }
+      .card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid #23262d;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #16181d;
+        transition: border-color 0.15s;
+      }
+      .card:hover {
+        border-color: #376bff;
+      }
+      .thumb {
+        width: 200px;
+        overflow: hidden;
+        position: relative;
+        background: #fff;
+        pointer-events: none;
+      }
+      .thumb iframe {
+        border: 0;
+        transform-origin: top left;
+      }
+      .label {
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>HABITAT-AFRIK — Mockup Mobile (28 écrans)</h1>
+      <p>
+        Sous-ensemble "format mobile" des 54 écrans Banani archivés — les écrans desktop sont
+        exclus. Navigation reliée : bottom nav, onglets de réglages, flow auth et CTA de contenu ne
+        pointent que vers d'autres écrans mobiles de ce mockup. Clique une carte pour ouvrir l'écran
+        en taille réelle et navigue depuis là.
+      </p>
+    </header>
+    <main>
+      <section>
+        <h2>Authentification</h2>
+        <div class="grid">
+          <a class="card" href="screens/login-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/login-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Login Mobile</div>
+          </a>
+          <a class="card" href="screens/register-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/register-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Register Mobile</div>
+          </a>
+          <a class="card" href="screens/forgot-password.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/forgot-password.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Forgot Password</div>
+          </a>
+          <a class="card" href="screens/otp-verification.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/otp-verification.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">OTP Verification</div>
+          </a>
+          <a class="card" href="screens/new-password-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/new-password-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">New Password Mobile</div>
+          </a>
+          <a class="card" href="screens/success-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/success-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Success Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Tableau de bord agent</h2>
+        <div class="grid">
+          <a class="card" href="screens/dashboard-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/dashboard-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Dashboard Mobile</div>
+          </a>
+          <a class="card" href="screens/statistiques-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/statistiques-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Statistiques Mobile</div>
+          </a>
+          <a class="card" href="screens/mon-agence-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/mon-agence-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Mon Agence Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Annonces</h2>
+        <div class="grid">
+          <a class="card" href="screens/publier-annonce-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/publier-annonce-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Publier Annonce Mobile</div>
+          </a>
+          <a
+            class="card"
+            href="screens/publier-annonce-alt-mobile.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/publier-annonce-alt-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Publier Annonce Alt Mobile</div>
+          </a>
+          <a
+            class="card"
+            href="screens/modifier-annonce-mobile.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/modifier-annonce-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Modifier Annonce Mobile</div>
+          </a>
+          <a class="card" href="screens/annonces-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/annonces-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Annonces Mobile</div>
+          </a>
+          <a class="card" href="screens/annonce-detail-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/annonce-detail-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Annonce Detail Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Messages / contacts / visites</h2>
+        <div class="grid">
+          <a class="card" href="screens/messages-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/messages-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Messages Mobile</div>
+          </a>
+          <a class="card" href="screens/contacts-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/contacts-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Contacts Mobile</div>
+          </a>
+          <a class="card" href="screens/visites-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/visites-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Visites Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Notifications / alertes</h2>
+        <div class="grid">
+          <a class="card" href="screens/notifications-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/notifications-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Notifications Mobile</div>
+          </a>
+          <a class="card" href="screens/alerte-secteur-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/alerte-secteur-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Alerte Secteur Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Paramètres</h2>
+        <div class="grid">
+          <a class="card" href="screens/settings-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/settings-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Settings Mobile</div>
+          </a>
+          <a class="card" href="screens/apparence-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/apparence-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Apparence Mobile</div>
+          </a>
+          <a class="card" href="screens/langue-region-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/langue-region-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Langue Région Mobile</div>
+          </a>
+          <a
+            class="card"
+            href="screens/documents-legaux-mobile.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/documents-legaux-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Documents Légaux Mobile</div>
+          </a>
+          <a class="card" href="screens/centre-aide-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/centre-aide-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Centre Aide Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Facturation</h2>
+        <div class="grid">
+          <a class="card" href="screens/abonnement-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/abonnement-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Abonnement Mobile</div>
+          </a>
+          <a class="card" href="screens/jetons-vr-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/jetons-vr-mobile.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Jetons VR Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Variantes à confirmer (doublons)</h2>
+        <div class="grid">
+          <a
+            class="card"
+            href="screens/alerte-secteur-mobile-pjd6hr3sh_pr.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/alerte-secteur-mobile-pjd6hr3sh_pr.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Alerte Secteur Mobile</div>
+          </a>
+          <a
+            class="card"
+            href="screens/modifier-annonce-mobile-x9tyh65n9hgj.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 433px">
+              <iframe
+                src="screens/modifier-annonce-mobile-x9tyh65n9hgj.html"
+                style="width: 375px; height: 812px; transform: scale(0.5333333333333333)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Modifier Annonce Mobile</div>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

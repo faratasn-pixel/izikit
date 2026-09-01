@@ -1,0 +1,1483 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>Demande Immobilière — Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+      max-width: 375px;
+      margin: 0 auto;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      flex: 1;
+    }
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .notif-btn {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  </style>
+
+  <style id="page-styles">
+    .page-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px 80px 16px;
+      background: var(--background);
+    }
+    .page-header {
+      margin-bottom: 20px;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      line-height: 1.5;
+    }
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .btn-primary {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+  </style>
+
+  <style id="stats-styles">
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stat-icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-trend {
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .trend-up {
+      color: #059669;
+    }
+    .trend-neutral {
+      color: var(--muted-foreground);
+    }
+    .stat-value {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+    }
+    .stat-label {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      line-height: 1.3;
+    }
+  </style>
+
+  <style id="tabs-styles">
+    .tabs-scroll {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted-foreground);
+      background: var(--card);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .tab-btn.active {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .tab-count {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 6px;
+    }
+    .tab-btn.active .tab-count {
+      background: var(--primary);
+      color: #fff;
+    }
+  </style>
+
+  <style id="filter-styles">
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .filter-bar::-webkit-scrollbar {
+      display: none;
+    }
+    .filter-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 7px 12px;
+      font-size: 12px;
+      color: var(--secondary-foreground);
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-bottom: 14px;
+    }
+  </style>
+
+  <style id="card-styles">
+    .demand-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .demand-card.selected {
+      border: 2px solid var(--primary);
+      background: #f5f8ff;
+    }
+    .demand-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .demand-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .demand-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .demand-user-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .demand-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .demand-type {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .demand-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      white-space: nowrap;
+    }
+    .badge-pending {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-active {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-closed {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+    .badge-inprogress {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .priority-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-high {
+      background: #ef4444;
+    }
+    .dot-medium {
+      background: #f59e0b;
+    }
+    .dot-low {
+      background: #22c55e;
+    }
+    .demand-card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      margin-bottom: 10px;
+    }
+    .demand-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .demand-info-label {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+    .demand-info-value {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .demand-info-value.primary {
+      color: var(--primary);
+    }
+    .demand-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .demand-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .action-btn-primary {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .action-btn-ghost {
+      background: var(--muted);
+      color: var(--secondary-foreground);
+    }
+    .demand-date {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="detail-sheet-styles">
+    .detail-sheet {
+      background: var(--card);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      padding: 0;
+      margin-top: 16px;
+    }
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      margin: 10px auto 0 auto;
+    }
+    .sheet-header {
+      padding: 16px 16px 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .sheet-close {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .sheet-body {
+      padding: 16px;
+    }
+    .sheet-section {
+      margin-bottom: 18px;
+    }
+    .sheet-section-title {
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted-foreground);
+      margin-bottom: 10px;
+    }
+    .info-card {
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .info-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+    .info-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .info-value.primary {
+      color: var(--primary);
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 14px 0;
+    }
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-avatar-lg {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .agent-match-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      margin-bottom: 8px;
+    }
+    .agent-match-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .agent-match-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .agent-match-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .agent-match-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .match-score {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      background: #eef3ff;
+      border-radius: 99px;
+      padding: 2px 10px;
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .timeline-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .timeline-dot.inactive {
+      background: var(--border);
+    }
+    .timeline-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .timeline-date {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .sheet-footer {
+      padding: 12px 16px 16px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .btn-success {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px;
+      background: #22c55e;
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-destructive {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px;
+      background: #ef4444;
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .keyword-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+    }
+    .form-textarea {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      min-height: 60px;
+      width: 100%;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      position: sticky;
+      bottom: 0;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 10px 0 12px 0;
+      z-index: 10;
+    }
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      flex: 1;
+      text-decoration: none;
+    }
+    .nav-tab-icon {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-tab-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .nav-tab.active .nav-tab-label {
+      color: var(--primary);
+    }
+    .nav-tab-badge-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+    .nav-badge {
+      position: absolute;
+      top: -4px;
+      right: -6px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      min-width: 16px;
+      text-align: center;
+      border: 1.5px solid #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- TOPBAR -->
+  <div class="topbar" id="topbar">
+    <div class="topbar-logo">
+      <div class="logo-mark">
+        <iconify-icon icon="lucide:home" style="font-size: 16px; color: #fff"></iconify-icon>
+      </div>
+      <span class="logo-text">HABITAT-AFRIK</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="notif-btn" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:bell"
+          style="font-size: 17px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+        <span class="notif-dot"></span>
+      </div>
+      <img
+        src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+        alt="Kofi Mensah"
+        class="user-avatar"
+        data-media-type="banani-button"
+      />
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content" id="page-content">
+    <!-- Header -->
+    <div class="page-header">
+      <div class="page-title">Demande Immobilière</div>
+      <div class="page-sub">Gérez les demandes de biens reçues et associez-les à vos annonces.</div>
+      <div class="header-actions">
+        <div class="btn-outline" data-media-type="banani-button">
+          <div
+            style="
+              width: 14px;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:download"
+              style="font-size: 13px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          Exporter
+        </div>
+        <div class="btn-primary" data-media-type="banani-button">
+          <div
+            style="
+              width: 14px;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon icon="lucide:plus" style="font-size: 13px; color: #fff"></iconify-icon>
+          </div>
+          Nouvelle demande
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-row">
+          <div class="stat-icon-box" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:file-search"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <span class="stat-trend trend-up">
+            <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon> +8
+          </span>
+        </div>
+        <div class="stat-value">34</div>
+        <div class="stat-label">Demandes ce mois</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-row">
+          <div class="stat-icon-box" style="background: #fef3c7">
+            <iconify-icon
+              icon="lucide:clock"
+              style="font-size: 16px; color: #d97706"
+            ></iconify-icon>
+          </div>
+          <span class="stat-trend trend-neutral">
+            <iconify-icon icon="lucide:minus" style="font-size: 11px"></iconify-icon> 0
+          </span>
+        </div>
+        <div class="stat-value">11</div>
+        <div class="stat-label">En attente</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-row">
+          <div class="stat-icon-box" style="background: #d1fae5">
+            <iconify-icon
+              icon="lucide:handshake"
+              style="font-size: 16px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <span class="stat-trend trend-up">
+            <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon> +3
+          </span>
+        </div>
+        <div class="stat-value">18</div>
+        <div class="stat-label">Traitées</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-row">
+          <div class="stat-icon-box" style="background: #fee2e2">
+            <iconify-icon icon="lucide:zap" style="font-size: 16px; color: #991b1b"></iconify-icon>
+          </div>
+          <span class="stat-trend trend-up">
+            <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon> +2
+          </span>
+        </div>
+        <div class="stat-value">5</div>
+        <div class="stat-label">Urgentes</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-scroll">
+      <div class="tab-btn active" data-media-type="banani-button">
+        Toutes <span class="tab-count">34</span>
+      </div>
+      <div class="tab-btn" data-media-type="banani-button">
+        En attente <span class="tab-count">11</span>
+      </div>
+      <div class="tab-btn" data-media-type="banani-button">
+        En cours <span class="tab-count">7</span>
+      </div>
+      <div class="tab-btn" data-media-type="banani-button">
+        Traitées <span class="tab-count">18</span>
+      </div>
+      <div class="tab-btn" data-media-type="banani-button">
+        Clôturées <span class="tab-count">6</span>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <iconify-icon
+        icon="lucide:search"
+        style="font-size: 14px; color: var(--muted-foreground); flex-shrink: 0"
+      ></iconify-icon>
+      Rechercher par nom, type, ville…
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="filter-chip" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:map-pin"
+          style="font-size: 12px; color: var(--muted-foreground)"
+        ></iconify-icon>
+        Pays
+        <iconify-icon
+          icon="lucide:chevron-down"
+          style="font-size: 11px; color: var(--muted-foreground)"
+        ></iconify-icon>
+      </div>
+      <div class="filter-chip" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:building-2"
+          style="font-size: 12px; color: var(--muted-foreground)"
+        ></iconify-icon>
+        Type de bien
+        <iconify-icon
+          icon="lucide:chevron-down"
+          style="font-size: 11px; color: var(--muted-foreground)"
+        ></iconify-icon>
+      </div>
+      <div class="filter-chip" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:zap"
+          style="font-size: 12px; color: var(--muted-foreground)"
+        ></iconify-icon>
+        Urgence
+        <iconify-icon
+          icon="lucide:chevron-down"
+          style="font-size: 11px; color: var(--muted-foreground)"
+        ></iconify-icon>
+      </div>
+    </div>
+
+    <!-- Demand Cards -->
+
+    <!-- Card 1 — Selected -->
+    <div class="demand-card selected" data-media-type="banani-button">
+      <div class="demand-card-header">
+        <div class="demand-user">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+            alt="Awa Diallo"
+            class="demand-avatar"
+          />
+          <div class="demand-user-info">
+            <div class="demand-name">Awa Diallo</div>
+            <div class="demand-type">Villa · Vente · 4 pièces min.</div>
+          </div>
+        </div>
+        <div class="demand-badges">
+          <span class="badge badge-pending">En attente</span>
+        </div>
+      </div>
+      <div class="demand-card-body">
+        <div class="demand-info-item">
+          <span class="demand-info-label">Localisation</span>
+          <span class="demand-info-value">Plateau, Abidjan 🇨🇮</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Budget</span>
+          <span class="demand-info-value primary">80M – 200M FCFA</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Urgence</span>
+          <span class="demand-info-value" style="display: flex; align-items: center; gap: 4px">
+            <span class="priority-dot dot-high"></span> Haute
+          </span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Date</span>
+          <span class="demand-info-value">12 jan. 2025</span>
+        </div>
+      </div>
+      <div class="demand-card-footer">
+        <span class="demand-date">Reçue il y a 2 jours</span>
+        <div class="demand-actions">
+          <div class="action-btn action-btn-primary" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:eye"
+              style="font-size: 12px; color: var(--primary)"
+            ></iconify-icon>
+            Voir
+          </div>
+          <div class="action-btn action-btn-ghost" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:more-horizontal"
+              style="font-size: 12px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="demand-card" data-media-type="banani-button">
+      <div class="demand-card-header">
+        <div class="demand-user">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F7"
+            alt="Moussa Traoré"
+            class="demand-avatar"
+          />
+          <div class="demand-user-info">
+            <div class="demand-name">Moussa Traoré</div>
+            <div class="demand-type">Appartement · Location · 3 pièces</div>
+          </div>
+        </div>
+        <div class="demand-badges">
+          <span class="badge badge-inprogress">En cours</span>
+        </div>
+      </div>
+      <div class="demand-card-body">
+        <div class="demand-info-item">
+          <span class="demand-info-label">Localisation</span>
+          <span class="demand-info-value">Cocody, Abidjan 🇨🇮</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Budget</span>
+          <span class="demand-info-value primary">15M – 40M FCFA</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Urgence</span>
+          <span class="demand-info-value" style="display: flex; align-items: center; gap: 4px">
+            <span class="priority-dot dot-medium"></span> Moyenne
+          </span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Date</span>
+          <span class="demand-info-value">10 jan. 2025</span>
+        </div>
+      </div>
+      <div class="demand-card-footer">
+        <span class="demand-date">Reçue il y a 4 jours</span>
+        <div class="demand-actions">
+          <div class="action-btn action-btn-primary" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:eye"
+              style="font-size: 12px; color: var(--primary)"
+            ></iconify-icon>
+            Voir
+          </div>
+          <div class="action-btn action-btn-ghost" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:more-horizontal"
+              style="font-size: 12px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="demand-card" data-media-type="banani-button">
+      <div class="demand-card-header">
+        <div class="demand-user">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F4"
+            alt="Koffi Asante"
+            class="demand-avatar"
+          />
+          <div class="demand-user-info">
+            <div class="demand-name">Koffi Asante</div>
+            <div class="demand-type">Terrain · Vente · 500m² min.</div>
+          </div>
+        </div>
+        <div class="demand-badges">
+          <span class="badge badge-pending">En attente</span>
+        </div>
+      </div>
+      <div class="demand-card-body">
+        <div class="demand-info-item">
+          <span class="demand-info-label">Localisation</span>
+          <span class="demand-info-value">Almadies, Dakar 🇸🇳</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Budget</span>
+          <span class="demand-info-value primary">50M – 150M FCFA</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Urgence</span>
+          <span class="demand-info-value" style="display: flex; align-items: center; gap: 4px">
+            <span class="priority-dot dot-high"></span> Haute
+          </span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Date</span>
+          <span class="demand-info-value">8 jan. 2025</span>
+        </div>
+      </div>
+      <div class="demand-card-footer">
+        <span class="demand-date">Reçue il y a 6 jours</span>
+        <div class="demand-actions">
+          <div class="action-btn action-btn-primary" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:eye"
+              style="font-size: 12px; color: var(--primary)"
+            ></iconify-icon>
+            Voir
+          </div>
+          <div class="action-btn action-btn-ghost" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:more-horizontal"
+              style="font-size: 12px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="demand-card" data-media-type="banani-button">
+      <div class="demand-card-header">
+        <div class="demand-user">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F1"
+            alt="Fatoumata Bah"
+            class="demand-avatar"
+          />
+          <div class="demand-user-info">
+            <div class="demand-name">Fatoumata Bah</div>
+            <div class="demand-type">Bureau · Location · 100m² min.</div>
+          </div>
+        </div>
+        <div class="demand-badges">
+          <span class="badge badge-active">Traitée</span>
+        </div>
+      </div>
+      <div class="demand-card-body">
+        <div class="demand-info-item">
+          <span class="demand-info-label">Localisation</span>
+          <span class="demand-info-value">Bè, Lomé 🇹🇬</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Budget</span>
+          <span class="demand-info-value primary">5M – 20M / an</span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Urgence</span>
+          <span class="demand-info-value" style="display: flex; align-items: center; gap: 4px">
+            <span class="priority-dot dot-low"></span> Basse
+          </span>
+        </div>
+        <div class="demand-info-item">
+          <span class="demand-info-label">Date</span>
+          <span class="demand-info-value">5 jan. 2025</span>
+        </div>
+      </div>
+      <div class="demand-card-footer">
+        <span class="demand-date">Reçue il y a 9 jours</span>
+        <div class="demand-actions">
+          <div class="action-btn action-btn-primary" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:eye"
+              style="font-size: 12px; color: var(--primary)"
+            ></iconify-icon>
+            Voir
+          </div>
+          <div class="action-btn action-btn-ghost" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:more-horizontal"
+              style="font-size: 12px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Sheet for Awa Diallo -->
+    <div class="detail-sheet" id="detail-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div>
+          <div
+            style="
+              font-family: 'Sora', sans-serif;
+              font-weight: 600;
+              font-size: 15px;
+              color: var(--foreground);
+              margin-bottom: 6px;
+            "
+          >
+            Awa Diallo
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap">
+            <span class="badge badge-pending">En attente</span>
+            <span class="badge" style="background: #fee2e2; color: #991b1b">
+              <span class="priority-dot dot-high"></span> Urgente
+            </span>
+          </div>
+        </div>
+        <div class="sheet-close" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:x"
+            style="font-size: 13px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+        </div>
+      </div>
+
+      <div class="sheet-body">
+        <!-- Requester -->
+        <div class="sheet-section">
+          <div class="sheet-section-title">Informations du demandeur</div>
+          <div class="info-card">
+            <div class="user-row" style="margin-bottom: 10px">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                alt="Awa Diallo"
+                class="user-avatar-lg"
+              />
+              <div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--foreground)">
+                  Awa Diallo
+                </div>
+                <div style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px">
+                  <iconify-icon icon="lucide:phone" style="font-size: 11px"></iconify-icon> +225 07
+                  12 34 56
+                </div>
+                <div style="font-size: 12px; color: var(--muted-foreground); margin-top: 1px">
+                  <iconify-icon icon="lucide:mail" style="font-size: 11px"></iconify-icon>
+                  awa.diallo@email.com
+                </div>
+              </div>
+            </div>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Pays</span>
+                <span class="info-value">🇨🇮 Côte d'Ivoire</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Date de la demande</span>
+                <span class="info-value">12 jan. 2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Criteria -->
+        <div class="sheet-section">
+          <div class="sheet-section-title">Critères du bien recherché</div>
+          <div class="info-grid" style="gap: 12px; margin-bottom: 12px">
+            <div class="info-item">
+              <span class="info-label">Type de bien</span>
+              <span class="info-value">Villa</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Transaction</span>
+              <span class="info-value">Vente</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Budget min</span>
+              <span class="info-value primary">80 000 000 FCFA</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Budget max</span>
+              <span class="info-value primary">200 000 000 FCFA</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Localisation</span>
+              <span class="info-value">Plateau, Abidjan</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Rayon</span>
+              <span class="info-value">5 km</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Pièces min.</span>
+              <span class="info-value">4 pièces</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Surface min.</span>
+              <span class="info-value">200 m²</span>
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                font-size: 11px;
+                color: var(--muted-foreground);
+                font-weight: 500;
+                margin-bottom: 6px;
+              "
+            >
+              Équipements souhaités
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px">
+              <span class="keyword-tag">piscine</span>
+              <span class="keyword-tag">gardien</span>
+              <span class="keyword-tag">jardin</span>
+              <span class="keyword-tag">garage</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Agents -->
+        <div class="sheet-section">
+          <div class="sheet-section-title">Agents avec annonces correspondantes</div>
+          <div class="agent-match-row">
+            <div class="agent-match-info">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                alt="Kofi Mensah"
+                class="agent-match-avatar"
+              />
+              <div>
+                <div class="agent-match-name">Kofi Mensah</div>
+                <div class="agent-match-sub">3 annonces • Plateau, Abidjan</div>
+              </div>
+            </div>
+            <span class="match-score">92%</span>
+          </div>
+          <div class="agent-match-row">
+            <div class="agent-match-info">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F1"
+                alt="Ibrahim Sow"
+                class="agent-match-avatar"
+              />
+              <div>
+                <div class="agent-match-name">Ibrahim Sow</div>
+                <div class="agent-match-sub">1 annonce • Cocody, Abidjan</div>
+              </div>
+            </div>
+            <span class="match-score">74%</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Timeline -->
+        <div class="sheet-section">
+          <div class="sheet-section-title">Historique</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <div class="timeline-label">Demande reçue</div>
+                <div class="timeline-date">12 jan. 2025, 09:14</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div>
+                <div class="timeline-label">Assignée à Kofi Mensah</div>
+                <div class="timeline-date">12 jan. 2025, 10:02</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot inactive"></div>
+              <div>
+                <div class="timeline-label" style="color: var(--muted-foreground)">
+                  Contact établi
+                </div>
+                <div class="timeline-date">En attente</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot inactive"></div>
+              <div>
+                <div class="timeline-label" style="color: var(--muted-foreground)">
+                  Visite programmée
+                </div>
+                <div class="timeline-date">En attente</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note -->
+        <div class="sheet-section">
+          <div class="sheet-section-title">Note interne</div>
+          <div class="form-textarea">Ajouter une note sur cette demande…</div>
+        </div>
+      </div>
+
+      <div class="sheet-footer">
+        <div class="btn-row">
+          <div class="btn-success" data-media-type="banani-button">
+            <iconify-icon icon="lucide:check" style="font-size: 13px; color: #fff"></iconify-icon>
+            Prendre en charge
+          </div>
+          <div class="btn-destructive" data-media-type="banani-button">
+            <iconify-icon icon="lucide:x" style="font-size: 13px; color: #fff"></iconify-icon>
+            Clôturer
+          </div>
+        </div>
+        <div class="btn-primary" style="justify-content: center" data-media-type="banani-button">
+          <iconify-icon icon="lucide:send" style="font-size: 13px; color: #fff"></iconify-icon>
+          Contacter le demandeur
+        </div>
+        <div class="btn-secondary" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:user-plus"
+            style="font-size: 13px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+          Assigner à un agent
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav" id="bottom-nav">
+    <a href="#" class="nav-tab" data-media-type="banani-button">
+      <div class="nav-tab-icon">
+        <iconify-icon
+          icon="lucide:layout-dashboard"
+          style="font-size: 20px; color: var(--muted-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="nav-tab-label">Tableau de bord</span>
+    </a>
+    <a href="#" class="nav-tab" data-media-type="banani-button">
+      <div class="nav-tab-icon nav-tab-badge-wrap">
+        <iconify-icon
+          icon="lucide:building-2"
+          style="font-size: 20px; color: var(--muted-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="nav-tab-label">Annonces</span>
+    </a>
+    <a href="#" class="nav-tab active" data-media-type="banani-button">
+      <div class="nav-tab-icon">
+        <iconify-icon
+          icon="lucide:file-search"
+          style="font-size: 20px; color: var(--primary)"
+        ></iconify-icon>
+      </div>
+      <span class="nav-tab-label">Demandes</span>
+    </a>
+    <a href="#" class="nav-tab" data-media-type="banani-button">
+      <div class="nav-tab-icon nav-tab-badge-wrap">
+        <iconify-icon
+          icon="lucide:message-circle"
+          style="font-size: 20px; color: var(--muted-foreground)"
+        ></iconify-icon>
+        <span class="nav-badge">5</span>
+      </div>
+      <span class="nav-tab-label">Messages</span>
+    </a>
+    <a href="#" class="nav-tab" data-media-type="banani-button">
+      <div class="nav-tab-icon">
+        <iconify-icon
+          icon="lucide:settings"
+          style="font-size: 20px; color: var(--muted-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="nav-tab-label">Paramètres</span>
+    </a>
+  </div>
+</body>

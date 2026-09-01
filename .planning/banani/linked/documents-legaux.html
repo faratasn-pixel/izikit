@@ -1,0 +1,1441 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Documents légaux</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="settings-layout">
+    .settings-shell {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: var(--background);
+    }
+    .settings-sidenav {
+      width: 232px;
+      min-width: 232px;
+      background: transparent;
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 14px;
+      gap: 14px;
+      overflow-y: auto;
+    }
+    .settings-sidenav-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 2px;
+    }
+    .settings-tabs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .settings-tabs-label {
+      font-family: 'Sora', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted-foreground);
+      padding: 0 2px;
+    }
+    .settings-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .settings-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      text-decoration: none;
+      white-space: nowrap;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+    .settings-nav-item iconify-icon {
+      color: var(--sidebar-foreground) !important;
+    }
+    .settings-nav-item.active {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    .settings-nav-item.active iconify-icon {
+      color: var(--primary-foreground) !important;
+    }
+    .settings-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+    }
+    .settings-page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .settings-page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+      margin-bottom: 32px;
+    }
+  </style>
+
+  <style id="settings-cards">
+    .settings-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 28px 28px 24px 28px;
+      margin-bottom: 20px;
+    }
+    .settings-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .settings-card-desc {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-bottom: 24px;
+    }
+    .settings-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .status-badge-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+    .status-badge-amber {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--warning);
+      color: var(--warning-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+    .status-badge-red {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="docs-styles">
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-item:last-child {
+      border-bottom: none;
+    }
+    .doc-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-icon-wrap.green {
+      background: var(--success);
+    }
+    .doc-icon-wrap.amber {
+      background: var(--warning);
+    }
+    .doc-icon-wrap.red {
+      background: var(--destructive);
+    }
+    .doc-icon-wrap.blue {
+      background: #eef3ff;
+    }
+    .doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .doc-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-meta {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .doc-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .doc-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .doc-action-btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-xl);
+      background: var(--input);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .upload-zone-icon {
+      width: 48px;
+      height: 48px;
+      background: #eef3ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+    .upload-zone-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .upload-zone-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .upload-zone-link {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 12.5px;
+      cursor: pointer;
+    }
+
+    /* Progress bar */
+    .progress-bar-wrap {
+      width: 120px;
+      height: 5px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--primary);
+    }
+
+    /* Info banner */
+    .info-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #eef3ff;
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+    }
+    .info-banner-text {
+      font-size: 13px;
+      color: #1d4ed8;
+      line-height: 1.5;
+    }
+    .info-banner-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    /* Stats row */
+    .docs-stats-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .docs-stat-card {
+      flex: 1;
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .docs-stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .docs-stat-value {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .docs-stat-label {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="agent-dashboard.html" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="agent-dashboard.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="messages-inbox.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="settings-page.html" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="mes-annonces.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="contacts-recus.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="visites-programmees.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="jetons-vr.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="statistiques-agent.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="centre-aide.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="login-screen.html" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div
+            class="notif-btn"
+            data-media-type="banani-button"
+            onclick="location.href = 'notifications-center.html'"
+            style="cursor: pointer"
+          >
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div
+            class="user-pill"
+            data-media-type="banani-button"
+            onclick="location.href = 'settings-page.html'"
+            style="cursor: pointer"
+          >
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS SHELL -->
+      <div class="settings-shell" id="settings-shell">
+        <!-- Settings side nav -->
+        <div class="settings-sidenav" id="settings-sidenav">
+          <div class="settings-sidenav-title">Paramètres</div>
+
+          <div class="settings-tabs-group" id="settings-account-tabs">
+            <div class="settings-tabs-label">Compte</div>
+            <div class="settings-tabs">
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:user" style="font-size: 15px"></iconify-icon>
+                </div>
+                Profil
+              </a>
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:shield" style="font-size: 15px"></iconify-icon>
+                </div>
+                Sécurité
+              </a>
+              <a href="#" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:bell" style="font-size: 15px"></iconify-icon>
+                </div>
+                Notifications
+              </a>
+            </div>
+          </div>
+
+          <div class="settings-tabs-group" id="settings-agency-tabs">
+            <div class="settings-tabs-label">Agence</div>
+            <div class="settings-tabs">
+              <a href="mon-agence.html" class="settings-nav-item" data-media-type="banani-button">
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:building" style="font-size: 15px"></iconify-icon>
+                </div>
+                Mon agence
+              </a>
+              <a
+                href="documents-legaux.html"
+                class="settings-nav-item active"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:file-text"
+                    style="font-size: 15px; color: #fff !important"
+                  ></iconify-icon>
+                </div>
+                Documents légaux
+              </a>
+              <a
+                href="abonnement-paiement.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:credit-card" style="font-size: 15px"></iconify-icon>
+                </div>
+                Abonnement &amp; paiement
+              </a>
+            </div>
+          </div>
+
+          <div class="settings-tabs-group" id="settings-preferences-tabs">
+            <div class="settings-tabs-label">Préférences</div>
+            <div class="settings-tabs">
+              <a
+                href="langue-region.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:globe" style="font-size: 15px"></iconify-icon>
+                </div>
+                Langue &amp; région
+              </a>
+              <a
+                href="apparence-settings.html"
+                class="settings-nav-item"
+                data-media-type="banani-button"
+              >
+                <div
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon icon="lucide:palette" style="font-size: 15px"></iconify-icon>
+                </div>
+                Apparence
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content area -->
+        <div class="settings-content" id="settings-content">
+          <div class="settings-page-title">Documents légaux</div>
+          <div class="settings-page-sub">
+            Gérez vos documents officiels requis pour exercer en tant qu'agent immobilier agréé.
+          </div>
+
+          <!-- Info banner -->
+          <div class="info-banner" id="info-banner">
+            <div
+              style="
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                margin-top: 1px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:info"
+                style="font-size: 18px; color: #376bff"
+              ></iconify-icon>
+            </div>
+            <div class="info-banner-text">
+              <div class="info-banner-title">Pourquoi ces documents sont-ils nécessaires ?</div>
+              La vérification de vos documents légaux renforce la confiance des acheteurs et
+              vendeurs, et vous permet d'afficher le badge <strong>Agent Vérifié</strong> sur vos
+              annonces et votre profil public.
+            </div>
+          </div>
+
+          <!-- Stats row -->
+          <div class="docs-stats-row" id="docs-stats-row">
+            <div class="docs-stat-card">
+              <div class="docs-stat-icon" style="background: var(--success)">
+                <iconify-icon
+                  icon="lucide:check-circle"
+                  style="font-size: 20px; color: #065f46"
+                ></iconify-icon>
+              </div>
+              <div>
+                <div class="docs-stat-value">3</div>
+                <div class="docs-stat-label">Documents validés</div>
+              </div>
+            </div>
+            <div class="docs-stat-card">
+              <div class="docs-stat-icon" style="background: var(--warning)">
+                <iconify-icon
+                  icon="lucide:clock"
+                  style="font-size: 20px; color: #92400e"
+                ></iconify-icon>
+              </div>
+              <div>
+                <div class="docs-stat-value">2</div>
+                <div class="docs-stat-label">En attente de vérification</div>
+              </div>
+            </div>
+            <div class="docs-stat-card">
+              <div class="docs-stat-icon" style="background: var(--destructive)">
+                <iconify-icon
+                  icon="lucide:alert-circle"
+                  style="font-size: 20px; color: #991b1b"
+                ></iconify-icon>
+              </div>
+              <div>
+                <div class="docs-stat-value">1</div>
+                <div class="docs-stat-label">Document manquant</div>
+              </div>
+            </div>
+            <div class="docs-stat-card">
+              <div class="docs-stat-icon" style="background: #eef3ff">
+                <iconify-icon
+                  icon="lucide:file-stack"
+                  style="font-size: 20px; color: #376bff"
+                ></iconify-icon>
+              </div>
+              <div>
+                <div class="docs-stat-value">6</div>
+                <div class="docs-stat-label">Documents au total</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documents list card -->
+          <div class="settings-card" id="docs-list-card">
+            <div class="settings-card-title">Mes documents</div>
+            <div class="settings-card-desc">
+              Déposez et suivez le statut de chaque document requis par la plateforme.
+            </div>
+
+            <!-- Document 1 -->
+            <div class="doc-item">
+              <div class="doc-icon-wrap green">
+                <iconify-icon
+                  icon="lucide:id-card"
+                  style="font-size: 20px; color: #065f46"
+                ></iconify-icon>
+              </div>
+              <div class="doc-info">
+                <div class="doc-name">Pièce d'identité nationale (CNIB / Passeport)</div>
+                <div class="doc-meta">Téléversé le 10 juin 2025 · PDF · 1.2 Mo</div>
+              </div>
+              <div class="doc-actions">
+                <span class="status-badge-green">
+                  <iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                  Vérifié
+                </span>
+                <div class="doc-action-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:download"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Télécharger
+                </div>
+              </div>
+            </div>
+
+            <!-- Document 2 -->
+            <div class="doc-item">
+              <div class="doc-icon-wrap green">
+                <iconify-icon
+                  icon="lucide:file-badge"
+                  style="font-size: 20px; color: #065f46"
+                ></iconify-icon>
+              </div>
+              <div class="doc-info">
+                <div class="doc-name">Carte professionnelle d'agent immobilier</div>
+                <div class="doc-meta">
+                  Téléversé le 5 mai 2025 · PDF · 840 Ko · Expiration : déc. 2026
+                </div>
+              </div>
+              <div class="doc-actions">
+                <span class="status-badge-green">
+                  <iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                  Vérifié
+                </span>
+                <div class="doc-action-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:download"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Télécharger
+                </div>
+              </div>
+            </div>
+
+            <!-- Document 3 -->
+            <div class="doc-item">
+              <div class="doc-icon-wrap green">
+                <iconify-icon
+                  icon="lucide:building-2"
+                  style="font-size: 20px; color: #065f46"
+                ></iconify-icon>
+              </div>
+              <div class="doc-info">
+                <div class="doc-name">Registre de commerce de l'agence (RCCM)</div>
+                <div class="doc-meta">Téléversé le 2 mai 2025 · PDF · 2.1 Mo</div>
+              </div>
+              <div class="doc-actions">
+                <span class="status-badge-green">
+                  <iconify-icon icon="lucide:check" style="font-size: 10px"></iconify-icon>
+                  Vérifié
+                </span>
+                <div class="doc-action-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:download"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Télécharger
+                </div>
+              </div>
+            </div>
+
+            <!-- Document 4 -->
+            <div class="doc-item">
+              <div class="doc-icon-wrap amber">
+                <iconify-icon
+                  icon="lucide:file-clock"
+                  style="font-size: 20px; color: #92400e"
+                ></iconify-icon>
+              </div>
+              <div class="doc-info">
+                <div class="doc-name">Attestation fiscale (IFU / NIF)</div>
+                <div class="doc-meta">
+                  Téléversé le 18 juin 2025 · PDF · 560 Ko · En cours d'examen
+                </div>
+              </div>
+              <div class="doc-actions">
+                <span class="status-badge-amber">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  En attente
+                </span>
+                <div class="doc-action-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:refresh-cw"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Remplacer
+                </div>
+              </div>
+            </div>
+
+            <!-- Document 5 -->
+            <div class="doc-item">
+              <div class="doc-icon-wrap amber">
+                <iconify-icon
+                  icon="lucide:file-check-2"
+                  style="font-size: 20px; color: #92400e"
+                ></iconify-icon>
+              </div>
+              <div class="doc-info">
+                <div class="doc-name">Mandat de gestion signé (modèle plateforme)</div>
+                <div class="doc-meta">
+                  Téléversé le 20 juin 2025 · PDF · 720 Ko · En cours d'examen
+                </div>
+              </div>
+              <div class="doc-actions">
+                <span class="status-badge-amber">
+                  <iconify-icon icon="lucide:clock" style="font-size: 10px"></iconify-icon>
+                  En attente
+                </span>
+                <div class="doc-action-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:refresh-cw"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  Remplacer
+                </div>
+              </div>
+            </div>
+
+            <!-- Document 6 — Missing -->
+            <div class="doc-item">
+              <div class="doc-icon-wrap red">
+                <iconify-icon
+                  icon="lucide:file-x-2"
+                  style="font-size: 20px; color: #991b1b"
+                ></iconify-icon>
+              </div>
+              <div class="doc-info">
+                <div class="doc-name">Assurance responsabilité civile professionnelle</div>
+                <div class="doc-meta">Document requis — Non encore déposé</div>
+              </div>
+              <div class="doc-actions">
+                <span class="status-badge-red">
+                  <iconify-icon icon="lucide:alert-circle" style="font-size: 10px"></iconify-icon>
+                  Manquant
+                </span>
+                <div class="doc-action-btn primary" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:upload"
+                    style="font-size: 12px; color: #fff"
+                  ></iconify-icon>
+                  Déposer
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload new document card -->
+          <div class="settings-card" id="upload-card">
+            <div class="settings-card-title">Ajouter un nouveau document</div>
+            <div class="settings-card-desc">
+              Formats acceptés : PDF, JPG, PNG. Taille maximale : 10 Mo par fichier.
+            </div>
+
+            <div class="upload-zone" data-media-type="banani-button">
+              <div class="upload-zone-icon">
+                <iconify-icon
+                  icon="lucide:cloud-upload"
+                  style="font-size: 24px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="upload-zone-title">Glissez-déposez votre fichier ici</div>
+              <div class="upload-zone-sub">
+                ou <span class="upload-zone-link">parcourez vos fichiers</span>
+              </div>
+              <div style="font-size: 11.5px; color: var(--muted-foreground); margin-top: 4px">
+                PDF, JPG, PNG — max. 10 Mo
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 20px">
+              <div style="display: flex; flex-direction: column; gap: 6px; flex: 1">
+                <div
+                  style="font-size: 12.5px; font-weight: 500; color: var(--secondary-foreground)"
+                >
+                  Type de document
+                </div>
+                <div
+                  style="
+                    background: var(--input);
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius-lg);
+                    padding: 9px 14px;
+                    font-size: 13.5px;
+                    color: var(--muted-foreground);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <span>Sélectionner le type de document…</span>
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px; flex: 1">
+                <div
+                  style="font-size: 12.5px; font-weight: 500; color: var(--secondary-foreground)"
+                >
+                  Date d'expiration (optionnel)
+                </div>
+                <div
+                  style="
+                    background: var(--input);
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius-lg);
+                    padding: 9px 14px;
+                    font-size: 13.5px;
+                    color: var(--muted-foreground);
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <iconify-icon
+                    icon="lucide:calendar"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                  <span>jj / mm / aaaa</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-card-footer">
+              <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+              <div class="btn-primary" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:upload-cloud"
+                  style="font-size: 14px; color: #fff"
+                ></iconify-icon>
+                Envoyer le document
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

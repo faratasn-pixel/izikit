@@ -1,0 +1,1669 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>Habitat-Afrik — Paramètres · Tarification</title>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="base-styles">
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 812px;
+      background: #f5f6f8;
+      color: #1a1a1a;
+      font-size: 14px;
+    }
+    :root {
+      --background: #f5f6f8;
+      --foreground: #1a1a1a;
+      --border: #e5e7eb;
+      --input: #f5f6f8;
+      --primary: #0ea5e9;
+      --primary-foreground: #ffffff;
+      --secondary: #f5f6f8;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #6b7280;
+      --success: #22c55e;
+      --success-foreground: #ffffff;
+      --accent: #e0f2fe;
+      --accent-foreground: #0ea5e9;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --warning: #f59e0b;
+      --warning-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #1a1a1a;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #1a1a1a;
+      --sidebar-primary: #e0f2fe;
+      --sidebar-primary-foreground: #0ea5e9;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+    }
+    .screen-wrap {
+      min-height: 812px;
+      display: flex;
+      position: relative;
+      background: var(--secondary);
+    }
+    .icon-wrap {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-wrap.sm {
+      width: 16px;
+      height: 16px;
+    }
+    .icon-wrap.lg {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      color: var(--sidebar-foreground);
+      border-right: 1px solid var(--border);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 8px 4px 8px;
+    }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      background: var(--sidebar-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      line-height: 1.2;
+    }
+    .country-switcher {
+      background: var(--secondary);
+      border-radius: var(--radius-xl);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .country-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .country-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .country-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 2px;
+    }
+    .country-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 8px;
+    }
+    .country-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 8px;
+    }
+    .cpill {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .cpill.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      background: transparent;
+    }
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-item-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+    }
+    .nav-item.active .nav-item-label {
+      color: var(--sidebar-primary-foreground);
+      font-weight: 600;
+    }
+    .nav-count {
+      min-width: 24px;
+      height: 24px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .nav-item.active .nav-count {
+      background: var(--card);
+      color: var(--primary);
+    }
+    .sidebar-spacer {
+      flex: 1;
+    }
+    .logout-item {
+      background: #fef2f2;
+    }
+    .logout-item .nav-item-label {
+      color: var(--destructive);
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 76px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .searchbar {
+      width: 420px;
+      max-width: 100%;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      color: var(--muted-foreground);
+    }
+    .searchbar-text {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .notif-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--destructive);
+    }
+    .admin-pill {
+      height: 42px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .admin-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .admin-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .admin-role {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="page-styles">
+    .page {
+      flex: 1;
+      min-width: 0;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+    }
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .page-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .page-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
+    .settings-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .settings-tabs {
+      width: 220px;
+      min-width: 220px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .stab-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .stab-item.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .settings-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 18px 20px 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+    .section-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .section-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn {
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .btn.primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .btn.secondary {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .btn.small {
+      height: 34px;
+      padding: 0 12px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+    .btn.success {
+      background: #f0fdf4;
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+    }
+    .kpi-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+    }
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .kpi-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+  </style>
+
+  <style id="table-styles">
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      background: #f8fafc;
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      text-align: left;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 11px 14px;
+      font-size: 13px;
+      color: var(--foreground);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      vertical-align: middle;
+    }
+    .data-table tr.alt td {
+      background: #fcfdfe;
+    }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    .flag-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .flag-emoji {
+      font-size: 18px;
+      line-height: 1;
+    }
+    .editable-field {
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 8px;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      min-width: 80px;
+    }
+    .edit-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .save-inline-btn {
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 7px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-primary {
+      background: #e0f2fe;
+      color: var(--primary);
+    }
+    .badge-success {
+      background: #f0fdf4;
+      color: var(--success);
+    }
+    .badge-warning {
+      background: #fffbeb;
+      color: #d97706;
+    }
+    .badge-gray {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+  </style>
+
+  <style id="pricing-card-styles">
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      padding: 20px;
+    }
+    .pricing-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .pricing-card.featured {
+      border-color: var(--primary);
+    }
+    .pricing-card-head {
+      padding: 16px 18px;
+      background: var(--secondary);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pricing-card.featured .pricing-card-head {
+      background: var(--accent);
+      border-color: var(--primary);
+    }
+    .pricing-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+    .pricing-card-duration {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .pricing-card-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .pricing-card-amount {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--foreground);
+    }
+    .pricing-card.featured .pricing-card-amount {
+      color: var(--primary);
+    }
+    .pricing-card-currency {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+    }
+    .pricing-price-edit {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .pricing-price-input {
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    .pricing-card-body {
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .pricing-feature-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pricing-feature-text {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="history-styles">
+    .history-table-wrap {
+      padding: 0 0 4px 0;
+    }
+    .history-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .history-row:last-child {
+      border-bottom: none;
+    }
+    .history-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--primary);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .history-dot.gray {
+      background: #d1d5db;
+    }
+    .history-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      min-width: 0;
+    }
+    .history-field {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .history-change {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .history-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .history-author {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .history-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .history-author-name {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .arrow-span {
+      color: var(--primary);
+      font-weight: 700;
+      margin: 0 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen-wrap" id="screen-wrap">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">
+          <div class="icon-wrap lg">
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div>
+          <div class="brand-title">Habitat-Afrik</div>
+          <div class="brand-subtitle">Administration</div>
+        </div>
+      </div>
+
+      <div class="country-switcher" data-media-type="banani-button">
+        <div class="country-left">
+          <div class="country-avatar">AF</div>
+          <div>
+            <div class="country-label">Vue active</div>
+            <div class="country-value">Multi-pays agrégée</div>
+          </div>
+        </div>
+        <div class="icon-wrap sm">
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 16px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Pays</div>
+        <div class="country-pills">
+          <div class="cpill active" data-media-type="banani-button">BJ</div>
+          <div class="cpill" data-media-type="banani-button">TG</div>
+          <div class="cpill" data-media-type="banani-button">CI</div>
+          <div class="cpill" data-media-type="banani-button">SN</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <div class="nav-list">
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:layout-dashboard"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Tableau de bord</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:clipboard-list"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Gestion des annonces</span>
+            </div>
+            <span class="nav-count">128</span>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Utilisateurs</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:wallet"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Finances &amp; jetons</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:video"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Visites virtuelles</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-alert"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Modération &amp; support</span>
+            </div>
+            <span class="nav-count">19</span>
+          </a>
+          <a class="nav-item active" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings-2"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Paramètres</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-spacer"></div>
+      <a class="nav-item logout-item" data-media-type="banani-button">
+        <div class="nav-item-left">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 18px; color: var(--destructive)"
+            ></iconify-icon>
+          </div>
+          <span class="nav-item-label">Déconnexion</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main" id="main-content">
+      <div class="topbar" id="topbar">
+        <div class="searchbar" data-media-type="banani-button">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 16px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="searchbar-text">Rechercher une annonce, un utilisateur, un paiement…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="icon-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--foreground)"
+            ></iconify-icon>
+            <span class="notif-dot"></span>
+          </div>
+          <div class="admin-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Admin"
+              class="admin-avatar"
+            />
+            <div>
+              <div class="admin-name">Kofi Mensah</div>
+              <div class="admin-role">Admin plateforme</div>
+            </div>
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:chevrons-up-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" id="page">
+        <div class="page-header">
+          <div class="page-title-block">
+            <div class="page-eyebrow">Paramètres · Tarification</div>
+            <h1 class="page-title">Tarification</h1>
+          </div>
+        </div>
+
+        <div class="settings-layout" id="settings-layout">
+          <!-- LEFT TABS -->
+          <div class="settings-tabs" id="settings-tabs">
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Général
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:globe"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Pays &amp; devises
+            </div>
+            <div class="stab-item active" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:coins"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              Tarification
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-check"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Rôles &amp; permissions
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:bell-dot"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Notifications
+            </div>
+          </div>
+
+          <!-- RIGHT CONTENT: TARIFICATION -->
+          <div class="settings-content" id="settings-content">
+            <!-- KPI Cards -->
+            <div class="kpi-row">
+              <div class="kpi-card" id="kpi-avg-token">
+                <div class="kpi-icon-wrap">
+                  <iconify-icon
+                    icon="lucide:coins"
+                    style="font-size: 18px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <div class="kpi-label">Prix moyen du jeton</div>
+                <div class="kpi-value">
+                  500
+                  <span style="font-size: 16px; font-weight: 600; color: var(--muted-foreground)"
+                    >FCFA</span
+                  >
+                </div>
+                <div class="kpi-sub">Moyenne pondérée sur 4 pays</div>
+              </div>
+              <div class="kpi-card" id="kpi-avg-commission">
+                <div class="kpi-icon-wrap">
+                  <iconify-icon
+                    icon="lucide:percent"
+                    style="font-size: 18px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <div class="kpi-label">Commission moyenne</div>
+                <div class="kpi-value">
+                  3,5
+                  <span style="font-size: 16px; font-weight: 600; color: var(--muted-foreground)"
+                    >%</span
+                  >
+                </div>
+                <div class="kpi-sub">Toutes transactions confondues</div>
+              </div>
+            </div>
+
+            <!-- Prix des jetons par pays -->
+            <div class="section-card" id="token-pricing-card">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Prix des jetons par pays</div>
+                  <div class="section-desc">
+                    Définissez le prix unitaire et les packs par pays. Cliquez sur l'icône crayon
+                    pour modifier.
+                  </div>
+                </div>
+                <div class="btn primary small" data-media-type="banani-button">
+                  <div class="icon-wrap sm">
+                    <iconify-icon
+                      icon="lucide:save"
+                      style="font-size: 13px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Tout enregistrer
+                </div>
+              </div>
+              <table class="data-table" id="token-table">
+                <thead>
+                  <tr>
+                    <th>Pays</th>
+                    <th>Devise</th>
+                    <th>Prix unitaire</th>
+                    <th>Pack 10 jetons</th>
+                    <th>Pack 50 jetons</th>
+                    <th style="width: 80px"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="flag-cell">
+                        <span class="flag-emoji">🇧🇯</span>
+                        <span style="font-weight: 600">Bénin</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-gray">XOF</span></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <div class="editable-field">500 FCFA</div>
+                      </div>
+                    </td>
+                    <td><div class="editable-field">4 500 FCFA</div></td>
+                    <td><div class="editable-field">21 000 FCFA</div></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 6px">
+                        <div class="edit-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:pencil"
+                            style="font-size: 13px; color: var(--primary)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="save-inline-btn" data-media-type="banani-button">Sauv.</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div class="flag-cell">
+                        <span class="flag-emoji">🇹🇬</span>
+                        <span style="font-weight: 600">Togo</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-gray">XOF</span></td>
+                    <td><div class="editable-field">500 FCFA</div></td>
+                    <td><div class="editable-field">4 500 FCFA</div></td>
+                    <td><div class="editable-field">20 000 FCFA</div></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 6px">
+                        <div class="edit-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:pencil"
+                            style="font-size: 13px; color: var(--primary)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="save-inline-btn" data-media-type="banani-button">Sauv.</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="flag-cell">
+                        <span class="flag-emoji">🇨🇮</span>
+                        <span style="font-weight: 600">Côte d'Ivoire</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-gray">XOF</span></td>
+                    <td><div class="editable-field">600 FCFA</div></td>
+                    <td><div class="editable-field">5 500 FCFA</div></td>
+                    <td><div class="editable-field">25 000 FCFA</div></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 6px">
+                        <div class="edit-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:pencil"
+                            style="font-size: 13px; color: var(--primary)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="save-inline-btn" data-media-type="banani-button">Sauv.</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div class="flag-cell">
+                        <span class="flag-emoji">🇸🇳</span>
+                        <span style="font-weight: 600">Sénégal</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-gray">XOF</span></td>
+                    <td><div class="editable-field">550 FCFA</div></td>
+                    <td><div class="editable-field">5 000 FCFA</div></td>
+                    <td><div class="editable-field">22 000 FCFA</div></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 6px">
+                        <div class="edit-btn" data-media-type="banani-button">
+                          <iconify-icon
+                            icon="lucide:pencil"
+                            style="font-size: 13px; color: var(--primary)"
+                          ></iconify-icon>
+                        </div>
+                        <div class="save-inline-btn" data-media-type="banani-button">Sauv.</div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Commissions par type de transaction -->
+            <div class="section-card" id="commission-card">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Commissions par type de transaction</div>
+                  <div class="section-desc">
+                    Taux appliqués selon le type de bien et de transaction
+                  </div>
+                </div>
+                <div class="btn primary small" data-media-type="banani-button">
+                  <div class="icon-wrap sm">
+                    <iconify-icon
+                      icon="lucide:save"
+                      style="font-size: 13px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  Enregistrer
+                </div>
+              </div>
+              <table class="data-table" id="commission-table">
+                <thead>
+                  <tr>
+                    <th>Type de bien</th>
+                    <th>Transaction</th>
+                    <th>Taux de commission</th>
+                    <th>Appliqué depuis</th>
+                    <th style="width: 60px"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <iconify-icon
+                          icon="lucide:home"
+                          style="font-size: 14px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                        Villa
+                      </div>
+                    </td>
+                    <td><span class="badge badge-primary">Vente</span></td>
+                    <td><div class="editable-field" style="width: 90px">3,5 %</div></td>
+                    <td>
+                      <span style="color: var(--muted-foreground); font-size: 12px"
+                        >01 jan. 2025</span
+                      >
+                    </td>
+                    <td>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <iconify-icon
+                          icon="lucide:home"
+                          style="font-size: 14px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                        Villa
+                      </div>
+                    </td>
+                    <td><span class="badge badge-warning">Location</span></td>
+                    <td><div class="editable-field" style="width: 90px">2,5 %</div></td>
+                    <td>
+                      <span style="color: var(--muted-foreground); font-size: 12px"
+                        >01 jan. 2025</span
+                      >
+                    </td>
+                    <td>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <iconify-icon
+                          icon="lucide:building-2"
+                          style="font-size: 14px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                        Appartement
+                      </div>
+                    </td>
+                    <td><span class="badge badge-primary">Vente</span></td>
+                    <td><div class="editable-field" style="width: 90px">4,0 %</div></td>
+                    <td>
+                      <span style="color: var(--muted-foreground); font-size: 12px"
+                        >15 fév. 2025</span
+                      >
+                    </td>
+                    <td>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <iconify-icon
+                          icon="lucide:building-2"
+                          style="font-size: 14px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                        Appartement
+                      </div>
+                    </td>
+                    <td><span class="badge badge-warning">Location</span></td>
+                    <td><div class="editable-field" style="width: 90px">3,0 %</div></td>
+                    <td>
+                      <span style="color: var(--muted-foreground); font-size: 12px"
+                        >15 fév. 2025</span
+                      >
+                    </td>
+                    <td>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <iconify-icon
+                          icon="lucide:map"
+                          style="font-size: 14px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                        Terrain
+                      </div>
+                    </td>
+                    <td><span class="badge badge-primary">Vente</span></td>
+                    <td><div class="editable-field" style="width: 90px">5,0 %</div></td>
+                    <td>
+                      <span style="color: var(--muted-foreground); font-size: 12px"
+                        >01 jan. 2025</span
+                      >
+                    </td>
+                    <td>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px">
+                        <iconify-icon
+                          icon="lucide:briefcase"
+                          style="font-size: 14px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                        Bureau
+                      </div>
+                    </td>
+                    <td><span class="badge badge-warning">Location</span></td>
+                    <td><div class="editable-field" style="width: 90px">3,5 %</div></td>
+                    <td>
+                      <span style="color: var(--muted-foreground); font-size: 12px"
+                        >01 mars 2025</span
+                      >
+                    </td>
+                    <td>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Boost & mise en avant -->
+            <div class="section-card" id="boost-card">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Boost &amp; mise en avant</div>
+                  <div class="section-desc">Tarifs des packs de mise en avant des annonces</div>
+                </div>
+              </div>
+              <div class="pricing-grid" id="pricing-grid">
+                <!-- 7 jours -->
+                <div class="pricing-card">
+                  <div class="pricing-card-head">
+                    <div style="display: flex; align-items: center; justify-content: space-between">
+                      <div>
+                        <div class="pricing-card-name">Boost 7 jours</div>
+                        <div class="pricing-card-duration">Durée : 1 semaine</div>
+                      </div>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                    <div class="pricing-card-price">
+                      <span class="pricing-card-amount">2 500</span>
+                      <span class="pricing-card-currency">FCFA</span>
+                    </div>
+                    <div class="pricing-price-edit">
+                      <div class="pricing-price-input">2 500</div>
+                      <div class="save-inline-btn" data-media-type="banani-button">OK</div>
+                    </div>
+                  </div>
+                  <div class="pricing-card-body">
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Mise en avant dans les résultats</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Badge "Boosté" sur l'annonce</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Notifications push ciblées</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:x-circle"
+                        style="font-size: 14px; color: #d1d5db; flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text" style="color: #d1d5db"
+                        >Position top de page</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 15 jours (featured) -->
+                <div class="pricing-card featured">
+                  <div class="pricing-card-head" style="position: relative">
+                    <div style="display: flex; align-items: center; justify-content: space-between">
+                      <div>
+                        <div style="display: flex; align-items: center; gap: 6px">
+                          <div class="pricing-card-name">Boost 15 jours</div>
+                          <span class="badge badge-primary" style="font-size: 10px; padding: 0 6px"
+                            >Populaire</span
+                          >
+                        </div>
+                        <div class="pricing-card-duration">Durée : 2 semaines</div>
+                      </div>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                    <div class="pricing-card-price">
+                      <span class="pricing-card-amount">4 000</span>
+                      <span class="pricing-card-currency">FCFA</span>
+                    </div>
+                    <div class="pricing-price-edit">
+                      <div class="pricing-price-input">4 000</div>
+                      <div class="save-inline-btn" data-media-type="banani-button">OK</div>
+                    </div>
+                  </div>
+                  <div class="pricing-card-body">
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Mise en avant dans les résultats</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Badge "Boosté" sur l'annonce</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Notifications push ciblées</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Position top de page</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 30 jours -->
+                <div class="pricing-card">
+                  <div class="pricing-card-head">
+                    <div style="display: flex; align-items: center; justify-content: space-between">
+                      <div>
+                        <div class="pricing-card-name">Boost 30 jours</div>
+                        <div class="pricing-card-duration">Durée : 1 mois</div>
+                      </div>
+                      <div class="edit-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--primary)"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                    <div class="pricing-card-price">
+                      <span class="pricing-card-amount">7 000</span>
+                      <span class="pricing-card-currency">FCFA</span>
+                    </div>
+                    <div class="pricing-price-edit">
+                      <div class="pricing-price-input">7 000</div>
+                      <div class="save-inline-btn" data-media-type="banani-button">OK</div>
+                    </div>
+                  </div>
+                  <div class="pricing-card-body">
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Mise en avant dans les résultats</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Badge "Boosté" sur l'annonce</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Notifications push ciblées</span>
+                    </div>
+                    <div class="pricing-feature-row">
+                      <iconify-icon
+                        icon="lucide:check-circle"
+                        style="font-size: 14px; color: var(--success); flex-shrink: 0"
+                      ></iconify-icon>
+                      <span class="pricing-feature-text">Position top de page</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Historique des modifications -->
+            <div class="section-card" id="history-card">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Historique des modifications</div>
+                  <div class="section-desc">Derniers changements apportés à la tarification</div>
+                </div>
+                <span class="badge badge-gray">8 entrées</span>
+              </div>
+              <div class="history-table-wrap" id="history-list">
+                <div class="history-row">
+                  <div class="history-dot"></div>
+                  <div class="history-col">
+                    <div class="history-field">Prix jeton · Côte d'Ivoire</div>
+                    <div class="history-change">
+                      550 FCFA <span class="arrow-span">→</span> 600 FCFA
+                    </div>
+                  </div>
+                  <div class="history-author">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                      alt=""
+                      class="history-avatar"
+                    />
+                    <span class="history-author-name">Kofi Mensah</span>
+                  </div>
+                  <div class="history-time">Il y a 2h</div>
+                </div>
+                <div class="history-row">
+                  <div class="history-dot gray"></div>
+                  <div class="history-col">
+                    <div class="history-field">Commission · Appartement · Vente</div>
+                    <div class="history-change">3,5 % <span class="arrow-span">→</span> 4,0 %</div>
+                  </div>
+                  <div class="history-author">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F1"
+                      alt=""
+                      class="history-avatar"
+                    />
+                    <span class="history-author-name">Awa Diallo</span>
+                  </div>
+                  <div class="history-time">15 fév. 2025</div>
+                </div>
+                <div class="history-row">
+                  <div class="history-dot gray"></div>
+                  <div class="history-col">
+                    <div class="history-field">Boost 30 jours</div>
+                    <div class="history-change">
+                      6 000 FCFA <span class="arrow-span">→</span> 7 000 FCFA
+                    </div>
+                  </div>
+                  <div class="history-author">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                      alt=""
+                      class="history-avatar"
+                    />
+                    <span class="history-author-name">Kofi Mensah</span>
+                  </div>
+                  <div class="history-time">10 fév. 2025</div>
+                </div>
+                <div class="history-row">
+                  <div class="history-dot gray"></div>
+                  <div class="history-col">
+                    <div class="history-field">Pack 50 jetons · Sénégal</div>
+                    <div class="history-change">
+                      20 000 FCFA <span class="arrow-span">→</span> 22 000 FCFA
+                    </div>
+                  </div>
+                  <div class="history-author">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F1"
+                      alt=""
+                      class="history-avatar"
+                    />
+                    <span class="history-author-name">Awa Diallo</span>
+                  </div>
+                  <div class="history-time">01 jan. 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

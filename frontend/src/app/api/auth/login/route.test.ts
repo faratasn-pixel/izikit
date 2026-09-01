@@ -81,7 +81,7 @@ describe('POST /api/auth/login', () => {
   it('Test 2: no user — INVALID_CREDENTIALS, dummy compare called, no recordFailure', async () => {
     prismaMock.user.findUnique.mockResolvedValue(null);
 
-    const res = await POST(makeReq({ email: 'noone@b.com', password: 'longenough' }));
+    const res = await POST(makeReq({ email: 'nobody@b.com', password: 'longenough' }));
 
     expect(res.status).toBe(400);
     expect((await res.json()).error).toBe('INVALID_CREDENTIALS');
@@ -153,13 +153,13 @@ describe('POST /api/auth/login', () => {
     expect(__cookieStore.has('app-token')).toBe(false);
   });
 
-  it('Test 7: per-email rate limit — 11th attempt returns 429 TOO_MANY_LOGIN_ATTEMPTS', async () => {
+  it('Test 7: per-identifier rate limit — 11th attempt returns 429 TOO_MANY_LOGIN_ATTEMPTS', async () => {
     prismaMock.user.findUnique.mockResolvedValue(null);
 
     let last: Response | undefined;
     // D-08 default = 10/15m. The 11th attempt must be 429.
     for (let i = 0; i < 11; i++) {
-      last = await POST(makeReq({ email: 'rl@b.com', password: 'longenough' }));
+      last = await POST(makeReq({ email: 'rate@b.com', password: 'longenough' }));
     }
     expect(last?.status).toBe(429);
     expect((await last!.json()).error).toBe('TOO_MANY_LOGIN_ATTEMPTS');
@@ -167,6 +167,12 @@ describe('POST /api/auth/login', () => {
 
   it('Test 8: VALIDATION_FAILED — missing password', async () => {
     const res = await POST(makeReq({ email: 'a@b.com' }));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toBe('VALIDATION_FAILED');
+  });
+
+  it('Test 8b: VALIDATION_FAILED — malformed email', async () => {
+    const res = await POST(makeReq({ email: 'not-an-email', password: 'longenough' }));
     expect(res.status).toBe(400);
     expect((await res.json()).error).toBe('VALIDATION_FAILED');
   });

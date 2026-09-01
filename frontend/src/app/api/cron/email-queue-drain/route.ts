@@ -27,9 +27,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       const queue = getEmailQueue();
       if (!queue) {
         // No mailer/redis configured — graceful no-op. Operators see this in
-        // logs and can wire UPSTASH_REDIS_REST_URL + RESEND_API_KEY.
+        // logs and can wire UPSTASH_REDIS_REST_URL + BREVO_API_KEY.
         log.warn(
-          'email-queue-drain: not configured (UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN/RESEND_API_KEY missing)',
+          'email-queue-drain: not configured (UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN/BREVO_API_KEY missing)',
           {
             requestId: ctx.requestId,
           },
@@ -52,3 +52,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   });
 }
+
+// Vercel Cron invokes scheduled routes with GET, not POST.
+export const GET = POST;

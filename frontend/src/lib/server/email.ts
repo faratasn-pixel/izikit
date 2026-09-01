@@ -1,5 +1,5 @@
 /**
- * Mailer abstraction over Resend.
+ * Mailer abstraction over Brevo (transactional email REST API).
  *
  * The exported `Mailer` interface keeps the contract narrow so tests can
  * swap in a stub and any future provider (Postmark, SES) can be implemented
@@ -9,7 +9,7 @@
  * with a URL or mailto and the headers are added — required for high-volume
  * transactional senders to stay out of spam.
  */
-import { Resend } from 'resend';
+const BREVO_SEND_URL = 'https://api.brevo.com/v3/smtp/email';
 
 export interface ListUnsubscribe {
   url?: string;
@@ -30,29 +30,48 @@ export interface Mailer {
 }
 
 export interface CreateMailerEnv {
-  RESEND_API_KEY: string;
+  BREVO_API_KEY: string;
   EMAIL_FROM: string;
 }
 
 export interface CreateMailerOptions {
-  /** Override the underlying Resend client (used by tests). */
-  client?: Pick<Resend, 'emails'>;
+  /** Override the underlying fetch implementation (used by tests). */
+  fetchImpl?: typeof fetch;
+}
+
+/** Parses "Name <email>" or a bare "email" into Brevo's sender shape. */
+function parseSender(emailFrom: string): { name?: string; email: string } {
+  const match = /^\s*(.+?)\s*<([^>]+)>\s*$/.exec(emailFrom);
+  if (match?.[1]) {
+    return { name: match[1], email: match[2]! };
+  }
+  return { email: emailFrom.trim() };
+}
+
+interface BrevoSendSuccess {
+  messageId?: string;
+}
+
+interface BrevoSendError {
+  code?: string;
+  message?: string;
 }
 
 /**
- * Build a Mailer wired to Resend. Throws synchronously when the API key is
+ * Build a Mailer wired to Brevo. Throws synchronously when the API key is
  * missing — fail fast at boot rather than on the first send.
  */
 export function createMailer(env: CreateMailerEnv, options: CreateMailerOptions = {}): Mailer {
-  if (!env.RESEND_API_KEY) {
-    throw new Error('createMailer: RESEND_API_KEY is required');
+  if (!env.BREVO_API_KEY) {
+    throw new Error('createMailer: BREVO_API_KEY is required');
   }
   if (!env.EMAIL_FROM) {
     throw new Error('createMailer: EMAIL_FROM is required');
   }
 
-  const client = options.client ?? new Resend(env.RESEND_API_KEY);
-  const from = env.EMAIL_FROM;
+  const fetchImpl = options.fetchImpl ?? fetch;
+  const sender = parseSender(env.EMAIL_FROM);
+  const apiKey = env.BREVO_API_KEY;
 
   return {
     async send(input: SendEmailInput): Promise<{ id: string }> {
@@ -68,32 +87,43 @@ export function createMailer(env: CreateMailerEnv, options: CreateMailerOptions 
         }
       }
 
-      const sendArgs: {
-        from: string;
-        to: string;
+      const body: {
+        sender: { name?: string; email: string };
+        to: { email: string }[];
         subject: string;
-        html: string;
-        text?: string;
+        htmlContent: string;
+        textContent?: string;
         headers?: Record<string, string>;
       } = {
-        from,
-        to: input.to,
+        sender,
+        to: [{ email: input.to }],
         subject: input.subject,
-        html: input.html,
+        htmlContent: input.html,
       };
-      if (input.text !== undefined) sendArgs.text = input.text;
-      if (Object.keys(headers).length > 0) sendArgs.headers = headers;
+      if (input.text !== undefined) body.textContent = input.text;
+      if (Object.keys(headers).length > 0) body.headers = headers;
 
-      const { data, error } = await client.emails.send(sendArgs);
+      const res = await fetchImpl(BREVO_SEND_URL, {
+        method: 'POST',
+        headers: {
+          'api-key': apiKey,
+          accept: 'application/json',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
 
-      if (error) {
-        throw new Error(`Resend error: ${error.message ?? String(error)}`);
+      if (!res.ok) {
+        const errorBody = (await res.json().catch(() => ({}))) as BrevoSendError;
+        throw new Error(`Brevo error: ${errorBody.message ?? res.statusText}`);
       }
-      if (!data?.id) {
-        throw new Error('Resend returned no id');
+
+      const data = (await res.json()) as BrevoSendSuccess;
+      if (!data.messageId) {
+        throw new Error('Brevo returned no id');
       }
 
-      return { id: data.id };
+      return { id: data.messageId };
     },
   };
 }

@@ -41,8 +41,8 @@ beforeEach(() => {
 });
 
 describe('POST /api/auth/forgot-password', () => {
-  it('issues a PASSWORD_RESET code + outbox event when the user exists (and runs dummy bcrypt for timing parity)', async () => {
-    prismaMock.user.findUnique.mockResolvedValue({ id: 'u1' } as never);
+  it('issues a PASSWORD_RESET code + emails the user (resolved by email) when the user exists (and runs dummy bcrypt for timing parity)', async () => {
+    prismaMock.user.findUnique.mockResolvedValue({ id: 'u1', email: 'a@b.com' } as never);
     prismaMock.verificationCode.create.mockResolvedValue({} as never);
 
     const res = await POST(makeReq({ email: 'a@b.com' }));
@@ -64,10 +64,10 @@ describe('POST /api/auth/forgot-password', () => {
     expect(outboxArg?.payload?.to).toBe('a@b.com');
   });
 
-  it('returns identical 200 + dummy-bcrypts when the user does NOT exist (D-23)', async () => {
+  it('returns identical 200 + dummy-bcrypts when the email does NOT exist (D-23)', async () => {
     prismaMock.user.findUnique.mockResolvedValue(null);
 
-    const res = await POST(makeReq({ email: 'unknown@example.com' }));
+    const res = await POST(makeReq({ email: 'nobody@b.com' }));
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body).toEqual({ ok: true });
@@ -81,7 +81,7 @@ describe('POST /api/auth/forgot-password', () => {
     prismaMock.user.findUnique.mockResolvedValue(null);
 
     const calls = await Promise.all(
-      Array.from({ length: 4 }, () => POST(makeReq({ email: 'rl-forgot@example.com' }))),
+      Array.from({ length: 4 }, () => POST(makeReq({ email: 'rate@b.com' }))),
     );
     const limited = calls.find((r) => r.status === 429)!;
     expect(limited).toBeTruthy();
@@ -91,6 +91,13 @@ describe('POST /api/auth/forgot-password', () => {
 
   it('returns VALIDATION_FAILED when email is missing', async () => {
     const res = await POST(makeReq({}));
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toBe('VALIDATION_FAILED');
+  });
+
+  it('returns VALIDATION_FAILED for a malformed email', async () => {
+    const res = await POST(makeReq({ email: 'not-an-email' }));
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toBe('VALIDATION_FAILED');

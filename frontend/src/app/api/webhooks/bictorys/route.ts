@@ -28,7 +28,7 @@ export const dynamic = 'force-dynamic';
 import 'server-only';
 import { createWebhookHandler } from '@/lib/server/webhook/handler';
 import { bictorysWebhookProvider } from '@/lib/server/webhook/bictorys';
-import { enqueueOutbox } from '@/lib/server/outbox';
+import { fulfillPaidOrder } from '@/lib/server/payments/fulfill-order';
 import { prisma } from '@/lib/server/prisma';
 
 export const POST = createWebhookHandler({
@@ -55,31 +55,10 @@ export const POST = createWebhookHandler({
       },
     });
 
-    // Outbox emits stay inside the factory's Serializable tx so the rows
-    // commit atomically with the status change. The drain cron picks them up
-    // out-of-band.
-    if (order.userId) {
-      await enqueueOutbox(tx, {
-        kind: 'notification.payment_received',
-        payload: {
-          userId: order.userId,
-          orderId: order.id,
-          amount: order.amount,
-          currency: order.currency,
-        },
-      });
-    }
-    if (order.customerEmail) {
-      await enqueueOutbox(tx, {
-        kind: 'email.payment_confirmation',
-        payload: {
-          to: order.customerEmail,
-          orderId: order.id,
-          amount: order.amount,
-          currency: order.currency,
-        },
-      });
-    }
+    // Subscription activation / token-wallet crediting / outbox emits are
+    // provider-agnostic — shared with the Moneroo webhook route so the two
+    // never drift. Runs inside this same Serializable tx.
+    await fulfillPaidOrder(tx, order);
 
     return {};
   },

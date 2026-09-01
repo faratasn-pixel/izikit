@@ -11,6 +11,7 @@ coverage/
 *.tsbuildinfo
 .prisma/
 next-env.d.ts
+.vercel
 
 # Claude Code — keep .claude/skills/ + settings.json shared, ignore per-machine state
 .claude/settings.local.json
@@ -20,4 +21,10 @@ next-env.d.ts
 # Local cruft — not part of the kit
 amp
 node-compile-cache/
+# Bundle de déploiement assemblé par la CI (jamais commité)
+/deploy/
+
+# Local PostgreSQL cluster for dev (avoids burning cloud free-tier compute-hour
+# quota) — portable binaries + data directory, per-machine, never committed.
+.pg-local/
 

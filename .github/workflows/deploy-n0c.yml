@@ -1,0 +1,151 @@
+name: Deploy to PlanetHoster N0C
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-n0c
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Quality gate
+        run: |
+          pnpm format:check
+          pnpm lint
+          pnpm typecheck
+          pnpm test
+
+      - name: Build
+        # NEXT_PUBLIC_* are inlined into the client bundle at build time —
+        # GitHub Actions does not forward them automatically, so map each one
+        # explicitly here. Non-secret values come from repo/environment
+        # Variables; the Sentry DSN is kept as a Secret. NEXT_PUBLIC_COOKIE_PREFIX
+        # MUST equal the runtime COOKIE_PREFIX in $N0C_APP_PATH/.env, otherwise
+        # the CSRF double-submit cookie name mismatches and every mutation 403s.
+        #
+        # JWT_SECRET + DATABASE_URL are also needed AT BUILD TIME: `next build`
+        # evaluates route modules to collect page data, and lib/server/auth.ts +
+        # env.ts throw at import if these are absent. JWT_SECRET is the real
+        # secret (length-checked at build, never inlined into the client bundle);
+        # DATABASE_URL is a throwaway placeholder — the build never opens a DB
+        # connection, the real URL lives only in the server's runtime .env.
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          DATABASE_URL: postgresql://build:build@localhost:5432/build?schema=public
+          NEXT_PUBLIC_COOKIE_PREFIX: ${{ vars.NEXT_PUBLIC_COOKIE_PREFIX }}
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+          NEXT_PUBLIC_SENTRY_ENVIRONMENT: ${{ vars.NEXT_PUBLIC_SENTRY_ENVIRONMENT }}
+          NEXT_PUBLIC_SENTRY_RELEASE: ${{ vars.NEXT_PUBLIC_SENTRY_RELEASE }}
+          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: ${{ vars.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE }}
+          NEXT_PUBLIC_SENTRY_REPLAYS_SAMPLE_RATE: ${{ vars.NEXT_PUBLIC_SENTRY_REPLAYS_SAMPLE_RATE }}
+        run: pnpm build
+
+      - name: Assemble deploy bundle
+        run: |
+          set -euo pipefail
+          rm -rf deploy && mkdir -p deploy
+          # .next/standalone conserve son sous-dossier frontend/ interne
+          cp -r frontend/.next/standalone/. deploy/
+          mkdir -p deploy/frontend/.next
+          cp -r frontend/.next/static deploy/frontend/.next/static
+          if [ -d frontend/public ]; then cp -r frontend/public deploy/frontend/public; fi
+          cp -r frontend/prisma deploy/frontend/prisma
+          cp app.js deploy/app.js
+          test -f deploy/frontend/server.js  # garde-fou layout standalone
+          # Next standalone + pnpm ne reconstruit PAS les entrées top-level
+          # node_modules/@prisma/client + node_modules/.prisma (seul .pnpm/ est
+          # copié). frontend/server.js fait `require('@prisma/client')` en
+          # dépendance externe non bundlée → il faut ces deux dossiers résolvables
+          # depuis deploy/frontend/. On résout via require.resolve (le suffixe
+          # de hash pnpm du dossier .pnpm n'est pas fixe) et on déréférence (-L).
+          PC_DIR="$(cd frontend && node -e 'process.stdout.write(require("path").dirname(require.resolve("@prisma/client/package.json")))')"
+          PRISMA_NM="$(dirname "$(dirname "$PC_DIR")")"   # .../node_modules (voisin de @prisma/)
+          echo "prisma client: $PC_DIR"
+          echo "prisma nm    : $PRISMA_NM"
+          mkdir -p deploy/node_modules/@prisma
+          cp -RL "$PC_DIR"            deploy/node_modules/@prisma/client
+          cp -RL "$PRISMA_NM/.prisma" deploy/node_modules/.prisma
+          test -f deploy/node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node \
+            || { echo "::error::debian-openssl-1.1.x query engine missing from bundle"; ls -la deploy/node_modules/.prisma/client/ || true; exit 1; }
+
+      - name: Setup SSH
+        env:
+          N0C_SSH_KEY: ${{ secrets.N0C_SSH_KEY }}
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          printf '%s\n' "$N0C_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$N0C_SSH_PORT" -H "${{ secrets.N0C_SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Ensure app root exists
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "$N0C_SSH_PORT" \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
+            "mkdir -p '${{ secrets.N0C_APP_PATH }}/frontend' '${{ secrets.N0C_APP_PATH }}/tmp' '${{ secrets.N0C_APP_PATH }}/public'"
+
+      - name: Rsync to N0C
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
+        run: |
+          rsync -az --delete \
+            --exclude='.env' --exclude='tmp/' --exclude='.htaccess' --exclude='public/' \
+            -e "ssh -i ~/.ssh/id_deploy -p $N0C_SSH_PORT" \
+            deploy/ \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}:${{ secrets.N0C_APP_PATH }}/"
+
+      - name: Prisma migrate deploy
+        # Non-interactive SSH on CloudLinux has no node/npx in PATH until the
+        # nodevenv activate script is sourced. The app's .env lives at
+        # $N0C_APP_PATH/.env (NOT .../frontend/.env), so export it into the
+        # migrate process. Pin prisma@5.22.0 — an unpinned `npx prisma` pulls
+        # Prisma v7, incompatible with the v5 migration history.
+        # Effective command: prisma migrate deploy (via npx prisma@5.22.0).
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
+        run: |
+          # No `set -u`: the CloudLinux nodevenv `activate` script references
+          # unset vars (CL_VIRTUAL_ENV) and would abort under nounset.
+          ssh -i ~/.ssh/id_deploy -p "$N0C_SSH_PORT" \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
+            "set -eo pipefail; \
+             source '${{ secrets.N0C_NODE_ACTIVATE }}'; \
+             set -a; . '${{ secrets.N0C_APP_PATH }}/.env'; set +a; \
+             cd '${{ secrets.N0C_APP_PATH }}/frontend'; \
+             npx --yes prisma@5.22.0 migrate deploy --schema prisma/schema.prisma"
+
+      - name: Restart Passenger
+        env:
+          N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "$N0C_SSH_PORT" \
+            "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
+            "cd '${{ secrets.N0C_APP_PATH }}' && mkdir -p tmp public && touch tmp/restart.txt"
+
+      - name: Smoke check
+        run: |
+          sleep 15
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors --retry-connrefused "${{ secrets.N0C_DEPLOY_URL }}/" -o /dev/null
+          echo "Deploy OK"

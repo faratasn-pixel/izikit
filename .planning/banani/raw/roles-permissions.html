@@ -1,0 +1,1682 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>Habitat-Afrik — Paramètres · Rôles &amp; Permissions</title>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="base-styles">
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 812px;
+      background: #f5f6f8;
+      color: #1a1a1a;
+      font-size: 14px;
+    }
+    :root {
+      --background: #f5f6f8;
+      --foreground: #1a1a1a;
+      --border: #e5e7eb;
+      --input: #f5f6f8;
+      --primary: #0ea5e9;
+      --primary-foreground: #ffffff;
+      --secondary: #f5f6f8;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #6b7280;
+      --success: #22c55e;
+      --success-foreground: #ffffff;
+      --accent: #e0f2fe;
+      --accent-foreground: #0ea5e9;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --warning: #f59e0b;
+      --warning-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #1a1a1a;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #1a1a1a;
+      --sidebar-primary: #e0f2fe;
+      --sidebar-primary-foreground: #0ea5e9;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+    }
+    .screen-wrap {
+      min-height: 812px;
+      display: flex;
+      position: relative;
+      background: var(--secondary);
+    }
+    .icon-wrap {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-wrap.sm {
+      width: 16px;
+      height: 16px;
+    }
+    .icon-wrap.lg {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      color: var(--sidebar-foreground);
+      border-right: 1px solid var(--border);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 8px 4px 8px;
+    }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      background: var(--sidebar-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      line-height: 1.2;
+    }
+    .country-switcher {
+      background: var(--secondary);
+      border-radius: var(--radius-xl);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .country-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .country-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .country-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-bottom: 2px;
+    }
+    .country-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      padding: 0 8px;
+    }
+    .country-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 8px;
+    }
+    .cpill {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .cpill.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      background: transparent;
+    }
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-item-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sidebar-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+    }
+    .nav-item.active .nav-item-label {
+      color: var(--sidebar-primary-foreground);
+      font-weight: 600;
+    }
+    .nav-count {
+      min-width: 24px;
+      height: 24px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .nav-item.active .nav-count {
+      background: var(--card);
+      color: var(--primary);
+    }
+    .sidebar-spacer {
+      flex: 1;
+    }
+    .logout-item {
+      background: #fef2f2;
+    }
+    .logout-item .nav-item-label {
+      color: var(--destructive);
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 76px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .searchbar {
+      width: 420px;
+      max-width: 100%;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      color: var(--muted-foreground);
+    }
+    .searchbar-text {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .notif-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--destructive);
+    }
+    .admin-pill {
+      height: 42px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .admin-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .admin-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .admin-role {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="page-styles">
+    .page {
+      flex: 1;
+      min-width: 0;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+    }
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .page-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .page-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
+    .settings-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .settings-tabs {
+      width: 220px;
+      min-width: 220px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .stab-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .stab-item.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .settings-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 18px 20px 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+    .section-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .btn {
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .btn.primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .btn.secondary {
+      background: var(--card);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .btn.small {
+      height: 34px;
+      padding: 0 12px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+    .btn.danger {
+      background: #fef2f2;
+      color: var(--destructive);
+      border: 1px solid #fecaca;
+    }
+  </style>
+
+  <style id="roles-styles">
+    /* Role cards */
+    .role-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 20px;
+    }
+    .role-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .role-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .role-card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+    .role-card-count {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .role-card-label {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    /* Badges per role */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-superadmin {
+      background: #e0f2fe;
+      color: #0ea5e9;
+    }
+    .badge-moderator {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+    .badge-support {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+    .badge-compta {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+    .badge-inactive {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+    .badge-active {
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    /* Admin table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      background: #f8fafc;
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #6b7280;
+      text-align: left;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--foreground);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      vertical-align: middle;
+    }
+    .data-table tr.alt td {
+      background: #fcfdfe;
+    }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .user-email {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+
+    .action-menu-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Permissions matrix */
+    .matrix-wrap {
+      overflow-x: auto;
+    }
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .matrix-table th {
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted-foreground);
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .matrix-table th.module-col {
+      text-align: left;
+      min-width: 140px;
+    }
+    .matrix-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      vertical-align: middle;
+      text-align: center;
+    }
+    .matrix-table td.module-name {
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .matrix-table tr.alt td {
+      background: #fafbfc;
+    }
+    .matrix-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .perm-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .perm-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      gap: 4px;
+    }
+    .perm-full {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+    .perm-read {
+      background: #f3f4f6;
+      color: #4b5563;
+    }
+    .perm-none {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .module-icon-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen-wrap" id="screen-wrap">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">
+          <div class="icon-wrap lg">
+            <iconify-icon
+              icon="lucide:building-2"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div>
+          <div class="brand-title">Habitat-Afrik</div>
+          <div class="brand-subtitle">Administration</div>
+        </div>
+      </div>
+
+      <div class="country-switcher" data-media-type="banani-button">
+        <div class="country-left">
+          <div class="country-avatar">AF</div>
+          <div>
+            <div class="country-label">Vue active</div>
+            <div class="country-value">Multi-pays agrégée</div>
+          </div>
+        </div>
+        <div class="icon-wrap sm">
+          <iconify-icon
+            icon="lucide:chevron-down"
+            style="font-size: 16px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Pays</div>
+        <div class="country-pills">
+          <div class="cpill active" data-media-type="banani-button">BJ</div>
+          <div class="cpill" data-media-type="banani-button">TG</div>
+          <div class="cpill" data-media-type="banani-button">CI</div>
+          <div class="cpill" data-media-type="banani-button">SN</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <div class="nav-list">
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:layout-dashboard"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Tableau de bord</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:clipboard-list"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Gestion des annonces</span>
+            </div>
+            <span class="nav-count">128</span>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:users"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Utilisateurs</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:wallet"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Finances &amp; jetons</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:video"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Visites virtuelles</span>
+            </div>
+          </a>
+          <a class="nav-item" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-alert"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Modération &amp; support</span>
+            </div>
+            <span class="nav-count">19</span>
+          </a>
+          <a class="nav-item active" data-media-type="banani-button">
+            <div class="nav-item-left">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings-2"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="nav-item-label">Paramètres</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-spacer"></div>
+      <a class="nav-item logout-item" data-media-type="banani-button">
+        <div class="nav-item-left">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 18px; color: var(--destructive)"
+            ></iconify-icon>
+          </div>
+          <span class="nav-item-label">Déconnexion</span>
+        </div>
+      </a>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main" id="main-content">
+      <div class="topbar" id="topbar">
+        <div class="searchbar" data-media-type="banani-button">
+          <div class="icon-wrap">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 16px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="searchbar-text">Rechercher une annonce, un utilisateur, un paiement…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="icon-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--foreground)"
+            ></iconify-icon>
+            <span class="notif-dot"></span>
+          </div>
+          <div class="admin-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Admin"
+              class="admin-avatar"
+            />
+            <div>
+              <div class="admin-name">Kofi Mensah</div>
+              <div class="admin-role">Admin plateforme</div>
+            </div>
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:chevrons-up-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page" id="page">
+        <div class="page-header">
+          <div class="page-title-block">
+            <div class="page-eyebrow">Paramètres · Rôles &amp; Permissions</div>
+            <h1 class="page-title">Rôles &amp; Permissions</h1>
+          </div>
+          <div class="btn primary" data-media-type="banani-button">
+            <div class="icon-wrap sm">
+              <iconify-icon
+                icon="lucide:user-plus"
+                style="font-size: 14px; color: #fff"
+              ></iconify-icon>
+            </div>
+            Inviter un admin
+          </div>
+        </div>
+
+        <div class="settings-layout" id="settings-layout">
+          <!-- LEFT TABS -->
+          <div class="settings-tabs" id="settings-tabs">
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:settings"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Général
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:globe"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Pays &amp; devises
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:coins"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Tarification
+            </div>
+            <div class="stab-item active" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:shield-check"
+                  style="font-size: 16px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              Rôles &amp; permissions
+            </div>
+            <div class="stab-item" data-media-type="banani-button">
+              <div class="icon-wrap">
+                <iconify-icon
+                  icon="lucide:bell-dot"
+                  style="font-size: 16px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              Notifications
+            </div>
+          </div>
+
+          <!-- RIGHT CONTENT -->
+          <div class="settings-content" id="settings-content">
+            <!-- Subtitle -->
+            <div style="font-size: 13px; color: var(--muted-foreground); margin-bottom: -8px">
+              Gérez les comptes admin et leurs niveaux d'accès à la plateforme.
+            </div>
+
+            <!-- 4 Role Cards -->
+            <div class="section-card" id="role-cards-section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Résumé des rôles</div>
+                  <div class="section-desc">Nombre de comptes par type de rôle admin</div>
+                </div>
+              </div>
+              <div class="role-cards-grid" id="role-cards-grid">
+                <div class="role-card">
+                  <div class="role-card-icon" style="background: #e0f2fe">
+                    <iconify-icon
+                      icon="lucide:crown"
+                      style="font-size: 20px; color: #0ea5e9"
+                    ></iconify-icon>
+                  </div>
+                  <div class="role-card-name">Super Admin</div>
+                  <div class="role-card-count">2</div>
+                  <div class="role-card-label">comptes actifs</div>
+                </div>
+                <div class="role-card">
+                  <div class="role-card-icon" style="background: #ede9fe">
+                    <iconify-icon
+                      icon="lucide:shield-check"
+                      style="font-size: 20px; color: #7c3aed"
+                    ></iconify-icon>
+                  </div>
+                  <div class="role-card-name">Modérateur</div>
+                  <div class="role-card-count">5</div>
+                  <div class="role-card-label">comptes actifs</div>
+                </div>
+                <div class="role-card">
+                  <div class="role-card-icon" style="background: #fff7ed">
+                    <iconify-icon
+                      icon="lucide:headset"
+                      style="font-size: 20px; color: #c2410c"
+                    ></iconify-icon>
+                  </div>
+                  <div class="role-card-name">Support</div>
+                  <div class="role-card-count">3</div>
+                  <div class="role-card-label">comptes actifs</div>
+                </div>
+                <div class="role-card">
+                  <div class="role-card-icon" style="background: #f0fdf4">
+                    <iconify-icon
+                      icon="lucide:calculator"
+                      style="font-size: 20px; color: #15803d"
+                    ></iconify-icon>
+                  </div>
+                  <div class="role-card-name">Comptabilité</div>
+                  <div class="role-card-count">2</div>
+                  <div class="role-card-label">comptes actifs</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Admin Accounts Table -->
+            <div class="section-card" id="admin-table-section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Comptes administrateurs</div>
+                  <div class="section-desc">12 comptes admin au total</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px">
+                  <div class="btn secondary small" data-media-type="banani-button">
+                    <div class="icon-wrap sm">
+                      <iconify-icon
+                        icon="lucide:filter"
+                        style="font-size: 13px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    Filtrer
+                  </div>
+                </div>
+              </div>
+              <table class="data-table" id="admin-table">
+                <thead>
+                  <tr>
+                    <th>Administrateur</th>
+                    <th>Rôle</th>
+                    <th>Statut</th>
+                    <th>Dernière connexion</th>
+                    <th style="width: 48px"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="user-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                          alt=""
+                          class="user-avatar"
+                        />
+                        <div>
+                          <div class="user-name">Kofi Mensah</div>
+                          <div class="user-email">kofi.mensah@habitat-afrik.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-superadmin">Super Admin</span></td>
+                    <td><span class="badge badge-active">Actif</span></td>
+                    <td>
+                      <span style="font-size: 12px; color: var(--muted-foreground)"
+                        >Aujourd'hui, 09:14</span
+                      >
+                    </td>
+                    <td>
+                      <div class="action-menu-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:more-vertical"
+                          style="font-size: 16px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div class="user-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F1"
+                          alt=""
+                          class="user-avatar"
+                        />
+                        <div>
+                          <div class="user-name">Awa Diallo</div>
+                          <div class="user-email">awa.diallo@habitat-afrik.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-superadmin">Super Admin</span></td>
+                    <td><span class="badge badge-active">Actif</span></td>
+                    <td>
+                      <span style="font-size: 12px; color: var(--muted-foreground)"
+                        >Hier, 17:42</span
+                      >
+                    </td>
+                    <td>
+                      <div class="action-menu-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:more-vertical"
+                          style="font-size: 16px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="user-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F5"
+                          alt=""
+                          class="user-avatar"
+                        />
+                        <div>
+                          <div class="user-name">Serge Akouété</div>
+                          <div class="user-email">s.akouete@habitat-afrik.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-moderator">Modérateur</span></td>
+                    <td><span class="badge badge-active">Actif</span></td>
+                    <td>
+                      <span style="font-size: 12px; color: var(--muted-foreground)"
+                        >Aujourd'hui, 11:05</span
+                      >
+                    </td>
+                    <td>
+                      <div class="action-menu-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:more-vertical"
+                          style="font-size: 16px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div class="user-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F4"
+                          alt=""
+                          class="user-avatar"
+                        />
+                        <div>
+                          <div class="user-name">Fatou Ndiaye</div>
+                          <div class="user-email">f.ndiaye@habitat-afrik.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-moderator">Modérateur</span></td>
+                    <td><span class="badge badge-active">Actif</span></td>
+                    <td>
+                      <span style="font-size: 12px; color: var(--muted-foreground)"
+                        >Il y a 2 jours</span
+                      >
+                    </td>
+                    <td>
+                      <div class="action-menu-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:more-vertical"
+                          style="font-size: 16px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="user-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F7"
+                          alt=""
+                          class="user-avatar"
+                        />
+                        <div>
+                          <div class="user-name">Abou Traoré</div>
+                          <div class="user-email">a.traore@habitat-afrik.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-support">Support</span></td>
+                    <td><span class="badge badge-active">Actif</span></td>
+                    <td>
+                      <span style="font-size: 12px; color: var(--muted-foreground)"
+                        >Aujourd'hui, 08:30</span
+                      >
+                    </td>
+                    <td>
+                      <div class="action-menu-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:more-vertical"
+                          style="font-size: 16px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="alt">
+                    <td>
+                      <div class="user-cell">
+                        <img
+                          src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F2"
+                          alt=""
+                          class="user-avatar"
+                        />
+                        <div>
+                          <div class="user-name">Mariam Coulibaly</div>
+                          <div class="user-email">m.coulibaly@habitat-afrik.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-compta">Comptabilité</span></td>
+                    <td><span class="badge badge-inactive">Inactif</span></td>
+                    <td>
+                      <span style="font-size: 12px; color: var(--muted-foreground)"
+                        >Il y a 5 jours</span
+                      >
+                    </td>
+                    <td>
+                      <div class="action-menu-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:more-vertical"
+                          style="font-size: 16px; color: var(--muted-foreground)"
+                        ></iconify-icon>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Permissions Matrix -->
+            <div class="section-card" id="matrix-section">
+              <div class="section-head">
+                <div>
+                  <div class="section-title">Matrice des permissions</div>
+                  <div class="section-desc">Droits d'accès par rôle et par module</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px">
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="width: 10px; height: 10px; border-radius: 3px; background: #e0f2fe"
+                    ></div>
+                    <span style="font-size: 11px; color: var(--muted-foreground)"
+                      >Lecture + écriture</span
+                    >
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="width: 10px; height: 10px; border-radius: 3px; background: #f3f4f6"
+                    ></div>
+                    <span style="font-size: 11px; color: var(--muted-foreground)"
+                      >Lecture seule</span
+                    >
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="width: 10px; height: 10px; border-radius: 3px; background: #fee2e2"
+                    ></div>
+                    <span style="font-size: 11px; color: var(--muted-foreground)">Aucun accès</span>
+                  </div>
+                </div>
+              </div>
+              <div class="matrix-wrap">
+                <table class="matrix-table" id="matrix-table">
+                  <thead>
+                    <tr>
+                      <th class="module-col">Module</th>
+                      <th>
+                        <div
+                          style="
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 4px;
+                          "
+                        >
+                          <div
+                            style="
+                              width: 28px;
+                              height: 28px;
+                              border-radius: 8px;
+                              background: #e0f2fe;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <iconify-icon
+                              icon="lucide:crown"
+                              style="font-size: 14px; color: #0ea5e9"
+                            ></iconify-icon>
+                          </div>
+                          Super Admin
+                        </div>
+                      </th>
+                      <th>
+                        <div
+                          style="
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 4px;
+                          "
+                        >
+                          <div
+                            style="
+                              width: 28px;
+                              height: 28px;
+                              border-radius: 8px;
+                              background: #ede9fe;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <iconify-icon
+                              icon="lucide:shield-check"
+                              style="font-size: 14px; color: #7c3aed"
+                            ></iconify-icon>
+                          </div>
+                          Modérateur
+                        </div>
+                      </th>
+                      <th>
+                        <div
+                          style="
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 4px;
+                          "
+                        >
+                          <div
+                            style="
+                              width: 28px;
+                              height: 28px;
+                              border-radius: 8px;
+                              background: #fff7ed;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <iconify-icon
+                              icon="lucide:headset"
+                              style="font-size: 14px; color: #c2410c"
+                            ></iconify-icon>
+                          </div>
+                          Support
+                        </div>
+                      </th>
+                      <th>
+                        <div
+                          style="
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 4px;
+                          "
+                        >
+                          <div
+                            style="
+                              width: 28px;
+                              height: 28px;
+                              border-radius: 8px;
+                              background: #f0fdf4;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <iconify-icon
+                              icon="lucide:calculator"
+                              style="font-size: 14px; color: #15803d"
+                            ></iconify-icon>
+                          </div>
+                          Comptabilité
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="module-name">
+                        <div class="module-icon-wrap">
+                          <iconify-icon
+                            icon="lucide:clipboard-list"
+                            style="font-size: 15px; color: var(--muted-foreground)"
+                          ></iconify-icon>
+                          Annonces
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-read"
+                            ><iconify-icon icon="lucide:eye" style="font-size: 11px"></iconify-icon
+                            >Lecture seule</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="alt">
+                      <td class="module-name">
+                        <div class="module-icon-wrap">
+                          <iconify-icon
+                            icon="lucide:users"
+                            style="font-size: 15px; color: var(--muted-foreground)"
+                          ></iconify-icon>
+                          Utilisateurs
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-read"
+                            ><iconify-icon icon="lucide:eye" style="font-size: 11px"></iconify-icon
+                            >Lecture seule</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="module-name">
+                        <div class="module-icon-wrap">
+                          <iconify-icon
+                            icon="lucide:wallet"
+                            style="font-size: 15px; color: var(--muted-foreground)"
+                          ></iconify-icon>
+                          Finances
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="alt">
+                      <td class="module-name">
+                        <div class="module-icon-wrap">
+                          <iconify-icon
+                            icon="lucide:video"
+                            style="font-size: 15px; color: var(--muted-foreground)"
+                          ></iconify-icon>
+                          Visites virtuelles
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-read"
+                            ><iconify-icon icon="lucide:eye" style="font-size: 11px"></iconify-icon
+                            >Lecture seule</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="module-name">
+                        <div class="module-icon-wrap">
+                          <iconify-icon
+                            icon="lucide:shield-alert"
+                            style="font-size: 15px; color: var(--muted-foreground)"
+                          ></iconify-icon>
+                          Modération
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="alt">
+                      <td class="module-name">
+                        <div class="module-icon-wrap">
+                          <iconify-icon
+                            icon="lucide:settings-2"
+                            style="font-size: 15px; color: var(--muted-foreground)"
+                          ></iconify-icon>
+                          Paramètres
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-full"
+                            ><iconify-icon
+                              icon="lucide:pencil"
+                              style="font-size: 11px"
+                            ></iconify-icon
+                            >Lecture + écriture</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-none"
+                            ><iconify-icon icon="lucide:ban" style="font-size: 11px"></iconify-icon
+                            >Aucun</span
+                          >
+                        </div>
+                      </td>
+                      <td>
+                        <div class="perm-cell">
+                          <span class="perm-badge perm-read"
+                            ><iconify-icon icon="lucide:eye" style="font-size: 11px"></iconify-icon
+                            >Lecture seule</span
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /settings-content -->
+        </div>
+        <!-- /settings-layout -->
+      </div>
+      <!-- /page -->
+    </div>
+    <!-- /main -->
+  </div>
+</body>

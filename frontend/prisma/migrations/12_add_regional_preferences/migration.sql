@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "currency" TEXT NOT NULL DEFAULT 'XOF_UEMOA',
+ADD COLUMN     "dateFormat" TEXT NOT NULL DEFAULT 'DMY',
+ADD COLUMN     "locale" TEXT NOT NULL DEFAULT 'fr',
+ADD COLUMN     "numberFormat" TEXT NOT NULL DEFAULT 'SPACE',
+ADD COLUMN     "timezone" TEXT NOT NULL DEFAULT 'Africa/Cotonou';

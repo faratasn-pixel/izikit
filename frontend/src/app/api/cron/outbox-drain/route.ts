@@ -64,7 +64,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       });
 
       // 2. Drain. EmailQueue is required for `email.*` outbox kinds; if
-      // unconfigured (no UPSTASH+RESEND env), the dispatcher throws per-row
+      // unconfigured (no UPSTASH+BREVO env), the dispatcher throws per-row
       // ("email queue not configured"), the row is rescheduled with backoff,
       // and notification.* events still process. Graceful degradation.
       // exactOptionalPropertyTypes: spread to omit `emailQueue` when null
@@ -90,3 +90,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   });
 }
+
+// Vercel Cron invokes scheduled routes with GET, not POST.
+export const GET = POST;

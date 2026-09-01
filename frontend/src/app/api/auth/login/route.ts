@@ -3,11 +3,14 @@
 // Source: RESEARCH.md Pattern 9 (sequence) + Pattern 8 (constant-time error
 // path) + Pattern 10 (lockout-store integration).
 //
+// Identifier is the account email address. Rate-limit/lockout helpers are
+// keyed by a generic identifier string — we pass the email.
+//
 // Order is load-bearing per D-24 (enumeration resistance):
 //   1. Zod validate body
-//   2. Per-email rate limit (10/15m — D-08)
+//   2. Per-identifier rate limit (10/15m — D-08)
 //   3. Lockout flag check (Redis) — early-out before bcrypt cost
-//   4. User lookup
+//   4. User lookup by email
 //   5. No-user branch: dummy bcrypt compare → INVALID_CREDENTIALS (no recordFailure)
 //   6. verifyPassword → on fail recordFailure → LOCKED_OUT or INVALID_CREDENTIALS
 //   7. emailVerifiedAt check (after credential match — D-24)
@@ -38,7 +41,7 @@ const LoginSchema = z.object({
   password: z.string().min(1),
 });
 
-// Module-level limiter — D-08: 10 attempts / 15 min per email.
+// Module-level limiter — D-08: 10 attempts / 15 min per identifier.
 const redis = getRedis() ?? undefined;
 const limiter = createEmailLimiter(
   { ...(redis ? { redis } : {}) },
@@ -73,7 +76,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
     const { email, password } = parsed.data;
 
-    // 2. Rate limit per email
+    // 2. Rate limit per identifier
     const rl = await limiter.check(req, email);
     if (rl) {
       rl.headers.set('x-request-id', ctx.requestId);
@@ -89,7 +92,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // 4. User lookup
+    // 4. User lookup by email
     const user = await prisma.user.findUnique({
       where: { email },
       select: {
@@ -105,11 +108,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // 5. No-user (or OAuth-only) branch: dummy bcrypt then INVALID_CREDENTIALS.
     //    No recordFailure here per D-24 — Pattern 9 step 4 only counts failures
     //    against accounts that exist (otherwise an attacker can DoS arbitrary
-    //    emails by guessing).
+    //    email addresses by guessing).
     if (!user || !user.passwordHash) {
       await dummyBcryptCompare(password);
       return NextResponse.json(
-        { error: 'INVALID_CREDENTIALS', message: 'Invalid email or password.' },
+        { error: 'INVALID_CREDENTIALS', message: 'Invalid email address or password.' },
         { status: 400, headers: { 'x-request-id': ctx.requestId } },
       );
     }
@@ -125,7 +128,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         );
       }
       return NextResponse.json(
-        { error: 'INVALID_CREDENTIALS', message: 'Invalid email or password.' },
+        { error: 'INVALID_CREDENTIALS', message: 'Invalid email address or password.' },
         { status: 400, headers: { 'x-request-id': ctx.requestId } },
       );
     }
@@ -140,7 +143,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
     // 7b. D-ADMIN-02 — refuse SUSPENDED users AFTER credentials verify (no
-    //     enumeration leak: same code path as a non-existent email up to here)
+    //     enumeration leak: same code path as a non-existent phone up to here)
     //     but BEFORE issuing cookies.
     //
     //     WR-04: clear the lockout counter for SUSPENDED users via

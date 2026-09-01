@@ -1,0 +1,1685 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Modifier Annonce</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #ffffff;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+  </style>
+
+  <style id="content-styles">
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 32px 40px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 0;
+      background: #f4f6fb;
+    }
+  </style>
+
+  <style id="page-header-styles">
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .back-btn {
+      width: 34px;
+      height: 34px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+    }
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--warning);
+      color: var(--warning-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      margin-left: auto;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-outline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 20px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-danger {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="form-layout-styles">
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      align-items: start;
+    }
+    .form-left {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .form-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-card-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 -24px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      font-family: 'Inter', sans-serif;
+    }
+    .form-label span {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+    .form-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13.5px;
+      color: var(--foreground);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-input.textarea {
+      min-height: 90px;
+      align-items: flex-start;
+      padding-top: 10px;
+    }
+    .form-input-value {
+      color: var(--foreground);
+    }
+    .form-input-placeholder {
+      color: var(--muted-foreground);
+    }
+    .form-select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .form-hint {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="photo-styles">
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .photo-thumb {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+    }
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-thumb-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 600;
+      border-radius: 99px;
+      padding: 2px 7px;
+    }
+    .photo-thumb-remove {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .photo-add {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .photo-add-text {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      text-align: center;
+    }
+  </style>
+
+  <style id="status-sidebar-styles">
+    .status-badge-lg {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: var(--radius-lg);
+    }
+    .status-badge-lg.pending {
+      background: var(--warning);
+    }
+    .status-badge-lg.verified {
+      background: var(--success);
+    }
+    .status-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.6);
+      flex-shrink: 0;
+    }
+    .status-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .status-label {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--warning-foreground);
+    }
+    .status-label.verified {
+      color: var(--success-foreground);
+    }
+    .status-sub {
+      font-size: 11px;
+      color: var(--warning-foreground);
+      opacity: 0.8;
+    }
+    .status-sub.verified {
+      color: var(--success-foreground);
+      opacity: 0.8;
+    }
+
+    .meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .meta-key {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .meta-val {
+      font-size: 13px;
+      color: var(--foreground);
+      font-weight: 500;
+    }
+    .meta-val.primary {
+      color: var(--primary);
+    }
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .activity-text {
+      font-size: 12px;
+      color: var(--secondary-foreground);
+      line-height: 1.4;
+    }
+    .activity-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="agent-dashboard.html" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="agent-dashboard.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="messages-inbox.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="settings-page.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="mes-annonces.html" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="alerte-secteur.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bell-ring"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Alerte secteur
+          </a>
+          <a href="contacts-recus.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="visites-programmees.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="jetons-vr.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="statistiques-agent.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="centre-aide.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="login-screen.html" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div
+            class="notif-btn"
+            data-media-type="banani-button"
+            onclick="location.href = 'notifications-center.html'"
+            style="cursor: pointer"
+          >
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div
+            class="user-pill"
+            data-media-type="banani-button"
+            onclick="location.href = 'settings-page.html'"
+            style="cursor: pointer"
+          >
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="content-area" id="content-area">
+        <!-- PAGE HEADER -->
+        <div class="page-header" id="page-header">
+          <div class="back-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:arrow-left"
+              style="font-size: 16px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+          </div>
+          <div>
+            <div class="page-title">Modifier l'annonce</div>
+            <div class="page-subtitle">#AN-0041 — Villa moderne avec piscine, Cocody</div>
+          </div>
+          <div class="header-badge">
+            <iconify-icon icon="lucide:clock" style="font-size: 11px"></iconify-icon>
+            En attente de révision
+          </div>
+          <div class="header-actions">
+            <div class="btn-danger" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:trash-2"
+                  style="font-size: 14px; color: var(--destructive-foreground)"
+                ></iconify-icon>
+              </div>
+              Supprimer
+            </div>
+            <div
+              class="btn-outline"
+              data-media-type="banani-button"
+              onclick="location.href = 'annonce-detail.html'"
+              style="cursor: pointer"
+            >
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon icon="lucide:eye" style="font-size: 14px"></iconify-icon>
+              </div>
+              Prévisualiser
+            </div>
+            <div
+              class="btn-primary"
+              data-media-type="banani-button"
+              onclick="location.href = 'annonce-detail.html'"
+              style="cursor: pointer"
+            >
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:save"
+                  style="font-size: 14px; color: #fff"
+                ></iconify-icon>
+              </div>
+              Enregistrer
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM GRID -->
+        <div class="form-grid" id="form-grid">
+          <!-- LEFT COLUMN -->
+          <div class="form-left" id="form-left">
+            <!-- Informations générales -->
+            <div class="form-card" id="card-general">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:info"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Informations générales
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="form-group full">
+                <div class="form-label">Titre de l'annonce <span>*</span></div>
+                <div class="form-input">
+                  <span class="form-input-value">Villa moderne avec piscine, Cocody</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <div class="form-label">Type de bien <span>*</span></div>
+                  <div class="form-input form-select">
+                    <span class="form-input-value">Villa</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Catégorie <span>*</span></div>
+                  <div class="form-input form-select">
+                    <span class="form-input-value">À vendre</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group full">
+                <div class="form-label">Description <span>*</span></div>
+                <div class="form-input textarea">
+                  <span class="form-input-value" style="line-height: 1.6"
+                    >Belle villa moderne 5 pièces avec piscine privée, jardin tropical, 3 chambres
+                    en suite, cuisine équipée, double garage, sécurité 24h/24. Quartier résidentiel
+                    calme de Cocody, à 10 min du Plateau d'Abidjan.</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Localisation -->
+            <div class="form-card" id="card-location">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:map-pin"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Localisation
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="form-row">
+                <div class="form-group">
+                  <div class="form-label">Pays <span>*</span></div>
+                  <div class="form-input form-select">
+                    <span class="form-input-value">Côte d'Ivoire</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Ville <span>*</span></div>
+                  <div class="form-input form-select">
+                    <span class="form-input-value">Abidjan</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <div class="form-label">Commune / Quartier</div>
+                  <div class="form-input">
+                    <span class="form-input-value">Cocody</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Adresse précise</div>
+                  <div class="form-input">
+                    <span class="form-input-value">Rue des Jardins, Lot 12</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Map placeholder -->
+              <div
+                style="
+                  border-radius: var(--radius-lg);
+                  overflow: hidden;
+                  border: 1px solid var(--border);
+                "
+              >
+                <img
+                  data-aspect-ratio="16:9"
+                  data-query="satellite map view of Cocody Abidjan, urban residential area, overhead aerial view, muted colors, cartographic style"
+                  style="width: 100%; display: block"
+                  alt="Carte localisation"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/50d82640-5924-43de-8813-8869a7146f65.jpg"
+                />
+              </div>
+            </div>
+
+            <!-- Caractéristiques -->
+            <div class="form-card" id="card-features">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:list-checks"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Caractéristiques du bien
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="form-row-3">
+                <div class="form-group">
+                  <div class="form-label">Surface (m²)</div>
+                  <div class="form-input">
+                    <span class="form-input-value">320</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Nbre de pièces</div>
+                  <div class="form-input">
+                    <span class="form-input-value">5</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Nbre de chambres</div>
+                  <div class="form-input">
+                    <span class="form-input-value">3</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Nbre de SDB</div>
+                  <div class="form-input">
+                    <span class="form-input-value">3</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Étages</div>
+                  <div class="form-input">
+                    <span class="form-input-value">2</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Parking</div>
+                  <div class="form-input form-select">
+                    <span class="form-input-value">Garage double</span>
+                    <iconify-icon
+                      icon="lucide:chevron-down"
+                      style="font-size: 14px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+              </div>
+              <!-- Équipements checkboxes (fake) -->
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--sidebar-primary);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 12px; color: var(--primary)"
+                  ></iconify-icon>
+                  <span style="font-size: 12px; font-weight: 500; color: var(--primary)"
+                    >Piscine</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--sidebar-primary);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 12px; color: var(--primary)"
+                  ></iconify-icon>
+                  <span style="font-size: 12px; font-weight: 500; color: var(--primary)"
+                    >Jardin</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--sidebar-primary);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 12px; color: var(--primary)"
+                  ></iconify-icon>
+                  <span style="font-size: 12px; font-weight: 500; color: var(--primary)"
+                    >Sécurité 24h</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--sidebar-primary);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <iconify-icon
+                    icon="lucide:check"
+                    style="font-size: 12px; color: var(--primary)"
+                  ></iconify-icon>
+                  <span style="font-size: 12px; font-weight: 500; color: var(--primary)"
+                    >Climatisation</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--muted);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <span
+                    style="font-size: 12px; font-weight: 500; color: var(--secondary-foreground)"
+                    >Ascenseur</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--muted);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <span
+                    style="font-size: 12px; font-weight: 500; color: var(--secondary-foreground)"
+                    >Balcon</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--muted);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <span
+                    style="font-size: 12px; font-weight: 500; color: var(--secondary-foreground)"
+                    >Cuisine équipée</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 12px;
+                    background: var(--muted);
+                    border-radius: 99px;
+                    cursor: pointer;
+                  "
+                  data-media-type="banani-button"
+                >
+                  <span
+                    style="font-size: 12px; font-weight: 500; color: var(--secondary-foreground)"
+                    >Panneau solaire</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Photos -->
+            <div class="form-card" id="card-photos">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:image"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Photos
+                <span
+                  style="
+                    font-size: 11px;
+                    font-weight: 400;
+                    color: var(--muted-foreground);
+                    margin-left: 4px;
+                  "
+                  >4/10 photos</span
+                >
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="photos-grid">
+                <div class="photo-thumb">
+                  <img
+                    data-aspect-ratio="4:3"
+                    data-query="modern villa with pool Abidjan Cote d'Ivoire, luxury real estate exterior, lush tropical garden, blue water, white architecture, bright daylight"
+                    alt="Photo villa"
+                  />
+                  <span class="photo-thumb-badge">Principale</span>
+                  <div class="photo-thumb-remove" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="photo-thumb">
+                  <img
+                    data-aspect-ratio="4:3"
+                    data-query="luxurious villa interior living room Abidjan Cote d'Ivoire, modern furniture, bright open space, tropical interior design, elegant decor"
+                    alt="Photo salon"
+                  />
+                  <div class="photo-thumb-remove" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="photo-thumb">
+                  <img
+                    data-aspect-ratio="4:3"
+                    data-query="modern villa kitchen Abidjan Cote d'Ivoire, white cabinetry, marble countertop, tropical windows, bright natural light, luxury real estate"
+                    alt="Photo cuisine"
+                  />
+                  <div class="photo-thumb-remove" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="photo-thumb">
+                  <img
+                    data-aspect-ratio="4:3"
+                    data-query="bedroom suite in a modern villa Abidjan Cote d'Ivoire, king bed, en suite bathroom, tropical view, premium interior design"
+                    alt="Photo chambre"
+                  />
+                  <div class="photo-thumb-remove" data-media-type="banani-button">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="photo-add" data-media-type="banani-button">
+                  <div
+                    style="
+                      width: 36px;
+                      height: 36px;
+                      background: var(--muted);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:plus"
+                      style="font-size: 20px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span class="photo-add-text">Ajouter<br />une photo</span>
+                </div>
+                <div class="photo-add" data-media-type="banani-button">
+                  <div
+                    style="
+                      width: 36px;
+                      height: 36px;
+                      background: var(--muted);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:plus"
+                      style="font-size: 20px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                  <span class="photo-add-text">Ajouter<br />une photo</span>
+                </div>
+              </div>
+              <div class="form-hint">
+                Format JPG ou PNG, max 5 Mo par photo. La première photo sera utilisée comme image
+                principale.
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <div class="form-right" id="form-right">
+            <!-- Statut -->
+            <div class="form-card" id="card-status">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:shield"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Statut de l'annonce
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="status-badge-lg pending">
+                <div class="status-icon">
+                  <iconify-icon
+                    icon="lucide:clock"
+                    style="font-size: 18px; color: var(--warning-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="status-text-group">
+                  <span class="status-label">En attente de vérification</span>
+                  <span class="status-sub">Soumis le 12 juil. 2025</span>
+                </div>
+              </div>
+              <div style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5">
+                Votre annonce est en cours d'examen par notre équipe. Toute modification remet le
+                délai de vérification à zéro.
+              </div>
+            </div>
+
+            <!-- Prix -->
+            <div class="form-card" id="card-price">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:banknote"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Prix &amp; Conditions
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="form-group">
+                <div class="form-label">Prix de vente (FCFA) <span>*</span></div>
+                <div class="form-input" style="justify-content: space-between">
+                  <span class="form-input-value" style="font-weight: 600; font-size: 15px"
+                    >185 000 000</span
+                  >
+                  <span style="font-size: 12px; color: var(--muted-foreground)">FCFA</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-label">Négociable</div>
+                <div class="form-input form-select">
+                  <span class="form-input-value">Oui</span>
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-label">Charges incluses</div>
+                <div class="form-input form-select">
+                  <span class="form-input-value">Eau, Électricité</span>
+                  <iconify-icon
+                    icon="lucide:chevron-down"
+                    style="font-size: 14px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+
+            <!-- Méta-informations -->
+            <div class="form-card" id="card-meta">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:bar-chart-2"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Métriques de l'annonce
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="meta-list">
+                <div class="meta-item">
+                  <span class="meta-key">Vues totales</span>
+                  <span class="meta-val primary" style="font-size: 20px; font-weight: 600"
+                    >1 248</span
+                  >
+                </div>
+                <div class="meta-item">
+                  <span class="meta-key">Contacts reçus</span>
+                  <span class="meta-val" style="font-size: 16px; font-weight: 600">37</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-key">Visites programmées</span>
+                  <span class="meta-val" style="font-size: 16px; font-weight: 600">8</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-key">Mise en ligne</span>
+                  <span class="meta-val">03 juin 2025</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-key">Dernière modification</span>
+                  <span class="meta-val">10 juil. 2025</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Activité récente -->
+            <div class="form-card" id="card-activity">
+              <div class="form-card-title">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:activity"
+                    style="font-size: 17px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                Activité récente
+              </div>
+              <div class="form-card-divider"></div>
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-dot" style="background: #376bff"></div>
+                  <div>
+                    <div class="activity-text">
+                      Nouveau contact de <strong>Aminata Coulibaly</strong>
+                    </div>
+                    <div class="activity-time">Il y a 2h</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot" style="background: #10b981"></div>
+                  <div>
+                    <div class="activity-text">Visite programmée pour le 18 juillet</div>
+                    <div class="activity-time">Hier, 14:30</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot" style="background: #f59e0b"></div>
+                  <div>
+                    <div class="activity-text">Annonce soumise à vérification</div>
+                    <div class="activity-time">12 juil. 2025</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot" style="background: #376bff"></div>
+                  <div>
+                    <div class="activity-text">
+                      Nouveau contact de <strong>Jean-Paul Ehouman</strong>
+                    </div>
+                    <div class="activity-time">11 juil. 2025</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

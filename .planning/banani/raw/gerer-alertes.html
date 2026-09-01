@@ -1,0 +1,1992 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Gérer les alertes</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .nav-sub-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px 8px 40px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-sub-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="page-styles">
+    .page-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+      background: var(--background);
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .btn-danger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="badge-styles">
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .badge-active {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-inactive {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .badge-vente {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .badge-location {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .badge-immediate {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .badge-daily {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .badge-weekly {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+  </style>
+
+  <style id="filters-styles">
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .filter-select {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 7px 12px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+    .search-filter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 7px 12px;
+      flex: 1;
+      min-width: 180px;
+      max-width: 260px;
+    }
+    .search-filter-text {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="table-styles">
+    .table-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px 14px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+    }
+    .table-count {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      margin-left: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead th {
+      background: #fafbfd;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+    tbody tr:nth-child(even) {
+      background: #fafbfd;
+    }
+    tbody td {
+      padding: 13px 16px;
+      font-size: 13px;
+      color: var(--foreground);
+      vertical-align: middle;
+    }
+    .td-name {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .td-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .criteria-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: var(--radius-md);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      white-space: nowrap;
+    }
+    .criteria-chip.blue {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .toggle-pill {
+      width: 32px;
+      height: 18px;
+      border-radius: 99px;
+      background: var(--primary);
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .toggle-pill-off {
+      background: #d1d5db;
+    }
+    .toggle-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      top: 3px;
+      right: 3px;
+    }
+    .toggle-dot-off {
+      left: 3px;
+      right: auto;
+    }
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .match-count-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 2px 9px;
+      white-space: nowrap;
+    }
+    .match-count-empty {
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="summary-styles">
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .summary-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .summary-icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .summary-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .summary-value {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--foreground);
+    }
+    .summary-label {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="bulk-bar-styles">
+    .bulk-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--foreground);
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: 12px 20px;
+      margin-bottom: 16px;
+    }
+    .bulk-bar-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      margin-right: 4px;
+    }
+    .bulk-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .bulk-btn-success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .bulk-btn-danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .bulk-btn-outline {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="#" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="#" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:map-pinned"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Alerte secteur
+            <div
+              style="
+                margin-left: auto;
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 13px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+          </a>
+          <a href="#" class="nav-sub-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 15px;
+                height: 15px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+              "
+            >
+              <iconify-icon
+                icon="lucide:file-search"
+                style="font-size: 14px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Demande immobilière
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="notif-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div class="user-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content" id="page-content">
+        <!-- Breadcrumb -->
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 18px">
+          <a
+            href="#"
+            style="font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500"
+            data-media-type="banani-button"
+            >Alerte secteur</a
+          >
+          <iconify-icon
+            icon="lucide:chevron-right"
+            style="font-size: 13px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span style="font-size: 13px; color: var(--muted-foreground)">Gérer les alertes</span>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <div class="page-title">Gérer les alertes</div>
+            <div class="page-sub">
+              Activez, désactivez, modifiez ou supprimez vos alertes secteur.
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center">
+            <div class="btn-outline" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:download"
+                  style="font-size: 14px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              Exporter
+            </div>
+            <div class="btn-primary" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:plus"
+                  style="font-size: 14px; color: #fff"
+                ></iconify-icon>
+              </div>
+              Nouvelle alerte
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Row -->
+        <div class="summary-row">
+          <div class="summary-card">
+            <div class="summary-icon-row">
+              <div class="summary-icon-box" style="background: #eef3ff">
+                <iconify-icon
+                  icon="lucide:map-pinned"
+                  style="font-size: 17px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span
+                style="
+                  font-size: 11.5px;
+                  font-weight: 600;
+                  color: #059669;
+                  display: flex;
+                  align-items: center;
+                  gap: 3px;
+                "
+              >
+                <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon> +2
+                ce mois
+              </span>
+            </div>
+            <div class="summary-value">8</div>
+            <div class="summary-label">Total alertes créées</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-icon-row">
+              <div class="summary-icon-box" style="background: #d1fae5">
+                <iconify-icon
+                  icon="lucide:check-circle"
+                  style="font-size: 17px; color: #065f46"
+                ></iconify-icon>
+              </div>
+              <span style="font-size: 11.5px; font-weight: 600; color: #059669">Active</span>
+            </div>
+            <div class="summary-value">6</div>
+            <div class="summary-label">Alertes actives</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-icon-row">
+              <div class="summary-icon-box" style="background: #fee2e2">
+                <iconify-icon
+                  icon="lucide:bell-off"
+                  style="font-size: 17px; color: #991b1b"
+                ></iconify-icon>
+              </div>
+              <span style="font-size: 11.5px; font-weight: 600; color: var(--muted-foreground)"
+                >—</span
+              >
+            </div>
+            <div class="summary-value">2</div>
+            <div class="summary-label">Alertes désactivées</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-icon-row">
+              <div class="summary-icon-box" style="background: #fef3c7">
+                <iconify-icon
+                  icon="lucide:sparkles"
+                  style="font-size: 17px; color: #d97706"
+                ></iconify-icon>
+              </div>
+              <span
+                style="
+                  font-size: 11.5px;
+                  font-weight: 600;
+                  color: var(--primary);
+                  display: flex;
+                  align-items: center;
+                  gap: 3px;
+                "
+              >
+                <iconify-icon icon="lucide:zap" style="font-size: 11px"></iconify-icon> Ce mois
+              </span>
+            </div>
+            <div class="summary-value">14</div>
+            <div class="summary-label">Correspondances reçues</div>
+          </div>
+        </div>
+
+        <!-- Filters Bar -->
+        <div class="filters-bar">
+          <span class="filter-label">Filtres :</span>
+          <div class="filter-select" data-media-type="banani-button">
+            Tous les statuts
+            <iconify-icon icon="lucide:chevron-down" style="font-size: 12px"></iconify-icon>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            Tous les pays
+            <iconify-icon icon="lucide:chevron-down" style="font-size: 12px"></iconify-icon>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            Type de bien
+            <iconify-icon icon="lucide:chevron-down" style="font-size: 12px"></iconify-icon>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            Fréquence
+            <iconify-icon icon="lucide:chevron-down" style="font-size: 12px"></iconify-icon>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="search-filter" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 13px; color: var(--muted-foreground)"
+            ></iconify-icon>
+            <span class="search-filter-text">Rechercher une alerte…</span>
+          </div>
+          <div style="margin-left: auto">
+            <span
+              style="font-size: 12.5px; font-weight: 500; color: var(--primary); cursor: pointer"
+              data-media-type="banani-button"
+              >Réinitialiser</span
+            >
+          </div>
+        </div>
+
+        <!-- Bulk Action Bar (shown when items selected) -->
+        <div class="bulk-bar" id="bulk-bar">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:check-square"
+              style="font-size: 16px; color: #fff"
+            ></iconify-icon>
+          </div>
+          <span class="bulk-bar-count">3 alertes sélectionnées</span>
+          <div class="bulk-btn bulk-btn-success" data-media-type="banani-button">
+            <iconify-icon icon="lucide:toggle-right" style="font-size: 13px"></iconify-icon>
+            Activer
+          </div>
+          <div
+            class="bulk-btn"
+            style="background: rgba(255, 255, 255, 0.12); color: #fff"
+            data-media-type="banani-button"
+          >
+            <iconify-icon icon="lucide:toggle-left" style="font-size: 13px"></iconify-icon>
+            Désactiver
+          </div>
+          <div class="bulk-btn bulk-btn-danger" data-media-type="banani-button">
+            <iconify-icon icon="lucide:trash-2" style="font-size: 13px"></iconify-icon>
+            Supprimer
+          </div>
+          <div style="margin-left: auto">
+            <span
+              style="font-size: 12px; color: rgba(255, 255, 255, 0.6); cursor: pointer"
+              data-media-type="banani-button"
+              >Annuler</span
+            >
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+          <div class="table-header">
+            <div style="display: flex; align-items: center">
+              <span class="table-title">Toutes les alertes</span>
+              <span class="table-count">8 alertes</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px">
+              <div
+                class="btn-outline"
+                style="padding: 7px 14px; font-size: 12.5px"
+                data-media-type="banani-button"
+              >
+                <iconify-icon icon="lucide:arrow-up-down" style="font-size: 13px"></iconify-icon>
+                Trier par date
+              </div>
+            </div>
+          </div>
+
+          <table id="alerts-table">
+            <thead>
+              <tr>
+                <th style="width: 40px; padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      border: 2px solid #d1d5db;
+                      background: #fff;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:minus"
+                      style="font-size: 10px; color: var(--muted-foreground)"
+                    ></iconify-icon>
+                  </div>
+                </th>
+                <th>Alerte / Critères</th>
+                <th>Pays / Ville</th>
+                <th>Transaction</th>
+                <th>Fréquence</th>
+                <th>Correspondances</th>
+                <th>Statut</th>
+                <th>Créée le</th>
+                <th style="text-align: center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1 — selected -->
+              <tr style="background: #eef3ff !important" data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      background: var(--primary);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </td>
+                <td>
+                  <div class="td-name">Villas à Cocody, Abidjan</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon icon="lucide:home" style="font-size: 10px"></iconify-icon>
+                      Villa</span
+                    >
+                    <span class="criteria-chip blue">80M – 200M FCFA</span>
+                    <span class="criteria-chip">200m²+</span>
+                    <span class="criteria-chip">4+ pièces</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇨🇮</span>
+                    <span style="font-weight: 500">Cocody, CI</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-vente">Vente</span></td>
+                <td><span class="badge badge-immediate">Immédiate</span></td>
+                <td>
+                  <span class="match-count-pill">
+                    <iconify-icon icon="lucide:sparkles" style="font-size: 10px"></iconify-icon>
+                    3 nouvelles
+                  </span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill"><div class="toggle-dot"></div></div>
+                    <span
+                      style="font-size: 12px; font-weight: 500; color: var(--success-foreground)"
+                      >Active</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">5 jan. 2025</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div
+                      class="action-btn"
+                      data-media-type="banani-button"
+                      title="Voir les correspondances"
+                    >
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button" title="Modifier">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button" title="Plus d'actions">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 2 — selected -->
+              <tr style="background: #eef3ff !important" data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      background: var(--primary);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </td>
+                <td>
+                  <div class="td-name">Appartements à Dakar Plateau</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon icon="lucide:building" style="font-size: 10px"></iconify-icon>
+                      Appartement</span
+                    >
+                    <span class="criteria-chip blue">15M – 40M FCFA</span>
+                    <span class="criteria-chip">3 pièces</span>
+                    <span class="criteria-chip">Meublé</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇸🇳</span>
+                    <span style="font-weight: 500">Plateau, SN</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-location">Location</span></td>
+                <td><span class="badge badge-daily">Quotidienne</span></td>
+                <td>
+                  <span class="match-count-pill">
+                    <iconify-icon icon="lucide:sparkles" style="font-size: 10px"></iconify-icon>
+                    1 nouvelle
+                  </span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill"><div class="toggle-dot"></div></div>
+                    <span
+                      style="font-size: 12px; font-weight: 500; color: var(--success-foreground)"
+                      >Active</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">8 jan. 2025</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 3 — selected -->
+              <tr style="background: #eef3ff !important" data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      background: var(--primary);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 10px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                </td>
+                <td>
+                  <div class="td-name">Terrains à Lomé, Bè</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon icon="lucide:warehouse" style="font-size: 10px"></iconify-icon>
+                      Terrain</span
+                    >
+                    <span class="criteria-chip blue">20M – 80M FCFA</span>
+                    <span class="criteria-chip">500m²+</span>
+                    <span class="criteria-chip">Titré</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇹🇬</span>
+                    <span style="font-weight: 500">Bè, TG</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-vente">Vente</span></td>
+                <td><span class="badge badge-weekly">Hebdo</span></td>
+                <td>
+                  <span class="match-count-pill">
+                    <iconify-icon icon="lucide:sparkles" style="font-size: 10px"></iconify-icon>
+                    5 nouvelles
+                  </span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill"><div class="toggle-dot"></div></div>
+                    <span
+                      style="font-size: 12px; font-weight: 500; color: var(--success-foreground)"
+                      >Active</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">2 jan. 2025</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 4 -->
+              <tr data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      border: 2px solid #d1d5db;
+                      background: #fff;
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="td-name">Bureaux à Cotonou Plateau</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon
+                        icon="lucide:building-2"
+                        style="font-size: 10px"
+                      ></iconify-icon>
+                      Bureau</span
+                    >
+                    <span class="criteria-chip" style="background: #f3f4f6; color: #9ca3af"
+                      >5M – 15M FCFA</span
+                    >
+                    <span class="criteria-chip" style="background: #f3f4f6; color: #9ca3af"
+                      >50m²+</span
+                    >
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇧🇯</span>
+                    <span style="font-weight: 500">Plateau, BJ</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-location">Location</span></td>
+                <td><span class="badge badge-daily">Quotidienne</span></td>
+                <td>
+                  <span class="match-count-pill match-count-empty">Aucune</span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill toggle-pill-off">
+                      <div class="toggle-dot toggle-dot-off"></div>
+                    </div>
+                    <span style="font-size: 12px; font-weight: 500; color: var(--muted-foreground)"
+                      >Inactive</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">15 déc. 2024</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 5 -->
+              <tr data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      border: 2px solid #d1d5db;
+                      background: #fff;
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="td-name">Villas à Abidjan Marcory</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon icon="lucide:home" style="font-size: 10px"></iconify-icon>
+                      Villa</span
+                    >
+                    <span class="criteria-chip blue">50M – 120M FCFA</span>
+                    <span class="criteria-chip">Piscine</span>
+                    <span class="criteria-chip">Gardien</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇨🇮</span>
+                    <span style="font-weight: 500">Marcory, CI</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-vente">Vente</span></td>
+                <td><span class="badge badge-immediate">Immédiate</span></td>
+                <td>
+                  <span class="match-count-pill">
+                    <iconify-icon icon="lucide:sparkles" style="font-size: 10px"></iconify-icon>
+                    2 nouvelles
+                  </span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill"><div class="toggle-dot"></div></div>
+                    <span
+                      style="font-size: 12px; font-weight: 500; color: var(--success-foreground)"
+                      >Active</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">10 jan. 2025</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 6 -->
+              <tr data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      border: 2px solid #d1d5db;
+                      background: #fff;
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="td-name">Locaux commerciaux Abidjan</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon icon="lucide:store" style="font-size: 10px"></iconify-icon>
+                      Local commercial</span
+                    >
+                    <span class="criteria-chip blue">8M – 30M FCFA</span>
+                    <span class="criteria-chip">Rez-de-chaussée</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇨🇮</span>
+                    <span style="font-weight: 500">Yopougon, CI</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-location">Location</span></td>
+                <td><span class="badge badge-weekly">Hebdo</span></td>
+                <td>
+                  <span class="match-count-pill match-count-empty">Aucune</span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill toggle-pill-off">
+                      <div class="toggle-dot toggle-dot-off"></div>
+                    </div>
+                    <span style="font-size: 12px; font-weight: 500; color: var(--muted-foreground)"
+                      >Inactive</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">20 nov. 2024</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 7 -->
+              <tr data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      border: 2px solid #d1d5db;
+                      background: #fff;
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="td-name">Duplex à Cotonou Cadjehoun</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon icon="lucide:layers" style="font-size: 10px"></iconify-icon>
+                      Duplex</span
+                    >
+                    <span class="criteria-chip blue">25M – 60M FCFA</span>
+                    <span class="criteria-chip">3+ pièces</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇧🇯</span>
+                    <span style="font-weight: 500">Cadjehoun, BJ</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-vente">Vente</span></td>
+                <td><span class="badge badge-daily">Quotidienne</span></td>
+                <td>
+                  <span class="match-count-pill">
+                    <iconify-icon icon="lucide:sparkles" style="font-size: 10px"></iconify-icon>
+                    1 nouvelle
+                  </span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill"><div class="toggle-dot"></div></div>
+                    <span
+                      style="font-size: 12px; font-weight: 500; color: var(--success-foreground)"
+                      >Active</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">12 jan. 2025</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 8 -->
+              <tr data-media-type="banani-button">
+                <td style="padding-left: 20px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border-radius: 4px;
+                      border: 2px solid #d1d5db;
+                      background: #fff;
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="td-name">Studios meublés Dakar Mermoz</div>
+                  <div class="td-sub" style="margin-top: 5px">
+                    <span class="criteria-chip"
+                      ><iconify-icon icon="lucide:building" style="font-size: 10px"></iconify-icon>
+                      Studio</span
+                    >
+                    <span class="criteria-chip blue">5M – 12M FCFA</span>
+                    <span class="criteria-chip">Meublé</span>
+                    <span class="criteria-chip">Balcon</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 5px; font-size: 13px">
+                    <span>🇸🇳</span>
+                    <span style="font-weight: 500">Mermoz, SN</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-location">Location</span></td>
+                <td><span class="badge badge-immediate">Immédiate</span></td>
+                <td>
+                  <span class="match-count-pill">
+                    <iconify-icon icon="lucide:sparkles" style="font-size: 10px"></iconify-icon>
+                    2 nouvelles
+                  </span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 7px">
+                    <div class="toggle-pill"><div class="toggle-dot"></div></div>
+                    <span
+                      style="font-size: 12px; font-weight: 500; color: var(--success-foreground)"
+                      >Active</span
+                    >
+                  </div>
+                </td>
+                <td style="font-size: 12.5px; color: var(--muted-foreground)">3 jan. 2025</td>
+                <td>
+                  <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 6px"
+                  >
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 14px 20px;
+              border-top: 1px solid var(--border);
+            "
+          >
+            <div style="font-size: 12.5px; color: var(--muted-foreground)">
+              Affichage de 8 alertes sur 8
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  font-size: 12.5px;
+                  color: var(--muted-foreground);
+                  margin-right: 12px;
+                "
+              >
+                Lignes par page :
+                <div
+                  class="filter-select"
+                  style="padding: 4px 10px"
+                  data-media-type="banani-button"
+                >
+                  10
+                  <iconify-icon icon="lucide:chevron-down" style="font-size: 11px"></iconify-icon>
+                </div>
+              </div>
+              <div
+                style="
+                  width: 30px;
+                  height: 30px;
+                  border-radius: var(--radius-md);
+                  border: 1px solid var(--border);
+                  background: var(--muted);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: not-allowed;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:chevron-left"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <div
+                style="
+                  width: 30px;
+                  height: 30px;
+                  border-radius: var(--radius-md);
+                  background: var(--primary);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                "
+                data-media-type="banani-button"
+              >
+                <span style="font-size: 12.5px; font-weight: 600; color: #fff">1</span>
+              </div>
+              <div
+                style="
+                  width: 30px;
+                  height: 30px;
+                  border-radius: var(--radius-md);
+                  border: 1px solid var(--border);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: not-allowed;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:chevron-right"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

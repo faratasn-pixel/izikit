@@ -1,0 +1,5158 @@
+{
+  "modifier-annonce-mobile": {
+    "screenName": "Modifier Annonce Mobile",
+    "title": "HABITAT-AFRIK — Modifier Annonce Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Piscine"
+      },
+      {
+        "id": null,
+        "text": "Jardin"
+      },
+      {
+        "id": null,
+        "text": "Sécurité 24h"
+      },
+      {
+        "id": null,
+        "text": "Climatisation"
+      },
+      {
+        "id": null,
+        "text": "Ascenseur"
+      },
+      {
+        "id": null,
+        "text": "Balcon"
+      },
+      {
+        "id": null,
+        "text": "Cuisine équipée"
+      },
+      {
+        "id": null,
+        "text": "Panneau solaire"
+      },
+      {
+        "id": null,
+        "text": "Ajouter une photo"
+      },
+      {
+        "id": null,
+        "text": "Ajouter une photo"
+      },
+      {
+        "id": null,
+        "text": "Prévisualiser"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      }
+    ]
+  },
+  "alerte-secteur": {
+    "screenName": "Alerte Secteur",
+    "title": "HABITAT-AFRIK — Alerte Secteur",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Alerte secteur"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Gérer les alertes"
+      },
+      {
+        "id": null,
+        "text": "Nouvelle alerte"
+      },
+      {
+        "id": null,
+        "text": "Plateau – Abidjan 6 nouvelles Villa 80M – 200M FCFA 5 km Quotidienne Dernière dé"
+      },
+      {
+        "id": null,
+        "text": "Cocody – Abidjan Active Appartement 20M – 60M FCFA 3 km Hebdomadaire Dernière dé"
+      },
+      {
+        "id": null,
+        "text": "Almadies – Dakar 2 nouvelles Terrain 50M – 150M FCFA 8 km Immédiate Dernière dét"
+      },
+      {
+        "id": null,
+        "text": "Bè – Lomé En pause Villa 30M – 80M FCFA 4 km Suspendue depuis 3 jours Inactive"
+      },
+      {
+        "id": null,
+        "text": "Akpakpa – Cotonou En pause Appartement 15M – 40M FCFA 2 km Suspendue depuis 1 se"
+      },
+      {
+        "id": null,
+        "text": "Plateau, Abidjan"
+      },
+      {
+        "id": null,
+        "text": "Villa"
+      },
+      {
+        "id": null,
+        "text": "Vente"
+      },
+      {
+        "id": null,
+        "text": "80 000 000"
+      },
+      {
+        "id": null,
+        "text": "200 000 000"
+      },
+      {
+        "id": null,
+        "text": "Ajouter"
+      },
+      {
+        "id": null,
+        "text": "Immédiate"
+      },
+      {
+        "id": null,
+        "text": "Quotidienne"
+      },
+      {
+        "id": null,
+        "text": "Hebdomadaire"
+      },
+      {
+        "id": null,
+        "text": "Notification"
+      },
+      {
+        "id": null,
+        "text": "E-mail"
+      },
+      {
+        "id": null,
+        "text": "SMS"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Créer l'alerte"
+      }
+    ]
+  },
+  "statistiques-agent": {
+    "screenName": "Statistiques Agent",
+    "title": "HABITAT-AFRIK — Statistiques",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "7 jours"
+      },
+      {
+        "id": null,
+        "text": "30 jours"
+      },
+      {
+        "id": null,
+        "text": "3 mois"
+      },
+      {
+        "id": null,
+        "text": "1 an"
+      },
+      {
+        "id": null,
+        "text": "Exporter"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      },
+      {
+        "id": null,
+        "text": "Cette semaine"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      }
+    ]
+  },
+  "notifications-center": {
+    "screenName": "Notifications Center",
+    "title": "HABITAT-AFRIK — Notifications",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Préférences"
+      },
+      {
+        "id": null,
+        "text": "Tout marquer comme lu"
+      },
+      {
+        "id": null,
+        "text": "Toutes 12"
+      },
+      {
+        "id": null,
+        "text": "Non lues 7"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts"
+      },
+      {
+        "id": null,
+        "text": "Visites"
+      },
+      {
+        "id": null,
+        "text": "Système"
+      },
+      {
+        "id": null,
+        "text": "Nouveau contact reçu Amadou Diallo a exprimé un intérêt pour votre annonce Villa"
+      },
+      {
+        "id": null,
+        "text": "Visite confirmée La visite de Fatou Traoré pour l'appartement à Plateau, Abidjan"
+      },
+      {
+        "id": null,
+        "text": "Annonce vérifiée ✓ Votre annonce Duplex 4 pièces – Adidogomé, Lomé vient d'être "
+      },
+      {
+        "id": null,
+        "text": "Document en attente de vérification Le titre foncier de l'annonce Villa – Almadi"
+      },
+      {
+        "id": null,
+        "text": "Nouveau message Kokou Agbodjan vous a envoyé un message concernant votre annonce"
+      },
+      {
+        "id": null,
+        "text": "Solde de jetons faible Il vous reste seulement 3 jetons VR . Rechargez votre com"
+      },
+      {
+        "id": null,
+        "text": "Annonce expirée Votre annonce Studio meublé – Cocody, Abidjan a expiré. Renouvel"
+      },
+      {
+        "id": null,
+        "text": "Rappel de visite N'oubliez pas votre visite avec Marième Ndiaye demain à 9h00 po"
+      },
+      {
+        "id": null,
+        "text": "Renouvellement d'abonnement Votre abonnement Agent Pro a été renouvelé avec succ"
+      },
+      {
+        "id": null,
+        "text": "Profil vérifié Votre profil agent a été vérifié avec succès. Vous bénéficiez dés"
+      },
+      {
+        "id": null,
+        "text": "Pic de vues sur votre annonce Votre annonce Villa – Haie Vive, Cotonou a atteint"
+      },
+      {
+        "id": null,
+        "text": "Supprimer toutes les notifs"
+      },
+      {
+        "id": null,
+        "text": "Archiver les lues"
+      }
+    ]
+  },
+  "dashboard-mobile": {
+    "screenName": "Dashboard Mobile",
+    "title": "HABITAT-AFRIK — Dashboard Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Juillet 2025"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      },
+      {
+        "id": null,
+        "text": "Cette semaine"
+      },
+      {
+        "id": null,
+        "text": "Rechercher…"
+      },
+      {
+        "id": null,
+        "text": "Publier"
+      },
+      {
+        "id": null,
+        "text": "#AN-0041 Villa moderne avec piscine, Cocody Abidjan, CI Villa 185 000 000 Vérifi"
+      },
+      {
+        "id": null,
+        "text": "#AN-0038 Appartement T3 centre-ville, Plateau Dakar, SN Appt. 42 500 000 En atte"
+      },
+      {
+        "id": null,
+        "text": "#AN-0035 Terrain à bâtir, Zone industrielle Cotonou, BJ Terrain 28 000 000 Vendu"
+      },
+      {
+        "id": null,
+        "text": "#AN-0031 Duplex standing, Tokoin Mairie Lomé, TG Duplex 74 000 000 Vérifié"
+      },
+      {
+        "id": null,
+        "text": "#AN-0028 Bureau commercial, Quartier des Affaires Cotonou, BJ Bureau 55 000 000 "
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "Stats"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "register-mobile": {
+    "screenName": "Register Mobile",
+    "title": "HABITAT-AFRIK — Inscription Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 +229"
+      },
+      {
+        "id": null,
+        "text": "Locataire / Acheteur"
+      },
+      {
+        "id": null,
+        "text": "Propriétaire / Agent"
+      },
+      {
+        "id": "register-btn",
+        "text": "S'inscrire gratuitement"
+      },
+      {
+        "id": null,
+        "text": "Conditions d'utilisation"
+      },
+      {
+        "id": null,
+        "text": "Politique de confidentialité"
+      },
+      {
+        "id": null,
+        "text": "Google"
+      },
+      {
+        "id": "facebook-btn",
+        "text": "Facebook"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "settings-mobile": {
+    "screenName": "Settings Mobile",
+    "title": "HABITAT-AFRIK — Paramètres Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents"
+      },
+      {
+        "id": null,
+        "text": "Abonnement"
+      },
+      {
+        "id": null,
+        "text": "Langue"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "Photo"
+      },
+      {
+        "id": null,
+        "text": "Bénin"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Déconnecter"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer les préférences"
+      },
+      {
+        "id": null,
+        "text": "Désactiver"
+      },
+      {
+        "id": null,
+        "text": "Supprimer"
+      },
+      {
+        "id": null,
+        "text": "Tableau"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "Stats"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "documents-legaux-mobile": {
+    "screenName": "Documents Légaux Mobile",
+    "title": "HABITAT-AFRIK — Documents Légaux Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Télécharger"
+      },
+      {
+        "id": null,
+        "text": "Télécharger"
+      },
+      {
+        "id": null,
+        "text": "Télécharger"
+      },
+      {
+        "id": null,
+        "text": "Remplacer"
+      },
+      {
+        "id": null,
+        "text": "Remplacer"
+      },
+      {
+        "id": null,
+        "text": "Déposer"
+      },
+      {
+        "id": null,
+        "text": "Glissez-déposez votre fichier ici ou parcourez vos fichiers PDF, JPG, PNG — max."
+      },
+      {
+        "id": null,
+        "text": "Sélectionner le type de document…"
+      },
+      {
+        "id": null,
+        "text": "jj / mm / aaaa"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Envoyer"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "publier-annonce-alt": {
+    "screenName": "Publier Annonce Alt",
+    "title": "HABITAT-AFRIK — Publier une annonce",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer le brouillon"
+      },
+      {
+        "id": null,
+        "text": "Publier l'annonce"
+      },
+      {
+        "id": null,
+        "text": "1 Informations générales Type, bien, caractéristiques"
+      },
+      {
+        "id": null,
+        "text": "Photos & médias 3 photos ajoutées"
+      },
+      {
+        "id": null,
+        "text": "3 Localisation Adresse, quartier, carte"
+      },
+      {
+        "id": null,
+        "text": "4 Documents Titre foncier, mandat…"
+      },
+      {
+        "id": null,
+        "text": "5 Vérification & publication Relecture finale"
+      },
+      {
+        "id": null,
+        "text": "Vente"
+      },
+      {
+        "id": null,
+        "text": "Location"
+      },
+      {
+        "id": null,
+        "text": "Location courte durée"
+      },
+      {
+        "id": null,
+        "text": "Villa"
+      },
+      {
+        "id": null,
+        "text": "Appartement"
+      },
+      {
+        "id": null,
+        "text": "Duplex"
+      },
+      {
+        "id": null,
+        "text": "Bureau / Commerce"
+      },
+      {
+        "id": null,
+        "text": "Terrain"
+      },
+      {
+        "id": null,
+        "text": "Entrepôt"
+      },
+      {
+        "id": null,
+        "text": "Haut standing"
+      },
+      {
+        "id": null,
+        "text": "Piscine"
+      },
+      {
+        "id": null,
+        "text": "Parking / Garage"
+      },
+      {
+        "id": null,
+        "text": "Climatisation"
+      },
+      {
+        "id": null,
+        "text": "Jardin / Cour"
+      },
+      {
+        "id": null,
+        "text": "Groupe électrogène"
+      },
+      {
+        "id": null,
+        "text": "Eau courante"
+      },
+      {
+        "id": null,
+        "text": "Gardiennage"
+      },
+      {
+        "id": null,
+        "text": "Terrasse"
+      },
+      {
+        "id": null,
+        "text": "Fibre internet"
+      },
+      {
+        "id": null,
+        "text": "Ascenseur"
+      },
+      {
+        "id": null,
+        "text": "Interphone"
+      },
+      {
+        "id": null,
+        "text": "Cuisine équipée"
+      },
+      {
+        "id": null,
+        "text": "Glissez vos photos ici ou cliquez pour parcourir vos fichiers Parcourir"
+      },
+      {
+        "id": null,
+        "text": "Ajouter"
+      },
+      {
+        "id": null,
+        "text": "Titre foncier PDF ou image scannée Requis Importer"
+      },
+      {
+        "id": null,
+        "text": "Mandat de vente PDF signé par les parties Requis Importer"
+      },
+      {
+        "id": null,
+        "text": "Plan cadastral Format PDF accepté Optionnel Importer"
+      },
+      {
+        "id": null,
+        "text": "Étape précédente"
+      },
+      {
+        "id": null,
+        "text": "Étape suivante"
+      }
+    ]
+  },
+  "modifier-annonce": {
+    "screenName": "Modifier Annonce",
+    "title": "HABITAT-AFRIK — Modifier Annonce",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Alerte secteur"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Supprimer"
+      },
+      {
+        "id": null,
+        "text": "Prévisualiser"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Piscine"
+      },
+      {
+        "id": null,
+        "text": "Jardin"
+      },
+      {
+        "id": null,
+        "text": "Sécurité 24h"
+      },
+      {
+        "id": null,
+        "text": "Climatisation"
+      },
+      {
+        "id": null,
+        "text": "Ascenseur"
+      },
+      {
+        "id": null,
+        "text": "Balcon"
+      },
+      {
+        "id": null,
+        "text": "Cuisine équipée"
+      },
+      {
+        "id": null,
+        "text": "Panneau solaire"
+      },
+      {
+        "id": null,
+        "text": "Ajouter une photo"
+      },
+      {
+        "id": null,
+        "text": "Ajouter une photo"
+      }
+    ]
+  },
+  "agent-dashboard": {
+    "screenName": "Agent Dashboard",
+    "title": "HABITAT-AFRIK — Dashboard Agent",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Ce mois — Juillet 2025"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      },
+      {
+        "id": null,
+        "text": "Cette semaine"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce…"
+      },
+      {
+        "id": null,
+        "text": "Filtrer"
+      },
+      {
+        "id": null,
+        "text": "Publier une annonce"
+      }
+    ]
+  },
+  "publier-annonce-alt-mobile": {
+    "screenName": "Publier Annonce Alt Mobile",
+    "title": "HABITAT-AFRIK — Publier une annonce (Mobile)",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Brouillon"
+      },
+      {
+        "id": null,
+        "text": "1 Infos générales"
+      },
+      {
+        "id": null,
+        "text": "Photos"
+      },
+      {
+        "id": null,
+        "text": "3 Localisation"
+      },
+      {
+        "id": null,
+        "text": "4 Documents"
+      },
+      {
+        "id": null,
+        "text": "5 Publication"
+      },
+      {
+        "id": null,
+        "text": "Vente"
+      },
+      {
+        "id": null,
+        "text": "Location"
+      },
+      {
+        "id": null,
+        "text": "Courte durée"
+      },
+      {
+        "id": null,
+        "text": "Villa"
+      },
+      {
+        "id": null,
+        "text": "Appartement"
+      },
+      {
+        "id": null,
+        "text": "Duplex"
+      },
+      {
+        "id": null,
+        "text": "Bureau"
+      },
+      {
+        "id": null,
+        "text": "Terrain"
+      },
+      {
+        "id": null,
+        "text": "Entrepôt"
+      },
+      {
+        "id": null,
+        "text": "Haut standing"
+      },
+      {
+        "id": null,
+        "text": "Piscine"
+      },
+      {
+        "id": null,
+        "text": "Parking / Garage"
+      },
+      {
+        "id": null,
+        "text": "Climatisation"
+      },
+      {
+        "id": null,
+        "text": "Jardin / Cour"
+      },
+      {
+        "id": null,
+        "text": "Groupe électrogène"
+      },
+      {
+        "id": null,
+        "text": "Eau courante"
+      },
+      {
+        "id": null,
+        "text": "Gardiennage"
+      },
+      {
+        "id": null,
+        "text": "Terrasse"
+      },
+      {
+        "id": null,
+        "text": "Fibre internet"
+      },
+      {
+        "id": null,
+        "text": "Ascenseur"
+      },
+      {
+        "id": null,
+        "text": "Interphone"
+      },
+      {
+        "id": null,
+        "text": "Cuisine équipée"
+      },
+      {
+        "id": null,
+        "text": "Glissez vos photos ici ou cliquez pour parcourir vos fichiers Parcourir"
+      },
+      {
+        "id": null,
+        "text": "Ajouter"
+      },
+      {
+        "id": null,
+        "text": "Titre foncier PDF ou image scannée Requis Importer"
+      },
+      {
+        "id": null,
+        "text": "Mandat de vente PDF signé par les parties Requis Importer"
+      },
+      {
+        "id": null,
+        "text": "Plan cadastral Format PDF accepté Optionnel Importer"
+      },
+      {
+        "id": null,
+        "text": "Précédent"
+      },
+      {
+        "id": null,
+        "text": "Étape suivante"
+      }
+    ]
+  },
+  "login-screen": {
+    "screenName": "Login Screen",
+    "title": "HABITAT-AFRIK — Connexion",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "S'inscrire"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 +229"
+      },
+      {
+        "id": null,
+        "text": "Mot de passe oublié ?"
+      },
+      {
+        "id": "login-btn",
+        "text": "Se connecter"
+      },
+      {
+        "id": null,
+        "text": "Continuer avec Google"
+      },
+      {
+        "id": "facebook-btn",
+        "text": "Continuer avec Facebook"
+      },
+      {
+        "id": null,
+        "text": "S'inscrire gratuitement"
+      }
+    ]
+  },
+  "alerte-secteur-mobile": {
+    "screenName": "Alerte Secteur Mobile",
+    "title": "HABITAT-AFRIK — Alerte Secteur Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Nouvelle"
+      },
+      {
+        "id": null,
+        "text": "Toutes"
+      },
+      {
+        "id": null,
+        "text": "Actives"
+      },
+      {
+        "id": null,
+        "text": "En pause"
+      },
+      {
+        "id": null,
+        "text": "Nouvelles"
+      },
+      {
+        "id": null,
+        "text": "Plateau – Abidjan 6 nouvelles Villa 80M – 200M FCFA 5 km Quotidienne Il y a 2 he"
+      },
+      {
+        "id": null,
+        "text": "Cocody – Abidjan Active Appartement 20M – 60M FCFA 3 km Hebdomadaire Hier à 14h3"
+      },
+      {
+        "id": null,
+        "text": "Almadies – Dakar 2 nouvelles Terrain 50M – 150M FCFA 8 km Immédiate Il y a 45 mi"
+      },
+      {
+        "id": null,
+        "text": "Bè – Lomé En pause Villa 30M – 80M FCFA 4 km Suspendue depuis 3 jours Inactive"
+      },
+      {
+        "id": null,
+        "text": "Akpakpa – Cotonou En pause Appartement 15M – 40M FCFA 2 km Suspendue depuis 1 se"
+      },
+      {
+        "id": null,
+        "text": "Plateau, Abidjan"
+      },
+      {
+        "id": null,
+        "text": "Villa"
+      },
+      {
+        "id": null,
+        "text": "Vente"
+      },
+      {
+        "id": null,
+        "text": "80 000 000"
+      },
+      {
+        "id": null,
+        "text": "200 000 000"
+      },
+      {
+        "id": null,
+        "text": "Ajouter"
+      },
+      {
+        "id": null,
+        "text": "Immédiate"
+      },
+      {
+        "id": null,
+        "text": "Quotidienne"
+      },
+      {
+        "id": null,
+        "text": "Hebdo"
+      },
+      {
+        "id": null,
+        "text": "Notif."
+      },
+      {
+        "id": null,
+        "text": "E-mail"
+      },
+      {
+        "id": null,
+        "text": "SMS"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Créer l'alerte"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Notifs"
+      }
+    ]
+  },
+  "publier-annonce-mobile": {
+    "screenName": "Publier Annonce Mobile",
+    "title": "HABITAT-AFRIK — Publier une annonce (Mobile)",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Vente"
+      },
+      {
+        "id": null,
+        "text": "Location"
+      },
+      {
+        "id": null,
+        "text": "Location courte durée"
+      },
+      {
+        "id": null,
+        "text": "Villa"
+      },
+      {
+        "id": null,
+        "text": "Appartement"
+      },
+      {
+        "id": null,
+        "text": "Duplex"
+      },
+      {
+        "id": null,
+        "text": "Bureau / Commerce"
+      },
+      {
+        "id": null,
+        "text": "Terrain"
+      },
+      {
+        "id": null,
+        "text": "Entrepôt"
+      },
+      {
+        "id": null,
+        "text": "5 pièces"
+      },
+      {
+        "id": null,
+        "text": "4 chambres"
+      },
+      {
+        "id": null,
+        "text": "3 sdb"
+      },
+      {
+        "id": null,
+        "text": "Piscine"
+      },
+      {
+        "id": null,
+        "text": "Parking / Garage"
+      },
+      {
+        "id": null,
+        "text": "Climatisation"
+      },
+      {
+        "id": null,
+        "text": "Groupe électrogène"
+      },
+      {
+        "id": null,
+        "text": "Eau courante"
+      },
+      {
+        "id": null,
+        "text": "Jardin / Cour"
+      },
+      {
+        "id": null,
+        "text": "Gardiennage"
+      },
+      {
+        "id": null,
+        "text": "Terrasse"
+      },
+      {
+        "id": null,
+        "text": "Fibre internet"
+      },
+      {
+        "id": null,
+        "text": "Ascenseur"
+      },
+      {
+        "id": null,
+        "text": "Glissez vos photos ici PNG, JPG ou WEBP — max. 10 Mo · jusqu'à 20 photos Parcour"
+      },
+      {
+        "id": null,
+        "text": "Titre foncier PDF ou image scannée Requis"
+      },
+      {
+        "id": null,
+        "text": "Mandat de vente PDF signé Requis"
+      },
+      {
+        "id": null,
+        "text": "Plan cadastral Format PDF Optionnel"
+      },
+      {
+        "id": null,
+        "text": "Retour"
+      },
+      {
+        "id": null,
+        "text": "Suivant"
+      }
+    ]
+  },
+  "apparence-mobile": {
+    "screenName": "Apparence Mobile",
+    "title": "HABITAT-AFRIK — Apparence Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents"
+      },
+      {
+        "id": null,
+        "text": "Abonnement"
+      },
+      {
+        "id": null,
+        "text": "Langue"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "Clair Interface lumineuse par défaut"
+      },
+      {
+        "id": null,
+        "text": "Sombre Interface en mode nuit"
+      },
+      {
+        "id": null,
+        "text": "Système Suit les préférences de l'OS"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "#376BFF"
+      },
+      {
+        "id": null,
+        "text": "Choisir"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Petit"
+      },
+      {
+        "id": null,
+        "text": "Normal"
+      },
+      {
+        "id": null,
+        "text": "Grand"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Compact Plus d'éléments"
+      },
+      {
+        "id": null,
+        "text": "Normal Équilibré"
+      },
+      {
+        "id": null,
+        "text": "Aéré Plus d'espace"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Développée Texte et icônes"
+      },
+      {
+        "id": null,
+        "text": "Compacte Icônes uniquement"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Réinitialiser"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer les préférences"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "abonnement-mobile": {
+    "screenName": "Abonnement Mobile",
+    "title": "HABITAT-AFRIK — Abonnement &amp; Paiement Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Changer de plan"
+      },
+      {
+        "id": null,
+        "text": "Rétrograder"
+      },
+      {
+        "id": null,
+        "text": "Plan actuel"
+      },
+      {
+        "id": null,
+        "text": "Passer à Premium"
+      },
+      {
+        "id": null,
+        "text": "Acheter des jetons"
+      },
+      {
+        "id": null,
+        "text": "Voir l'historique"
+      },
+      {
+        "id": null,
+        "text": "Orange Money +229 97 12 34 56 · Par défaut Par défaut"
+      },
+      {
+        "id": null,
+        "text": "MTN MoMo +229 91 44 78 23"
+      },
+      {
+        "id": null,
+        "text": "Carte Visa •••• 4821 · Expire 09/27"
+      },
+      {
+        "id": null,
+        "text": "Ajouter un moyen de paiement"
+      },
+      {
+        "id": null,
+        "text": "Exporter"
+      },
+      {
+        "id": null,
+        "text": "Résilier mon abonnement"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "annonce-detail-mobile": {
+    "screenName": "Annonce Detail Mobile",
+    "title": "HABITAT-AFRIK — Détail Annonce Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "+8"
+      },
+      {
+        "id": null,
+        "text": "Message"
+      },
+      {
+        "id": null,
+        "text": "Appel"
+      },
+      {
+        "id": null,
+        "text": "Partager"
+      },
+      {
+        "id": null,
+        "text": "Modifier l'annonce"
+      }
+    ]
+  },
+  "visites-mobile": {
+    "screenName": "Visites Mobile",
+    "title": "HABITAT-AFRIK — Visites Programmées Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Planifier"
+      },
+      {
+        "id": null,
+        "text": "Liste"
+      },
+      {
+        "id": null,
+        "text": "Calendrier"
+      },
+      {
+        "id": null,
+        "text": "Tout voir"
+      },
+      {
+        "id": null,
+        "text": "Toutes"
+      },
+      {
+        "id": null,
+        "text": "Confirmées"
+      },
+      {
+        "id": null,
+        "text": "En attente"
+      },
+      {
+        "id": null,
+        "text": "15 Juil Villa à Lomé, Tokoin 09h30 · Ama Kodjovi Confirmée"
+      },
+      {
+        "id": null,
+        "text": "15 Juil Appartement, Dakar Plateau 14h00 · Moussa Diallo En attente"
+      },
+      {
+        "id": null,
+        "text": "Voir tout"
+      },
+      {
+        "id": null,
+        "text": "16 Juil Terrain, Cotonou Cadjèhoun 10h00 · Sika Addo Confirmée"
+      },
+      {
+        "id": null,
+        "text": "23 Juil Villa, Abidjan Cocody 11h30 · N'Golo Touré En attente"
+      },
+      {
+        "id": null,
+        "text": "25 Juil Appartement, Lomé 16h00 · Fatou Bâ Confirmée"
+      },
+      {
+        "id": null,
+        "text": "18 Juil Bureau Lomé Agoe 08h00 · Fatou Bâ Annulée"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Visites"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "settings-page": {
+    "screenName": "Settings Page",
+    "title": "HABITAT-AFRIK — Paramètres",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents légaux"
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement"
+      },
+      {
+        "id": null,
+        "text": "Langue & région"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "Changer la photo"
+      },
+      {
+        "id": null,
+        "text": "Bénin"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer les modifications"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Déconnecter tout"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer les préférences"
+      },
+      {
+        "id": null,
+        "text": "Désactiver"
+      },
+      {
+        "id": null,
+        "text": "Supprimer le compte"
+      }
+    ]
+  },
+  "statistiques-mobile": {
+    "screenName": "Statistiques Mobile",
+    "title": "HABITAT-AFRIK — Statistiques Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Exporter"
+      },
+      {
+        "id": null,
+        "text": "7 jours"
+      },
+      {
+        "id": null,
+        "text": "30 jours"
+      },
+      {
+        "id": null,
+        "text": "3 mois"
+      },
+      {
+        "id": null,
+        "text": "1 an"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      },
+      {
+        "id": null,
+        "text": "Cette semaine"
+      },
+      {
+        "id": null,
+        "text": "Ce mois"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      }
+    ]
+  },
+  "login-mobile": {
+    "screenName": "Login Mobile",
+    "title": "HABITAT-AFRIK — Connexion Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "S'inscrire"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 +229"
+      },
+      {
+        "id": null,
+        "text": "Mot de passe oublié ?"
+      },
+      {
+        "id": "login-btn",
+        "text": "Se connecter"
+      },
+      {
+        "id": null,
+        "text": "Google"
+      },
+      {
+        "id": "facebook-btn",
+        "text": "Facebook"
+      },
+      {
+        "id": null,
+        "text": "S'inscrire gratuitement"
+      }
+    ]
+  },
+  "mes-annonces": {
+    "screenName": "Mes Annonces",
+    "title": "HABITAT-AFRIK — Mes Annonces",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Exporter"
+      },
+      {
+        "id": null,
+        "text": "Publier une annonce"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce…"
+      },
+      {
+        "id": null,
+        "text": "Toutes"
+      },
+      {
+        "id": null,
+        "text": "Vérifiées"
+      },
+      {
+        "id": null,
+        "text": "En attente"
+      },
+      {
+        "id": null,
+        "text": "Vendues"
+      },
+      {
+        "id": null,
+        "text": "Toutes villes"
+      },
+      {
+        "id": null,
+        "text": "Tous types"
+      },
+      {
+        "id": null,
+        "text": "Filtrer"
+      },
+      {
+        "id": null,
+        "text": "1"
+      },
+      {
+        "id": null,
+        "text": "2"
+      },
+      {
+        "id": null,
+        "text": "3"
+      },
+      {
+        "id": null,
+        "text": "4"
+      }
+    ]
+  },
+  "mon-agence": {
+    "screenName": "Mon Agence",
+    "title": "HABITAT-AFRIK — Mon Agence",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents légaux"
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement"
+      },
+      {
+        "id": null,
+        "text": "Langue & région"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "Logo"
+      },
+      {
+        "id": null,
+        "text": "Changer le logo"
+      },
+      {
+        "id": null,
+        "text": "Agence immobilière agréée"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer les modifications"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Ajouter un pays"
+      },
+      {
+        "id": null,
+        "text": "Inviter un membre"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      }
+    ]
+  },
+  "otp-verification": {
+    "screenName": "OTP Verification",
+    "title": "HABITAT-AFRIK — Code de vérification (Mobile)",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Retour"
+      },
+      {
+        "id": null,
+        "text": "3"
+      },
+      {
+        "id": null,
+        "text": "7"
+      },
+      {
+        "id": null,
+        "text": "4"
+      },
+      {
+        "id": null,
+        "text": "Vérifier le code"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "apparence-settings": {
+    "screenName": "Apparence Settings",
+    "title": "HABITAT-AFRIK — Apparence",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents légaux"
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement"
+      },
+      {
+        "id": null,
+        "text": "Langue & région"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "Clair Interface lumineuse par défaut"
+      },
+      {
+        "id": null,
+        "text": "Sombre Interface en mode nuit"
+      },
+      {
+        "id": null,
+        "text": "Système Suit les préférences de l'OS"
+      },
+      {
+        "id": null,
+        "text": "Choisir"
+      },
+      {
+        "id": null,
+        "text": "Petit"
+      },
+      {
+        "id": null,
+        "text": "Normal"
+      },
+      {
+        "id": null,
+        "text": "Grand"
+      },
+      {
+        "id": null,
+        "text": "Compact Plus d'éléments visibles"
+      },
+      {
+        "id": null,
+        "text": "Normal Équilibre confort / espace"
+      },
+      {
+        "id": null,
+        "text": "Aéré Idéal pour les grands écrans"
+      },
+      {
+        "id": null,
+        "text": "Développée Texte et icônes visibles"
+      },
+      {
+        "id": null,
+        "text": "Compacte Icônes uniquement"
+      },
+      {
+        "id": null,
+        "text": "Réinitialiser"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer les préférences"
+      }
+    ]
+  },
+  "messages-mobile": {
+    "screenName": "Messages Mobile",
+    "title": "HABITAT-AFRIK — Messages Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Rechercher une conversation…"
+      },
+      {
+        "id": null,
+        "text": "Tous"
+      },
+      {
+        "id": null,
+        "text": "Non lus"
+      },
+      {
+        "id": null,
+        "text": "Visites"
+      },
+      {
+        "id": null,
+        "text": "Archivés"
+      },
+      {
+        "id": "conv-1",
+        "text": "Aïcha Diallo 10:42 Bonjour, est-ce que la villa est toujours disponible ? Villa "
+      },
+      {
+        "id": "conv-2",
+        "text": "Moussa Koné 09:15 Je voudrais planifier une visite ce samedi. Duplex Tokoin — Lo"
+      },
+      {
+        "id": "conv-3",
+        "text": "Fatou Sow Hier Merci pour les documents. J'ai une question. Appt T3 Plateau — Da"
+      },
+      {
+        "id": "conv-4",
+        "text": "Émile Agossou Hier Le prix est-il négociable pour ce terrain ? Terrain Z.I. — Co"
+      },
+      {
+        "id": "conv-5",
+        "text": "Kwame Asante Lun Quand puis-je obtenir le titre foncier ? Bureau Affaires — Coto"
+      },
+      {
+        "id": "conv-6",
+        "text": "Amina Touré Dim D'accord, à bientôt pour la visite. Villa Cocody — Abidjan"
+      },
+      {
+        "id": "conv-7",
+        "text": "Sékou Camara Sam Merci beaucoup pour votre aide. Appt T3 Plateau — Dakar"
+      },
+      {
+        "id": null,
+        "text": "Demande de visite Samedi 19 juillet 2025 10h00 – 11h30 Villa Cocody, Abidjan Con"
+      },
+      {
+        "id": null,
+        "text": "Écrire un message…"
+      },
+      {
+        "id": null,
+        "text": "Tableau"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "Stats"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "notifications-mobile": {
+    "screenName": "Notifications Mobile",
+    "title": "HABITAT-AFRIK — Notifications Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Tout lire"
+      },
+      {
+        "id": null,
+        "text": "Toutes 12"
+      },
+      {
+        "id": null,
+        "text": "Non lues 7"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts"
+      },
+      {
+        "id": null,
+        "text": "Visites"
+      },
+      {
+        "id": null,
+        "text": "Système"
+      },
+      {
+        "id": null,
+        "text": "Nouveau contact reçu Amadou Diallo a exprimé un intérêt pour votre annonce Villa"
+      },
+      {
+        "id": null,
+        "text": "Visite confirmée La visite de Fatou Traoré est confirmée le mardi 22 juillet à 1"
+      },
+      {
+        "id": null,
+        "text": "Annonce vérifiée ✓ Votre annonce Duplex 4 pièces – Adidogomé, Lomé est désormais"
+      },
+      {
+        "id": null,
+        "text": "Document en attente Le titre foncier de l'annonce Villa – Almadies, Dakar est en"
+      },
+      {
+        "id": null,
+        "text": "Nouveau message Kokou Agbodjan vous a envoyé un message sur le terrain à Baguida"
+      },
+      {
+        "id": null,
+        "text": "Solde de jetons faible Il vous reste seulement 3 jetons VR . Rechargez pour cont"
+      },
+      {
+        "id": null,
+        "text": "Annonce expirée Votre annonce Studio meublé – Cocody, Abidjan a expiré. Renouvel"
+      },
+      {
+        "id": null,
+        "text": "Rappel de visite Visite avec Marième Ndiaye demain à 9h00 — villa à Fann Résiden"
+      },
+      {
+        "id": null,
+        "text": "Renouvellement d'abonnement Votre abonnement Agent Pro a été renouvelé. Prochain"
+      },
+      {
+        "id": null,
+        "text": "Profil vérifié Votre profil agent a été vérifié. Vous bénéficiez du badge Agent "
+      },
+      {
+        "id": null,
+        "text": "Pic de vues Votre annonce Villa – Haie Vive, Cotonou a atteint 340 vues cette se"
+      },
+      {
+        "id": null,
+        "text": "Tout supprimer"
+      },
+      {
+        "id": null,
+        "text": "Archiver les lues"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "7 Notifs"
+      }
+    ]
+  },
+  "publier-annonce": {
+    "screenName": "Publier Annonce",
+    "title": "HABITAT-AFRIK — Publier une annonce",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer le brouillon"
+      },
+      {
+        "id": null,
+        "text": "Publier l'annonce"
+      },
+      {
+        "id": null,
+        "text": "Vente"
+      },
+      {
+        "id": null,
+        "text": "Location"
+      },
+      {
+        "id": null,
+        "text": "Location courte durée"
+      },
+      {
+        "id": null,
+        "text": "Villa"
+      },
+      {
+        "id": null,
+        "text": "Appartement"
+      },
+      {
+        "id": null,
+        "text": "Duplex"
+      },
+      {
+        "id": null,
+        "text": "Bureau / Commerce"
+      },
+      {
+        "id": null,
+        "text": "Terrain"
+      },
+      {
+        "id": null,
+        "text": "Entrepôt"
+      },
+      {
+        "id": null,
+        "text": "5 pièces"
+      },
+      {
+        "id": null,
+        "text": "4 chambres"
+      },
+      {
+        "id": null,
+        "text": "3 salles de bain"
+      },
+      {
+        "id": null,
+        "text": "Piscine"
+      },
+      {
+        "id": null,
+        "text": "Parking / Garage"
+      },
+      {
+        "id": null,
+        "text": "Climatisation"
+      },
+      {
+        "id": null,
+        "text": "Groupe électrogène"
+      },
+      {
+        "id": null,
+        "text": "Eau courante"
+      },
+      {
+        "id": null,
+        "text": "Jardin / Cour"
+      },
+      {
+        "id": null,
+        "text": "Gardiennage"
+      },
+      {
+        "id": null,
+        "text": "Terrasse"
+      },
+      {
+        "id": null,
+        "text": "Fibre internet"
+      },
+      {
+        "id": null,
+        "text": "Glissez vos photos ici PNG, JPG ou WEBP — max. 10 Mo par fichier · jusqu'à 20 ph"
+      },
+      {
+        "id": null,
+        "text": "Titre foncier PDF ou image scannée Requis"
+      },
+      {
+        "id": null,
+        "text": "Mandat de vente PDF signé Requis"
+      },
+      {
+        "id": null,
+        "text": "Plan cadastral Format PDF Optionnel"
+      }
+    ]
+  },
+  "visites-programmees": {
+    "screenName": "Visites Programmées",
+    "title": "HABITAT-AFRIK — Visites Programmées",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Exporter"
+      },
+      {
+        "id": null,
+        "text": "Planifier une visite"
+      },
+      {
+        "id": null,
+        "text": "Liste"
+      },
+      {
+        "id": null,
+        "text": "Calendrier"
+      },
+      {
+        "id": null,
+        "text": "Semaine"
+      },
+      {
+        "id": null,
+        "text": "Mois"
+      },
+      {
+        "id": null,
+        "text": "Tout voir"
+      },
+      {
+        "id": null,
+        "text": "Toutes"
+      },
+      {
+        "id": null,
+        "text": "Confirmées"
+      },
+      {
+        "id": null,
+        "text": "En attente"
+      },
+      {
+        "id": null,
+        "text": "15 Juil Villa à Lomé, Tokoin 09h30 · Ama Kodjovi Confirmée"
+      },
+      {
+        "id": null,
+        "text": "15 Juil Appartement, Dakar Plateau 14h00 · Moussa Diallo En attente"
+      },
+      {
+        "id": null,
+        "text": "Voir tout"
+      },
+      {
+        "id": null,
+        "text": "16 Juil Terrain, Cotonou 10h00 · Sika Addo Confirmée"
+      },
+      {
+        "id": null,
+        "text": "23 Juil Villa, Abidjan Cocody 11h30 · N'Golo Touré En attente"
+      },
+      {
+        "id": null,
+        "text": "25 Juil Appartement, Lomé 16h00 · Fatou Bâ Confirmée"
+      },
+      {
+        "id": null,
+        "text": "Rechercher…"
+      },
+      {
+        "id": null,
+        "text": "Filtrer"
+      }
+    ]
+  },
+  "success-confirmation": {
+    "screenName": "Success Confirmation",
+    "title": "HABITAT-AFRIK — Mot de passe réinitialisé",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Se connecter maintenant"
+      },
+      {
+        "id": null,
+        "text": "Contacter le support"
+      }
+    ]
+  },
+  "centre-aide-mobile": {
+    "screenName": "Centre Aide Mobile",
+    "title": "HABITAT-AFRIK — Centre d'aide Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Support"
+      },
+      {
+        "id": null,
+        "text": "Rechercher"
+      },
+      {
+        "id": null,
+        "text": "Gestion des annonces Publier, modifier, suspendre ou supprimer vos annonces. 18 "
+      },
+      {
+        "id": null,
+        "text": "Documents & vérification Titres fonciers, mandats et documents légaux. 12 art."
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR Acheter des jetons, activer les visites virtuelles. 9 art."
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement Gérer votre plan, paiements et factures. 11 art."
+      },
+      {
+        "id": null,
+        "text": "Compte & sécurité Profil, mot de passe, gestion des accès. 14 art."
+      },
+      {
+        "id": null,
+        "text": "Visites & contacts Programmer des visites, gérer les contacts. 7 art."
+      },
+      {
+        "id": null,
+        "text": "Comment publier ma première annonce ? Rendez-vous dans \"Mes annonces\" puis cliqu"
+      },
+      {
+        "id": null,
+        "text": "Combien de jetons pour activer une visite VR ?"
+      },
+      {
+        "id": null,
+        "text": "Quels documents pour vérifier mon annonce ?"
+      },
+      {
+        "id": null,
+        "text": "Comment changer mon plan d'abonnement ?"
+      },
+      {
+        "id": null,
+        "text": "Mon annonce est \"En attente\" depuis plusieurs jours ?"
+      },
+      {
+        "id": null,
+        "text": "Voir toutes les FAQ"
+      },
+      {
+        "id": null,
+        "text": "Guide complet : Publier une annonce efficace Gestion des annonces · 5 min Popula"
+      },
+      {
+        "id": null,
+        "text": "Soumettre un titre foncier pour vérification Documents & vérification · 3 min No"
+      },
+      {
+        "id": null,
+        "text": "Activer et gérer les visites virtuelles (VR) Jetons & visites VR · 4 min Populai"
+      },
+      {
+        "id": null,
+        "text": "Payer via Mobile Money (Orange, MTN, Wave) Abonnement & paiement · 2 min Mis à j"
+      },
+      {
+        "id": null,
+        "text": "Comprendre les statistiques de vos annonces Statistiques · 6 min Nouveau"
+      },
+      {
+        "id": null,
+        "text": "Voir tous les articles"
+      },
+      {
+        "id": null,
+        "text": "Chat en direct Discutez en temps réel avec notre support. ● En ligne Chat"
+      },
+      {
+        "id": null,
+        "text": "Envoyer un e-mail Réponse garantie sous 24h ouvrées. Réponse sous 24h Écrire"
+      },
+      {
+        "id": null,
+        "text": "Assistance téléphonique Hotline Lun–Ven, 8h–18h. Lun–Ven · 8h–18h Appeler"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Aide"
+      }
+    ]
+  },
+  "mon-agence-mobile": {
+    "screenName": "Mon Agence Mobile",
+    "title": "HABITAT-AFRIK — Mon Agence Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Inviter"
+      },
+      {
+        "id": null,
+        "text": "Logo"
+      },
+      {
+        "id": null,
+        "text": "Agence immobilière agréée"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Ajouter un pays"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "sms-verification": {
+    "screenName": "SMS Verification",
+    "title": "HABITAT-AFRIK — Vérification SMS",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Retour"
+      },
+      {
+        "id": null,
+        "text": "3"
+      },
+      {
+        "id": null,
+        "text": "7"
+      },
+      {
+        "id": null,
+        "text": "4"
+      },
+      {
+        "id": null,
+        "text": "Vérifier le code"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "contacts-recus": {
+    "screenName": "Contacts Reçus",
+    "title": "HABITAT-AFRIK — Contacts reçus",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Exporter"
+      },
+      {
+        "id": null,
+        "text": "Ajouter un contact"
+      },
+      {
+        "id": null,
+        "text": "Rechercher un contact, une annonce…"
+      },
+      {
+        "id": null,
+        "text": "Statut"
+      },
+      {
+        "id": null,
+        "text": "Cette semaine"
+      },
+      {
+        "id": null,
+        "text": "Annonce"
+      },
+      {
+        "id": null,
+        "text": "Liste"
+      },
+      {
+        "id": null,
+        "text": "Grille"
+      },
+      {
+        "id": null,
+        "text": "1"
+      },
+      {
+        "id": null,
+        "text": "2"
+      },
+      {
+        "id": null,
+        "text": "3"
+      },
+      {
+        "id": null,
+        "text": "…"
+      },
+      {
+        "id": null,
+        "text": "25"
+      },
+      {
+        "id": null,
+        "text": "Envoyer un message"
+      },
+      {
+        "id": null,
+        "text": "Planifier une visite"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      }
+    ]
+  },
+  "jetons-vr-mobile": {
+    "screenName": "Jetons VR Mobile",
+    "title": "HABITAT-AFRIK — Jetons &amp; Visites VR Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Acheter"
+      },
+      {
+        "id": null,
+        "text": "50 jetons 5 000 FCFA 100 FCFA / jeton Valable 3 mois Choisir"
+      },
+      {
+        "id": null,
+        "text": "Populaire 150 jetons 12 000 FCFA 80 FCFA / jeton · –20% Valable 6 mois Choisir"
+      },
+      {
+        "id": null,
+        "text": "300 jetons 21 000 FCFA 70 FCFA / jeton · –30% Valable 12 mois Choisir"
+      },
+      {
+        "id": null,
+        "text": "600 jetons 36 000 FCFA 60 FCFA / jeton · –40% Valable 24 mois Choisir"
+      },
+      {
+        "id": null,
+        "text": "Tout voir"
+      },
+      {
+        "id": null,
+        "text": "Villa 4 ch. — Cocody Abidjan, Côte d'Ivoire 10 jetons Active"
+      },
+      {
+        "id": null,
+        "text": "Appartement F3 — Plateau Dakar, Sénégal 10 jetons Active"
+      },
+      {
+        "id": null,
+        "text": "Bureau 120m² — Havre Cotonou, Bénin 10 jetons En attente"
+      },
+      {
+        "id": null,
+        "text": "Maison 5p — Tokoin Lomé, Togo 10 jetons Active"
+      },
+      {
+        "id": null,
+        "text": "Tout voir"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Jetons VR"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "abonnement-paiement": {
+    "screenName": "Abonnement Paiement",
+    "title": "HABITAT-AFRIK — Abonnement &amp; Paiement",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents légaux"
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement"
+      },
+      {
+        "id": null,
+        "text": "Langue & région"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "Changer de plan"
+      },
+      {
+        "id": null,
+        "text": "Rétrograder"
+      },
+      {
+        "id": null,
+        "text": "Plan actuel"
+      },
+      {
+        "id": null,
+        "text": "Passer à Premium"
+      },
+      {
+        "id": null,
+        "text": "Acheter des jetons"
+      },
+      {
+        "id": null,
+        "text": "Voir l'historique"
+      },
+      {
+        "id": null,
+        "text": "Mobile Money — Orange Money +229 97 12 34 56 · Par défaut Par défaut"
+      },
+      {
+        "id": null,
+        "text": "Mobile Money — MTN MoMo +229 91 44 78 23"
+      },
+      {
+        "id": null,
+        "text": "Carte bancaire Visa •••• •••• •••• 4821 · Expire 09/27"
+      },
+      {
+        "id": null,
+        "text": "Ajouter un moyen de paiement"
+      },
+      {
+        "id": null,
+        "text": "Exporter"
+      },
+      {
+        "id": null,
+        "text": "Résilier mon abonnement"
+      }
+    ]
+  },
+  "annonce-detail": {
+    "screenName": "Annonce Detail",
+    "title": "HABITAT-AFRIK — Détail Annonce",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Alerte secteur"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Retour"
+      },
+      {
+        "id": null,
+        "text": "Modifier"
+      },
+      {
+        "id": null,
+        "text": "Partager"
+      },
+      {
+        "id": null,
+        "text": "Supprimer"
+      },
+      {
+        "id": null,
+        "text": "+8"
+      },
+      {
+        "id": null,
+        "text": "Modifier l'annonce"
+      },
+      {
+        "id": null,
+        "text": "Message"
+      },
+      {
+        "id": null,
+        "text": "Appel"
+      },
+      {
+        "id": null,
+        "text": "Voir tous les contacts"
+      }
+    ]
+  },
+  "success-mobile": {
+    "screenName": "Success Mobile",
+    "title": "HABITAT-AFRIK — Mot de passe réinitialisé (Mobile)",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Retour"
+      },
+      {
+        "id": null,
+        "text": "Se connecter maintenant"
+      },
+      {
+        "id": null,
+        "text": "Contacter le support"
+      }
+    ]
+  },
+  "annonces-mobile": {
+    "screenName": "Annonces Mobile",
+    "title": "HABITAT-AFRIK — Mes Annonces Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Publier"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce…"
+      },
+      {
+        "id": null,
+        "text": "Toutes"
+      },
+      {
+        "id": null,
+        "text": "Vérifiées"
+      },
+      {
+        "id": null,
+        "text": "En attente"
+      },
+      {
+        "id": null,
+        "text": "Vendues"
+      },
+      {
+        "id": null,
+        "text": "Toutes villes"
+      },
+      {
+        "id": null,
+        "text": "Filtrer"
+      },
+      {
+        "id": null,
+        "text": "Villa moderne — Haie Vive #ANN-2025-001 Vérifié Cotonou, Bénin Vente 120 000 000"
+      },
+      {
+        "id": null,
+        "text": "Appartement F4 — Tokoin #ANN-2025-002 En attente Lomé, Togo Location 350 000 FCF"
+      },
+      {
+        "id": null,
+        "text": "Bureau commercial — Plateau #ANN-2025-003 Vérifié Abidjan, Côte d'Ivoire Locatio"
+      },
+      {
+        "id": null,
+        "text": "Villa bord de mer — Almadies #ANN-2025-004 Vendu Dakar, Sénégal Vente 250 000 00"
+      },
+      {
+        "id": null,
+        "text": "Duplex standing — Cadjehoun #ANN-2025-005 En attente Cotonou, Bénin Vente 85 000"
+      },
+      {
+        "id": null,
+        "text": "Terrain constructible — Tema #ANN-2025-006 Vérifié Accra, Ghana Vente 45 000 000"
+      },
+      {
+        "id": null,
+        "text": "1"
+      },
+      {
+        "id": null,
+        "text": "2"
+      },
+      {
+        "id": null,
+        "text": "3"
+      },
+      {
+        "id": null,
+        "text": "4"
+      },
+      {
+        "id": null,
+        "text": "Tableau"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "Stats"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "password-reset": {
+    "screenName": "Password Reset",
+    "title": "HABITAT-AFRIK — Mot de passe oublié",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Retour à la connexion"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 +229"
+      },
+      {
+        "id": null,
+        "text": "Envoyer le code de vérification"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "centre-aide": {
+    "screenName": "Centre Aide",
+    "title": "HABITAT-AFRIK — Centre d'aide",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Alerte secteur"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Documentation"
+      },
+      {
+        "id": null,
+        "text": "Contacter le support"
+      },
+      {
+        "id": null,
+        "text": "Rechercher"
+      },
+      {
+        "id": null,
+        "text": "Gestion des annonces Publier, modifier, suspendre ou supprimer vos annonces immo"
+      },
+      {
+        "id": null,
+        "text": "Documents & vérification Soumettre vos titres fonciers, mandats et documents lég"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR Acheter des jetons, activer des visites virtuelles, consulte"
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement Gérer votre plan, effectuer un paiement, télécharger vos f"
+      },
+      {
+        "id": null,
+        "text": "Compte & sécurité Modifier votre profil, changer de mot de passe, gérer les accè"
+      },
+      {
+        "id": null,
+        "text": "Visites & contacts Programmer des visites, gérer les demandes de contact reçues."
+      },
+      {
+        "id": null,
+        "text": "Comment publier ma première annonce ? Rendez-vous dans \"Mes annonces\" puis cliqu"
+      },
+      {
+        "id": null,
+        "text": "Combien de jetons faut-il pour activer une visite VR ?"
+      },
+      {
+        "id": null,
+        "text": "Quels documents sont nécessaires pour vérifier mon annonce ?"
+      },
+      {
+        "id": null,
+        "text": "Comment changer mon plan d'abonnement ?"
+      },
+      {
+        "id": null,
+        "text": "Mon annonce est \"En attente\" depuis plusieurs jours, que faire ?"
+      },
+      {
+        "id": null,
+        "text": "Comment contacter un acheteur potentiel ?"
+      },
+      {
+        "id": null,
+        "text": "Voir toutes les FAQ"
+      },
+      {
+        "id": null,
+        "text": "Guide complet : Publier une annonce efficace Gestion des annonces · 5 min de lec"
+      },
+      {
+        "id": null,
+        "text": "Soumettre un titre foncier pour vérification Documents & vérification · 3 min de"
+      },
+      {
+        "id": null,
+        "text": "Activer et gérer les visites virtuelles (VR) Jetons & visites VR · 4 min de lect"
+      },
+      {
+        "id": null,
+        "text": "Payer via Mobile Money (Orange, MTN, Wave) Abonnement & paiement · 2 min de lect"
+      },
+      {
+        "id": null,
+        "text": "Comprendre les statistiques de vos annonces Statistiques · 6 min de lecture Nouv"
+      },
+      {
+        "id": null,
+        "text": "Voir tous les articles"
+      },
+      {
+        "id": null,
+        "text": "Chat en direct Discutez en temps réel avec un agent du support HABITAT-AFRIK. ● "
+      },
+      {
+        "id": null,
+        "text": "Envoyer un e-mail Réponse garantie sous 24h ouvrées à support@habitat-afrik.com."
+      },
+      {
+        "id": null,
+        "text": "Assistance téléphonique Appelez notre hotline disponible du lundi au vendredi, 8"
+      }
+    ]
+  },
+  "documents-legaux": {
+    "screenName": "Documents Légaux",
+    "title": "HABITAT-AFRIK — Documents légaux",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents légaux"
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement"
+      },
+      {
+        "id": null,
+        "text": "Langue & région"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "Télécharger"
+      },
+      {
+        "id": null,
+        "text": "Télécharger"
+      },
+      {
+        "id": null,
+        "text": "Télécharger"
+      },
+      {
+        "id": null,
+        "text": "Remplacer"
+      },
+      {
+        "id": null,
+        "text": "Remplacer"
+      },
+      {
+        "id": null,
+        "text": "Déposer"
+      },
+      {
+        "id": null,
+        "text": "Glissez-déposez votre fichier ici ou parcourez vos fichiers PDF, JPG, PNG — max."
+      },
+      {
+        "id": null,
+        "text": "Sélectionner le type de document…"
+      },
+      {
+        "id": null,
+        "text": "jj / mm / aaaa"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Envoyer le document"
+      }
+    ]
+  },
+  "langue-region-mobile": {
+    "screenName": "Langue Région Mobile",
+    "title": "HABITAT-AFRIK — Langue &amp; Région Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents"
+      },
+      {
+        "id": null,
+        "text": "Abonnement"
+      },
+      {
+        "id": null,
+        "text": "Langue"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "🇫🇷 Français Français"
+      },
+      {
+        "id": null,
+        "text": "🇬🇧 Anglais English"
+      },
+      {
+        "id": null,
+        "text": "🇵🇹 Portugais Português"
+      },
+      {
+        "id": null,
+        "text": "🇸🇳 Wolof Wolof"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 Fon Fɔngbè"
+      },
+      {
+        "id": null,
+        "text": "🇨🇮 Dioula Julakan"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Afrique/Cotonou (GMT+1)"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 Bénin"
+      },
+      {
+        "id": null,
+        "text": "Cotonou"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "FCFA Franc CFA UEMOA"
+      },
+      {
+        "id": null,
+        "text": "FCFA Franc CFA CEMAC"
+      },
+      {
+        "id": null,
+        "text": "GHS Cedi ghanéen"
+      },
+      {
+        "id": null,
+        "text": "NGN Naira nigérian"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "JJ/MM/AAAA"
+      },
+      {
+        "id": null,
+        "text": "MM/JJ/AAAA"
+      },
+      {
+        "id": null,
+        "text": "AAAA-MM-JJ"
+      },
+      {
+        "id": null,
+        "text": "1 000 000"
+      },
+      {
+        "id": null,
+        "text": "1,000,000"
+      },
+      {
+        "id": null,
+        "text": "1.000.000"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "new-password-mobile": {
+    "screenName": "New Password Mobile",
+    "title": "HABITAT-AFRIK — Nouveau mot de passe (Mobile)",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Retour"
+      },
+      {
+        "id": null,
+        "text": "Réinitialiser le mot de passe"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "new-password": {
+    "screenName": "New Password",
+    "title": "HABITAT-AFRIK — Nouveau mot de passe",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Retour"
+      },
+      {
+        "id": null,
+        "text": "Réinitialiser le mot de passe"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "forgot-password": {
+    "screenName": "Forgot Password",
+    "title": "HABITAT-AFRIK — Mot de passe oublié (Mobile)",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Connexion"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 +229"
+      },
+      {
+        "id": null,
+        "text": "Envoyer le code de vérification"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "alerte-secteur-mobile-pjd6hr3sh_pr": {
+    "screenName": "Alerte Secteur Mobile",
+    "title": "HABITAT-AFRIK — Alerte Secteur Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Mes alertes"
+      },
+      {
+        "id": null,
+        "text": "Nouvelle alerte"
+      },
+      {
+        "id": null,
+        "text": "Gérer"
+      },
+      {
+        "id": null,
+        "text": "Plateau – Abidjan 6 nouvelles Villa 80M – 200M FCFA 5 km Quotidienne Dernière dé"
+      },
+      {
+        "id": null,
+        "text": "Cocody – Abidjan Active Appartement 20M – 60M FCFA 3 km Hebdomadaire Dernière dé"
+      },
+      {
+        "id": null,
+        "text": "Almadies – Dakar 2 nouvelles Terrain 50M – 150M FCFA 8 km Immédiate Dernière dét"
+      },
+      {
+        "id": null,
+        "text": "Bè – Lomé En pause Villa 30M – 80M FCFA 4 km Suspendue depuis 3 jours Inactive"
+      },
+      {
+        "id": null,
+        "text": "Akpakpa – Cotonou En pause Appartement 15M – 40M FCFA 2 km Suspendue depuis 1 se"
+      },
+      {
+        "id": null,
+        "text": "Plateau, Abidjan"
+      },
+      {
+        "id": null,
+        "text": "Villa"
+      },
+      {
+        "id": null,
+        "text": "Vente"
+      },
+      {
+        "id": null,
+        "text": "80 000 000"
+      },
+      {
+        "id": null,
+        "text": "200 000 000"
+      },
+      {
+        "id": null,
+        "text": "Ajouter"
+      },
+      {
+        "id": null,
+        "text": "Immédiate"
+      },
+      {
+        "id": null,
+        "text": "Quotidienne"
+      },
+      {
+        "id": null,
+        "text": "Hebdomadaire"
+      },
+      {
+        "id": null,
+        "text": "Notif."
+      },
+      {
+        "id": null,
+        "text": "E-mail"
+      },
+      {
+        "id": null,
+        "text": "SMS"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Créer l'alerte"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "5 Messages"
+      },
+      {
+        "id": null,
+        "text": "Notifs"
+      }
+    ]
+  },
+  "register-screen": {
+    "screenName": "Register Screen",
+    "title": "HABITAT-AFRIK — Inscription",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 +229"
+      },
+      {
+        "id": null,
+        "text": "Locataire / Acheteur"
+      },
+      {
+        "id": null,
+        "text": "Propriétaire / Agent"
+      },
+      {
+        "id": "register-btn",
+        "text": "S'inscrire gratuitement"
+      },
+      {
+        "id": null,
+        "text": "Conditions d'utilisation"
+      },
+      {
+        "id": null,
+        "text": "Politique de confidentialité"
+      },
+      {
+        "id": null,
+        "text": "Google"
+      },
+      {
+        "id": "facebook-btn-register",
+        "text": "Facebook"
+      },
+      {
+        "id": null,
+        "text": "Se connecter"
+      }
+    ]
+  },
+  "langue-region": {
+    "screenName": "Langue Région",
+    "title": "HABITAT-AFRIK — Langue &amp; Région",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Profil"
+      },
+      {
+        "id": null,
+        "text": "Sécurité"
+      },
+      {
+        "id": null,
+        "text": "Notifications"
+      },
+      {
+        "id": null,
+        "text": "Mon agence"
+      },
+      {
+        "id": null,
+        "text": "Documents légaux"
+      },
+      {
+        "id": null,
+        "text": "Abonnement & paiement"
+      },
+      {
+        "id": null,
+        "text": "Langue & région"
+      },
+      {
+        "id": null,
+        "text": "Apparence"
+      },
+      {
+        "id": null,
+        "text": "🇫🇷 Français Français"
+      },
+      {
+        "id": null,
+        "text": "🇬🇧 Anglais English"
+      },
+      {
+        "id": null,
+        "text": "🇵🇹 Portugais Português"
+      },
+      {
+        "id": null,
+        "text": "🇸🇳 Wolof Wolof"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 Fon Fɔngbè"
+      },
+      {
+        "id": null,
+        "text": "🇨🇮 Dioula Julakan"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer la langue"
+      },
+      {
+        "id": null,
+        "text": "Afrique/Cotonou (GMT+1)"
+      },
+      {
+        "id": null,
+        "text": "🇧🇯 Bénin"
+      },
+      {
+        "id": null,
+        "text": "Cotonou"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer la région"
+      },
+      {
+        "id": null,
+        "text": "FCFA Franc CFA UEMOA"
+      },
+      {
+        "id": null,
+        "text": "FCFA Franc CFA CEMAC"
+      },
+      {
+        "id": null,
+        "text": "GHS Cedi ghanéen"
+      },
+      {
+        "id": null,
+        "text": "NGN Naira nigérian"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer la devise"
+      },
+      {
+        "id": null,
+        "text": "JJ/MM/AAAA"
+      },
+      {
+        "id": null,
+        "text": "MM/JJ/AAAA"
+      },
+      {
+        "id": null,
+        "text": "AAAA-MM-JJ"
+      },
+      {
+        "id": null,
+        "text": "1 000 000"
+      },
+      {
+        "id": null,
+        "text": "1,000,000"
+      },
+      {
+        "id": null,
+        "text": "1.000.000"
+      },
+      {
+        "id": null,
+        "text": "Annuler"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer les formats"
+      }
+    ]
+  },
+  "messages-inbox": {
+    "screenName": "Messages Inbox",
+    "title": "HABITAT-AFRIK — Messages",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une conversation…"
+      },
+      {
+        "id": null,
+        "text": "Tous"
+      },
+      {
+        "id": null,
+        "text": "Non lus"
+      },
+      {
+        "id": null,
+        "text": "Visites"
+      },
+      {
+        "id": null,
+        "text": "Archivés"
+      },
+      {
+        "id": null,
+        "text": "Aïcha Diallo 10:42 Bonjour, est-ce que la villa est toujours disponible ? Villa "
+      },
+      {
+        "id": null,
+        "text": "Moussa Koné 09:15 Je voudrais planifier une visite ce samedi. Duplex Tokoin — Lo"
+      },
+      {
+        "id": null,
+        "text": "Fatou Sow Hier Merci pour les documents. J'ai une question. Appt T3 Plateau — Da"
+      },
+      {
+        "id": null,
+        "text": "Émile Agossou Hier Le prix est-il négociable pour ce terrain ? Terrain Z.I. — Co"
+      },
+      {
+        "id": null,
+        "text": "Kwame Asante Lun Quand puis-je obtenir le titre foncier ? Bureau Affaires — Coto"
+      },
+      {
+        "id": null,
+        "text": "Amina Touré Dim D'accord, à bientôt pour la visite. Villa Cocody — Abidjan"
+      },
+      {
+        "id": null,
+        "text": "Sékou Camara Sam Merci beaucoup pour votre aide. Appt T3 Plateau — Dakar"
+      },
+      {
+        "id": null,
+        "text": "Voir l'annonce"
+      },
+      {
+        "id": "visit-card-request",
+        "text": "Demande de visite Samedi 19 juillet 2025 10h00 – 11h30 Villa Cocody, Abidjan Con"
+      },
+      {
+        "id": null,
+        "text": "Écrire un message…"
+      }
+    ]
+  },
+  "contacts-mobile": {
+    "screenName": "Contacts Mobile",
+    "title": "HABITAT-AFRIK — Contacts reçus (Mobile)",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Rechercher un contact…"
+      },
+      {
+        "id": null,
+        "text": "Tous"
+      },
+      {
+        "id": null,
+        "text": "En attente"
+      },
+      {
+        "id": null,
+        "text": "Répondu"
+      },
+      {
+        "id": null,
+        "text": "Visite planifiée"
+      },
+      {
+        "id": null,
+        "text": "Non qualifié"
+      },
+      {
+        "id": null,
+        "text": "Amavi Kodjovi amavi.k@gmail.com · +228 90 34 12 78 En attente Villa F4 · Lomé-Bè"
+      },
+      {
+        "id": null,
+        "text": "Fatoumata Diallo f.diallo@yahoo.fr · +221 77 56 89 03 Répondu Appt T3 · Dakar Pl"
+      },
+      {
+        "id": null,
+        "text": "Koffi Assiongbon k.assiongbon@outlook.com Visite planifiée Bureau 80m² · Cotonou"
+      },
+      {
+        "id": null,
+        "text": "Ama Owusu ama.owusu@gmail.com · +233 24 78 99 14 En attente Villa duplex · Abidj"
+      },
+      {
+        "id": null,
+        "text": "Sékou Traoré sekou.t@orange.sn · +221 70 12 34 56 Non qualifié Studio meublé · D"
+      },
+      {
+        "id": null,
+        "text": "Emmanuel Gbénou e.gbenou@hotmail.fr Répondu Terrain 500m² · Porto-Novo Achat 7 j"
+      },
+      {
+        "id": null,
+        "text": "2"
+      },
+      {
+        "id": null,
+        "text": "3"
+      },
+      {
+        "id": null,
+        "text": "25"
+      },
+      {
+        "id": null,
+        "text": "Dashboard"
+      },
+      {
+        "id": null,
+        "text": "Messages"
+      },
+      {
+        "id": null,
+        "text": "Contacts"
+      },
+      {
+        "id": null,
+        "text": "Annonces"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      }
+    ]
+  },
+  "jetons-vr": {
+    "screenName": "Jetons VR",
+    "title": "HABITAT-AFRIK — Jetons &amp; Visites VR",
+    "buttons": [
+      {
+        "id": null,
+        "text": "HABITAT-AFRIK"
+      },
+      {
+        "id": null,
+        "text": "Recherche globale…"
+      },
+      {
+        "id": null,
+        "text": "Tableau de bord"
+      },
+      {
+        "id": null,
+        "text": "Messages 5"
+      },
+      {
+        "id": null,
+        "text": "Paramètres"
+      },
+      {
+        "id": null,
+        "text": "Mes annonces"
+      },
+      {
+        "id": null,
+        "text": "Contacts reçus"
+      },
+      {
+        "id": null,
+        "text": "Visites programmées"
+      },
+      {
+        "id": null,
+        "text": "Jetons & visites VR"
+      },
+      {
+        "id": null,
+        "text": "Statistiques"
+      },
+      {
+        "id": null,
+        "text": "Centre d'aide"
+      },
+      {
+        "id": null,
+        "text": "Déconnexion"
+      },
+      {
+        "id": null,
+        "text": "Rechercher une annonce, un contact…"
+      },
+      {
+        "id": null,
+        "text": "Kofi Mensah Agent"
+      },
+      {
+        "id": null,
+        "text": "Exporter l'historique"
+      },
+      {
+        "id": null,
+        "text": "Acheter des jetons"
+      },
+      {
+        "id": null,
+        "text": "50 jetons 5 000 FCFA 100 FCFA / jeton Idéal pour débuter Valable 3 mois Choisir"
+      },
+      {
+        "id": null,
+        "text": "Populaire 150 jetons 12 000 FCFA 80 FCFA / jeton · –20% Pour agents actifs Valab"
+      },
+      {
+        "id": null,
+        "text": "300 jetons 21 000 FCFA 70 FCFA / jeton · –30% Pour agences Valable 12 mois Chois"
+      },
+      {
+        "id": null,
+        "text": "600 jetons 36 000 FCFA 60 FCFA / jeton · –40% Multi-agents Valable 24 mois Chois"
+      },
+      {
+        "id": null,
+        "text": "Voir toutes les annonces VR"
+      },
+      {
+        "id": null,
+        "text": "Filtrer"
+      }
+    ]
+  },
+  "modifier-annonce-mobile-x9tyh65n9hgj": {
+    "screenName": "Modifier Annonce Mobile",
+    "title": "HABITAT-AFRIK — Modifier Annonce Mobile",
+    "buttons": [
+      {
+        "id": null,
+        "text": "Piscine"
+      },
+      {
+        "id": null,
+        "text": "Jardin"
+      },
+      {
+        "id": null,
+        "text": "Sécurité 24h"
+      },
+      {
+        "id": null,
+        "text": "Climatisation"
+      },
+      {
+        "id": null,
+        "text": "Ascenseur"
+      },
+      {
+        "id": null,
+        "text": "Balcon"
+      },
+      {
+        "id": null,
+        "text": "Cuisine équipée"
+      },
+      {
+        "id": null,
+        "text": "Panneau solaire"
+      },
+      {
+        "id": null,
+        "text": "Ajouter"
+      },
+      {
+        "id": null,
+        "text": "Ajouter"
+      },
+      {
+        "id": null,
+        "text": "Prévisualiser"
+      },
+      {
+        "id": null,
+        "text": "Enregistrer"
+      }
+    ]
+  }
+}

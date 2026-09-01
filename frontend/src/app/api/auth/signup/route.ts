@@ -1,10 +1,15 @@
 // AUTH-01 — POST /api/auth/signup
 //
-// Enumeration-resistant: returns identical 201 { ok: true } whether the email
-// is new or already exists (D-22). Genuinely new users get a User row, an
+// Enumeration-resistant: returns identical 201 { ok: true } whether the
+// email/phone is new or already exists (D-22). Genuinely new users get a
+// User row (with name/phone/accountType from the Register screen), an
 // EMAIL_VERIFY VerificationCode, and an outbox email event — all in one tx.
-// Existing-email branch runs `dummyBcryptCompare` so the request takes
-// ~the same time as the new-user branch (timing parity).
+// Existing-email-or-phone branch runs `dummyBcryptCompare` so the request
+// takes ~the same time as the new-user branch (timing parity).
+//
+// Login stays phone-based (see /api/auth/login), but verification is still
+// by email — reuses the existing VerificationCode/outbox pipeline as-is
+// rather than standing up a new SMS provider for this pass.
 //
 // CSRF carve-out: signup is a pre-session route — no CSRF cookie exists yet,
 // so calling verifyCsrf would 403 every legitimate request. The CSRF cookie is
@@ -13,7 +18,7 @@ export const runtime = 'nodejs';
 
 import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
-import { zEmail } from '@/lib/server/zod-helpers';
+import { zEmail, zPhone } from '@/lib/server/zod-helpers';
 import { prisma } from '@/lib/server/prisma';
 import { redis } from '@/lib/server/redis';
 import { createEmailLimiter } from '@/lib/server/middleware/rate-limit-by-email';
@@ -29,8 +34,12 @@ const PASSWORD_MIN = Number(process.env.AUTH_PASSWORD_MIN_LENGTH ?? 10);
 const VERIFICATION_TTL_MS = Number(process.env.AUTH_VERIFICATION_TTL_MIN ?? 15) * 60 * 1000;
 
 const Body = z.object({
+  firstName: z.string().trim().min(1, 'First name is required'),
+  lastName: z.string().trim().min(1, 'Last name is required'),
   email: zEmail,
+  phone: zPhone,
   password: z.string().min(1),
+  accountType: z.enum(['TENANT_BUYER', 'OWNER_AGENT']),
 });
 
 const limiter = createEmailLimiter(redis ? { redis } : {}, {
@@ -59,7 +68,7 @@ export async function POST(req: NextRequest): Promise<Response> {
       res.headers.set('x-request-id', ctx.requestId);
       return res;
     }
-    const { email, password } = parsed.data;
+    const { firstName, lastName, email, phone, password, accountType } = parsed.data;
 
     // 2. Password policy gates BEFORE looking up user (D-22 — keep the no-user
     //    and existing-user branches symmetric below).
@@ -100,9 +109,11 @@ export async function POST(req: NextRequest): Promise<Response> {
     const rateFail = await limiter.check(req, email);
     if (rateFail) return rateFail;
 
-    // 4. Existing-email branch — return identical 201 with timing parity (D-22).
-    const existing = await prisma.user.findUnique({
-      where: { email },
+    // 4. Existing-email-or-phone branch — return identical 201 with timing
+    //    parity (D-22). `phone` is unique too (login identifier), so a
+    //    duplicate there needs the same enumeration-resistant treatment.
+    const existing = await prisma.user.findFirst({
+      where: { OR: [{ email }, { phone }] },
       select: { id: true },
     });
     if (existing) {
@@ -120,7 +131,13 @@ export async function POST(req: NextRequest): Promise<Response> {
 
     await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
-        data: { email, passwordHash },
+        data: {
+          email,
+          phone,
+          passwordHash,
+          name: `${firstName} ${lastName}`.trim(),
+          accountType,
+        },
         select: { id: true },
       });
       await tx.verificationCode.create({

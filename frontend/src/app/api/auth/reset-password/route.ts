@@ -6,6 +6,10 @@
 // sessions, including any attacker-held one), and marks the code usedAt.
 // Does NOT issue cookies — user must log in fresh after a reset.
 //
+// Identifier is EMAIL (mirrors /api/auth/forgot-password). The lockout
+// counter cleared below is still PHONE-keyed to match /api/auth/login's
+// bucket, so the user's phone is resolved from the email lookup.
+//
 // Password policy gates run BEFORE looking up the user/code so banned/short
 // passwords don't burn a code attempt.
 //
@@ -62,9 +66,9 @@ export async function POST(req: NextRequest): Promise<Response> {
 
     // WR-01 — rate-limit BEFORE password policy gates. Otherwise an
     // unauthenticated attacker can probe HIBP / banned-list state for arbitrary
-    // passwords without ever burning the per-email rate budget (rotate emails,
-    // vary newPassword). The limiter is a single Redis incr — cheap to run
-    // first, and it forces the attacker to spend budget before learning
+    // passwords without ever burning the per-identifier rate budget (rotate
+    // emails, vary newPassword). The limiter is a single Redis incr — cheap to
+    // run first, and it forces the attacker to spend budget before learning
     // anything about HIBP/banned state.
     const rateFail = await limiter.check(req, email);
     if (rateFail) return rateFail;
@@ -104,7 +108,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true },
+      select: { id: true, phone: true },
     });
     if (!user) {
       const res = NextResponse.json(
@@ -187,8 +191,13 @@ export async function POST(req: NextRequest): Promise<Response> {
     }
 
     // WR-02 — clear lockout counter on successful reset. Old password
-    // failures shouldn't carry over to the new password.
-    await recordSuccess(email);
+    // failures shouldn't carry over to the new password. Keyed by phone to
+    // match /api/auth/login's lockout bucket (also phone-keyed) — resolved
+    // from the email lookup above since the request identifier is email.
+    // Phone is nullable (e.g. Google-only accounts) — nothing to clear then.
+    if (user.phone) {
+      await recordSuccess(user.phone);
+    }
 
     log.info('password reset', { userId: user.id });
     const res = NextResponse.json({ ok: true });

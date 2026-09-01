@@ -1,0 +1,1798 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Alerte Secteur</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="page-layout">
+    .page-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+      background: var(--background);
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .section-sub {
+      font-size: 13px;
+      color: var(--muted-foreground);
+      margin-bottom: 16px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+    }
+  </style>
+
+  <style id="alert-styles">
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stat-icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-value {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      color: var(--foreground);
+    }
+    .stat-label {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+    }
+    .stat-trend {
+      font-size: 11.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .trend-up {
+      color: #059669;
+    }
+    .trend-neutral {
+      color: var(--muted-foreground);
+    }
+
+    /* Main 2-col layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* Alert creation form */
+    .form-section-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      margin-bottom: 12px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .form-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-input-placeholder {
+      color: var(--muted-foreground);
+      font-size: 13px;
+    }
+    .form-input-value {
+      color: var(--foreground);
+      font-size: 13px;
+    }
+    .form-full {
+      margin-bottom: 14px;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 18px 0;
+    }
+
+    /* Keyword tags */
+    .keyword-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .keyword-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+    }
+    .keyword-tag-remove {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .keyword-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--muted);
+      color: var(--muted-foreground);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border: 1px dashed var(--border);
+      cursor: pointer;
+    }
+
+    /* Frequency selector */
+    .freq-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .freq-btn {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      background: var(--card);
+    }
+    .freq-btn.active {
+      background: #eef3ff;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Channel selector */
+    .channel-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .channel-card {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      background: var(--card);
+    }
+    .channel-card.active {
+      border-color: var(--primary);
+      background: #eef3ff;
+    }
+    .channel-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+    }
+    .channel-check.checked {
+      background: var(--primary);
+      border-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .channel-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .channel-card.active .channel-label {
+      color: var(--primary);
+    }
+
+    /* Map placeholder */
+    .map-area {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .map-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--radius-xl);
+    }
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(55, 107, 255, 0.08);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .map-pin {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(55, 107, 255, 0.35);
+    }
+    .map-pin-inner {
+      transform: rotate(45deg);
+    }
+    .radius-selector {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      margin-bottom: 14px;
+    }
+    .radius-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .radius-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .radius-track {
+      flex: 1;
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      margin: 0 14px;
+      position: relative;
+    }
+    .radius-fill {
+      height: 100%;
+      width: 45%;
+      background: var(--primary);
+      border-radius: 99px;
+    }
+    .radius-thumb {
+      width: 14px;
+      height: 14px;
+      background: var(--primary);
+      border-radius: 50%;
+      position: absolute;
+      top: -5px;
+      left: 43%;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(55, 107, 255, 0.3);
+    }
+
+    /* Alert list */
+    .alert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .alert-item {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .alert-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .alert-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .alert-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .alert-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .alert-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .alert-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .alert-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .alert-chip.blue {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .alert-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .alert-last {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+    .alert-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Toggle switch */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .toggle {
+      width: 36px;
+      height: 20px;
+      border-radius: 99px;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .toggle.on {
+      background: var(--primary);
+    }
+    .toggle.off {
+      background: var(--border);
+    }
+    .toggle-knob {
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    .toggle.on .toggle-knob {
+      left: 19px;
+    }
+    .toggle.off .toggle-knob {
+      left: 3px;
+    }
+    .toggle-status {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .toggle.on + .toggle-status {
+      color: var(--primary);
+    }
+
+    /* Badge */
+    .badge-active {
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .badge-paused {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .badge-new-results {
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+
+    /* Action icon btn */
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="agent-dashboard.html" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="agent-dashboard.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="messages-inbox.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="settings-page.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="mes-annonces.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="alerte-secteur.html" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:map-pinned"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Alerte secteur
+          </a>
+          <a href="contacts-recus.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="visites-programmees.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="jetons-vr.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="statistiques-agent.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="centre-aide.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="login-screen.html" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div
+            class="notif-btn"
+            data-media-type="banani-button"
+            onclick="location.href = 'notifications-center.html'"
+            style="cursor: pointer"
+          >
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div
+            class="user-pill"
+            data-media-type="banani-button"
+            onclick="location.href = 'settings-page.html'"
+            style="cursor: pointer"
+          >
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content" id="page-content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <div class="page-title">Alerte Secteur</div>
+            <div class="page-sub">
+              Surveillez vos zones cibles et soyez notifié dès qu'une opportunité correspond à vos
+              critères.
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <div class="btn-outline" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:sliders-horizontal"
+                  style="font-size: 14px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              Gérer les alertes
+            </div>
+            <div class="btn-primary" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:plus"
+                  style="font-size: 14px; color: #fff"
+                ></iconify-icon>
+              </div>
+              Nouvelle alerte
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row" id="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #eef3ff">
+                <iconify-icon
+                  icon="lucide:bell-ring"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend trend-up">
+                <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon> +2
+              </span>
+            </div>
+            <div class="stat-value">7</div>
+            <div class="stat-label">Alertes actives</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #d1fae5">
+                <iconify-icon
+                  icon="lucide:building-2"
+                  style="font-size: 18px; color: #065f46"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend trend-up">
+                <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon> +14
+              </span>
+            </div>
+            <div class="stat-value">43</div>
+            <div class="stat-label">Nouvelles annonces détectées</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #fef3c7">
+                <iconify-icon
+                  icon="lucide:mail"
+                  style="font-size: 18px; color: #d97706"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend trend-up">
+                <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon> ×3
+              </span>
+            </div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Notifications envoyées ce mois</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #fee2e2">
+                <iconify-icon
+                  icon="lucide:map-pin-off"
+                  style="font-size: 18px; color: #991b1b"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend trend-neutral">—</span>
+            </div>
+            <div class="stat-value">2</div>
+            <div class="stat-label">Alertes en pause</div>
+          </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid" id="main-grid">
+          <!-- LEFT: Active alerts list -->
+          <div>
+            <div class="section-title">Mes alertes actives</div>
+            <div class="section-sub">
+              Cliquez sur une alerte pour consulter les annonces correspondantes.
+            </div>
+
+            <div class="alert-list" id="alert-list">
+              <!-- Alert 1 — Active with new results -->
+              <div class="alert-item" data-media-type="banani-button">
+                <div class="alert-icon-box" style="background: #eef3ff">
+                  <iconify-icon
+                    icon="lucide:map-pinned"
+                    style="font-size: 20px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <div class="alert-body">
+                  <div class="alert-top">
+                    <span class="alert-name">Plateau – Abidjan</span>
+                    <div class="alert-actions">
+                      <span class="badge-new-results">6 nouvelles</span>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--secondary-foreground)"
+                        ></iconify-icon>
+                      </div>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:trash-2"
+                          style="font-size: 13px; color: #dc2626"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert-meta-row">
+                    <span class="alert-chip blue">
+                      <iconify-icon icon="lucide:home" style="font-size: 11px"></iconify-icon> Villa
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:banknote"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      80M – 200M FCFA
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:circle"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      5 km
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:clock"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      Quotidienne
+                    </span>
+                  </div>
+                  <div class="alert-bottom">
+                    <span class="alert-last">Dernière détection : il y a 2 heures</span>
+                    <div class="toggle-wrap">
+                      <div class="toggle on"><div class="toggle-knob"></div></div>
+                      <span class="toggle-status" style="color: var(--primary)">Active</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alert 2 — Active -->
+              <div class="alert-item" data-media-type="banani-button">
+                <div class="alert-icon-box" style="background: #d1fae5">
+                  <iconify-icon
+                    icon="lucide:map-pinned"
+                    style="font-size: 20px; color: #065f46"
+                  ></iconify-icon>
+                </div>
+                <div class="alert-body">
+                  <div class="alert-top">
+                    <span class="alert-name">Cocody – Abidjan</span>
+                    <div class="alert-actions">
+                      <span class="badge-active">Active</span>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--secondary-foreground)"
+                        ></iconify-icon>
+                      </div>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:trash-2"
+                          style="font-size: 13px; color: #dc2626"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert-meta-row">
+                    <span class="alert-chip blue">
+                      <iconify-icon icon="lucide:building" style="font-size: 11px"></iconify-icon>
+                      Appartement
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:banknote"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      20M – 60M FCFA
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:circle"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      3 km
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:clock"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      Hebdomadaire
+                    </span>
+                  </div>
+                  <div class="alert-bottom">
+                    <span class="alert-last">Dernière détection : hier à 14h30</span>
+                    <div class="toggle-wrap">
+                      <div class="toggle on"><div class="toggle-knob"></div></div>
+                      <span class="toggle-status" style="color: var(--primary)">Active</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alert 3 — Active, new results -->
+              <div class="alert-item" data-media-type="banani-button">
+                <div class="alert-icon-box" style="background: #fef3c7">
+                  <iconify-icon
+                    icon="lucide:map-pinned"
+                    style="font-size: 20px; color: #d97706"
+                  ></iconify-icon>
+                </div>
+                <div class="alert-body">
+                  <div class="alert-top">
+                    <span class="alert-name">Almadies – Dakar</span>
+                    <div class="alert-actions">
+                      <span class="badge-new-results">2 nouvelles</span>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--secondary-foreground)"
+                        ></iconify-icon>
+                      </div>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:trash-2"
+                          style="font-size: 13px; color: #dc2626"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert-meta-row">
+                    <span class="alert-chip blue">
+                      <iconify-icon icon="lucide:warehouse" style="font-size: 11px"></iconify-icon>
+                      Terrain
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:banknote"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      50M – 150M FCFA
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:circle"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      8 km
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:clock"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      Immédiate
+                    </span>
+                  </div>
+                  <div class="alert-bottom">
+                    <span class="alert-last">Dernière détection : il y a 45 min</span>
+                    <div class="toggle-wrap">
+                      <div class="toggle on"><div class="toggle-knob"></div></div>
+                      <span class="toggle-status" style="color: var(--primary)">Active</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alert 4 — Paused -->
+              <div class="alert-item" data-media-type="banani-button" style="opacity: 0.75">
+                <div class="alert-icon-box" style="background: var(--muted)">
+                  <iconify-icon
+                    icon="lucide:map-pinned"
+                    style="font-size: 20px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="alert-body">
+                  <div class="alert-top">
+                    <span class="alert-name">Bè – Lomé</span>
+                    <div class="alert-actions">
+                      <span class="badge-paused">En pause</span>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--secondary-foreground)"
+                        ></iconify-icon>
+                      </div>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:trash-2"
+                          style="font-size: 13px; color: #dc2626"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert-meta-row">
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:home"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      Villa
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:banknote"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      30M – 80M FCFA
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:circle"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      4 km
+                    </span>
+                  </div>
+                  <div class="alert-bottom">
+                    <span class="alert-last">Suspendue depuis 3 jours</span>
+                    <div class="toggle-wrap">
+                      <div class="toggle off"><div class="toggle-knob"></div></div>
+                      <span class="toggle-status">Inactive</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alert 5 — Paused -->
+              <div class="alert-item" data-media-type="banani-button" style="opacity: 0.75">
+                <div class="alert-icon-box" style="background: var(--muted)">
+                  <iconify-icon
+                    icon="lucide:map-pinned"
+                    style="font-size: 20px; color: var(--muted-foreground)"
+                  ></iconify-icon>
+                </div>
+                <div class="alert-body">
+                  <div class="alert-top">
+                    <span class="alert-name">Akpakpa – Cotonou</span>
+                    <div class="alert-actions">
+                      <span class="badge-paused">En pause</span>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:pencil"
+                          style="font-size: 13px; color: var(--secondary-foreground)"
+                        ></iconify-icon>
+                      </div>
+                      <div class="icon-btn" data-media-type="banani-button">
+                        <iconify-icon
+                          icon="lucide:trash-2"
+                          style="font-size: 13px; color: #dc2626"
+                        ></iconify-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert-meta-row">
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:building"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      Appartement
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:banknote"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      15M – 40M FCFA
+                    </span>
+                    <span class="alert-chip">
+                      <iconify-icon
+                        icon="lucide:circle"
+                        style="font-size: 11px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                      2 km
+                    </span>
+                  </div>
+                  <div class="alert-bottom">
+                    <span class="alert-last">Suspendue depuis 1 semaine</span>
+                    <div class="toggle-wrap">
+                      <div class="toggle off"><div class="toggle-knob"></div></div>
+                      <span class="toggle-status">Inactive</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Create new alert form -->
+          <div>
+            <div class="section-title">Créer une nouvelle alerte</div>
+            <div class="section-sub">
+              Définissez vos critères pour recevoir des annonces ciblées.
+            </div>
+
+            <div class="card" id="create-form">
+              <!-- Zone / Localisation -->
+              <div class="form-section-label">Zone géographique</div>
+
+              <div class="map-area">
+                <img
+                  data-aspect-ratio="16:9"
+                  data-query="aerial map view of West African city Abidjan streets neighborhoods satellite style blue accent #376BFF clean minimal"
+                  class="map-img"
+                  alt="Carte secteur"
+                  src="https://storage.googleapis.com/banani-generated-images/generated-images/def1ee38-f968-461e-b1fd-3d785d33415b.jpg"
+                />
+                <div class="map-overlay">
+                  <div class="map-pin">
+                    <div class="map-pin-inner">
+                      <iconify-icon
+                        icon="lucide:map-pin"
+                        style="font-size: 16px; color: #fff"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-full">
+                <div class="form-field">
+                  <div class="form-label">Ville / Quartier</div>
+                  <div class="form-input" data-media-type="banani-button">
+                    <div
+                      style="
+                        width: 14px;
+                        height: 14px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:map-pin"
+                        style="font-size: 13px; color: var(--primary)"
+                      ></iconify-icon>
+                    </div>
+                    <span class="form-input-value">Plateau, Abidjan</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="radius-selector">
+                <span class="radius-label">Rayon</span>
+                <div class="radius-track">
+                  <div class="radius-fill"></div>
+                  <div class="radius-thumb"></div>
+                </div>
+                <span class="radius-value">5 km</span>
+              </div>
+
+              <div class="divider"></div>
+
+              <!-- Type de bien & Prix -->
+              <div class="form-section-label">Critères du bien</div>
+              <div class="form-row">
+                <div class="form-field">
+                  <div class="form-label">Type de bien</div>
+                  <div class="form-input" data-media-type="banani-button">
+                    <span class="form-input-value">Villa</span>
+                    <div
+                      style="
+                        width: 14px;
+                        height: 14px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-left: auto;
+                        flex-shrink: 0;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:chevron-down"
+                        style="font-size: 13px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <div class="form-label">Transaction</div>
+                  <div class="form-input" data-media-type="banani-button">
+                    <span class="form-input-value">Vente</span>
+                    <div
+                      style="
+                        width: 14px;
+                        height: 14px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-left: auto;
+                        flex-shrink: 0;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:chevron-down"
+                        style="font-size: 13px; color: var(--muted-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <div class="form-label">Prix min (FCFA)</div>
+                  <div class="form-input" data-media-type="banani-button">
+                    <span class="form-input-value">80 000 000</span>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <div class="form-label">Prix max (FCFA)</div>
+                  <div class="form-input" data-media-type="banani-button">
+                    <span class="form-input-value">200 000 000</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <!-- Mots-clés -->
+              <div class="form-section-label">Mots-clés</div>
+              <div class="keyword-row">
+                <div class="keyword-tag">
+                  piscine
+                  <div class="keyword-tag-remove">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: var(--primary)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="keyword-tag">
+                  gardien
+                  <div class="keyword-tag-remove">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: var(--primary)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="keyword-tag">
+                  jardin
+                  <div class="keyword-tag-remove">
+                    <iconify-icon
+                      icon="lucide:x"
+                      style="font-size: 11px; color: var(--primary)"
+                    ></iconify-icon>
+                  </div>
+                </div>
+                <div class="keyword-add" data-media-type="banani-button">
+                  <iconify-icon icon="lucide:plus" style="font-size: 12px"></iconify-icon>
+                  Ajouter
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <!-- Fréquence de notification -->
+              <div class="form-section-label">Fréquence de notification</div>
+              <div class="freq-row">
+                <div class="freq-btn" data-media-type="banani-button">Immédiate</div>
+                <div class="freq-btn active" data-media-type="banani-button">Quotidienne</div>
+                <div class="freq-btn" data-media-type="banani-button">Hebdomadaire</div>
+              </div>
+
+              <!-- Canal de notification -->
+              <div class="form-section-label" style="margin-top: 4px">Canal de notification</div>
+              <div class="channel-row">
+                <div class="channel-card active" data-media-type="banani-button">
+                  <div class="channel-check checked">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  <iconify-icon
+                    icon="lucide:bell"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
+                  <span class="channel-label">Notification</span>
+                </div>
+                <div class="channel-card active" data-media-type="banani-button">
+                  <div class="channel-check checked">
+                    <iconify-icon
+                      icon="lucide:check"
+                      style="font-size: 9px; color: #fff"
+                    ></iconify-icon>
+                  </div>
+                  <iconify-icon
+                    icon="lucide:mail"
+                    style="font-size: 15px; color: var(--primary)"
+                  ></iconify-icon>
+                  <span class="channel-label">E-mail</span>
+                </div>
+                <div class="channel-card" data-media-type="banani-button">
+                  <div class="channel-check"></div>
+                  <iconify-icon
+                    icon="lucide:message-circle"
+                    style="font-size: 15px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                  <span class="channel-label">SMS</span>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 10px; margin-top: 6px">
+                <div
+                  class="btn-outline"
+                  style="flex: 1; justify-content: center"
+                  data-media-type="banani-button"
+                >
+                  Annuler
+                </div>
+                <div
+                  class="btn-primary"
+                  style="flex: 1; justify-content: center"
+                  data-media-type="banani-button"
+                >
+                  <iconify-icon
+                    icon="lucide:bell-ring"
+                    style="font-size: 14px; color: #fff"
+                  ></iconify-icon>
+                  Créer l'alerte
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

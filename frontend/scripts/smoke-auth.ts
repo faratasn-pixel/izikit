@@ -17,6 +17,7 @@
 // csrfFromCookies().
 
 import { PrismaClient } from '@prisma/client';
+import { pathToFileURL } from 'node:url';
 
 const BASE_URL = process.env.SMOKE_BASE_URL ?? 'http://localhost:3000';
 const TEST_EMAIL = `smoke-${Date.now()}@example.test`;
@@ -150,7 +151,11 @@ export async function main(): Promise<number> {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Compares via pathToFileURL (not a raw `file://` template) because
+// process.argv[1] uses OS-native path separators — on Windows that's
+// backslashes, which never match import.meta.url's forward-slash
+// file:// form, silently no-opping the whole script.
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   main()
     .then((code) => process.exit(code))
     .catch((err) => {

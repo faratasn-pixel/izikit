@@ -1,10 +1,15 @@
 // AUTH-07 — POST /api/auth/forgot-password
 //
 // Enumeration-resistant: returns 200 { ok: true } regardless of whether the
-// email exists (D-23). When the user exists, creates a PASSWORD_RESET code
-// + email outbox event in one tx. When the user does not exist, runs
-// dummyBcryptCompare for timing parity. No cookies are touched here — the
-// flow continues at /api/auth/reset-password.
+// email is registered (D-23). When the user exists, creates a
+// PASSWORD_RESET code + email outbox event in one tx. When the user does not
+// exist, runs dummyBcryptCompare for timing parity. No cookies are touched
+// here — the flow continues at /api/auth/reset-password.
+//
+// Lookup is by EMAIL. Note that /api/auth/login and its lockout bucket are
+// still PHONE-keyed — /api/auth/reset-password resolves the user's phone
+// after finding them by email so a successful reset still clears that
+// phone-keyed lockout (see the comment there).
 //
 // Timing-parity strategy (CR-01 fix): both branches run dummyBcryptCompare
 // (~150-300ms at cost 12) AND are anchored to a fixed wall-clock target
@@ -80,7 +85,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true },
+      select: { id: true, email: true },
     });
 
     if (user) {
@@ -98,7 +103,7 @@ export async function POST(req: NextRequest): Promise<Response> {
         await enqueueOutbox(tx, {
           kind: 'email.password_reset',
           payload: {
-            to: email,
+            to: user.email,
             code,
             expiresAt: expiresAt.toISOString(),
           },

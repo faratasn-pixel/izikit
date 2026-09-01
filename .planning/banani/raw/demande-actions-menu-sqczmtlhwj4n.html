@@ -1,0 +1,1921 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Actions Menu</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+      position: relative;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="page-styles">
+    .page-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+      background: var(--background);
+      position: relative;
+    }
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+  </style>
+
+  <style id="stats-styles">
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stat-icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-value {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      color: var(--foreground);
+    }
+    .stat-label {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+    }
+    .stat-trend {
+      font-size: 11.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .trend-up {
+      color: #059669;
+    }
+    .trend-neutral {
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="filter-styles">
+    .filter-bar {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .filter-select {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-select.active {
+      background: #eef3ff;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+    .filter-reset {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .search-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      flex: 1;
+      max-width: 220px;
+    }
+    .search-input-text {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="table-styles">
+    .table-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .table-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px 14px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+    }
+    .table-count {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      margin-left: 8px;
+    }
+    .tabs-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 22px 0 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      margin-bottom: -1px;
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      font-weight: 600;
+    }
+    .tab-count {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 1px 7px;
+    }
+    .tab-btn.active .tab-count {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead th {
+      padding: 11px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      background: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    tbody tr:nth-child(even) {
+      background: #fafbfd;
+    }
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+    tbody td {
+      padding: 13px 14px;
+      font-size: 13px;
+      color: var(--foreground);
+      vertical-align: middle;
+    }
+    .td-muted {
+      color: var(--muted-foreground);
+      font-size: 12px;
+    }
+    .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 180px;
+    }
+    /* Highlight row 1 as if it was the one clicked */
+    tbody tr.row-highlighted {
+      background: #f0f5ff !important;
+    }
+  </style>
+
+  <style id="badge-styles">
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .badge-pending {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-active {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-closed {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .badge-urgent {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+    .badge-vente {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .badge-location {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .badge-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: var(--radius-md);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 3px 8px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="action-styles">
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .action-btn.active-btn {
+      background: #eef3ff;
+      border-color: var(--primary);
+    }
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .avatar-sm {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .user-cell-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .user-cell-sub {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+    .priority-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .flag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--secondary-foreground);
+      font-weight: 500;
+    }
+  </style>
+
+  <style id="pagination-styles">
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+    .pagination-info {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+    }
+    .pagination-btns {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .page-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+    }
+    .page-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .rows-select {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+    }
+    .rows-select-box {
+      padding: 4px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--input);
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+    }
+  </style>
+
+  <style id="overlay-styles">
+    /* Dimmed overlay behind the dropdown */
+    .overlay-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(17, 24, 39, 0.18);
+      z-index: 10;
+      border-radius: 0;
+    }
+
+    /* Dropdown menu */
+    .actions-dropdown {
+      position: absolute;
+      top: 492px;
+      right: 92px;
+      width: 220px;
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      box-shadow:
+        0 8px 32px rgba(17, 24, 39, 0.14),
+        0 2px 8px rgba(17, 24, 39, 0.08);
+      border: 1px solid var(--border);
+      z-index: 20;
+      overflow: hidden;
+    }
+
+    .dropdown-header {
+      padding: 14px 16px 10px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dropdown-header-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .dropdown-header-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dropdown-section {
+      padding: 6px 0;
+    }
+    .dropdown-section + .dropdown-section {
+      border-top: 1px solid var(--border);
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--foreground);
+      cursor: pointer;
+    }
+    .dropdown-item:last-child {
+      margin-bottom: 0;
+    }
+    .dropdown-item .item-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .dropdown-item .item-icon.blue {
+      background: #eef3ff;
+    }
+    .dropdown-item .item-icon.green {
+      background: #d1fae5;
+    }
+    .dropdown-item .item-icon.orange {
+      background: #fef3c7;
+    }
+    .dropdown-item .item-icon.red {
+      background: #fee2e2;
+    }
+
+    .dropdown-item-label {
+      flex: 1;
+    }
+    .dropdown-item-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      font-weight: 400;
+      margin-top: 1px;
+    }
+    .dropdown-item.danger {
+      color: #dc2626;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="#" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:map-pinned"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Alerte secteur
+          </a>
+          <a href="#" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:file-search"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Demande immobilière
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="#" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div class="notif-btn" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div class="user-pill" data-media-type="banani-button">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div style="display: flex; flex-direction: column; gap: 2px">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content" id="page-content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <div class="page-title">Demande Immobilière</div>
+            <div class="page-sub">
+              Gérez les demandes de recherche immobilière de vos clients et prospects.
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <div class="btn-outline" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:download"
+                  style="font-size: 14px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              Exporter
+            </div>
+            <div class="btn-primary" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:plus"
+                  style="font-size: 14px; color: #fff"
+                ></iconify-icon>
+              </div>
+              Nouvelle demande
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #eef3ff">
+                <iconify-icon
+                  icon="lucide:file-search"
+                  style="font-size: 18px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend trend-up">
+                <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon> +4
+              </span>
+            </div>
+            <div class="stat-value">28</div>
+            <div class="stat-label">Demandes totales</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #fef3c7">
+                <iconify-icon
+                  icon="lucide:clock"
+                  style="font-size: 18px; color: #d97706"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend" style="color: #d97706">
+                <iconify-icon icon="lucide:alert-circle" style="font-size: 12px"></iconify-icon> 3
+                urgentes
+              </span>
+            </div>
+            <div class="stat-value">11</div>
+            <div class="stat-label">En attente de traitement</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #d1fae5">
+                <iconify-icon
+                  icon="lucide:check-circle"
+                  style="font-size: 18px; color: #065f46"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend trend-up">
+                <iconify-icon icon="lucide:trending-up" style="font-size: 12px"></iconify-icon> +2
+              </span>
+            </div>
+            <div class="stat-value">14</div>
+            <div class="stat-label">Demandes traitées</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-icon-box" style="background: #fee2e2">
+                <iconify-icon
+                  icon="lucide:x-circle"
+                  style="font-size: 18px; color: #991b1b"
+                ></iconify-icon>
+              </div>
+              <span class="stat-trend trend-neutral">—</span>
+            </div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Demandes clôturées</div>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            "
+          >
+            <iconify-icon
+              icon="lucide:sliders-horizontal"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="filter-label">Filtres :</span>
+          <div class="filter-select" data-media-type="banani-button">
+            Tous les pays
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 12px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            Type de bien
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 12px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="filter-select" data-media-type="banani-button">
+            Transaction
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 12px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="filter-select active" data-media-type="banani-button">
+            <div
+              style="
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #f59e0b;
+                flex-shrink: 0;
+              "
+            ></div>
+            En attente
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 12px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="search-input" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 13px; color: var(--muted-foreground)"
+            ></iconify-icon>
+            <span class="search-input-text">Rechercher un client, une ville…</span>
+          </div>
+          <span class="filter-reset" data-media-type="banani-button">Réinitialiser</span>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+          <div class="table-header-row">
+            <div style="display: flex; align-items: center; gap: 6px">
+              <span class="table-title">Liste des demandes</span>
+              <span class="table-count">28 demandes</span>
+            </div>
+            <div style="display: flex; gap: 8px">
+              <div
+                class="btn-outline"
+                style="padding: 7px 14px; font-size: 12.5px"
+                data-media-type="banani-button"
+              >
+                <iconify-icon
+                  icon="lucide:arrow-up-down"
+                  style="font-size: 13px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+                Trier
+              </div>
+            </div>
+          </div>
+
+          <div class="tabs-row">
+            <div class="tab-btn active" data-media-type="banani-button">
+              Toutes <span class="tab-count">28</span>
+            </div>
+            <div class="tab-btn" data-media-type="banani-button">
+              En attente <span class="tab-count">11</span>
+            </div>
+            <div class="tab-btn" data-media-type="banani-button">
+              En cours <span class="tab-count">14</span>
+            </div>
+            <div class="tab-btn" data-media-type="banani-button">
+              Clôturées <span class="tab-count">3</span>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 36px">
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border: 1.5px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      background: var(--card);
+                    "
+                  ></div>
+                </th>
+                <th>Client</th>
+                <th>Type de bien</th>
+                <th>Zone / Ville</th>
+                <th>Budget</th>
+                <th>Transaction</th>
+                <th>Priorité</th>
+                <th>Statut</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1 — highlighted (the one that was clicked) -->
+              <tr class="row-highlighted" data-media-type="banani-button">
+                <td>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border: 1.5px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      background: var(--card);
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="user-cell">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F1"
+                      class="avatar-sm"
+                      alt="Kouassi Brou"
+                    />
+                    <div>
+                      <div class="user-cell-name">Kouassi Brou</div>
+                      <div class="user-cell-sub">+225 07 45 12 38</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge-type"
+                    ><iconify-icon icon="lucide:home" style="font-size: 11px"></iconify-icon>
+                    Villa</span
+                  >
+                </td>
+                <td>
+                  <div class="flag-chip"><span>🇨🇮</span> Cocody, Abidjan</div>
+                </td>
+                <td style="white-space: nowrap; font-weight: 500">80M – 150M FCFA</td>
+                <td><span class="badge badge-vente">Vente</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px">
+                    <div class="priority-dot" style="background: #ef4444"></div>
+                    <span style="font-size: 12px; font-weight: 500; color: #dc2626">Urgent</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-pending">En attente</span></td>
+                <td class="td-muted">12 jan. 2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn active-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--primary)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 2 -->
+              <tr data-media-type="banani-button">
+                <td>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border: 1.5px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      background: var(--card);
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="user-cell">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                      class="avatar-sm"
+                      alt="Aminata Diallo"
+                    />
+                    <div>
+                      <div class="user-cell-name">Aminata Diallo</div>
+                      <div class="user-cell-sub">+221 77 832 10 45</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge-type"
+                    ><iconify-icon icon="lucide:building" style="font-size: 11px"></iconify-icon>
+                    Appartement</span
+                  >
+                </td>
+                <td>
+                  <div class="flag-chip"><span>🇸🇳</span> Almadies, Dakar</div>
+                </td>
+                <td style="white-space: nowrap; font-weight: 500">20M – 50M FCFA</td>
+                <td><span class="badge badge-location">Location</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px">
+                    <div class="priority-dot" style="background: #f59e0b"></div>
+                    <span style="font-size: 12px; font-weight: 500; color: #d97706">Normale</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-active">En cours</span></td>
+                <td class="td-muted">10 jan. 2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 3 -->
+              <tr data-media-type="banani-button">
+                <td>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border: 1.5px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      background: var(--card);
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="user-cell">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FAfrican%2F5"
+                      class="avatar-sm"
+                      alt="Koffi Agbenyega"
+                    />
+                    <div>
+                      <div class="user-cell-name">Koffi Agbenyega</div>
+                      <div class="user-cell-sub">+228 90 12 34 56</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge-type"
+                    ><iconify-icon icon="lucide:warehouse" style="font-size: 11px"></iconify-icon>
+                    Terrain</span
+                  >
+                </td>
+                <td>
+                  <div class="flag-chip"><span>🇹🇬</span> Bè, Lomé</div>
+                </td>
+                <td style="white-space: nowrap; font-weight: 500">30M – 70M FCFA</td>
+                <td><span class="badge badge-vente">Vente</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px">
+                    <div class="priority-dot" style="background: #ef4444"></div>
+                    <span style="font-size: 12px; font-weight: 500; color: #dc2626">Urgent</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-pending">En attente</span></td>
+                <td class="td-muted">09 jan. 2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 4 -->
+              <tr data-media-type="banani-button">
+                <td>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border: 1.5px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      background: var(--card);
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="user-cell">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F4"
+                      class="avatar-sm"
+                      alt="Fatoumata Koné"
+                    />
+                    <div>
+                      <div class="user-cell-name">Fatoumata Koné</div>
+                      <div class="user-cell-sub">+225 05 67 89 01</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge-type"
+                    ><iconify-icon icon="lucide:building-2" style="font-size: 11px"></iconify-icon>
+                    Bureau</span
+                  >
+                </td>
+                <td>
+                  <div class="flag-chip"><span>🇨🇮</span> Plateau, Abidjan</div>
+                </td>
+                <td style="white-space: nowrap; font-weight: 500">5M – 12M FCFA/an</td>
+                <td><span class="badge badge-location">Location</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px">
+                    <div class="priority-dot" style="background: #9ca3af"></div>
+                    <span style="font-size: 12px; font-weight: 500; color: #6b7280">Basse</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-active">En cours</span></td>
+                <td class="td-muted">07 jan. 2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 5 -->
+              <tr data-media-type="banani-button">
+                <td>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border: 1.5px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      background: var(--card);
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="user-cell">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F6"
+                      class="avatar-sm"
+                      alt="Moussa Traoré"
+                    />
+                    <div>
+                      <div class="user-cell-name">Moussa Traoré</div>
+                      <div class="user-cell-sub">+229 96 23 45 67</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge-type"
+                    ><iconify-icon icon="lucide:home" style="font-size: 11px"></iconify-icon>
+                    Villa</span
+                  >
+                </td>
+                <td>
+                  <div class="flag-chip"><span>🇧🇯</span> Cotonou</div>
+                </td>
+                <td style="white-space: nowrap; font-weight: 500">100M – 250M FCFA</td>
+                <td><span class="badge badge-vente">Vente</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px">
+                    <div class="priority-dot" style="background: #f59e0b"></div>
+                    <span style="font-size: 12px; font-weight: 500; color: #d97706">Normale</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-pending">En attente</span></td>
+                <td class="td-muted">05 jan. 2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- Row 6 -->
+              <tr data-media-type="banani-button">
+                <td>
+                  <div
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      border: 1.5px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      background: var(--card);
+                    "
+                  ></div>
+                </td>
+                <td>
+                  <div class="user-cell">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FAfrican%2F0"
+                      class="avatar-sm"
+                      alt="Nadia Seck"
+                    />
+                    <div>
+                      <div class="user-cell-name">Nadia Seck</div>
+                      <div class="user-cell-sub">+221 70 456 78 90</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge-type"
+                    ><iconify-icon icon="lucide:building" style="font-size: 11px"></iconify-icon>
+                    Appartement</span
+                  >
+                </td>
+                <td>
+                  <div class="flag-chip"><span>🇸🇳</span> Mermoz, Dakar</div>
+                </td>
+                <td style="white-space: nowrap; font-weight: 500">15M – 35M FCFA</td>
+                <td><span class="badge badge-location">Location</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 6px">
+                    <div class="priority-dot" style="background: #9ca3af"></div>
+                    <span style="font-size: 12px; font-weight: 500; color: #6b7280">Basse</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-closed">Clôturée</span></td>
+                <td class="td-muted">02 jan. 2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:eye"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:pencil"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                    <div class="action-btn" data-media-type="banani-button">
+                      <iconify-icon
+                        icon="lucide:more-horizontal"
+                        style="font-size: 13px; color: var(--secondary-foreground)"
+                      ></iconify-icon>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pagination-bar">
+            <div class="rows-select">
+              Lignes par page :
+              <div class="rows-select-box">10</div>
+            </div>
+            <span class="pagination-info">Affichage 1–8 sur 28</span>
+            <div class="pagination-btns">
+              <div class="page-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:chevron-left"
+                  style="font-size: 13px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="page-btn active" data-media-type="banani-button">1</div>
+              <div class="page-btn" data-media-type="banani-button">2</div>
+              <div class="page-btn" data-media-type="banani-button">3</div>
+              <div class="page-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:chevron-right"
+                  style="font-size: 13px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overlay dim -->
+        <div class="overlay-dim"></div>
+
+        <!-- Actions Dropdown -->
+        <div class="actions-dropdown" id="actions-dropdown">
+          <!-- Header -->
+          <div class="dropdown-header">
+            <div class="dropdown-header-title">Actions pour</div>
+            <div class="dropdown-header-name">Kouassi Brou — Villa, Cocody</div>
+          </div>
+
+          <!-- Section 1: View & Edit -->
+          <div class="dropdown-section">
+            <div class="dropdown-item" data-media-type="banani-button">
+              <div class="item-icon blue">
+                <iconify-icon
+                  icon="lucide:eye"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Voir la demande</div>
+                <div class="dropdown-item-sub">Consulter le détail complet</div>
+              </div>
+            </div>
+            <div class="dropdown-item" data-media-type="banani-button">
+              <div class="item-icon">
+                <iconify-icon
+                  icon="lucide:pencil"
+                  style="font-size: 14px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Modifier la demande</div>
+                <div class="dropdown-item-sub">Éditer les informations</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Status change -->
+          <div class="dropdown-section">
+            <div class="dropdown-item" data-media-type="banani-button">
+              <div class="item-icon green">
+                <iconify-icon
+                  icon="lucide:check-circle"
+                  style="font-size: 14px; color: #059669"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Marquer en cours</div>
+                <div class="dropdown-item-sub">Passer le statut à "En cours"</div>
+              </div>
+            </div>
+            <div class="dropdown-item" data-media-type="banani-button">
+              <div class="item-icon" style="background: #e0f2fe">
+                <iconify-icon
+                  icon="lucide:flag"
+                  style="font-size: 14px; color: #0ea5e9"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Changer la priorité</div>
+                <div class="dropdown-item-sub">Urgent · Normale · Basse</div>
+              </div>
+            </div>
+            <div class="dropdown-item" data-media-type="banani-button">
+              <div class="item-icon orange">
+                <iconify-icon
+                  icon="lucide:x-circle"
+                  style="font-size: 14px; color: #d97706"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Clôturer la demande</div>
+                <div class="dropdown-item-sub">Archiver sans suite</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Contact & share -->
+          <div class="dropdown-section">
+            <div class="dropdown-item" data-media-type="banani-button">
+              <div class="item-icon blue">
+                <iconify-icon
+                  icon="lucide:message-circle"
+                  style="font-size: 14px; color: var(--primary)"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Contacter le client</div>
+                <div class="dropdown-item-sub">Envoyer un message direct</div>
+              </div>
+            </div>
+            <div class="dropdown-item" data-media-type="banani-button">
+              <div class="item-icon">
+                <iconify-icon
+                  icon="lucide:share-2"
+                  style="font-size: 14px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Partager la demande</div>
+                <div class="dropdown-item-sub">Copier le lien de partage</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: Danger zone -->
+          <div class="dropdown-section">
+            <div class="dropdown-item danger" data-media-type="banani-button">
+              <div class="item-icon red">
+                <iconify-icon
+                  icon="lucide:trash-2"
+                  style="font-size: 14px; color: #dc2626"
+                ></iconify-icon>
+              </div>
+              <div class="dropdown-item-label">
+                <div>Supprimer la demande</div>
+                <div class="dropdown-item-sub" style="color: #fca5a5">Action irréversible</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

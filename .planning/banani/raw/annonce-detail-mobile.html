@@ -1,0 +1,916 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Détail Annonce Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .topbar-icon-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+    }
+    .topbar-icon-btn.danger {
+      background: var(--destructive);
+    }
+  </style>
+
+  <style id="hero-styles">
+    .hero-gallery {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      flex-shrink: 0;
+    }
+    .hero-gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+    .hero-ref {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      padding: 3px 9px;
+      backdrop-filter: blur(4px);
+    }
+    .thumbs-row {
+      display: flex;
+      gap: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
+      align-items: flex-end;
+      padding: 0 12px 8px 12px;
+      gap: 6px;
+    }
+    .thumb-mini {
+      width: 40px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      flex-shrink: 0;
+    }
+    .thumb-mini img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .thumb-more {
+      width: 40px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+  </style>
+
+  <style id="content-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      background: var(--background);
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .badge-verified {
+      background: var(--success);
+      color: var(--success-foreground);
+    }
+    .badge-pending {
+      background: var(--warning);
+      color: var(--warning-foreground);
+    }
+    .badge-sold {
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+
+    .section-card {
+      background: var(--card);
+      margin: 0;
+      padding: 16px;
+    }
+    .section-card + .section-card {
+      border-top: 6px solid var(--background);
+    }
+
+    /* Title block */
+    .annonce-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 17px;
+      color: var(--foreground);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .annonce-tags {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-tag {
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 9px;
+    }
+    .date-tag {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .price-main {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--primary);
+    }
+    .price-sub {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+    .location-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      color: var(--secondary-foreground);
+      margin-bottom: 12px;
+    }
+    .meta-chips {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .meta-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    /* Characteristics */
+    .charac-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .charac-item {
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .charac-label {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+    .charac-value {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+    }
+
+    /* Section title */
+    .section-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      margin-bottom: 12px;
+    }
+
+    /* Description */
+    .desc-text {
+      font-size: 13.5px;
+      color: var(--secondary-foreground);
+      line-height: 1.7;
+    }
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .tag-chip {
+      background: var(--muted);
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      color: var(--secondary-foreground);
+    }
+
+    /* Status info */
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .status-row:last-child {
+      border-bottom: none;
+    }
+    .status-key {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .status-val {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+    }
+
+    /* Performance */
+    .perf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .perf-item {
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .perf-val {
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--foreground);
+    }
+    .perf-val.primary {
+      color: var(--primary);
+    }
+    .perf-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+    }
+
+    /* Agent mini */
+    .agent-mini {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .agent-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .agent-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+    }
+    .agent-role {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .btn-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .btn-outline-sm {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+    }
+
+    /* Contacts */
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-item:last-child {
+      border-bottom: none;
+    }
+    .contact-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .contact-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .contact-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .contact-date {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+
+    /* Map */
+    .map-block {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/7;
+    }
+    .map-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .map-pin-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -100%);
+    }
+    .map-pin-dot {
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(55, 107, 255, 0.5);
+    }
+    .map-address {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+      line-height: 1.5;
+    }
+  </style>
+
+  <style id="bottom-cta-styles">
+    .bottom-cta {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .btn-primary {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 12px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-danger-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 12px 14px;
+      border-radius: var(--radius-lg);
+      background: var(--destructive);
+      color: var(--destructive-foreground);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:arrow-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Détail de l'annonce</span>
+      <div class="topbar-actions">
+        <div class="topbar-icon-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:share-2"
+            style="font-size: 16px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+        </div>
+        <div class="topbar-icon-btn" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:pencil"
+            style="font-size: 16px; color: var(--secondary-foreground)"
+          ></iconify-icon>
+        </div>
+        <div class="topbar-icon-btn danger" data-media-type="banani-button">
+          <iconify-icon
+            icon="lucide:trash-2"
+            style="font-size: 16px; color: #991b1b"
+          ></iconify-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- HERO GALLERY -->
+      <div class="hero-gallery" id="hero-gallery">
+        <img
+          data-query="luxurious modern villa with swimming pool Cocody Abidjan Ivory Coast lush tropical garden contemporary architecture evening lighting blue accent tones"
+          data-aspect-ratio="4:3"
+          alt="Villa Cocody"
+          src="https://storage.googleapis.com/banani-generated-images/generated-images/b57adb71-59e9-4f76-acd8-3f05557065da.jpg"
+        />
+        <div class="hero-badge">
+          <span class="badge badge-verified">✓ Vérifié</span>
+        </div>
+        <div class="hero-ref">#AN-0041</div>
+        <div class="thumbs-row">
+          <div class="thumb-mini" data-media-type="banani-button">
+            <img
+              data-query="modern villa interior living room Ivory Coast contemporary design bright spacious blue white palette"
+              data-aspect-ratio="1:1"
+              alt=""
+              src="https://storage.googleapis.com/banani-generated-images/generated-images/ca6f5565-83bc-4ea3-ad19-36e5671a84e3.jpg"
+            />
+          </div>
+          <div class="thumb-mini" data-media-type="banani-button">
+            <img
+              data-query="swimming pool villa Abidjan tropical garden blue water African villa exterior"
+              data-aspect-ratio="1:1"
+              alt=""
+              src="https://storage.googleapis.com/banani-generated-images/generated-images/8563b641-b3cd-4c35-8039-20bac4789703.jpg"
+            />
+          </div>
+          <div class="thumb-mini" data-media-type="banani-button">
+            <img
+              data-query="modern villa kitchen Abidjan marble countertop contemporary African interior design"
+              data-aspect-ratio="1:1"
+              alt=""
+              src="https://storage.googleapis.com/banani-generated-images/generated-images/699743cf-1838-4b44-a9af-a416ae71819d.jpg"
+            />
+          </div>
+          <div class="thumb-more" data-media-type="banani-button">+8</div>
+        </div>
+      </div>
+
+      <!-- TITLE & META -->
+      <div class="section-card" id="annonce-header-card">
+        <div class="annonce-title">Villa moderne avec piscine, Cocody</div>
+        <div class="annonce-tags">
+          <span class="type-tag">Villa</span>
+          <span class="badge badge-verified">✓ Vérifié</span>
+          <span class="date-tag">Publiée le 12 juin 2025</span>
+        </div>
+        <div class="price-row">
+          <span class="price-main">185 000 000 FCFA</span>
+          <span class="price-sub">Prix de vente</span>
+        </div>
+        <div class="location-row">
+          <iconify-icon
+            icon="lucide:map-pin"
+            style="font-size: 14px; color: var(--primary); flex-shrink: 0"
+          ></iconify-icon>
+          Cocody, Abidjan — Côte d'Ivoire
+        </div>
+        <div class="meta-chips">
+          <div class="meta-chip">
+            <iconify-icon icon="lucide:eye" style="font-size: 13px"></iconify-icon>
+            1 284 vues
+          </div>
+          <div class="meta-chip">
+            <iconify-icon icon="lucide:heart" style="font-size: 13px"></iconify-icon>
+            47 favoris
+          </div>
+          <div class="meta-chip">
+            <iconify-icon icon="lucide:calendar" style="font-size: 13px"></iconify-icon>
+            Mis à jour il y a 3 jours
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARACTERISTICS -->
+      <div class="section-card" id="charac-card">
+        <div class="section-label">Caractéristiques</div>
+        <div class="charac-grid">
+          <div class="charac-item">
+            <span class="charac-label">Surface</span>
+            <span class="charac-value">420 m²</span>
+          </div>
+          <div class="charac-item">
+            <span class="charac-label">Chambres</span>
+            <span class="charac-value">5</span>
+          </div>
+          <div class="charac-item">
+            <span class="charac-label">Salles de bain</span>
+            <span class="charac-value">3</span>
+          </div>
+          <div class="charac-item">
+            <span class="charac-label">Parking</span>
+            <span class="charac-value">3 places</span>
+          </div>
+          <div class="charac-item">
+            <span class="charac-label">Piscine</span>
+            <span class="charac-value">Oui</span>
+          </div>
+          <div class="charac-item">
+            <span class="charac-label">Année construction</span>
+            <span class="charac-value">2021</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="section-card" id="description-card">
+        <div class="section-label">Description</div>
+        <p class="desc-text">
+          Magnifique villa contemporaine de haut standing, idéalement située dans le quartier
+          résidentiel de Cocody. Ce bien d'exception offre de grands espaces de vie lumineux, une
+          cuisine équipée haut de gamme, et une terrasse donnant directement sur une piscine à
+          débordement. Entièrement clôturée et sécurisée, avec un jardin tropical entretenu.
+        </p>
+        <div class="tag-row">
+          <span class="tag-chip">Piscine</span>
+          <span class="tag-chip">Jardin</span>
+          <span class="tag-chip">Gardiennage 24h</span>
+          <span class="tag-chip">Climatisation</span>
+          <span class="tag-chip">Groupe électrogène</span>
+          <span class="tag-chip">Fibre optique</span>
+          <span class="tag-chip">Meublée</span>
+        </div>
+      </div>
+
+      <!-- STATUT -->
+      <div class="section-card" id="status-card">
+        <div class="section-label">Statut de l'annonce</div>
+        <div class="status-row">
+          <span class="status-key">Statut</span>
+          <span class="badge badge-verified">✓ Vérifié</span>
+        </div>
+        <div class="status-row">
+          <span class="status-key">Référence</span>
+          <span class="status-val">#AN-0041</span>
+        </div>
+        <div class="status-row">
+          <span class="status-key">Date de publication</span>
+          <span class="status-val">12 juin 2025</span>
+        </div>
+        <div class="status-row">
+          <span class="status-key">Dernière mise à jour</span>
+          <span class="status-val">14 juil. 2025</span>
+        </div>
+        <div class="status-row">
+          <span class="status-key">Expiration</span>
+          <span class="status-val">12 déc. 2025</span>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE -->
+      <div class="section-card" id="perf-card">
+        <div class="section-label">Performance</div>
+        <div class="perf-grid">
+          <div class="perf-item">
+            <span class="perf-val">1 284</span>
+            <span class="perf-label">Vues totales</span>
+          </div>
+          <div class="perf-item">
+            <span class="perf-val">47</span>
+            <span class="perf-label">Favoris</span>
+          </div>
+          <div class="perf-item">
+            <span class="perf-val primary">18</span>
+            <span class="perf-label">Contacts reçus</span>
+          </div>
+          <div class="perf-item">
+            <span class="perf-val">4</span>
+            <span class="perf-label">Visites programmées</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGENT -->
+      <div class="section-card" id="agent-card">
+        <div class="section-label">Agent responsable</div>
+        <div class="agent-mini">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+            alt="Kofi Mensah"
+            class="agent-avatar"
+          />
+          <div>
+            <div class="agent-name">Kofi Mensah</div>
+            <div class="agent-role">Agent immobilier · HABITAT-AFRIK</div>
+          </div>
+        </div>
+        <div class="btn-row-2">
+          <div class="btn-outline-sm" data-media-type="banani-button">
+            <iconify-icon icon="lucide:message-circle" style="font-size: 14px"></iconify-icon>
+            Message
+          </div>
+          <div class="btn-outline-sm" data-media-type="banani-button">
+            <iconify-icon icon="lucide:phone" style="font-size: 14px"></iconify-icon>
+            Appel
+          </div>
+        </div>
+      </div>
+
+      <!-- DERNIERS CONTACTS -->
+      <div class="section-card" id="contacts-card">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+          "
+        >
+          <div class="section-label" style="margin-bottom: 0">Derniers contacts</div>
+          <span
+            style="font-size: 12px; font-weight: 600; color: var(--primary); cursor: pointer"
+            data-media-type="banani-button"
+            >Voir tout</span
+          >
+        </div>
+
+        <div class="contact-item">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F1"
+            alt="Aminata Diallo"
+            class="contact-avatar"
+          />
+          <div class="contact-info">
+            <div class="contact-name">Aminata Diallo</div>
+            <div class="contact-date">Aujourd'hui, 09h14</div>
+          </div>
+          <span class="badge badge-pending">En attente</span>
+        </div>
+
+        <div class="contact-item">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F5"
+            alt="Jean-Pierre Kouassi"
+            class="contact-avatar"
+          />
+          <div class="contact-info">
+            <div class="contact-name">Jean-Pierre Kouassi</div>
+            <div class="contact-date">Hier, 15h32</div>
+          </div>
+          <span class="badge badge-verified">Confirmée</span>
+        </div>
+
+        <div class="contact-item">
+          <img
+            src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F4"
+            alt="Fatoumata Bah"
+            class="contact-avatar"
+          />
+          <div class="contact-info">
+            <div class="contact-name">Fatoumata Bah</div>
+            <div class="contact-date">12 juil. 2025</div>
+          </div>
+          <span class="badge badge-verified">Confirmée</span>
+        </div>
+      </div>
+
+      <!-- LOCALISATION -->
+      <div class="section-card" id="map-card">
+        <div class="section-label">Localisation</div>
+        <div class="map-block">
+          <img
+            data-query="satellite map view Cocody Abidjan neighborhood aerial photography urban planning streets buildings muted tones"
+            data-aspect-ratio="16:9"
+            alt="Carte localisation"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/b6cc724f-90ca-45da-80b4-8aff054062c7.jpg"
+          />
+          <div class="map-pin-center">
+            <div class="map-pin-dot">
+              <iconify-icon
+                icon="lucide:home"
+                style="font-size: 12px; color: #fff; transform: rotate(45deg)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+        <div class="map-address">
+          <iconify-icon
+            icon="lucide:map-pin"
+            style="font-size: 14px; color: var(--primary); flex-shrink: 0; margin-top: 1px"
+          ></iconify-icon>
+          Rue des Jardins, Quartier Résidentiel, Cocody — Abidjan, Côte d'Ivoire
+        </div>
+      </div>
+
+      <div style="height: 16px"></div>
+    </div>
+
+    <!-- BOTTOM CTA -->
+    <div class="bottom-cta" id="bottom-cta">
+      <div class="btn-outline-cta" data-media-type="banani-button">
+        <iconify-icon icon="lucide:share-2" style="font-size: 14px"></iconify-icon>
+        Partager
+      </div>
+      <div class="btn-primary" data-media-type="banani-button">
+        <iconify-icon icon="lucide:pencil" style="font-size: 14px; color: #fff"></iconify-icon>
+        Modifier l'annonce
+      </div>
+      <div class="btn-danger-cta" data-media-type="banani-button">
+        <iconify-icon icon="lucide:trash-2" style="font-size: 14px"></iconify-icon>
+      </div>
+    </div>
+  </div>
+</body>

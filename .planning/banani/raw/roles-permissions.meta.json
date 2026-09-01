@@ -1,0 +1,41 @@
+{
+  "screenId": "LZmHMZTrI3Rt",
+  "screenName": "Rôles Permissions",
+  "genType": "web-html-css",
+  "theme": {
+    "name": "Habitat Blue",
+    "colors": {
+      "--background": "#F5F6F8",
+      "--foreground": "#1A1A1A",
+      "--border": "#E5E7EB",
+      "--input": "#F5F6F8",
+      "--primary": "#0EA5E9",
+      "--primary-foreground": "#FFFFFF",
+      "--secondary": "#F5F6F8",
+      "--secondary-foreground": "#6B7280",
+      "--muted": "#F3F4F6",
+      "--muted-foreground": "#6B7280",
+      "--success": "#22C55E",
+      "--success-foreground": "#FFFFFF",
+      "--accent": "#E0F2FE",
+      "--accent-foreground": "#0EA5E9",
+      "--destructive": "#EF4444",
+      "--destructive-foreground": "#FFFFFF",
+      "--warning": "#F59E0B",
+      "--warning-foreground": "#FFFFFF",
+      "--card": "#FFFFFF",
+      "--card-foreground": "#1A1A1A",
+      "--sidebar": "#FFFFFF",
+      "--sidebar-foreground": "#1A1A1A",
+      "--sidebar-primary": "#E0F2FE",
+      "--sidebar-primary-foreground": "#0EA5E9"
+    },
+    "radii": {
+      "--radius-sm": "4px",
+      "--radius-md": "6px",
+      "--radius-lg": "8px",
+      "--radius-xl": "12px"
+    },
+    "fontFamily": "inter"
+  }
+}

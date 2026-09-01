@@ -1,0 +1,1238 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Alerte Secteur Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="summary-styles">
+    .summary-bar {
+      background: var(--primary);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .summary-stat {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .summary-stat-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .summary-stat-num {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      color: #fff;
+      line-height: 1;
+    }
+    .summary-stat-label {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 2px;
+    }
+    .summary-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.25);
+      margin: 0 12px;
+    }
+  </style>
+
+  <style id="filter-styles">
+    .filter-scroll-wrap {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      overflow-x: auto;
+      white-space: nowrap;
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .filter-scroll-wrap::-webkit-scrollbar {
+      display: none;
+    }
+    .ftab {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+    .ftab.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="page-scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--background);
+      padding: 0 0 16px 0;
+    }
+  </style>
+
+  <style id="section-styles">
+    .section-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      padding: 18px 16px 10px 16px;
+    }
+    .section-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      padding: 0 16px 12px 16px;
+      margin-top: -8px;
+    }
+  </style>
+
+  <style id="alert-item-styles">
+    .alert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0 12px;
+    }
+    .alert-item {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .alert-item.inactive {
+      opacity: 0.72;
+    }
+    .alert-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .alert-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .alert-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .alert-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .alert-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .alert-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+    .alert-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      white-space: nowrap;
+    }
+    .alert-chip.blue {
+      background: #eef3ff;
+      color: var(--primary);
+    }
+    .alert-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .alert-last {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .toggle {
+      width: 32px;
+      height: 18px;
+      border-radius: 99px;
+      position: relative;
+      cursor: pointer;
+    }
+    .toggle.on {
+      background: var(--primary);
+    }
+    .toggle.off {
+      background: var(--border);
+    }
+    .toggle-knob {
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    .toggle.on .toggle-knob {
+      left: 17px;
+    }
+    .toggle.off .toggle-knob {
+      left: 3px;
+    }
+    .toggle-status {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .badge-new {
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .badge-active {
+      background: var(--success);
+      color: var(--success-foreground);
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .badge-paused {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .icon-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <style id="create-form-styles">
+    .create-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      margin: 0 12px;
+      padding: 18px 16px;
+    }
+    .form-section-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 12.5px;
+      color: var(--foreground);
+      margin-bottom: 10px;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .form-input {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 8px 10px;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .form-input-placeholder {
+      color: var(--muted-foreground);
+      font-size: 12.5px;
+    }
+    .form-input-value {
+      color: var(--foreground);
+      font-size: 12.5px;
+    }
+    .form-chevron {
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 14px 0;
+    }
+
+    /* Map area */
+    .map-area {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .map-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(55, 107, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .map-pin {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(55, 107, 255, 0.35);
+    }
+    .map-pin-inner {
+      transform: rotate(45deg);
+    }
+
+    /* Radius slider */
+    .radius-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      margin-bottom: 12px;
+    }
+    .radius-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      white-space: nowrap;
+    }
+    .radius-track {
+      flex: 1;
+      height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      position: relative;
+    }
+    .radius-fill {
+      height: 100%;
+      width: 45%;
+      background: var(--primary);
+      border-radius: 99px;
+    }
+    .radius-thumb {
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border-radius: 50%;
+      position: absolute;
+      top: -4px;
+      left: 43%;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(55, 107, 255, 0.3);
+    }
+    .radius-value {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    /* Keywords */
+    .keyword-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    .keyword-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+    }
+    .keyword-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--muted);
+      color: var(--muted-foreground);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border: 1px dashed var(--border);
+      cursor: pointer;
+    }
+
+    /* Frequency */
+    .freq-row {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    .freq-btn {
+      flex: 1;
+      text-align: center;
+      padding: 7px 4px;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      background: var(--card);
+      white-space: nowrap;
+    }
+    .freq-btn.active {
+      background: #eef3ff;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Channels */
+    .channel-row {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+    .channel-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 6px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      background: var(--card);
+    }
+    .channel-card.active {
+      border-color: var(--primary);
+      background: #eef3ff;
+    }
+    .channel-check {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+    }
+    .channel-check.checked {
+      background: var(--primary);
+      border-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .channel-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+    }
+    .channel-card.active .channel-label {
+      color: var(--primary);
+    }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-primary {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 12px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      background: var(--card);
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Alerte Secteur</span>
+      <div class="topbar-btn" data-media-type="banani-button">
+        <iconify-icon icon="lucide:plus" style="font-size: 13px; color: #fff"></iconify-icon>
+        Nouvelle
+      </div>
+    </div>
+
+    <!-- SUMMARY BAR -->
+    <div class="summary-bar" id="summary-bar">
+      <div class="summary-stat">
+        <div class="summary-stat-icon">
+          <iconify-icon icon="lucide:bell-ring" style="font-size: 17px; color: #fff"></iconify-icon>
+        </div>
+        <div>
+          <div class="summary-stat-num">7</div>
+          <div class="summary-stat-label">Actives</div>
+        </div>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-stat">
+        <div class="summary-stat-icon">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 17px; color: #fff"
+          ></iconify-icon>
+        </div>
+        <div>
+          <div class="summary-stat-num">43</div>
+          <div class="summary-stat-label">Annonces détectées</div>
+        </div>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-stat">
+        <div class="summary-stat-icon">
+          <iconify-icon
+            icon="lucide:pause-circle"
+            style="font-size: 17px; color: #fff"
+          ></iconify-icon>
+        </div>
+        <div>
+          <div class="summary-stat-num">2</div>
+          <div class="summary-stat-label">En pause</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER TABS -->
+    <div class="filter-scroll-wrap" id="filter-tabs">
+      <div class="ftab active" data-media-type="banani-button">Toutes</div>
+      <div class="ftab" data-media-type="banani-button">Actives</div>
+      <div class="ftab" data-media-type="banani-button">En pause</div>
+      <div class="ftab" data-media-type="banani-button">Nouvelles</div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- Alert List Section -->
+      <div class="section-label">Mes alertes actives</div>
+      <div class="section-sub">Appuyez sur une alerte pour voir les annonces correspondantes.</div>
+
+      <div class="alert-list" id="alert-list">
+        <!-- Alert 1 — Active with new results -->
+        <div class="alert-item" data-media-type="banani-button">
+          <div class="alert-icon-box" style="background: #eef3ff">
+            <iconify-icon
+              icon="lucide:map-pinned"
+              style="font-size: 20px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="alert-body">
+            <div class="alert-top">
+              <span class="alert-name">Plateau – Abidjan</span>
+              <div class="alert-actions">
+                <span class="badge-new">6 nouvelles</span>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+            <div class="alert-chips-row">
+              <span class="alert-chip blue">
+                <iconify-icon icon="lucide:home" style="font-size: 10px"></iconify-icon> Villa
+              </span>
+              <span class="alert-chip">80M – 200M FCFA</span>
+              <span class="alert-chip">5 km</span>
+              <span class="alert-chip">Quotidienne</span>
+            </div>
+            <div class="alert-bottom">
+              <span class="alert-last">Il y a 2 heures</span>
+              <div class="toggle-wrap">
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+                <span class="toggle-status" style="color: var(--primary)">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alert 2 — Active -->
+        <div class="alert-item" data-media-type="banani-button">
+          <div class="alert-icon-box" style="background: #d1fae5">
+            <iconify-icon
+              icon="lucide:map-pinned"
+              style="font-size: 20px; color: #065f46"
+            ></iconify-icon>
+          </div>
+          <div class="alert-body">
+            <div class="alert-top">
+              <span class="alert-name">Cocody – Abidjan</span>
+              <div class="alert-actions">
+                <span class="badge-active">Active</span>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+            <div class="alert-chips-row">
+              <span class="alert-chip blue">
+                <iconify-icon icon="lucide:building" style="font-size: 10px"></iconify-icon>
+                Appartement
+              </span>
+              <span class="alert-chip">20M – 60M FCFA</span>
+              <span class="alert-chip">3 km</span>
+              <span class="alert-chip">Hebdomadaire</span>
+            </div>
+            <div class="alert-bottom">
+              <span class="alert-last">Hier à 14h30</span>
+              <div class="toggle-wrap">
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+                <span class="toggle-status" style="color: var(--primary)">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alert 3 — Active, new results -->
+        <div class="alert-item" data-media-type="banani-button">
+          <div class="alert-icon-box" style="background: #fef3c7">
+            <iconify-icon
+              icon="lucide:map-pinned"
+              style="font-size: 20px; color: #d97706"
+            ></iconify-icon>
+          </div>
+          <div class="alert-body">
+            <div class="alert-top">
+              <span class="alert-name">Almadies – Dakar</span>
+              <div class="alert-actions">
+                <span class="badge-new">2 nouvelles</span>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+            <div class="alert-chips-row">
+              <span class="alert-chip blue">
+                <iconify-icon icon="lucide:warehouse" style="font-size: 10px"></iconify-icon>
+                Terrain
+              </span>
+              <span class="alert-chip">50M – 150M FCFA</span>
+              <span class="alert-chip">8 km</span>
+              <span class="alert-chip">Immédiate</span>
+            </div>
+            <div class="alert-bottom">
+              <span class="alert-last">Il y a 45 min</span>
+              <div class="toggle-wrap">
+                <div class="toggle on"><div class="toggle-knob"></div></div>
+                <span class="toggle-status" style="color: var(--primary)">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alert 4 — Paused -->
+        <div class="alert-item inactive" data-media-type="banani-button">
+          <div class="alert-icon-box" style="background: var(--muted)">
+            <iconify-icon
+              icon="lucide:map-pinned"
+              style="font-size: 20px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="alert-body">
+            <div class="alert-top">
+              <span class="alert-name">Bè – Lomé</span>
+              <div class="alert-actions">
+                <span class="badge-paused">En pause</span>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+            <div class="alert-chips-row">
+              <span class="alert-chip">Villa</span>
+              <span class="alert-chip">30M – 80M FCFA</span>
+              <span class="alert-chip">4 km</span>
+            </div>
+            <div class="alert-bottom">
+              <span class="alert-last">Suspendue depuis 3 jours</span>
+              <div class="toggle-wrap">
+                <div class="toggle off"><div class="toggle-knob"></div></div>
+                <span class="toggle-status">Inactive</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alert 5 — Paused -->
+        <div class="alert-item inactive" data-media-type="banani-button">
+          <div class="alert-icon-box" style="background: var(--muted)">
+            <iconify-icon
+              icon="lucide:map-pinned"
+              style="font-size: 20px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <div class="alert-body">
+            <div class="alert-top">
+              <span class="alert-name">Akpakpa – Cotonou</span>
+              <div class="alert-actions">
+                <span class="badge-paused">En pause</span>
+                <div class="icon-btn" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:pencil"
+                    style="font-size: 12px; color: var(--secondary-foreground)"
+                  ></iconify-icon>
+                </div>
+              </div>
+            </div>
+            <div class="alert-chips-row">
+              <span class="alert-chip">Appartement</span>
+              <span class="alert-chip">15M – 40M FCFA</span>
+              <span class="alert-chip">2 km</span>
+            </div>
+            <div class="alert-bottom">
+              <span class="alert-last">Suspendue depuis 1 semaine</span>
+              <div class="toggle-wrap">
+                <div class="toggle off"><div class="toggle-knob"></div></div>
+                <span class="toggle-status">Inactive</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATE NEW ALERT SECTION -->
+      <div class="section-label">Créer une nouvelle alerte</div>
+      <div class="section-sub" style="margin-top: -8px">
+        Définissez vos critères pour recevoir des annonces ciblées.
+      </div>
+
+      <div class="create-card" id="create-card">
+        <!-- Zone géographique -->
+        <div class="form-section-label">Zone géographique</div>
+        <div class="map-area">
+          <img
+            data-aspect-ratio="4:3"
+            data-query="aerial satellite map view of West African city Abidjan streets neighborhoods blue accent color #376BFF clean minimal"
+            class="map-img"
+            alt="Carte secteur"
+            src="https://storage.googleapis.com/banani-generated-images/generated-images/424e79b8-90bb-4457-b05b-9c32970d2756.jpg"
+          />
+          <div class="map-overlay">
+            <div class="map-pin">
+              <div class="map-pin-inner">
+                <iconify-icon
+                  icon="lucide:map-pin"
+                  style="font-size: 14px; color: #fff"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field" style="margin-bottom: 12px">
+          <div class="form-label">Ville / Quartier</div>
+          <div class="form-input" data-media-type="banani-button">
+            <div
+              style="
+                width: 14px;
+                height: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+              "
+            >
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 13px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <span class="form-input-value">Plateau, Abidjan</span>
+          </div>
+        </div>
+
+        <div class="radius-row">
+          <span class="radius-label">Rayon</span>
+          <div class="radius-track">
+            <div class="radius-fill"></div>
+            <div class="radius-thumb"></div>
+          </div>
+          <span class="radius-value">5 km</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Critères -->
+        <div class="form-section-label">Critères du bien</div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <div class="form-label">Type de bien</div>
+            <div class="form-input" data-media-type="banani-button">
+              <span class="form-input-value">Villa</span>
+              <div class="form-chevron">
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+          <div class="form-field">
+            <div class="form-label">Transaction</div>
+            <div class="form-input" data-media-type="banani-button">
+              <span class="form-input-value">Vente</span>
+              <div class="form-chevron">
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 12px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <div class="form-label">Prix min (FCFA)</div>
+            <div class="form-input" data-media-type="banani-button">
+              <span class="form-input-value">80 000 000</span>
+            </div>
+          </div>
+          <div class="form-field">
+            <div class="form-label">Prix max (FCFA)</div>
+            <div class="form-input" data-media-type="banani-button">
+              <span class="form-input-value">200 000 000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Mots-clés -->
+        <div class="form-section-label">Mots-clés</div>
+        <div class="keyword-row">
+          <div class="keyword-tag">
+            piscine
+            <iconify-icon
+              icon="lucide:x"
+              style="font-size: 10px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="keyword-tag">
+            gardien
+            <iconify-icon
+              icon="lucide:x"
+              style="font-size: 10px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="keyword-tag">
+            jardin
+            <iconify-icon
+              icon="lucide:x"
+              style="font-size: 10px; color: var(--primary)"
+            ></iconify-icon>
+          </div>
+          <div class="keyword-add" data-media-type="banani-button">
+            <iconify-icon icon="lucide:plus" style="font-size: 11px"></iconify-icon>
+            Ajouter
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Fréquence -->
+        <div class="form-section-label">Fréquence de notification</div>
+        <div class="freq-row">
+          <div class="freq-btn" data-media-type="banani-button">Immédiate</div>
+          <div class="freq-btn active" data-media-type="banani-button">Quotidienne</div>
+          <div class="freq-btn" data-media-type="banani-button">Hebdo</div>
+        </div>
+
+        <!-- Canal -->
+        <div class="form-section-label">Canal de notification</div>
+        <div class="channel-row">
+          <div class="channel-card active" data-media-type="banani-button">
+            <div class="channel-check checked">
+              <iconify-icon icon="lucide:check" style="font-size: 8px; color: #fff"></iconify-icon>
+            </div>
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+            <span class="channel-label">Notif.</span>
+          </div>
+          <div class="channel-card active" data-media-type="banani-button">
+            <div class="channel-check checked">
+              <iconify-icon icon="lucide:check" style="font-size: 8px; color: #fff"></iconify-icon>
+            </div>
+            <iconify-icon
+              icon="lucide:mail"
+              style="font-size: 16px; color: var(--primary)"
+            ></iconify-icon>
+            <span class="channel-label">E-mail</span>
+          </div>
+          <div class="channel-card" data-media-type="banani-button">
+            <div class="channel-check"></div>
+            <iconify-icon
+              icon="lucide:message-circle"
+              style="font-size: 16px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="channel-label">SMS</span>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-outline" data-media-type="banani-button">Annuler</div>
+          <div class="btn-primary" data-media-type="banani-button">
+            <iconify-icon
+              icon="lucide:bell-ring"
+              style="font-size: 14px; color: #fff"
+            ></iconify-icon>
+            Créer l'alerte
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'dashboard-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div
+        class="bnav-item active"
+        data-media-type="banani-button"
+        onclick="location.href = 'annonces-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'messages-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div
+        class="bnav-item"
+        data-media-type="banani-button"
+        onclick="location.href = 'notifications-mobile.html'"
+        style="cursor: pointer"
+      >
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:bell"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Notifs</span>
+      </div>
+    </div>
+  </div>
+</body>

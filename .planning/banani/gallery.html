@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HABITAT-AFRIK — Galerie des maquettes Banani</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system,
+          Segoe UI,
+          Inter,
+          sans-serif;
+        background: #0f1115;
+        color: #e6e8eb;
+      }
+      header {
+        padding: 24px 32px;
+        border-bottom: 1px solid #23262d;
+        position: sticky;
+        top: 0;
+        background: #0f1115;
+        z-index: 10;
+      }
+      header h1 {
+        margin: 0 0 4px;
+        font-size: 20px;
+      }
+      header p {
+        margin: 0;
+        color: #9aa0a8;
+        font-size: 13px;
+      }
+      main {
+        padding: 8px 32px 48px;
+      }
+      section {
+        margin-top: 32px;
+      }
+      h2 {
+        font-size: 15px;
+        color: #9aa0a8;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border-bottom: 1px solid #23262d;
+        padding-bottom: 8px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 16px;
+      }
+      .card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid #23262d;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #16181d;
+        transition: border-color 0.15s;
+      }
+      .card:hover {
+        border-color: #376bff;
+      }
+      .thumb {
+        width: 300px;
+        overflow: hidden;
+        position: relative;
+        background: #fff;
+        pointer-events: none;
+      }
+      .thumb iframe {
+        border: 0;
+        transform-origin: top left;
+      }
+      .label {
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>HABITAT-AFRIK — Galerie des maquettes Banani</h1>
+      <p>
+        54 écrans archivés le 2026-07-23, avant expiration de l'abonnement Banani — reliés en un
+        parcours cliquable (nav, auth, annonces, paramètres). Cliquer une carte ouvre l'écran en
+        taille réelle ; navigue depuis là.
+      </p>
+    </header>
+    <main>
+      <section>
+        <h2>Auth / onboarding</h2>
+        <div class="grid">
+          <a class="card" href="linked/login-screen.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/login-screen.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Login Screen</div>
+          </a>
+          <a class="card" href="linked/login-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/login-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Login Mobile</div>
+          </a>
+          <a class="card" href="linked/register-screen.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/register-screen.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Register Screen</div>
+          </a>
+          <a class="card" href="linked/register-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/register-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Register Mobile</div>
+          </a>
+          <a class="card" href="linked/otp-verification.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/otp-verification.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">OTP Verification</div>
+          </a>
+          <a class="card" href="linked/sms-verification.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/sms-verification.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">SMS Verification</div>
+          </a>
+          <a class="card" href="linked/forgot-password.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/forgot-password.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Forgot Password</div>
+          </a>
+          <a class="card" href="linked/new-password.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/new-password.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">New Password</div>
+          </a>
+          <a class="card" href="linked/new-password-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/new-password-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">New Password Mobile</div>
+          </a>
+          <a class="card" href="linked/password-reset.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/password-reset.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Password Reset</div>
+          </a>
+          <a class="card" href="linked/success-confirmation.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/success-confirmation.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Success Confirmation</div>
+          </a>
+          <a class="card" href="linked/success-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/success-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Success Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Dashboard / agent</h2>
+        <div class="grid">
+          <a class="card" href="linked/dashboard-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/dashboard-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Dashboard Mobile</div>
+          </a>
+          <a class="card" href="linked/agent-dashboard.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/agent-dashboard.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Agent Dashboard</div>
+          </a>
+          <a class="card" href="linked/statistiques-agent.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/statistiques-agent.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Statistiques Agent</div>
+          </a>
+          <a class="card" href="linked/statistiques-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/statistiques-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Statistiques Mobile</div>
+          </a>
+          <a class="card" href="linked/mon-agence.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/mon-agence.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Mon Agence</div>
+          </a>
+          <a class="card" href="linked/mon-agence-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/mon-agence-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Mon Agence Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Annonces (listings)</h2>
+        <div class="grid">
+          <a class="card" href="linked/publier-annonce.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/publier-annonce.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Publier Annonce</div>
+          </a>
+          <a class="card" href="linked/publier-annonce-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/publier-annonce-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Publier Annonce Mobile</div>
+          </a>
+          <a class="card" href="linked/publier-annonce-alt.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/publier-annonce-alt.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Publier Annonce Alt</div>
+          </a>
+          <a
+            class="card"
+            href="linked/publier-annonce-alt-mobile.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/publier-annonce-alt-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Publier Annonce Alt Mobile</div>
+          </a>
+          <a class="card" href="linked/modifier-annonce.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/modifier-annonce.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Modifier Annonce</div>
+          </a>
+          <a class="card" href="linked/modifier-annonce-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/modifier-annonce-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Modifier Annonce Mobile</div>
+          </a>
+          <a
+            class="card"
+            href="linked/modifier-annonce-mobile-x9tyh65n9hgj.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/modifier-annonce-mobile-x9tyh65n9hgj.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Modifier Annonce Mobile</div>
+          </a>
+          <a class="card" href="linked/mes-annonces.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/mes-annonces.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Mes Annonces</div>
+          </a>
+          <a class="card" href="linked/annonces-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/annonces-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Annonces Mobile</div>
+          </a>
+          <a class="card" href="linked/annonce-detail.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/annonce-detail.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Annonce Detail</div>
+          </a>
+          <a class="card" href="linked/annonce-detail-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/annonce-detail-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Annonce Detail Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Messages / contacts / visites</h2>
+        <div class="grid">
+          <a class="card" href="linked/messages-inbox.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/messages-inbox.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Messages Inbox</div>
+          </a>
+          <a class="card" href="linked/messages-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/messages-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Messages Mobile</div>
+          </a>
+          <a class="card" href="linked/contacts-recus.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/contacts-recus.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Contacts Reçus</div>
+          </a>
+          <a class="card" href="linked/contacts-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/contacts-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Contacts Mobile</div>
+          </a>
+          <a class="card" href="linked/visites-programmees.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/visites-programmees.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Visites Programmées</div>
+          </a>
+          <a class="card" href="linked/visites-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/visites-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Visites Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Notifications / alertes</h2>
+        <div class="grid">
+          <a class="card" href="linked/notifications-center.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/notifications-center.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Notifications Center</div>
+          </a>
+          <a class="card" href="linked/notifications-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/notifications-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Notifications Mobile</div>
+          </a>
+          <a class="card" href="linked/alerte-secteur.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/alerte-secteur.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Alerte Secteur</div>
+          </a>
+          <a class="card" href="linked/alerte-secteur-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/alerte-secteur-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Alerte Secteur Mobile</div>
+          </a>
+          <a
+            class="card"
+            href="linked/alerte-secteur-mobile-pjd6hr3sh_pr.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/alerte-secteur-mobile-pjd6hr3sh_pr.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Alerte Secteur Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Paramètres</h2>
+        <div class="grid">
+          <a class="card" href="linked/settings-page.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/settings-page.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Settings Page</div>
+          </a>
+          <a class="card" href="linked/settings-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/settings-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Settings Mobile</div>
+          </a>
+          <a class="card" href="linked/apparence-settings.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/apparence-settings.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Apparence Settings</div>
+          </a>
+          <a class="card" href="linked/apparence-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/apparence-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Apparence Mobile</div>
+          </a>
+          <a class="card" href="linked/langue-region.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/langue-region.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Langue Région</div>
+          </a>
+          <a class="card" href="linked/langue-region-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/langue-region-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Langue Région Mobile</div>
+          </a>
+          <a class="card" href="linked/documents-legaux.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/documents-legaux.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Documents Légaux</div>
+          </a>
+          <a class="card" href="linked/documents-legaux-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/documents-legaux-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Documents Légaux Mobile</div>
+          </a>
+          <a class="card" href="linked/centre-aide.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/centre-aide.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Centre Aide</div>
+          </a>
+          <a class="card" href="linked/centre-aide-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/centre-aide-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Centre Aide Mobile</div>
+          </a>
+        </div>
+      </section>
+      <section>
+        <h2>Facturation</h2>
+        <div class="grid">
+          <a class="card" href="linked/abonnement-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/abonnement-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Abonnement Mobile</div>
+          </a>
+          <a class="card" href="linked/abonnement-paiement.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/abonnement-paiement.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Abonnement Paiement</div>
+          </a>
+          <a class="card" href="linked/jetons-vr.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 188px">
+              <iframe
+                src="linked/jetons-vr.html"
+                style="width: 1440px; height: 900px; transform: scale(0.20833333333333334)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Jetons VR</div>
+          </a>
+          <a class="card" href="linked/jetons-vr-mobile.html" target="_blank" rel="noopener">
+            <div class="thumb" style="height: 649px">
+              <iframe
+                src="linked/jetons-vr-mobile.html"
+                style="width: 390px; height: 844px; transform: scale(0.7692307692307693)"
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div class="label">Jetons VR Mobile</div>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -21,6 +21,10 @@ export default tseslint.config(
       // Bundled reference skill — provider examples + docs, not production
       // code. Same rationale as examples/**: illustrative for forkers.
       '.claude/skills/izisaas-payments-handler/**',
+      // Passenger bootstrap entrypoint (PlanetHoster N0C). Plain CommonJS by
+      // necessity — Passenger runs `node app.js` with no ESM loader. Not
+      // application code; linting it against the workspace ESM rules is noise.
+      'app.js',
     ],
   },
   js.configs.recommended,

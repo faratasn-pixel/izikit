@@ -1,5 +1,11 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // native = the CI build host (ubuntu, debian-openssl-3.0.x).
+  // debian-openssl-1.1.x = PlanetHoster N0C node210-eu: CloudLinux with
+  // OpenSSL 1.1.1k, and Prisma's platform detection classifies it as
+  // "debian-openssl-1.1.x" (not rhel — CloudLinux's /etc/os-release).
+  // rhel-openssl-1.1.x kept as a fallback for other N0C nodes.
+  binaryTargets = ["native", "debian-openssl-1.1.x", "rhel-openssl-1.1.x"]
 }
 
 datasource db {
@@ -9,47 +15,95 @@ datasource db {
 }
 
 model User {
-  id                String    @id @default(cuid())
-  email             String    @unique
+  id                  String    @id @default(cuid())
+  email               String    @unique
+  // Nullable+unique: E.164 phone number, used as the login identifier by the
+  // phone/WhatsApp login screen. Signup for phone-based accounts is a
+  // separate (not-yet-built) flow, so this stays null for existing
+  // email/password and OAuth users.
+  phone               String?   @unique
+  // Real-estate persona from the Register screen's "Vous êtes" selector —
+  // distinct from `role` (app-wide USER/ADMIN/SUPERADMIN). Gates access to
+  // agent-only surfaces (Mes annonces, Publier une annonce, …) elsewhere.
+  accountType         String    @default("TENANT_BUYER") // TENANT_BUYER | OWNER_AGENT
   // Nullable: OAuth-only users (e.g. signed up with Google) never set a
   // password. Email/password signup still requires it; the auth route
   // enforces presence at runtime.
-  passwordHash      String?
-  emailVerifiedAt   DateTime?
-  tokenVersion      Int       @default(0)
-  withdrawalPinHash String? // bcrypt hash of withdrawal PIN; null = no PIN set
+  passwordHash        String?
+  emailVerifiedAt     DateTime?
+  tokenVersion        Int       @default(0)
+  withdrawalPinHash   String? // bcrypt hash of withdrawal PIN; null = no PIN set
   // Optional display name — populated from OAuth profile on first sign-in.
   // Email/password users can fill it later via /api/auth/me PATCH (future).
-  name              String?
+  name                String?
   // Optional avatar URL — populated from OAuth profile on first sign-in.
-  avatarUrl         String?
+  avatarUrl           String?
+  // Optional profile fields, editable via PATCH /api/auth/me (/settings
+  // Profil card). Free-form — no country-list/city-list validation.
+  city                String?
+  country             String?
+  bio                 String?
+  // Regional preferences, editable via PATCH /api/preferences/regional
+  // (/settings "Langue & région" card). Real and persisted, but currently
+  // DORMANT — no i18n library is wired in this starter, so `locale` doesn't
+  // actually translate any UI text yet, and nothing formats dates/numbers
+  // off `dateFormat`/`numberFormat` yet either. Reuses `city`/`country`
+  // above for "Ville par défaut"/"Pays principal" rather than duplicating
+  // them. See .planning/banani/langue-region.md.
+  locale              String    @default("fr") // fr | en | pt | wo | fon | dyu
+  timezone            String    @default("Africa/Cotonou") // free-form IANA-style string, not validated
+  currency            String    @default("XOF_UEMOA") // XOF_UEMOA | XAF_CEMAC | GHS | NGN
+  dateFormat          String    @default("DMY") // DMY | MDY | YMD
+  numberFormat        String    @default("SPACE") // SPACE | COMMA | DOT
+  // Appearance preferences, editable via PATCH /api/preferences/appearance
+  // (/settings "Apparence" card). Real and persisted, but currently
+  // DORMANT — this starter ships zero dark-mode CSS anywhere, so `theme`
+  // doesn't actually restyle the app yet; same for the rest. Wiring a real
+  // theme switch is a cross-cutting design-system change, out of scope for
+  // a single settings tab. See .planning/banani/apparence-settings.md.
+  theme               String    @default("LIGHT") // LIGHT | DARK | SYSTEM
+  accentColor         String    @default("#376BFF") // free-form hex, not restricted to the swatch list
+  fontScale           String    @default("NORMAL") // SMALL | NORMAL | LARGE
+  density             String    @default("NORMAL") // COMPACT | NORMAL | SPACIOUS
+  sidebarStyle        String    @default("EXPANDED") // EXPANDED | COMPACT
+  animationsEnabled   Boolean   @default(true)
+  hoverEffectsEnabled Boolean   @default(true)
+  reduceMotion        Boolean   @default(false)
   // App-wide role. USER is the default; ADMIN unlocks /admin back-office;
   // SUPERADMIN can promote/demote other admins. Bootstrap an initial
   // SUPERADMIN via `pnpm db:make-superadmin <email>` (see scripts).
-  role              String    @default("USER") // USER | ADMIN | SUPERADMIN
+  role                String    @default("USER") // USER | ADMIN | SUPERADMIN
   // Account status. ACTIVE = login + refresh allowed; SUSPENDED = both
   // refused with 403 ACCOUNT_SUSPENDED. Mutated via /api/admin/users/[id]/status
   // (ADMIN can suspend; only SUPERADMIN can restore).
-  status            String    @default("ACTIVE") // ACTIVE | SUSPENDED
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  status              String    @default("ACTIVE") // ACTIVE | SUSPENDED
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   verificationCodes VerificationCode[]
   uploads           FileUpload[]
+  legalDocuments    LegalDocument[]
+  subscription      Subscription?
   notifications     Notification[]
   notifPrefs        NotificationPreferences?
   orders            Order[]
   withdrawals       Withdrawal[]
   oauthAccounts     OAuthAccount[]
   adminActions      AdminAction[]
+  listings          Listing[]
+  propertyRequests  PropertyRequest[]
+  alerts            Alert[]
+  tokenWallet       TokenWallet?
+  tokenTransactions TokenTransaction[]
 
   // Multi-tenancy is opt-in per project: by default no resource is org-scoped.
   // Apps that need it (marketplace, B2B SaaS, classifieds) wire owner relations
   // on their domain models.
-  ownedOrganizations Organization[]      @relation("OrgOwner")
+  ownedOrganizations Organization[]       @relation("OrgOwner")
   memberships        OrganizationMember[] @relation("OrgMembership")
 
   @@index([email])
+  @@index([phone])
   @@index([role])
   @@index([status])
 }
@@ -95,14 +149,32 @@ model AdminAction {
 // used as a stable URL segment.
 // ───────────────────────────────────────────────────────────────────────
 model Organization {
-  id        String   @id @default(cuid())
-  slug      String   @unique
+  id        String               @id @default(cuid())
+  slug      String               @unique
   name      String
   ownerId   String
-  owner     User     @relation("OrgOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  owner     User                 @relation("OrgOwner", fields: [ownerId], references: [id], onDelete: Restrict)
   members   OrganizationMember[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  // "Mon Agence" settings fields (Settings → Mon agence, phase 1: identity +
+  // zones). Logo upload + team invites are phase 2 — no columns for those
+  // yet (YAGNI until that pass).
+  description     String?
+  agencyType      String?
+  address         String?
+  phone           String?
+  email           String?
+  website         String?
+  rccmNumber      String?
+  facebookHandle  String?
+  instagramHandle String?
+  linkedinHandle  String?
+  whatsappNumber  String?
+  // Array of { country: string; cities: string[] } — free-form JSON, no
+  // separate table: this is small, descriptive, never filtered/queried on.
+  zones           Json    @default("[]")
 
   @@index([ownerId])
 }
@@ -177,6 +249,58 @@ model FileUpload {
 
   @@index([userId])
   @@index([createdAt])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Legal documents — /settings "Documents légaux" tab (Banani screen
+// mU9G3YPaywt9). Fixed set of 6 document types an agent must provide to earn
+// the "Agent Vérifié" badge; one row per (userId, type) — re-uploading a type
+// overwrites the previous file and resets status to PENDING. Verification
+// (PENDING → VERIFIED/REJECTED) is an admin back-office action, not built in
+// this pass — see .planning/banani/documents-legaux.md for the phase-2 scope.
+// ───────────────────────────────────────────────────────────────────────
+model LegalDocument {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type            String // ID_CARD | PRO_CARD | RCCM | TAX_CERTIFICATE | MANAGEMENT_MANDATE | LIABILITY_INSURANCE
+  status          String    @default("PENDING") // PENDING | VERIFIED | REJECTED
+  key             String // Cloudinary public_id
+  url             String
+  filename        String
+  mimeType        String
+  sizeBytes       Int
+  expiresAt       DateTime?
+  rejectionReason String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([userId, type])
+  @@index([userId])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Subscriptions — /settings "Abonnement & paiement" tab (Banani screen
+// iB8MbJT5-w3v). Absence of a row means "on the Free plan" — a row is only
+// created on first upgrade (find-or-create, same convention as
+// Organization). Plan changes to a paid plan go through the existing
+// Order/Bictorys one-time-charge pipeline (metadata.kind =
+// "subscription_plan_change"); the webhook activates the plan on payment
+// confirmation. No renewal cron exists yet — currentPeriodEnd is
+// informational only, see .planning/banani/abonnement-paiement.md.
+// ───────────────────────────────────────────────────────────────────────
+model Subscription {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planKey          String    @default("FREE") // FREE | PRO_AGENT | AGENCY_PREMIUM
+  status           String    @default("ACTIVE") // ACTIVE | CANCELED
+  currentPeriodEnd DateTime?
+  canceledAt       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([userId])
 }
 
 // ───────────────────────────────────────────────────────────────────────
@@ -273,21 +397,21 @@ model WebhookLog {
 // at the call site — the schema is currency-agnostic.
 // ───────────────────────────────────────────────────────────────────────
 model Order {
-  id              String    @id @default(cuid())
-  userId          String? // nullable — guest checkout supported
-  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
-  amount          Int // gross amount, smallest unit
-  currency        String    @default("XOF") // ISO 4217
-  status          String    @default("PENDING") // PENDING | PAID | EXPIRED | FAILED | REFUNDED
-  customerEmail   String?
-  customerPhone   String?
-  customerName    String?
-  metadata        Json? // app-specific fields
+  id            String  @id @default(cuid())
+  userId        String? // nullable — guest checkout supported
+  user          User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  amount        Int // gross amount, smallest unit
+  currency      String  @default("XOF") // ISO 4217
+  status        String  @default("PENDING") // PENDING | PAID | EXPIRED | FAILED | REFUNDED
+  customerEmail String?
+  customerPhone String?
+  customerName  String?
+  metadata      Json? // app-specific fields
 
   // Stripe-grade idempotency. Required header on POST /api/orders; replay
   // with same value returns the original Order row instead of double-charging.
   // Nullable so existing rows pre-migration don't break the @unique constraint.
-  idempotencyKey  String?   @unique
+  idempotencyKey String? @unique
 
   // Provider reference
   provider         String // e.g. "bictorys"
@@ -311,12 +435,12 @@ model Order {
 }
 
 model Withdrawal {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  user        User   @relation(fields: [userId], references: [id], onDelete: Restrict)
   amount      Int // requested amount, smallest unit
-  currency    String   @default("XOF")
-  status      String   @default("PENDING") // PENDING | PROCESSING | COMPLETED | FAILED | CANCELLED
+  currency    String @default("XOF")
+  status      String @default("PENDING") // PENDING | PROCESSING | COMPLETED | FAILED | CANCELLED
   destination Json // { method: "WAVE" | "ORANGE_MONEY" | ..., phone: "+221...", accountName?: "..." }
 
   // Provider reference
@@ -331,4 +455,336 @@ model Withdrawal {
   @@index([userId, requestedAt])
   @@index([status, requestedAt])
   @@index([provider, providerPayoutId])
+}
+
+model TokenWallet {
+  userId    String   @id
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  balance   Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model TokenTransaction {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         String // PURCHASE | USAGE | BONUS
+  amount       Int // signed: +tokens (purchase/bonus) or -tokens (usage)
+  balanceAfter Int
+  description  String
+  orderId      String?  @unique // links a PURCHASE row back to its Order
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Real-estate listing ("annonce") — the core domain object for the Agent
+// Dashboard's "Mes annonces" table. Owned by the publishing User (typically
+// accountType=OWNER_AGENT, not enforced at the schema level).
+// ───────────────────────────────────────────────────────────────────────
+model Listing {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title           String
+  city            String
+  country         String
+  propertyType    String // VILLA | APPARTEMENT | PARCELLE | DOMAINE | MAISON | BOUTIQUE | BUREAU | SALLE_FETE | SALLE_CONFERENCE | IMMEUBLE
+  transactionType String @default("VENTE") // VENTE | LOCATION | SEJOUR | AUBERGE
+  price           Int // smallest currency unit (FCFA = no decimals); for RENT/SHORT_RENT this is the per-month price
+  currency        String @default("XOF")
+  status          String @default("PENDING") // DRAFT | PENDING | VERIFIED | SOLD
+
+  // "Publier une annonce" fields (frontend/src/app/listings/new/page.tsx).
+  // All nullable — a DRAFT listing may have none of them filled in yet;
+  // required-for-publish validation happens at the API layer, not here.
+  description String?
+  landmark    String? // free-text point de repère ("non loin de la pharmacie X…")
+  surfaceM2   Int?
+  capacity    Int? // nombre de places (salle de fête / salle de conférence)
+  yearBuilt   Int?
+  standing    String? // BASIC | MID | HIGH
+  roomsTotal  Int?
+  bedrooms    Int?
+  bathrooms   Int?
+  kitchens    Int?
+  amenities   Json    @default("[]") // string[] of amenity keys, e.g. ["POOL","PARKING"]
+
+  photos    ListingPhoto[]
+  documents ListingDocument[]
+  inquiries ListingInquiry[]
+  reports   ListingReport[]
+  views     ListingView[]
+
+  viewCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+// One row per successful public-detail-page view — written best-effort
+// alongside the Listing.viewCount increment in
+// GET /api/public/listings/[id]. Feeds the "Évolution des vues" timeseries
+// and "Sources de trafic" breakdown on the /statistiques dashboard.
+// `source` is a coarse bucket derived from the Referer header — see
+// frontend/src/lib/server/analytics/classify-source.ts.
+model ListingView {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  source String // ORGANIC | SOCIAL | EMAIL | DIRECT | OTHER
+
+  createdAt DateTime @default(now())
+
+  @@index([listingId, createdAt])
+  @@index([createdAt])
+}
+
+// A single inbound lead from the public listing-detail page — either a
+// general contact message or a VR-visit request. Anonymous (no userId):
+// the visitor is never required to be logged in. Not a conversation
+// thread — see frontend/src/app/messages/page.tsx for the (currently
+// fully mocked, separately-scoped) rich inbox this may eventually feed.
+model ListingInquiry {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  type    String // MESSAGE | VR_VISIT
+  name    String
+  phone   String
+  email   String?
+  message String
+
+  status String  @default("EN_ATTENTE") // EN_ATTENTE | REPONDU | VISITE_PLANIFIEE | NON_QUALIFIE
+  notes  String?
+
+  createdAt DateTime @default(now())
+
+  // One inquiry converts into at most one scheduled visit — see Visit below.
+  visit Visit?
+
+  @@index([listingId, createdAt])
+  @@index([status, createdAt])
+}
+
+// A scheduled property visit — always created by converting an existing
+// ListingInquiry (see frontend/src/app/api/visits/route.ts POST). No
+// client/listing fields are duplicated here; they're read through
+// `inquiry.name/phone/email` and `inquiry.listing`. Creating a Visit also
+// flips the source ListingInquiry.status to VISITE_PLANIFIEE.
+model Visit {
+  id        String         @id @default(cuid())
+  inquiryId String         @unique
+  inquiry   ListingInquiry @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+
+  scheduledAt DateTime
+  type        String   @default("PRESENTIEL") // PRESENTIEL | VIRTUELLE
+  status      String   @default("EN_ATTENTE") // CONFIRMEE | EN_ATTENTE | ANNULEE
+  notes       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([scheduledAt])
+  @@index([status])
+}
+
+// A visitor-submitted flag on a listing, queued for admin moderation.
+// Anonymous, matching ListingInquiry — no reporter identity captured.
+model ListingReport {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  reason String // FAKE | SOLD | INCORRECT_INFO | SCAM | OTHER
+  detail String?
+  status String  @default("PENDING") // PENDING | REVIEWED | DISMISSED
+
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Property search request ("demande immobilière") — an agent records a
+// client/prospect's search criteria (frontend/src/app/demandes/new/page.tsx).
+// Unlike Listing, this is a single-shot create (no draft/photo-upload
+// flow), so every field is captured on the one POST that creates the row.
+// ───────────────────────────────────────────────────────────────────────
+model PropertyRequest {
+  id     String  @id @default(cuid())
+  // Nullable: agent-entered requests (POST /api/requests) set this to the
+  // authoring agent. Public anonymous submissions (POST
+  // /api/public/property-requests) leave it null — unowned, pending an
+  // agent to pick up. See frontend/src/app/demande-immobiliere/nouvelle.
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactionType String // VENTE | LOCATION | SEJOUR | AUBERGE
+  propertyType    String // VILLA | APPARTEMENT | PARCELLE | DOMAINE | MAISON | BOUTIQUE | BUREAU | SALLE_FETE | SALLE_CONFERENCE | IMMEUBLE
+  country         String
+  city            String
+  landmark        String? // quartier / zone souhaitée (free text)
+
+  // Only the field(s) relevant to propertyType are populated by the client
+  // (see LAND_/HALL_PROPERTY_TYPES in the form) — all nullable here since
+  // which ones apply depends on propertyType.
+  bedrooms  String? // e.g. "2 chambres"
+  salons    String? // e.g. "1 salon"
+  surfaceM2 Int?
+  capacity  Int? // nombre de places (salle de fête / salle de conférence)
+
+  amenities Json   @default("[]") // string[] of amenity keys, e.g. ["POOL","PARKING"]
+  priority  String @default("Normale") // Urgent | Normale | Basse
+
+  budgetMin Int?
+  budgetMax Int?
+  financing String // Comptant | Crédit | Les deux
+  delay     String // Immédiat | 1–3 mois | 3–6 mois | Flexible
+
+  clientName  String
+  clientPhone String
+  clientEmail String?
+  clientType  String  @default("Particulier") // Particulier | Entreprise
+  source      String?
+  // Free-form notes — on the public wizard this consolidates description,
+  // budget/contact preferences and extra context into one field rather
+  // than growing the schema with one-off columns for a single form.
+  notes       String?
+
+  status String @default("EN_ATTENTE") // EN_ATTENTE | EN_COURS | CLOTUREE
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matchedByAlerts AlertMatch[]
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Sector alert ("alerte secteur") — a saved search that notifies the user
+// when a matching PropertyRequest ("demande immobilière") is created, or
+// vice versa. See frontend/src/lib/server/alerts/matching.ts.
+// Single-shot create, same pattern as PropertyRequest.
+// ───────────────────────────────────────────────────────────────────────
+model Alert {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name            String
+  transactionType String // VENTE | LOCATION | SEJOUR | AUBERGE
+  propertyTypes   Json // string[] of PROPERTY_TYPE_LABEL keys, e.g. ["VILLA","APPARTEMENT"]
+  country         String
+  cities          Json // string[] of city names, e.g. ["Cotonou","Porto-Novo"]
+
+  priceMin Int?
+  priceMax Int?
+
+  frequency     String  @default("QUOTIDIENNE") // QUOTIDIENNE | HEBDOMADAIRE
+  notifWhatsapp Boolean @default(true)
+  notifEmail    Boolean @default(true)
+  notifSms      Boolean @default(false)
+
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matches AlertMatch[]
+
+  @@index([userId, createdAt])
+}
+
+// ───────────────────────────────────────────────────────────────────────
+// Alert ↔ PropertyRequest match. Created by frontend/src/lib/server/alerts/matching.ts
+// when a newly-created Alert or PropertyRequest satisfies the other side's
+// criteria. The @@unique is the anti-duplicate-notification lock — also the
+// data source for the "Correspondances" section on /alertes/[id].
+// ───────────────────────────────────────────────────────────────────────
+model AlertMatch {
+  id                String          @id @default(cuid())
+  alertId           String
+  alert             Alert           @relation(fields: [alertId], references: [id], onDelete: Cascade)
+  propertyRequestId String
+  propertyRequest   PropertyRequest @relation(fields: [propertyRequestId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  viewedAt  DateTime?
+
+  @@unique([alertId, propertyRequestId])
+  @@index([alertId, createdAt])
+}
+
+// One row per uploaded photo for a listing being published. `isPrimary`
+// marks the cover photo shown in "Mes annonces" and search results — at
+// most one per listing, enforced at the application layer (not a DB
+// constraint, mirrors how other "exactly one flag" fields are handled
+// elsewhere in this schema).
+model ListingPhoto {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  key       String // Cloudinary public_id
+  url       String
+  isPrimary Boolean @default(false)
+  position  Int     @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([listingId, position])
+}
+
+// Listing-specific legal documents (titre foncier, mandat de vente, plan
+// cadastral) — distinct from the user-level `LegalDocument` (ID card, pro
+// card, RCCM, …). Same upsert-by-type + PENDING-on-upload convention.
+model ListingDocument {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  type            String // LAND_TITLE | SALE_MANDATE | CADASTRAL_PLAN
+  status          String  @default("PENDING") // PENDING | VERIFIED | REJECTED
+  key             String // Cloudinary public_id
+  url             String
+  filename        String
+  mimeType        String
+  sizeBytes       Int
+  rejectionReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([listingId, type])
+}
+
+// Public "/contact" page submission — anonymous, no listing/user relation.
+// Reviewed by admins via GET/PATCH /api/admin/contact-messages, mirroring
+// the ListingReport moderation-queue pattern (API only, no admin UI).
+model ContactMessage {
+  id        String  @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  country   String?
+
+  subject String // GENERAL | SUPPORT | PARTNERSHIP | AGENT | PRESS | OTHER
+  message String
+
+  status String @default("NEW") // NEW | READ | ARCHIVED
+
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
 }

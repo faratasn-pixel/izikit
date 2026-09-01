@@ -1,0 +1,41 @@
+{
+  "screenId": "PBfDXfdSJmmP",
+  "screenName": "Statistiques Mobile",
+  "genType": "mobile-html-css",
+  "theme": {
+    "name": "Habitat Blue",
+    "colors": {
+      "--background": "#F9FAFB",
+      "--foreground": "#111827",
+      "--border": "#00000014",
+      "--input": "#F9FAFB",
+      "--primary": "#376BFF",
+      "--primary-foreground": "#FFFFFF",
+      "--secondary": "#F3F4F6",
+      "--secondary-foreground": "#374151",
+      "--muted": "#F3F4F6",
+      "--muted-foreground": "#9CA3AF",
+      "--success": "#10B981",
+      "--success-foreground": "#FFFFFF",
+      "--accent": "#376BFF",
+      "--accent-foreground": "#FFFFFF",
+      "--destructive": "#EF4444",
+      "--destructive-foreground": "#FFFFFF",
+      "--warning": "#F59E0B",
+      "--warning-foreground": "#FFFFFF",
+      "--card": "#FFFFFF",
+      "--card-foreground": "#111827",
+      "--sidebar": "#FFFFFF",
+      "--sidebar-foreground": "#374151",
+      "--sidebar-primary": "#376BFF",
+      "--sidebar-primary-foreground": "#FFFFFF"
+    },
+    "radii": {
+      "--radius-sm": "4px",
+      "--radius-md": "6px",
+      "--radius-lg": "8px",
+      "--radius-xl": "12px"
+    },
+    "fontFamily": "inter"
+  }
+}

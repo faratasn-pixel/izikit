@@ -18,7 +18,7 @@
 //   replay body mismatch     → 422 IDEMPOTENCY_KEY_BODY_MISMATCH (CR-02)
 //   replay FAILED/EXPIRED/REFUNDED → 503 PAYMENT_PROVIDER_UNAVAILABLE
 //   Zod failure              → 400 VALIDATION_FAILED
-//   missing BICTORYS_* env   → 503 PAYMENT_PROVIDER_UNCONFIGURED
+//   missing MONEROO_* env    → 503 PAYMENT_PROVIDER_UNCONFIGURED
 //   CircuitOpenError         → 503 PAYMENT_PROVIDER_UNAVAILABLE + Retry-After
 //   provider.charge throw    → 502 PAYMENT_FAILED (breaker has counted it)
 //
@@ -263,7 +263,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         userId: auth.user.sub,
         amount: parsed.data.amount,
         currency: parsed.data.currency,
-        provider: 'bictorys',
+        provider: provider.name,
         status: 'PENDING',
         expiresAt: new Date(Date.now() + ORDER_EXPIRY_MS),
         idempotencyKey: idemKey,

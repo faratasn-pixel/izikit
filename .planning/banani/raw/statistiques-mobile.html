@@ -1,0 +1,1291 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Statistiques Mobile</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      min-height: 812px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 812px;
+      width: 100%;
+      background: var(--background);
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      height: 56px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .topbar-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      flex: 1;
+    }
+    .topbar-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="period-styles">
+    .period-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+    }
+    .period-btn {
+      flex: 1;
+      text-align: center;
+      padding: 7px 6px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .period-btn.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+
+  <style id="scroll-styles">
+    .page-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+    }
+  </style>
+
+  <style id="kpi-styles">
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .kpi-icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .kpi-icon-wrap {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kpi-trend {
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .kpi-trend.up {
+      color: #059669;
+    }
+    .kpi-trend.down {
+      color: #dc2626;
+    }
+    .kpi-value {
+      font-family: 'Sora', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--foreground);
+      line-height: 1;
+    }
+    .kpi-label {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+  </style>
+
+  <style id="chart-card-styles">
+    .chart-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .chart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 14px 16px 12px 16px;
+      border-bottom: 1px solid var(--border);
+      gap: 10px;
+    }
+    .chart-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+    }
+    .chart-subtitle {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .chart-select {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 4px 8px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--secondary-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .chart-body {
+      padding: 16px;
+    }
+  </style>
+
+  <style id="line-chart-styles">
+    .line-chart-wrap {
+      position: relative;
+      height: 130px;
+    }
+    .line-chart-svg {
+      width: 100%;
+      height: 100%;
+    }
+    .x-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+    .x-label {
+      font-size: 10px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="donut-styles">
+    .donut-wrap-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .donut-svg-wrap {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      flex-shrink: 0;
+    }
+    .donut-center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .donut-center-val {
+      font-family: 'Sora', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--foreground);
+      display: block;
+      line-height: 1;
+    }
+    .donut-center-sub {
+      font-size: 9.5px;
+      color: var(--muted-foreground);
+      display: block;
+    }
+    .donut-legend {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .legend-label {
+      font-size: 12px;
+      color: var(--secondary-foreground);
+      flex: 1;
+    }
+    .legend-val {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+  </style>
+
+  <style id="bar-chart-styles">
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 7px;
+      height: 120px;
+    }
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+    }
+    .bar-val {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .bar-wrap {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      height: 80px;
+    }
+    .bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+    }
+    .bar-label {
+      font-size: 9.5px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+  </style>
+
+  <style id="progress-styles">
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+    .progress-item {
+    }
+    .progress-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .progress-label {
+      font-size: 12px;
+      color: var(--secondary-foreground);
+      font-weight: 500;
+    }
+    .progress-val {
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: var(--muted);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+    }
+  </style>
+
+  <style id="rank-styles">
+    .rank-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .rank-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .rank-item:first-child {
+      padding-top: 0;
+    }
+    .rank-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted-foreground);
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .rank-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .rank-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .rank-loc {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      margin-top: 1px;
+    }
+    .rank-stat {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .rank-stat-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .rank-stat-sub {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+    }
+  </style>
+
+  <style id="source-geo-styles">
+    .source-item {
+      margin-bottom: 12px;
+    }
+    .source-item:last-child {
+      margin-bottom: 0;
+    }
+    .source-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .source-icon-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .source-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .source-label {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+    .source-pct {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .geo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .geo-item:last-child {
+      margin-bottom: 0;
+    }
+    .geo-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 120px;
+    }
+    .geo-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+    .geo-bar-wrap {
+      flex: 1;
+    }
+    .geo-pct {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--foreground);
+      min-width: 30px;
+      text-align: right;
+    }
+  </style>
+
+  <style id="section-label-styles">
+    .section-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--foreground);
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <style id="bottom-nav-styles">
+    .bottom-nav {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 58px;
+      flex-shrink: 0;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
+    }
+    .bnav-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .bnav-item.active .bnav-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .bnav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      border: 1.5px solid #fff;
+    }
+    .bnav-icon-wrap {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-back" data-media-type="banani-button">
+        <iconify-icon
+          icon="lucide:chevron-left"
+          style="font-size: 18px; color: var(--secondary-foreground)"
+        ></iconify-icon>
+      </div>
+      <span class="topbar-title">Statistiques</span>
+      <div class="topbar-action" data-media-type="banani-button">
+        <iconify-icon icon="lucide:download" style="font-size: 13px; color: #fff"></iconify-icon>
+        Exporter
+      </div>
+    </div>
+
+    <!-- PERIOD BAR -->
+    <div class="period-bar" id="period-bar">
+      <div class="period-btn" data-media-type="banani-button">7 jours</div>
+      <div class="period-btn active" data-media-type="banani-button">30 jours</div>
+      <div class="period-btn" data-media-type="banani-button">3 mois</div>
+      <div class="period-btn" data-media-type="banani-button">1 an</div>
+    </div>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="page-scroll">
+      <!-- KPI CARDS -->
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon-wrap" style="background: #eef3ff">
+              <iconify-icon
+                icon="lucide:eye"
+                style="font-size: 16px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            <span class="kpi-trend up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon>
+              +18%
+            </span>
+          </div>
+          <div class="kpi-value">2 847</div>
+          <div class="kpi-label">Vues d'annonces</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon-wrap" style="background: #d1fae5">
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 16px; color: #059669"
+              ></iconify-icon>
+            </div>
+            <span class="kpi-trend up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon>
+              +12%
+            </span>
+          </div>
+          <div class="kpi-value">134</div>
+          <div class="kpi-label">Contacts reçus</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon-wrap" style="background: #fef3c7">
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 16px; color: #d97706"
+              ></iconify-icon>
+            </div>
+            <span class="kpi-trend up">
+              <iconify-icon icon="lucide:trending-up" style="font-size: 11px"></iconify-icon>
+              +5%
+            </span>
+          </div>
+          <div class="kpi-value">24</div>
+          <div class="kpi-label">Visites réalisées</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-row">
+            <div class="kpi-icon-wrap" style="background: #f3e8ff">
+              <iconify-icon
+                icon="lucide:badge-percent"
+                style="font-size: 16px; color: #7c3aed"
+              ></iconify-icon>
+            </div>
+            <span class="kpi-trend down">
+              <iconify-icon icon="lucide:trending-down" style="font-size: 11px"></iconify-icon>
+              -2%
+            </span>
+          </div>
+          <div class="kpi-value">4,7%</div>
+          <div class="kpi-label">Taux de conversion</div>
+        </div>
+      </div>
+
+      <!-- LINE CHART — Évolution des vues -->
+      <div class="chart-card" id="line-chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Évolution des vues</div>
+            <div class="chart-subtitle">Vues quotidiennes sur 30 jours</div>
+          </div>
+          <div class="chart-select" data-media-type="banani-button">
+            Ce mois
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 11px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div class="line-chart-wrap">
+            <svg class="line-chart-svg" viewBox="0 0 340 130" preserveAspectRatio="none">
+              <line x1="0" y1="130" x2="340" y2="130" stroke="#E5E7EB" stroke-width="1"></line>
+              <line
+                x1="0"
+                y1="97"
+                x2="340"
+                y2="97"
+                stroke="#E5E7EB"
+                stroke-width="1"
+                stroke-dasharray="4,4"
+              ></line>
+              <line
+                x1="0"
+                y1="64"
+                x2="340"
+                y2="64"
+                stroke="#E5E7EB"
+                stroke-width="1"
+                stroke-dasharray="4,4"
+              ></line>
+              <line
+                x1="0"
+                y1="30"
+                x2="340"
+                y2="30"
+                stroke="#E5E7EB"
+                stroke-width="1"
+                stroke-dasharray="4,4"
+              ></line>
+              <path
+                d="M0,110 C20,108 40,100 60,94 C80,88 100,83 120,76 C140,68 160,74 180,66 C200,58 220,52 240,44 C260,36 280,42 300,32 C315,24 330,18 340,12 L340,130 L0,130 Z"
+                fill="#EEF3FF"
+                opacity="0.7"
+              ></path>
+              <path
+                d="M0,110 C20,108 40,100 60,94 C80,88 100,83 120,76 C140,68 160,74 180,66 C200,58 220,52 240,44 C260,36 280,42 300,32 C315,24 330,18 340,12"
+                fill="none"
+                stroke="#376BFF"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              ></path>
+              <circle cx="170" cy="66" r="4" fill="#376BFF"></circle>
+              <circle cx="340" cy="12" r="4" fill="#376BFF"></circle>
+            </svg>
+          </div>
+          <div class="x-labels">
+            <span class="x-label">1 Jun</span>
+            <span class="x-label">8 Jun</span>
+            <span class="x-label">15 Jun</span>
+            <span class="x-label">22 Jun</span>
+            <span class="x-label">30 Jun</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DONUT — Répartition des annonces -->
+      <div class="chart-card" id="donut-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Répartition des annonces</div>
+            <div class="chart-subtitle">Par statut de publication</div>
+          </div>
+          <div class="chart-select" data-media-type="banani-button">
+            Ce mois
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 11px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div class="donut-wrap-row">
+            <div class="donut-svg-wrap">
+              <svg viewBox="0 0 100 100" width="100" height="100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="38"
+                  fill="none"
+                  stroke="#F3F4F6"
+                  stroke-width="13"
+                ></circle>
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="38"
+                  fill="none"
+                  stroke="#376BFF"
+                  stroke-width="13"
+                  stroke-dasharray="138.8 238.8"
+                  stroke-dashoffset="59.7"
+                  stroke-linecap="round"
+                ></circle>
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="38"
+                  fill="none"
+                  stroke="#F59E0B"
+                  stroke-width="13"
+                  stroke-dasharray="66.9 238.8"
+                  stroke-dashoffset="-79.1"
+                  stroke-linecap="round"
+                ></circle>
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="38"
+                  fill="none"
+                  stroke="#10B981"
+                  stroke-width="13"
+                  stroke-dasharray="33.4 238.8"
+                  stroke-dashoffset="-146"
+                  stroke-linecap="round"
+                ></circle>
+              </svg>
+              <div class="donut-center-text">
+                <span class="donut-center-val">42</span>
+                <span class="donut-center-sub">annonces</span>
+              </div>
+            </div>
+            <div class="donut-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background: #376bff"></div>
+                <span class="legend-label">Vérifié</span>
+                <span class="legend-val">24 — 58%</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background: #f59e0b"></div>
+                <span class="legend-label">En attente</span>
+                <span class="legend-val">12 — 28%</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background: #10b981"></div>
+                <span class="legend-label">Vendu</span>
+                <span class="legend-val">6 — 14%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAR CHART — Contacts reçus -->
+      <div class="chart-card" id="bar-chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Contacts reçus</div>
+            <div class="chart-subtitle">Par jour cette semaine</div>
+          </div>
+          <div class="chart-select" data-media-type="banani-button">
+            Cette semaine
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 11px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div class="bar-chart">
+            <div class="bar-group">
+              <div class="bar-val">8</div>
+              <div class="bar-wrap">
+                <div
+                  class="bar"
+                  style="height: 65%; background: var(--primary); opacity: 0.5"
+                ></div>
+              </div>
+              <div class="bar-label">Lun</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">14</div>
+              <div class="bar-wrap">
+                <div
+                  class="bar"
+                  style="height: 100%; background: var(--primary); opacity: 0.6"
+                ></div>
+              </div>
+              <div class="bar-label">Mar</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">11</div>
+              <div class="bar-wrap">
+                <div
+                  class="bar"
+                  style="height: 79%; background: var(--primary); opacity: 0.7"
+                ></div>
+              </div>
+              <div class="bar-label">Mer</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">19</div>
+              <div class="bar-wrap">
+                <div class="bar" style="height: 100%; background: var(--primary)"></div>
+              </div>
+              <div class="bar-label">Jeu</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">16</div>
+              <div class="bar-wrap">
+                <div
+                  class="bar"
+                  style="height: 84%; background: var(--primary); opacity: 0.8"
+                ></div>
+              </div>
+              <div class="bar-label">Ven</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">7</div>
+              <div class="bar-wrap">
+                <div
+                  class="bar"
+                  style="height: 37%; background: var(--primary); opacity: 0.45"
+                ></div>
+              </div>
+              <div class="bar-label">Sam</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">4</div>
+              <div class="bar-wrap">
+                <div
+                  class="bar"
+                  style="height: 21%; background: var(--primary); opacity: 0.35"
+                ></div>
+              </div>
+              <div class="bar-label">Dim</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUIVI DES DOCUMENTS -->
+      <div class="chart-card" id="documents-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Suivi des documents</div>
+            <div class="chart-subtitle">État des dossiers en cours</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div class="progress-list">
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">Titres fonciers validés</span>
+                <span class="progress-val" style="color: #059669">18 ann.</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 72%; background: #10b981"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">En cours de vérification</span>
+                <span class="progress-val" style="color: #d97706">9 ann.</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 36%; background: #f59e0b"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">Documents manquants</span>
+                <span class="progress-val" style="color: #dc2626">5 ann.</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 20%; background: #ef4444"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">Mandats signés</span>
+                <span class="progress-val" style="color: var(--primary)">14 ann.</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 56%; background: var(--primary)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOP ANNONCES -->
+      <div class="chart-card" id="top-annonces-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Top annonces</div>
+            <div class="chart-subtitle">Par nombre de contacts reçus</div>
+          </div>
+          <div class="chart-select" data-media-type="banani-button">
+            Ce mois
+            <iconify-icon
+              icon="lucide:chevron-down"
+              style="font-size: 11px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+        </div>
+        <div class="chart-body" style="padding-top: 8px; padding-bottom: 8px">
+          <div class="rank-list">
+            <div class="rank-item">
+              <div class="rank-num">🥇</div>
+              <div class="rank-info">
+                <div class="rank-name">Villa Tokoin, Lomé</div>
+                <div class="rank-loc">Résidentiel · 85 M FCFA</div>
+              </div>
+              <div class="rank-stat">
+                <div class="rank-stat-val">34</div>
+                <div class="rank-stat-sub">contacts</div>
+              </div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num">🥈</div>
+              <div class="rank-info">
+                <div class="rank-name">App. Plateau, Dakar</div>
+                <div class="rank-loc">Appartement · 45 M FCFA</div>
+              </div>
+              <div class="rank-stat">
+                <div class="rank-stat-val">27</div>
+                <div class="rank-stat-sub">contacts</div>
+              </div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num">🥉</div>
+              <div class="rank-info">
+                <div class="rank-name">Bureau Cocody, Abidjan</div>
+                <div class="rank-loc">Commercial · 120 M FCFA</div>
+              </div>
+              <div class="rank-stat">
+                <div class="rank-stat-val">21</div>
+                <div class="rank-stat-sub">contacts</div>
+              </div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num" style="font-size: 12px; color: var(--muted-foreground)">4</div>
+              <div class="rank-info">
+                <div class="rank-name">Terrain Cadjèhoun, Cotonou</div>
+                <div class="rank-loc">Terrain · 28 M FCFA</div>
+              </div>
+              <div class="rank-stat">
+                <div class="rank-stat-val">18</div>
+                <div class="rank-stat-sub">contacts</div>
+              </div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num" style="font-size: 12px; color: var(--muted-foreground)">5</div>
+              <div class="rank-info">
+                <div class="rank-name">Maison Adidogomé, Lomé</div>
+                <div class="rank-loc">Résidentiel · 62 M FCFA</div>
+              </div>
+              <div class="rank-stat">
+                <div class="rank-stat-val">15</div>
+                <div class="rank-stat-sub">contacts</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOURCES DE TRAFIC -->
+      <div class="chart-card" id="sources-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Sources de trafic</div>
+            <div class="chart-subtitle">D'où viennent vos visiteurs</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div class="source-item">
+            <div class="source-row">
+              <div class="source-icon-label">
+                <div class="source-icon" style="background: #eef3ff">
+                  <iconify-icon
+                    icon="lucide:search"
+                    style="font-size: 12px; color: var(--primary)"
+                  ></iconify-icon>
+                </div>
+                <span class="source-label">Recherche organique</span>
+              </div>
+              <span class="source-pct">42%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: 42%; background: var(--primary)"></div>
+            </div>
+          </div>
+          <div class="source-item">
+            <div class="source-row">
+              <div class="source-icon-label">
+                <div class="source-icon" style="background: #f0fdf4">
+                  <iconify-icon
+                    icon="lucide:share-2"
+                    style="font-size: 12px; color: #059669"
+                  ></iconify-icon>
+                </div>
+                <span class="source-label">Réseaux sociaux</span>
+              </div>
+              <span class="source-pct">31%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: 31%; background: #10b981"></div>
+            </div>
+          </div>
+          <div class="source-item">
+            <div class="source-row">
+              <div class="source-icon-label">
+                <div class="source-icon" style="background: #fef3c7">
+                  <iconify-icon
+                    icon="lucide:mail"
+                    style="font-size: 12px; color: #d97706"
+                  ></iconify-icon>
+                </div>
+                <span class="source-label">Email / Newsletters</span>
+              </div>
+              <span class="source-pct">17%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: 17%; background: #f59e0b"></div>
+            </div>
+          </div>
+          <div class="source-item">
+            <div class="source-row">
+              <div class="source-icon-label">
+                <div class="source-icon" style="background: #f3e8ff">
+                  <iconify-icon
+                    icon="lucide:link"
+                    style="font-size: 12px; color: #7c3aed"
+                  ></iconify-icon>
+                </div>
+                <span class="source-label">Liens directs</span>
+              </div>
+              <span class="source-pct">10%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: 10%; background: #7c3aed"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RÉPARTITION GÉOGRAPHIQUE -->
+      <div class="chart-card" id="geo-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Répartition géographique</div>
+            <div class="chart-subtitle">Contacts par ville</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div class="geo-item">
+            <div class="geo-label">
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 12px; color: var(--primary)"
+              ></iconify-icon>
+              <span class="geo-name">Lomé, Togo</span>
+            </div>
+            <div class="geo-bar-wrap">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 68%; background: var(--primary)"></div>
+              </div>
+            </div>
+            <span class="geo-pct">68%</span>
+          </div>
+          <div class="geo-item">
+            <div class="geo-label">
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 12px; color: #10b981"
+              ></iconify-icon>
+              <span class="geo-name">Dakar, Sénégal</span>
+            </div>
+            <div class="geo-bar-wrap">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 52%; background: #10b981"></div>
+              </div>
+            </div>
+            <span class="geo-pct">52%</span>
+          </div>
+          <div class="geo-item">
+            <div class="geo-label">
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 12px; color: #f59e0b"
+              ></iconify-icon>
+              <span class="geo-name">Abidjan, C.I.</span>
+            </div>
+            <div class="geo-bar-wrap">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 44%; background: #f59e0b"></div>
+              </div>
+            </div>
+            <span class="geo-pct">44%</span>
+          </div>
+          <div class="geo-item">
+            <div class="geo-label">
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 12px; color: #ef4444"
+              ></iconify-icon>
+              <span class="geo-name">Cotonou, Bénin</span>
+            </div>
+            <div class="geo-bar-wrap">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 35%; background: #ef4444"></div>
+              </div>
+            </div>
+            <span class="geo-pct">35%</span>
+          </div>
+          <div class="geo-item">
+            <div class="geo-label">
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 12px; color: #7c3aed"
+              ></iconify-icon>
+              <span class="geo-name">Accra, Ghana</span>
+            </div>
+            <div class="geo-bar-wrap">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 22%; background: #7c3aed"></div>
+              </div>
+            </div>
+            <span class="geo-pct">22%</span>
+          </div>
+          <div class="geo-item">
+            <div class="geo-label">
+              <iconify-icon
+                icon="lucide:map-pin"
+                style="font-size: 12px; color: var(--muted-foreground)"
+              ></iconify-icon>
+              <span class="geo-name">Autres villes</span>
+            </div>
+            <div class="geo-bar-wrap">
+              <div class="progress-bar-bg">
+                <div
+                  class="progress-bar-fill"
+                  style="width: 15%; background: var(--muted-foreground)"
+                ></div>
+              </div>
+            </div>
+            <span class="geo-pct">15%</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav">
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:layout-dashboard"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Dashboard</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:building-2"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Annonces</span>
+      </div>
+      <div class="bnav-item" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:message-circle"
+            style="font-size: 22px; color: var(--muted-foreground)"
+          ></iconify-icon>
+          <span class="bnav-badge">5</span>
+        </div>
+        <span class="bnav-label">Messages</span>
+      </div>
+      <div class="bnav-item active" data-media-type="banani-button">
+        <div class="bnav-icon-wrap">
+          <iconify-icon
+            icon="lucide:bar-chart-2"
+            style="font-size: 22px; color: var(--primary)"
+          ></iconify-icon>
+        </div>
+        <span class="bnav-label">Statistiques</span>
+      </div>
+    </div>
+  </div>
+</body>

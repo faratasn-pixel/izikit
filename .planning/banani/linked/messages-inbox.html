@@ -1,0 +1,1599 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>HABITAT-AFRIK — Messages</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+
+  <style id="reset-base">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style id="tokens">
+    :root {
+      --background: #f4f6fb;
+      --foreground: #111827;
+      --border: #e5e7eb;
+      --input: #f9fafb;
+      --primary: #376bff;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #374151;
+      --muted: #f3f4f6;
+      --muted-foreground: #9ca3af;
+      --accent: #376bff;
+      --accent-foreground: #ffffff;
+      --card: #ffffff;
+      --card-foreground: #111827;
+      --sidebar: #ffffff;
+      --sidebar-foreground: #374151;
+      --sidebar-primary: #eef3ff;
+      --sidebar-primary-foreground: #376bff;
+      --success: #d1fae5;
+      --success-foreground: #065f46;
+      --warning: #fef3c7;
+      --warning-foreground: #92400e;
+      --destructive: #fee2e2;
+      --destructive-foreground: #991b1b;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --font-family-body: 'Inter', sans-serif;
+    }
+  </style>
+
+  <style id="layout">
+    body {
+      font-family: var(--font-family-body);
+      background: var(--background);
+      display: flex;
+      min-height: 812px;
+    }
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 812px;
+    }
+  </style>
+
+  <style id="sidebar-styles">
+    .sidebar {
+      width: 248px;
+      min-width: 248px;
+      background: var(--sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      border-right: 1px solid var(--border);
+      min-height: 812px;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+      letter-spacing: 0.3px;
+    }
+    .sidebar-search {
+      margin: 14px 14px 8px 14px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .sidebar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .nav-group {
+      margin-bottom: 4px;
+    }
+    .nav-group-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted-foreground);
+      padding: 10px 20px 4px 20px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      margin: 1px 8px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--sidebar-foreground);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      position: relative;
+    }
+    .nav-item.active {
+      background: var(--sidebar-primary);
+      color: var(--sidebar-primary-foreground);
+    }
+    .nav-item.active iconify-icon {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+    .nav-item .nav-badge {
+      margin-left: auto;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-bottom {
+      padding: 12px 8px 18px 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav-item.danger {
+      color: #dc2626;
+    }
+  </style>
+
+  <style id="topbar-styles">
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      height: 74px;
+      gap: 16px;
+    }
+    .topbar-search {
+      flex: 1;
+      max-width: 380px;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .topbar-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .notif-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      background: var(--input);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #eef3ff;
+      color: var(--primary);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 8px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <style id="messages-layout">
+    .messages-shell {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: var(--background);
+    }
+
+    /* LEFT PANEL — conversation list */
+    .conv-panel {
+      width: 320px;
+      min-width: 320px;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .conv-panel-header {
+      padding: 20px 20px 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .conv-panel-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .conv-panel-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--foreground);
+    }
+    .conv-count-badge {
+      background: var(--primary);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+    }
+    .conv-search {
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+    }
+    .conv-search-text {
+      font-size: 13px;
+      color: var(--muted-foreground);
+    }
+
+    .conv-filters {
+      display: flex;
+      gap: 6px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .conv-filter-tab {
+      padding: 5px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .conv-filter-tab.active {
+      background: var(--sidebar-primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .conv-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .conv-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      position: relative;
+    }
+    .conv-item.active {
+      background: #eef3ff;
+      border-left-color: var(--primary);
+    }
+    .conv-item.unread .conv-name {
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .conv-item.unread .conv-preview {
+      color: var(--secondary-foreground);
+      font-weight: 500;
+    }
+    .conv-avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .conv-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .conv-online-dot {
+      position: absolute;
+      bottom: 1px;
+      right: 1px;
+      width: 10px;
+      height: 10px;
+      background: #10b981;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .conv-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .conv-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+    .conv-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .conv-time {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    .conv-preview {
+      font-size: 12.5px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+    .conv-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .conv-property-tag {
+      font-size: 10.5px;
+      color: var(--primary);
+      background: #eef3ff;
+      border-radius: var(--radius-sm);
+      padding: 2px 7px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+    .conv-unread-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* RIGHT PANEL — chat view */
+    .chat-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--background);
+      overflow: hidden;
+    }
+    .chat-header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .chat-header-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .chat-header-info {
+      flex: 1;
+    }
+    .chat-header-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--foreground);
+    }
+    .chat-header-sub {
+      font-size: 12px;
+      color: var(--muted-foreground);
+      margin-top: 2px;
+    }
+    .chat-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chat-action-btn {
+      width: 34px;
+      height: 34px;
+      background: var(--muted);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .btn-primary-sm {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Property context bar */
+    .property-context {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .property-context-img {
+      width: 48px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+    }
+    .property-context-info {
+      flex: 1;
+    }
+    .property-context-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .property-context-sub {
+      font-size: 11.5px;
+      color: var(--muted-foreground);
+    }
+    .property-context-price {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    /* Messages scroll area */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .chat-date-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 4px 0;
+    }
+    .chat-date-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .chat-date-label {
+      font-size: 11px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+
+    .msg-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .msg-row.outgoing {
+      flex-direction: row-reverse;
+    }
+    .msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .msg-bubble {
+      max-width: 60%;
+      padding: 10px 14px;
+      border-radius: var(--radius-xl);
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--foreground);
+      background: var(--card);
+    }
+    .msg-row.outgoing .msg-bubble {
+      background: var(--primary);
+      color: #fff;
+      border-bottom-right-radius: var(--radius-sm);
+    }
+    .msg-row.incoming .msg-bubble {
+      border-bottom-left-radius: var(--radius-sm);
+    }
+    .msg-time {
+      font-size: 10.5px;
+      color: var(--muted-foreground);
+      white-space: nowrap;
+      margin-bottom: 2px;
+    }
+    .msg-row.outgoing .msg-time {
+      text-align: right;
+    }
+    .msg-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .msg-row.outgoing .msg-col {
+      align-items: flex-end;
+    }
+
+    /* Visit request card inside chat */
+    .visit-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 14px 16px;
+      max-width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .visit-card-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .visit-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .visit-card-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      color: var(--secondary-foreground);
+    }
+    .visit-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .visit-btn-confirm {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 0;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .visit-btn-decline {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 0;
+      background: var(--muted);
+      color: var(--secondary-foreground);
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+      background: var(--card);
+      padding: 10px 14px;
+      border-radius: var(--radius-xl);
+      border-bottom-left-radius: var(--radius-sm);
+    }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--muted-foreground);
+      border-radius: 50%;
+    }
+
+    /* Chat input area */
+    .chat-input-area {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .chat-input-box {
+      flex: 1;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 44px;
+    }
+    .chat-input-fake {
+      flex: 1;
+      font-size: 13.5px;
+      color: var(--muted-foreground);
+    }
+    .chat-input-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .chat-send-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--primary);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <a href="agent-dashboard.html" class="sidebar-logo" data-media-type="banani-button">
+        <div class="logo-mark">
+          <iconify-icon icon="lucide:home" style="font-size: 18px; color: #fff"></iconify-icon>
+        </div>
+        <span class="logo-text">HABITAT-AFRIK</span>
+      </a>
+
+      <div class="sidebar-search" data-media-type="banani-button">
+        <div
+          style="
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <iconify-icon
+            icon="lucide:search"
+            style="font-size: 15px; color: var(--muted-foreground)"
+          ></iconify-icon>
+        </div>
+        <span class="sidebar-search-text">Recherche globale…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <p class="nav-group-label">Navigation</p>
+          <a href="agent-dashboard.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:layout-dashboard"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Tableau de bord
+          </a>
+          <a href="messages-inbox.html" class="nav-item active" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:message-circle"
+                style="font-size: 17px; color: var(--primary)"
+              ></iconify-icon>
+            </div>
+            Messages
+            <span class="nav-badge">5</span>
+          </a>
+          <a href="settings-page.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:settings"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Paramètres
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Gestion</p>
+          <a href="mes-annonces.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:building-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Mes annonces
+          </a>
+          <a href="contacts-recus.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:users"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Contacts reçus
+          </a>
+          <a href="visites-programmees.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:calendar-check"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Visites programmées
+          </a>
+          <a href="jetons-vr.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:coins"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Jetons &amp; visites VR
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <p class="nav-group-label">Outils</p>
+          <a href="statistiques-agent.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:bar-chart-2"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Statistiques
+          </a>
+          <a href="centre-aide.html" class="nav-item" data-media-type="banani-button">
+            <div
+              style="
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <iconify-icon
+                icon="lucide:life-buoy"
+                style="font-size: 17px; color: var(--sidebar-foreground)"
+              ></iconify-icon>
+            </div>
+            Centre d'aide
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="login-screen.html" class="nav-item danger" data-media-type="banani-button">
+          <div
+            style="
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:log-out"
+              style="font-size: 17px; color: #dc2626"
+            ></iconify-icon>
+          </div>
+          Déconnexion
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div class="main-area">
+      <!-- TOPBAR -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-search" data-media-type="banani-button">
+          <div
+            style="
+              width: 16px;
+              height: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <iconify-icon
+              icon="lucide:search"
+              style="font-size: 15px; color: var(--muted-foreground)"
+            ></iconify-icon>
+          </div>
+          <span class="topbar-search-text">Rechercher une annonce, un contact…</span>
+        </div>
+        <div class="topbar-right">
+          <div
+            class="notif-btn"
+            data-media-type="banani-button"
+            onclick="location.href = 'notifications-center.html'"
+            style="cursor: pointer"
+          >
+            <iconify-icon
+              icon="lucide:bell"
+              style="font-size: 18px; color: var(--secondary-foreground)"
+            ></iconify-icon>
+            <span class="notif-badge"></span>
+          </div>
+          <div
+            class="user-pill"
+            data-media-type="banani-button"
+            onclick="location.href = 'settings-page.html'"
+            style="cursor: pointer"
+          >
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+              alt="Kofi Mensah"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span class="user-name">Kofi Mensah</span>
+              <span class="role-badge">Agent</span>
+            </div>
+            <div
+              style="
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 2px;
+              "
+            >
+              <iconify-icon
+                icon="lucide:chevron-down"
+                style="font-size: 14px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES SHELL -->
+      <div class="messages-shell" id="messages-shell">
+        <!-- LEFT: Conversation list -->
+        <div class="conv-panel" id="conv-panel">
+          <div class="conv-panel-header">
+            <div class="conv-panel-title-row">
+              <span class="conv-panel-title">Messages</span>
+              <span class="conv-count-badge">5 non lus</span>
+            </div>
+            <div class="conv-search" data-media-type="banani-button">
+              <div
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <iconify-icon
+                  icon="lucide:search"
+                  style="font-size: 14px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+              <span class="conv-search-text">Rechercher une conversation…</span>
+            </div>
+          </div>
+
+          <div class="conv-filters">
+            <div class="conv-filter-tab active" data-media-type="banani-button">Tous</div>
+            <div class="conv-filter-tab" data-media-type="banani-button">Non lus</div>
+            <div class="conv-filter-tab" data-media-type="banani-button">Visites</div>
+            <div class="conv-filter-tab" data-media-type="banani-button">Archivés</div>
+          </div>
+
+          <div class="conv-list" id="conv-list">
+            <!-- Conversation 1 — ACTIVE & UNREAD -->
+            <div class="conv-item active unread" data-media-type="banani-button">
+              <div class="conv-avatar-wrap">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                  alt="Aïcha Diallo"
+                  class="conv-avatar"
+                />
+                <div class="conv-online-dot"></div>
+              </div>
+              <div class="conv-body">
+                <div class="conv-top-row">
+                  <span class="conv-name">Aïcha Diallo</span>
+                  <span class="conv-time">10:42</span>
+                </div>
+                <div class="conv-preview">
+                  Bonjour, est-ce que la villa est toujours disponible ?
+                </div>
+                <div class="conv-meta-row">
+                  <span class="conv-property-tag">Villa Cocody — Abidjan</span>
+                  <span class="conv-unread-dot"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversation 2 — UNREAD -->
+            <div class="conv-item unread" data-media-type="banani-button">
+              <div class="conv-avatar-wrap">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FWest%20African%2F5"
+                  alt="Moussa Koné"
+                  class="conv-avatar"
+                />
+              </div>
+              <div class="conv-body">
+                <div class="conv-top-row">
+                  <span class="conv-name">Moussa Koné</span>
+                  <span class="conv-time">09:15</span>
+                </div>
+                <div class="conv-preview">Je voudrais planifier une visite ce samedi.</div>
+                <div class="conv-meta-row">
+                  <span class="conv-property-tag">Duplex Tokoin — Lomé</span>
+                  <span class="conv-unread-dot"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversation 3 — UNREAD -->
+            <div class="conv-item unread" data-media-type="banani-button">
+              <div class="conv-avatar-wrap">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FAfrican%2F7"
+                  alt="Fatou Sow"
+                  class="conv-avatar"
+                />
+              </div>
+              <div class="conv-body">
+                <div class="conv-top-row">
+                  <span class="conv-name">Fatou Sow</span>
+                  <span class="conv-time">Hier</span>
+                </div>
+                <div class="conv-preview">Merci pour les documents. J'ai une question.</div>
+                <div class="conv-meta-row">
+                  <span class="conv-property-tag">Appt T3 Plateau — Dakar</span>
+                  <span class="conv-unread-dot"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversation 4 — UNREAD -->
+            <div class="conv-item unread" data-media-type="banani-button">
+              <div class="conv-avatar-wrap">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F50-65%2FAfrican%2F1"
+                  alt="Émile Agossou"
+                  class="conv-avatar"
+                />
+              </div>
+              <div class="conv-body">
+                <div class="conv-top-row">
+                  <span class="conv-name">Émile Agossou</span>
+                  <span class="conv-time">Hier</span>
+                </div>
+                <div class="conv-preview">Le prix est-il négociable pour ce terrain ?</div>
+                <div class="conv-meta-row">
+                  <span class="conv-property-tag">Terrain Z.I. — Cotonou</span>
+                  <span class="conv-unread-dot"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversation 5 — UNREAD -->
+            <div class="conv-item unread" data-media-type="banani-button">
+              <div class="conv-avatar-wrap">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F18-25%2FAfrican%2F4"
+                  alt="Kwame Asante"
+                  class="conv-avatar"
+                />
+              </div>
+              <div class="conv-body">
+                <div class="conv-top-row">
+                  <span class="conv-name">Kwame Asante</span>
+                  <span class="conv-time">Lun</span>
+                </div>
+                <div class="conv-preview">Quand puis-je obtenir le titre foncier ?</div>
+                <div class="conv-meta-row">
+                  <span class="conv-property-tag">Bureau Affaires — Cotonou</span>
+                  <span class="conv-unread-dot"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversation 6 — READ -->
+            <div class="conv-item" data-media-type="banani-button">
+              <div class="conv-avatar-wrap">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F3"
+                  alt="Amina Touré"
+                  class="conv-avatar"
+                />
+              </div>
+              <div class="conv-body">
+                <div class="conv-top-row">
+                  <span class="conv-name">Amina Touré</span>
+                  <span class="conv-time">Dim</span>
+                </div>
+                <div class="conv-preview">D'accord, à bientôt pour la visite.</div>
+                <div class="conv-meta-row">
+                  <span class="conv-property-tag">Villa Cocody — Abidjan</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversation 7 — READ -->
+            <div class="conv-item" data-media-type="banani-button">
+              <div class="conv-avatar-wrap">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F6"
+                  alt="Sékou Camara"
+                  class="conv-avatar"
+                />
+              </div>
+              <div class="conv-body">
+                <div class="conv-top-row">
+                  <span class="conv-name">Sékou Camara</span>
+                  <span class="conv-time">Sam</span>
+                </div>
+                <div class="conv-preview">Merci beaucoup pour votre aide.</div>
+                <div class="conv-meta-row">
+                  <span class="conv-property-tag">Appt T3 Plateau — Dakar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Chat view -->
+        <div class="chat-panel" id="chat-panel">
+          <!-- Chat header -->
+          <div class="chat-header">
+            <img
+              src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+              alt="Aïcha Diallo"
+              class="chat-header-avatar"
+            />
+            <div class="chat-header-info">
+              <div class="chat-header-name">Aïcha Diallo</div>
+              <div class="chat-header-sub">
+                <span
+                  style="
+                    display: inline-block;
+                    width: 7px;
+                    height: 7px;
+                    background: #10b981;
+                    border-radius: 50%;
+                    margin-right: 5px;
+                    vertical-align: middle;
+                  "
+                ></span>
+                En ligne · Intéressée par la Villa Cocody
+              </div>
+            </div>
+            <div class="chat-header-actions">
+              <div class="chat-action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:phone"
+                  style="font-size: 16px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="chat-action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:calendar-plus"
+                  style="font-size: 16px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="chat-action-btn" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:more-horizontal"
+                  style="font-size: 16px; color: var(--secondary-foreground)"
+                ></iconify-icon>
+              </div>
+              <div class="btn-primary-sm" data-media-type="banani-button">
+                <iconify-icon icon="lucide:eye" style="font-size: 13px; color: #fff"></iconify-icon>
+                Voir l'annonce
+              </div>
+            </div>
+          </div>
+
+          <!-- Property context -->
+          <div class="property-context">
+            <img
+              data-query="modern west african villa with pool, Cocody Abidjan, luxury real estate photography, blue accent tones"
+              data-aspect-ratio="4:3"
+              alt="Villa Cocody"
+              class="property-context-img"
+              src="https://storage.googleapis.com/banani-generated-images/generated-images/bf63d4b0-aaa6-46d3-b729-f5e6b912cdab.jpg"
+            />
+            <div class="property-context-info">
+              <div class="property-context-title">Villa moderne avec piscine, Cocody</div>
+              <div class="property-context-sub">Abidjan, Côte d'Ivoire · #AN-0041</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px">
+              <span
+                style="
+                  display: inline-block;
+                  background: var(--success);
+                  color: var(--success-foreground);
+                  border-radius: 99px;
+                  font-size: 10.5px;
+                  font-weight: 600;
+                  padding: 2px 9px;
+                "
+                >✓ Vérifié</span
+              >
+              <span class="property-context-price">185 000 000 FCFA</span>
+            </div>
+          </div>
+
+          <!-- Messages -->
+          <div class="chat-messages" id="chat-messages">
+            <div class="chat-date-divider">
+              <div class="chat-date-line"></div>
+              <span class="chat-date-label">Hier, 14 juillet 2025</span>
+              <div class="chat-date-line"></div>
+            </div>
+
+            <!-- Incoming -->
+            <div class="msg-row incoming">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                alt="Aïcha"
+                class="msg-avatar"
+              />
+              <div class="msg-col">
+                <div class="msg-bubble">
+                  Bonjour Monsieur Mensah ! J'ai vu votre annonce pour la villa à Cocody. Elle
+                  m'intéresse vraiment. Est-ce qu'elle est toujours disponible ?
+                </div>
+                <span class="msg-time">14:22</span>
+              </div>
+            </div>
+
+            <!-- Outgoing -->
+            <div class="msg-row outgoing">
+              <div class="msg-col">
+                <div class="msg-bubble">
+                  Bonjour Madame Diallo ! Oui, la villa est toujours disponible. C'est une propriété
+                  de 380 m² avec 5 chambres et une piscine dans un quartier très calme.
+                </div>
+                <span class="msg-time">14:35</span>
+              </div>
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                alt="Kofi"
+                class="msg-avatar"
+              />
+            </div>
+
+            <!-- Incoming -->
+            <div class="msg-row incoming">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                alt="Aïcha"
+                class="msg-avatar"
+              />
+              <div class="msg-col">
+                <div class="msg-bubble">
+                  Parfait ! Est-ce que le titre foncier est disponible ? Et y a-t-il une possibilité
+                  de négocier sur le prix ?
+                </div>
+                <span class="msg-time">14:48</span>
+              </div>
+            </div>
+
+            <!-- Outgoing -->
+            <div class="msg-row outgoing">
+              <div class="msg-col">
+                <div class="msg-bubble">
+                  Le titre foncier est entièrement validé — vous pouvez voir le statut "Vérifié" sur
+                  l'annonce. Concernant le prix, il y a une légère marge possible. Je vous propose
+                  de visiter d'abord ?
+                </div>
+                <span class="msg-time">15:02</span>
+              </div>
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                alt="Kofi"
+                class="msg-avatar"
+              />
+            </div>
+
+            <!-- Visit request card -->
+            <div class="msg-row outgoing">
+              <div style="max-width: 60%">
+                <div
+                  class="visit-card"
+                  id="visit-card-request"
+                  data-media-type="banani-button"
+                  style="
+                    width: 320px;
+                    max-width: 320px;
+                    padding: 16px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 14px;
+                    background: var(--card);
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius-xl);
+                    box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+                  "
+                >
+                  <div
+                    class="visit-card-title"
+                    style="
+                      display: flex;
+                      align-items: flex-start;
+                      gap: 8px;
+                      font-family: 'Sora', sans-serif;
+                      font-weight: 600;
+                      font-size: 13px;
+                      color: var(--foreground);
+                      line-height: 1.35;
+                    "
+                  >
+                    <iconify-icon
+                      icon="lucide:calendar-check"
+                      style="font-size: 15px; color: var(--primary); margin-top: 1px"
+                    ></iconify-icon>
+                    <span>Demande de visite</span>
+                  </div>
+                  <div
+                    class="visit-card-info"
+                    style="display: flex; flex-direction: column; gap: 8px"
+                  >
+                    <div
+                      class="visit-card-row"
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 8px;
+                        font-size: 12.5px;
+                        color: var(--secondary-foreground);
+                        line-height: 1.45;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:calendar"
+                        style="font-size: 13px; color: var(--muted-foreground); margin-top: 2px"
+                      ></iconify-icon>
+                      <span>Samedi 19 juillet 2025</span>
+                    </div>
+                    <div
+                      class="visit-card-row"
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 8px;
+                        font-size: 12.5px;
+                        color: var(--secondary-foreground);
+                        line-height: 1.45;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:clock"
+                        style="font-size: 13px; color: var(--muted-foreground); margin-top: 2px"
+                      ></iconify-icon>
+                      <span>10h00 – 11h30</span>
+                    </div>
+                    <div
+                      class="visit-card-row"
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 8px;
+                        font-size: 12.5px;
+                        color: var(--secondary-foreground);
+                        line-height: 1.45;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:map-pin"
+                        style="font-size: 13px; color: var(--muted-foreground); margin-top: 2px"
+                      ></iconify-icon>
+                      <span>Villa Cocody, Abidjan</span>
+                    </div>
+                  </div>
+                  <div
+                    class="visit-card-actions"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px"
+                  >
+                    <div
+                      class="visit-btn-confirm"
+                      data-media-type="banani-button"
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 40px;
+                        padding: 0 12px;
+                        background: var(--primary);
+                        color: var(--primary-foreground);
+                        border-radius: var(--radius-lg);
+                        font-size: 12px;
+                        font-weight: 600;
+                        white-space: nowrap;
+                      "
+                    >
+                      Confirmer
+                    </div>
+                    <div
+                      class="visit-btn-decline"
+                      data-media-type="banani-button"
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 40px;
+                        padding: 0 12px;
+                        background: var(--muted);
+                        color: var(--secondary-foreground);
+                        border-radius: var(--radius-lg);
+                        font-size: 12px;
+                        font-weight: 500;
+                        text-align: center;
+                        line-height: 1.25;
+                      "
+                    >
+                      Proposer<br />autre date
+                    </div>
+                  </div>
+                </div>
+                <span class="msg-time" style="text-align: right; display: block; margin-top: 4px"
+                  >15:05</span
+                >
+              </div>
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                alt="Kofi"
+                class="msg-avatar"
+              />
+            </div>
+
+            <div class="chat-date-divider">
+              <div class="chat-date-line"></div>
+              <span class="chat-date-label">Aujourd'hui, 15 juillet 2025</span>
+              <div class="chat-date-line"></div>
+            </div>
+
+            <!-- Incoming -->
+            <div class="msg-row incoming">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F2"
+                alt="Aïcha"
+                class="msg-avatar"
+              />
+              <div class="msg-col">
+                <div class="msg-bubble">
+                  Bonjour, est-ce que la villa est toujours disponible ? Je confirme bien ma visite
+                  pour samedi 19 juillet à 10h.
+                </div>
+                <span class="msg-time">10:42</span>
+              </div>
+            </div>
+
+            <!-- Typing indicator -->
+            <div class="typing-indicator">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FAfrican%2F3"
+                alt="Kofi"
+                class="msg-avatar"
+              />
+              <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input area -->
+          <div class="chat-input-area">
+            <div class="chat-action-btn" data-media-type="banani-button" style="flex-shrink: 0">
+              <iconify-icon
+                icon="lucide:paperclip"
+                style="font-size: 16px; color: var(--muted-foreground)"
+              ></iconify-icon>
+            </div>
+            <div class="chat-input-box" data-media-type="banani-button">
+              <span class="chat-input-fake">Écrire un message…</span>
+              <div class="chat-input-icon" data-media-type="banani-button">
+                <iconify-icon
+                  icon="lucide:smile"
+                  style="font-size: 18px; color: var(--muted-foreground)"
+                ></iconify-icon>
+              </div>
+            </div>
+            <div class="chat-send-btn" data-media-type="banani-button">
+              <iconify-icon icon="lucide:send" style="font-size: 18px; color: #fff"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
