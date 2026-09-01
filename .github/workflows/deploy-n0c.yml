@@ -84,8 +84,8 @@ jobs:
           mkdir -p deploy/node_modules/@prisma
           cp -RL "$PC_DIR"            deploy/node_modules/@prisma/client
           cp -RL "$PRISMA_NM/.prisma" deploy/node_modules/.prisma
-          test -f deploy/node_modules/.prisma/client/libquery_engine-rhel-openssl-1.1.x.so.node \
-            || { echo "::error::rhel-openssl-1.1.x query engine missing from bundle"; ls -la deploy/node_modules/.prisma/client/ || true; exit 1; }
+          test -f deploy/node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node \
+            || { echo "::error::debian-openssl-1.1.x query engine missing from bundle"; ls -la deploy/node_modules/.prisma/client/ || true; exit 1; }
 
       - name: Setup SSH
         env:

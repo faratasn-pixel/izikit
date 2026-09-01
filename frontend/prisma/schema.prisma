@@ -1,10 +1,11 @@
 generator client {
   provider      = "prisma-client-js"
-  // native = the CI build host (ubuntu). rhel-openssl-1.1.x = PlanetHoster N0C
-  // node210-eu (CloudLinux, OpenSSL 1.1.1k — verified via `openssl version` on
-  // the server). If a future N0C server reports a different OpenSSL, swap to the
-  // matching target (rhel-openssl-1.0.x / 3.0.x).
-  binaryTargets = ["native", "rhel-openssl-1.1.x"]
+  // native = the CI build host (ubuntu, debian-openssl-3.0.x).
+  // debian-openssl-1.1.x = PlanetHoster N0C node210-eu: CloudLinux with
+  // OpenSSL 1.1.1k, and Prisma's platform detection classifies it as
+  // "debian-openssl-1.1.x" (not rhel — CloudLinux's /etc/os-release).
+  // rhel-openssl-1.1.x kept as a fallback for other N0C nodes.
+  binaryTargets = ["native", "debian-openssl-1.1.x", "rhel-openssl-1.1.x"]
 }
 
 datasource db {
