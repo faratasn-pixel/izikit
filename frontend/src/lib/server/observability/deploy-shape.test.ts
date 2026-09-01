@@ -43,3 +43,22 @@ describe('deploy shape — Next standalone + Passenger entrypoint', () => {
     expect(src).toMatch(/127\.0\.0\.1/);
   });
 });
+
+describe('deploy shape — GitHub Actions workflow', () => {
+  const WORKFLOW = resolve(REPO_ROOT, '.github/workflows/deploy-n0c.yml');
+
+  it('le workflow de déploiement N0C existe', () => {
+    expect(existsSync(WORKFLOW)).toBe(true);
+  });
+
+  it('le workflow applique les migrations Prisma et redémarre Passenger', () => {
+    const src = readFileSync(WORKFLOW, 'utf8');
+    expect(src).toMatch(/prisma migrate deploy/);
+    expect(src).toMatch(/tmp\/restart\.txt/);
+  });
+
+  it('le workflow ne planifie aucun cron (les crons vivent dans le panel N0C)', () => {
+    const src = readFileSync(WORKFLOW, 'utf8');
+    expect(src).not.toMatch(/^\s*schedule:/m);
+  });
+});

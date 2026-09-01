@@ -11,7 +11,7 @@
 // 1. Charger .env si Passenger ne l'a pas déjà injecté (défensif — le panel N0C
 //    charge .env à l'Application Root, mais pas toujours selon la config).
 try {
-  require('./frontend/node_modules/dotenv').config({ path: __dirname + '/.env' });
+  require('./node_modules/dotenv').config({ path: __dirname + '/.env' });
 } catch (_) {
   /* dotenv absent en local hors bundle : les vars viennent alors du shell */
 }
