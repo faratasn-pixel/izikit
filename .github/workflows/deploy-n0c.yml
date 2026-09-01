@@ -111,9 +111,11 @@ jobs:
         env:
           N0C_SSH_PORT: ${{ vars.N0C_SSH_PORT || '5022' }}
         run: |
+          # No `set -u`: the CloudLinux nodevenv `activate` script references
+          # unset vars (CL_VIRTUAL_ENV) and would abort under nounset.
           ssh -i ~/.ssh/id_deploy -p "$N0C_SSH_PORT" \
             "${{ secrets.N0C_SSH_USER }}@${{ secrets.N0C_SSH_HOST }}" \
-            "set -euo pipefail; \
+            "set -eo pipefail; \
              source '${{ secrets.N0C_NODE_ACTIVATE }}'; \
              set -a; . '${{ secrets.N0C_APP_PATH }}/.env'; set +a; \
              cd '${{ secrets.N0C_APP_PATH }}/frontend'; \
