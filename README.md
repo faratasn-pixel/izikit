@@ -44,7 +44,7 @@ Pour `DATABASE_URL` + `DIRECT_URL` : crée une base Postgres dans le panel N0C (
 - **Base de données :** Prisma 5 — PostgreSQL (PlanetHoster N0C) via `DATABASE_URL` ; `DIRECT_URL` = même valeur pour `prisma migrate`
 - **Infra (toutes optionnelles, env-gated) :** Upstash Redis (rate-limit + leader election + outbox), Cloudinary (média / uploads), Brevo (email), Bictorys (paiements mobile money), Google OAuth via `arctic`
 - **Auth :** cookie + CSRF + JWT (access 15min / refresh 7j / csrf 7j)
-- **Observabilité :** Sentry via `@sentry/nextjs` (`instrumentation.ts` + `sentry.{client,server,edge}.config.ts`) — no-op silencieux sans `SENTRY_DSN` ; traces distribuées via l'instrumentation OpenTelemetry de Sentry
+- **Observabilité :** Sentry via `@sentry/nextjs` (`instrumentation.ts` + `sentry.{client,server,edge}.config.ts`) — no-op silencieux sans `SENTRY_DSN` ; traces distribuées OpenTelemetry via `@vercel/otel` (`registerOTel` dans `instrumentation.ts`) — dépendance à migrer vers l'instrumentation OpenTelemetry native de Sentry
 - **Outils :** workspace pnpm (un seul package dans `frontend/`), Vitest, ESLint 9 flat config, Prettier, Node 20+
 
 ## Variables d'environnement requises (boot)
