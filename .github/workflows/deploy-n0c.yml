@@ -38,9 +38,18 @@ jobs:
         # GitHub Actions does not forward them automatically, so map each one
         # explicitly here. Non-secret values come from repo/environment
         # Variables; the Sentry DSN is kept as a Secret. NEXT_PUBLIC_COOKIE_PREFIX
-        # MUST equal the runtime COOKIE_PREFIX set in the N0C panel, otherwise
+        # MUST equal the runtime COOKIE_PREFIX in $N0C_APP_PATH/.env, otherwise
         # the CSRF double-submit cookie name mismatches and every mutation 403s.
+        #
+        # JWT_SECRET + DATABASE_URL are also needed AT BUILD TIME: `next build`
+        # evaluates route modules to collect page data, and lib/server/auth.ts +
+        # env.ts throw at import if these are absent. JWT_SECRET is the real
+        # secret (length-checked at build, never inlined into the client bundle);
+        # DATABASE_URL is a throwaway placeholder — the build never opens a DB
+        # connection, the real URL lives only in the server's runtime .env.
         env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          DATABASE_URL: postgresql://build:build@localhost:5432/build?schema=public
           NEXT_PUBLIC_COOKIE_PREFIX: ${{ vars.NEXT_PUBLIC_COOKIE_PREFIX }}
           NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
           NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
