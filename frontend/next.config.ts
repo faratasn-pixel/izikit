@@ -27,8 +27,9 @@ const securityHeaders = [
 const config: NextConfig = {
   reactStrictMode: true,
   // Standalone output bundles a self-contained server.js + minimal node_modules
-  // into .next/standalone — required by the Docker runtime image (frontend/Dockerfile).
-  // Has no impact on `next dev` / `next start` workflows.
+  // into .next/standalone. Consumed by the PlanetHoster N0C deployment: the
+  // Passenger entrypoint (repo-root app.js) requires ./frontend/server.js from
+  // this bundle. No impact on `next dev` / `next start`.
   output: 'standalone',
   eslint: {
     // Lint already runs via the husky pre-commit hook (lint-staged) and
